@@ -4,6 +4,7 @@ import Logica.DtAlbum;
 import Logica.DtAlbumContenido;
 import Logica.DtGenero;
 import Logica.DtLista;
+import Logica.DtListaParticular;
 import Logica.DtTema;
 import Logica.DtUsuario;
 import Logica.Fabrica;
@@ -186,7 +187,7 @@ public class GuardarTLA extends javax.swing.JInternalFrame {
 
         dtm.setRowCount(0);
         for (DtLista dtLista : dtListas) {
-            if (dtLista.getNombre().contains(filtro)) {
+            if (dtLista.getNombre().contains(filtro) && !((DtListaParticular) dtLista).isPrivada()) {
                 Object[] data = {
                     dtLista.getNombre()
                 };
