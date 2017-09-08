@@ -18,22 +18,30 @@ import static org.junit.Assert.*;
  * @author Kopxe
  */
 public class DtGeneroTest {
-    
+
     public DtGeneroTest() {
     }
-    
+
+    private static Genero g;
+    private static String nombre;
+
     @BeforeClass
     public static void setUpClass() {
+        nombre = "Padre";
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
+        g = new Genero(nombre);
+        g.agregarGenero(nombre, "genero1");
+        g.agregarGenero(nombre, "genero2");
+        g.agregarGenero(nombre, "genero3");
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -44,12 +52,10 @@ public class DtGeneroTest {
     @Test
     public void testGetNombre() {
         System.out.println("getNombre");
-        DtGenero instance = null;
-        String expResult = "";
+        DtGenero instance = g.getData();
+        String expResult = nombre;
         String result = instance.getNombre();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -58,12 +64,26 @@ public class DtGeneroTest {
     @Test
     public void testGetSubGeneros() {
         System.out.println("getSubGeneros");
-        DtGenero instance = null;
-        ArrayList<DtGenero> expResult = null;
-        ArrayList<DtGenero> result = instance.getSubGeneros();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        DtGenero instance = g.getData();
+
+        ArrayList<DtGenero> expResult = new ArrayList<>();
+        expResult.add(new DtGenero("genero1", new ArrayList<>()));
+        expResult.add(new DtGenero("genero2", new ArrayList<>()));
+        expResult.add(new DtGenero("genero3", new ArrayList<>()));
+
+        ArrayList<DtGenero> obtenido = instance.getSubGeneros();
+
+        boolean result = true;
+
+        for (int i = 0; i < obtenido.size(); i++) {
+            String nom1 = ((DtGenero) obtenido.get(i)).getNombre();
+            String nom2 = ((DtGenero) expResult.get(i)).getNombre();
+            if (!nom1.equals(nom2)) {
+                result = false;
+            }
+        }
+
+        assertEquals(true, result);
     }
-    
+
 }

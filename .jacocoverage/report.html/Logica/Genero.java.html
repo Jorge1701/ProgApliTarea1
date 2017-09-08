@@ -91,17 +91,17 @@ public class Genero {
     }
 
     public DtGenero getData() {
-<span class="nc" id="L94">        return new DtGenero(this.nombre, devolverSubgeneros(this));</span>
+<span class="fc" id="L94">        return new DtGenero(this.nombre, devolverSubgeneros(this));</span>
     }
 
     public ArrayList&lt;DtGenero&gt; devolverSubgeneros(Genero g) {                                   //para obtener la lista de Dt de subgeneros recursivamente
-<span class="nc" id="L98">        ArrayList&lt;DtGenero&gt; res = new ArrayList&lt;DtGenero&gt;();</span>
-<span class="nc" id="L99">        Iterator it = g.subgeneros.entrySet().iterator();</span>
-<span class="nc bnc" id="L100" title="All 2 branches missed.">        while (it.hasNext()) {</span>
-<span class="nc" id="L101">            Genero genero = (Genero) ((Map.Entry) it.next()).getValue();</span>
-<span class="nc" id="L102">            res.add(new DtGenero(genero.getNombre(), genero.devolverSubgeneros(genero)));</span>
-<span class="nc" id="L103">        }</span>
-<span class="nc" id="L104">        return res;</span>
+<span class="fc" id="L98">        ArrayList&lt;DtGenero&gt; res = new ArrayList&lt;DtGenero&gt;();</span>
+<span class="fc" id="L99">        Iterator it = g.subgeneros.entrySet().iterator();</span>
+<span class="fc bfc" id="L100" title="All 2 branches covered.">        while (it.hasNext()) {</span>
+<span class="fc" id="L101">            Genero genero = (Genero) ((Map.Entry) it.next()).getValue();</span>
+<span class="fc" id="L102">            res.add(new DtGenero(genero.getNombre(), genero.devolverSubgeneros(genero)));</span>
+<span class="fc" id="L103">        }</span>
+<span class="fc" id="L104">        return res;</span>
     }
 
     public Genero obtener(String nombre) {

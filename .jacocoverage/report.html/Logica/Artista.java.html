@@ -22,13 +22,13 @@ public class Artista extends Usuario {
 
     public ArrayList&lt;DtAlbum&gt; obtenerAlbumes() {
         ArrayList&lt;DtAlbum&gt; res;
-<span class="nc" id="L25">        res = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L26">        Iterator it = albumes.entrySet().iterator();</span>
-<span class="nc bnc" id="L27" title="All 2 branches missed.">        while (it.hasNext()) {</span>
-<span class="nc" id="L28">            Album album = (Album) ((Map.Entry) it.next()).getValue();</span>
-<span class="nc" id="L29">            res.add(new DtAlbum(this.getNickname(), album.getNombre(), album.getAnio(), album.getImagen()));</span>
-<span class="nc" id="L30">        }</span>
-<span class="nc" id="L31">        return res;</span>
+<span class="fc" id="L25">        res = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L26">        Iterator it = albumes.entrySet().iterator();</span>
+<span class="fc bfc" id="L27" title="All 2 branches covered.">        while (it.hasNext()) {</span>
+<span class="fc" id="L28">            Album album = (Album) ((Map.Entry) it.next()).getValue();</span>
+<span class="fc" id="L29">            res.add(new DtAlbum(this.getNickname(), album.getNombre(), album.getAnio(), album.getImagen()));</span>
+<span class="fc" id="L30">        }</span>
+<span class="fc" id="L31">        return res;</span>
     }
 
     public DtAlbumContenido obtenerAlbumContenido(String nomAlbum) {
@@ -87,33 +87,33 @@ public class Artista extends Usuario {
     @Override
     public String getTipo() {
 
-<span class="nc" id="L90">        return &quot;Artista&quot;;</span>
+<span class="fc" id="L90">        return &quot;Artista&quot;;</span>
     }
 
     @Override
     public DtArtista getData() {
-<span class="nc" id="L95">        return new DtArtista(getNickname(), getNombre(), getApellido(), getEmail(), getFechaNac(), getImagen(), getBiografia(), getWeb());</span>
+<span class="fc" id="L95">        return new DtArtista(getNickname(), getNombre(), getApellido(), getEmail(), getFechaNac(), getImagen(), getBiografia(), getWeb());</span>
     }
 
     public String getBiografia() {
-<span class="nc" id="L99">        return this.biografia;</span>
+<span class="fc" id="L99">        return this.biografia;</span>
     }
 
     public String getWeb() {
-<span class="nc" id="L103">        return this.web;</span>
+<span class="fc" id="L103">        return this.web;</span>
     }
 
     public void setBiografia(String biografia) {
-<span class="nc" id="L107">        this.biografia = biografia;</span>
-<span class="nc" id="L108">    }</span>
+<span class="fc" id="L107">        this.biografia = biografia;</span>
+<span class="fc" id="L108">    }</span>
 
     public void setWeb(String web) {
-<span class="nc" id="L111">        this.web = web;</span>
-<span class="nc" id="L112">    }</span>
+<span class="fc" id="L111">        this.web = web;</span>
+<span class="fc" id="L112">    }</span>
 
     public void setAlbumes(HashMap&lt;String, Album&gt; albumes) {
-<span class="nc" id="L115">        this.albumes = albumes;</span>
-<span class="nc" id="L116">    }</span>
+<span class="fc" id="L115">        this.albumes = albumes;</span>
+<span class="fc" id="L116">    }</span>
 
     public void cargarAlbum(Album a) {
 <span class="fc" id="L119">        albumes.put(a.getNombre(), a);</span>

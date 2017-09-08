@@ -19,22 +19,37 @@ import static org.junit.Assert.*;
  * @author Kopxe
  */
 public class ClienteTest {
-    
+
     public ClienteTest() {
     }
-    
+
+    private static Cliente cliente;
+    private static String nickname;
+    private static String nombre;
+    private static String apellido;
+    private static String email;
+    private static String imagen;
+    private static DtFecha fechaNac;
+
     @BeforeClass
     public static void setUpClass() {
+        nickname = "nickname";
+        nombre = "nombre";
+        apellido = "apellido";
+        email = "email";
+        fechaNac = new DtFecha(30, 11, 1996);
+        imagen = "imagen";
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
+        cliente = new Cliente(nickname, nombre, apellido, email, fechaNac, imagen);
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -226,12 +241,10 @@ public class ClienteTest {
     @Test
     public void testGetTipo() {
         System.out.println("getTipo");
-        Cliente instance = null;
-        String expResult = "";
+        Cliente instance = cliente;
+        String expResult = "Cliente";
         String result = instance.getTipo();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -240,12 +253,36 @@ public class ClienteTest {
     @Test
     public void testGetData() {
         System.out.println("getData");
-        Cliente instance = null;
-        DtCliente expResult = null;
-        DtCliente result = instance.getData();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Cliente instance = cliente;
+        DtCliente expResult = new DtCliente(nickname, nombre, apellido, email, fechaNac, imagen);
+        DtCliente obtenido = instance.getData();
+
+        boolean result = true;
+        if (!expResult.getNickname().equals(obtenido.getNickname())) {
+            result = false;
+        }
+        if (!expResult.getNombre().equals(obtenido.getNombre())) {
+            result = false;
+        }
+        if (!expResult.getApellido().equals(obtenido.getApellido())) {
+            result = false;
+        }
+        if (!expResult.getEmail().equals(obtenido.getEmail())) {
+            result = false;
+        }
+        if (!expResult.getImagen().equals(obtenido.getImagen())) {
+            result = false;
+        }
+        if (expResult.getFechaNac().getDia() != obtenido.getFechaNac().getDia()) {
+            result = false;
+        }
+        if (expResult.getFechaNac().getMes() != obtenido.getFechaNac().getMes()) {
+            result = false;
+        }
+        if (expResult.getFechaNac().getAnio() != obtenido.getFechaNac().getAnio()) {
+            result = false;
+        }
+        assertEquals(true, result);
     }
 
     /**
@@ -431,5 +468,5 @@ public class ClienteTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-    
+
 }

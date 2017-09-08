@@ -17,22 +17,37 @@ import static org.junit.Assert.*;
  * @author Kopxe
  */
 public class DtUsuarioTest {
-    
+
     public DtUsuarioTest() {
     }
-    
+
+    private static DtUsuario dtUsuario;
+    private static String nickname;
+    private static String nombre;
+    private static String apellido;
+    private static String email;
+    private static DtFecha fechaNac;
+    private static String imagen;
+
     @BeforeClass
     public static void setUpClass() {
+        nickname = "nickname";
+        nombre = "nombre";
+        apellido = "apellido";
+        email = "email";
+        fechaNac = new DtFecha(30, 11, 1996);
+        imagen = "imagen";
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
+        dtUsuario = new DtUsuario(nickname, nombre, apellido, email, fechaNac, imagen);
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -43,12 +58,10 @@ public class DtUsuarioTest {
     @Test
     public void testGetNickname() {
         System.out.println("getNickname");
-        DtUsuario instance = null;
-        String expResult = "";
+        DtUsuario instance = dtUsuario;
+        String expResult = nickname;
         String result = instance.getNickname();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -57,12 +70,10 @@ public class DtUsuarioTest {
     @Test
     public void testGetNombre() {
         System.out.println("getNombre");
-        DtUsuario instance = null;
-        String expResult = "";
+        DtUsuario instance = dtUsuario;
+        String expResult = nombre;
         String result = instance.getNombre();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -71,12 +82,10 @@ public class DtUsuarioTest {
     @Test
     public void testGetApellido() {
         System.out.println("getApellido");
-        DtUsuario instance = null;
-        String expResult = "";
+        DtUsuario instance = dtUsuario;
+        String expResult = apellido;
         String result = instance.getApellido();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -85,12 +94,10 @@ public class DtUsuarioTest {
     @Test
     public void testGetEmail() {
         System.out.println("getEmail");
-        DtUsuario instance = null;
-        String expResult = "";
+        DtUsuario instance = dtUsuario;
+        String expResult = email;
         String result = instance.getEmail();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -99,12 +106,22 @@ public class DtUsuarioTest {
     @Test
     public void testGetFechaNac() {
         System.out.println("getFechaNac");
-        DtUsuario instance = null;
-        DtFecha expResult = null;
-        DtFecha result = instance.getFechaNac();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        DtUsuario instance = dtUsuario;
+        DtFecha fecha = fechaNac;
+        DtFecha obtenida = instance.getFechaNac();
+
+        boolean result = true;
+        if (fecha.getDia() != obtenida.getDia()) {
+            result = false;
+        }
+        if (fecha.getMes() != obtenida.getMes()) {
+            result = false;
+        }
+        if (fecha.getAnio() != obtenida.getAnio()) {
+            result = false;
+        }
+
+        assertEquals(true, result);
     }
 
     /**
@@ -113,12 +130,10 @@ public class DtUsuarioTest {
     @Test
     public void testGetImagen() {
         System.out.println("getImagen");
-        DtUsuario instance = null;
-        String expResult = "";
+        DtUsuario instance = dtUsuario;
+        String expResult = imagen;
         String result = instance.getImagen();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
-    
+
 }
