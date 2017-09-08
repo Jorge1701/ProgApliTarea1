@@ -1,0 +1,941 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>GuardarTLA.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;Tarea1&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">Presentacion</a> &gt; <span class="el_source">GuardarTLA.java</span></div><h1>GuardarTLA.java</h1><pre class="source lang-java linenums">package Presentacion;
+
+import Logica.DtAlbum;
+import Logica.DtAlbumContenido;
+import Logica.DtGenero;
+import Logica.DtLista;
+import Logica.DtTema;
+import Logica.DtUsuario;
+import Logica.Fabrica;
+import Logica.IContenido;
+import Logica.IUsuario;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+
+public class GuardarTLA extends javax.swing.JInternalFrame {
+
+    private IUsuario iUsuario;
+    private IContenido iContenido;
+    private ArrayList&lt;DtUsuario&gt; clientes;
+    private ArrayList&lt;DtUsuario&gt; artistas;
+
+<span class="nc" id="L27">    public GuardarTLA() {</span>
+<span class="nc" id="L28">        initComponents();</span>
+
+<span class="nc" id="L30">        iUsuario = Fabrica.getIControladorUsuario();</span>
+<span class="nc" id="L31">        iContenido = Fabrica.getIControladorContenido();</span>
+
+<span class="nc" id="L33">        clientes = iUsuario.listarClientes();</span>
+<span class="nc" id="L34">        artistas = iUsuario.listarArtistas();</span>
+
+<span class="nc" id="L36">        cargarDatosClientes(clientes, &quot;&quot;);</span>
+<span class="nc" id="L37">        cargarDatosAlbumesArtistas(artistas, &quot;&quot;);</span>
+<span class="nc" id="L38">        cargarDatosLPClientes(clientes, &quot;&quot;);</span>
+
+<span class="nc" id="L40">        DefaultTreeModel modelo = new DefaultTreeModel(getNodo(iContenido.listarGenero()));</span>
+<span class="nc" id="L41">        treeLDGeneros.setModel(modelo);</span>
+
+<span class="nc" id="L43">        tablaClientes.getSelectionModel().addListSelectionListener(new ListSelectionListener() {</span>
+            public void valueChanged(ListSelectionEvent e) {
+<span class="nc" id="L45">                cargarDatosLPClientes(clientes, txtLPCliente.getText());</span>
+<span class="nc" id="L46">            }</span>
+        });
+
+<span class="nc" id="L49">        tablaAlbumesArtistas.getSelectionModel().addListSelectionListener(new ListSelectionListener() {</span>
+            public void valueChanged(ListSelectionEvent e) {
+<span class="nc" id="L51">                tablaAlbumesTemas.getSelectionModel().clearSelection();</span>
+<span class="nc" id="L52">                tablaAlbumesAlbumes.getSelectionModel().clearSelection();</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">                if (tablaAlbumesArtistas.getSelectedRow() != -1) {</span>
+<span class="nc" id="L54">                    cargarDatosAlbumesAlbumes(iUsuario.listarAlbumesArtista(tablaAlbumesArtistas.getValueAt(tablaAlbumesArtistas.getSelectedRow(), 0).toString()), txtAlbumAlbum.getText());</span>
+                }
+<span class="nc" id="L56">            }</span>
+        });
+
+<span class="nc" id="L59">        tablaAlbumesAlbumes.getSelectionModel().addListSelectionListener(new ListSelectionListener() {</span>
+            public void valueChanged(ListSelectionEvent e) {
+<span class="nc" id="L61">                tablaAlbumesTemas.getSelectionModel().clearSelection();</span>
+<span class="nc bnc" id="L62" title="All 4 branches missed.">                if (tablaAlbumesArtistas.getSelectedRow() != -1 &amp;&amp; tablaAlbumesAlbumes.getSelectedRow() != -1) {</span>
+<span class="nc" id="L63">                    cargarDatosAlbumesTemas(iUsuario.obtenerAlbumContenido(tablaAlbumesArtistas.getValueAt(tablaAlbumesArtistas.getSelectedRow(), 0).toString(), tablaAlbumesAlbumes.getValueAt(tablaAlbumesAlbumes.getSelectedRow(), 0).toString()), txtAlbumTema.getText());</span>
+                }
+<span class="nc" id="L65">            }</span>
+        });
+
+<span class="nc" id="L68">        tablaLPClientes.getSelectionModel().addListSelectionListener(new ListSelectionListener() {</span>
+            public void valueChanged(ListSelectionEvent e) {
+<span class="nc bnc" id="L70" title="All 2 branches missed.">                if (tablaLPClientes.getSelectedRow() != -1) {</span>
+<span class="nc" id="L71">                    cargarDatosLPListas(iUsuario.listarLisReproduccion(tablaLPClientes.getValueAt(tablaLPClientes.getSelectedRow(), 0).toString()), txtLPLista.getText());</span>
+                }
+<span class="nc" id="L73">            }</span>
+        });
+<span class="nc" id="L75">    }</span>
+
+    private void cargarDatosClientes(ArrayList&lt;DtUsuario&gt; dtu, String filtro) {
+<span class="nc bnc" id="L78" title="All 2 branches missed.">        if (dtu.isEmpty()) {</span>
+<span class="nc" id="L79">            JOptionPane.showMessageDialog(this, &quot;No hay ningun cliente registrado&quot;);</span>
+        }
+
+<span class="nc" id="L82">        DefaultTableModel dtm = (DefaultTableModel) tablaClientes.getModel();</span>
+<span class="nc" id="L83">        dtm.setRowCount(0);</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">        for (DtUsuario dtUsuario : dtu) {</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">            if (dtUsuario.getNickname().contains(filtro)) {</span>
+<span class="nc" id="L86">                Object[] data = {</span>
+<span class="nc" id="L87">                    dtUsuario.getNickname(),</span>
+<span class="nc" id="L88">                    dtUsuario.getNombre(),</span>
+<span class="nc" id="L89">                    dtUsuario.getApellido(),</span>
+<span class="nc" id="L90">                    dtUsuario.getEmail(),</span>
+<span class="nc" id="L91">                    dtUsuario.getFechaNac().toString()</span>
+                };
+<span class="nc" id="L93">                dtm.addRow(data);</span>
+            }
+<span class="nc" id="L95">        }</span>
+<span class="nc" id="L96">    }</span>
+
+    private void cargarDatosAlbumesArtistas(ArrayList&lt;DtUsuario&gt; artistas, String filtro) {
+<span class="nc bnc" id="L99" title="All 2 branches missed.">        if (artistas.isEmpty()) {</span>
+<span class="nc" id="L100">            JOptionPane.showMessageDialog(this, &quot;No hay ningun cliente registrado&quot;);</span>
+<span class="nc" id="L101">            return;</span>
+        }
+
+<span class="nc" id="L104">        DefaultTableModel dtm = (DefaultTableModel) tablaAlbumesArtistas.getModel();</span>
+<span class="nc" id="L105">        dtm.setRowCount(0);</span>
+<span class="nc bnc" id="L106" title="All 2 branches missed.">        for (DtUsuario dtUsuario : artistas) {</span>
+<span class="nc bnc" id="L107" title="All 2 branches missed.">            if (dtUsuario.getNickname().contains(filtro)) {</span>
+<span class="nc" id="L108">                Object[] data = {</span>
+<span class="nc" id="L109">                    dtUsuario.getNickname(),</span>
+<span class="nc" id="L110">                    dtUsuario.getNombre(),</span>
+<span class="nc" id="L111">                    dtUsuario.getApellido(),</span>
+<span class="nc" id="L112">                    dtUsuario.getEmail()</span>
+                };
+<span class="nc" id="L114">                dtm.addRow(data);</span>
+            }
+<span class="nc" id="L116">        }</span>
+<span class="nc" id="L117">    }</span>
+
+    private void cargarDatosAlbumesAlbumes(ArrayList&lt;DtAlbum&gt; dtalbums, String filtro) {
+<span class="nc" id="L120">        DefaultTableModel dtm = (DefaultTableModel) tablaAlbumesAlbumes.getModel();</span>
+<span class="nc" id="L121">        dtm.setRowCount(0);</span>
+<span class="nc bnc" id="L122" title="All 2 branches missed.">        for (DtAlbum dtAlbum : dtalbums) {</span>
+<span class="nc bnc" id="L123" title="All 2 branches missed.">            if (dtAlbum.getNombre().contains(filtro)) {</span>
+<span class="nc" id="L124">                Object[] data = {</span>
+<span class="nc" id="L125">                    dtAlbum.getNombre(),</span>
+<span class="nc" id="L126">                    dtAlbum.getAnio()</span>
+                };
+<span class="nc" id="L128">                dtm.addRow(data);</span>
+            }
+<span class="nc" id="L130">        }</span>
+<span class="nc" id="L131">    }</span>
+
+    private void cargarDatosAlbumesTemas(DtAlbumContenido dtAlbumContenido, String filtro) {
+<span class="nc" id="L134">        DefaultTableModel dtm = (DefaultTableModel) tablaAlbumesTemas.getModel();</span>
+<span class="nc" id="L135">        dtm.setRowCount(0);</span>
+<span class="nc bnc" id="L136" title="All 2 branches missed.">        for (DtTema dtTema : dtAlbumContenido.getTemas()) {</span>
+<span class="nc bnc" id="L137" title="All 2 branches missed.">            if (dtTema.getNombre().contains(filtro)) {</span>
+<span class="nc" id="L138">                Object[] data = {</span>
+<span class="nc" id="L139">                    dtTema.getNombre(),</span>
+<span class="nc" id="L140">                    dtTema.getDuracion().getMinutos() + &quot;:&quot; + dtTema.getDuracion().getSegundos()</span>
+                };
+<span class="nc" id="L142">                dtm.addRow(data);</span>
+            }
+<span class="nc" id="L144">        }</span>
+<span class="nc" id="L145">    }</span>
+
+    private void cargarDatosLDListas(ArrayList&lt;DtLista&gt; dtListas, String filtro) {
+<span class="nc" id="L148">        DefaultTableModel dtm = (DefaultTableModel) tablaLDListas.getModel();</span>
+
+<span class="nc" id="L150">        dtm.setRowCount(0);</span>
+<span class="nc bnc" id="L151" title="All 2 branches missed.">        for (DtLista dtLista : dtListas) {</span>
+<span class="nc bnc" id="L152" title="All 2 branches missed.">            if (dtLista.getNombre().contains(filtro)) {</span>
+<span class="nc" id="L153">                Object[] data = {</span>
+<span class="nc" id="L154">                    dtLista.getNombre()</span>
+                };
+<span class="nc" id="L156">                dtm.addRow(data);</span>
+            }
+<span class="nc" id="L158">        }</span>
+<span class="nc" id="L159">    }</span>
+
+    private void cargarDatosLPClientes(ArrayList&lt;DtUsuario&gt; dtu, String filtro) {
+<span class="nc bnc" id="L162" title="All 2 branches missed.">        if (tablaClientes.getSelectedRow() == -1) {</span>
+<span class="nc" id="L163">            return;</span>
+        }
+
+<span class="nc" id="L166">        String nickCliente = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 0).toString();</span>
+
+<span class="nc" id="L168">        DefaultTableModel dtm = (DefaultTableModel) tablaLPClientes.getModel();</span>
+<span class="nc" id="L169">        dtm.setRowCount(0);</span>
+<span class="nc bnc" id="L170" title="All 2 branches missed.">        for (DtUsuario dtUsuario : dtu) {</span>
+<span class="nc bnc" id="L171" title="All 4 branches missed.">            if (dtUsuario.getNickname().contains(filtro) &amp;&amp; !dtUsuario.getNickname().equals(nickCliente)) {</span>
+<span class="nc" id="L172">                Object[] data = {</span>
+<span class="nc" id="L173">                    dtUsuario.getNickname(),</span>
+<span class="nc" id="L174">                    dtUsuario.getNombre(),</span>
+<span class="nc" id="L175">                    dtUsuario.getApellido(),</span>
+<span class="nc" id="L176">                    dtUsuario.getEmail(),</span>
+<span class="nc" id="L177">                    dtUsuario.getFechaNac().toString()</span>
+                };
+<span class="nc" id="L179">                dtm.addRow(data);</span>
+            }
+<span class="nc" id="L181">        }</span>
+<span class="nc" id="L182">    }</span>
+
+    private void cargarDatosLPListas(ArrayList&lt;DtLista&gt; dtListas, String filtro) {
+<span class="nc" id="L185">        DefaultTableModel dtm = (DefaultTableModel) tablaLPListas.getModel();</span>
+
+<span class="nc" id="L187">        dtm.setRowCount(0);</span>
+<span class="nc bnc" id="L188" title="All 2 branches missed.">        for (DtLista dtLista : dtListas) {</span>
+<span class="nc bnc" id="L189" title="All 2 branches missed.">            if (dtLista.getNombre().contains(filtro)) {</span>
+<span class="nc" id="L190">                Object[] data = {</span>
+<span class="nc" id="L191">                    dtLista.getNombre()</span>
+                };
+<span class="nc" id="L193">                dtm.addRow(data);</span>
+            }
+<span class="nc" id="L195">        }</span>
+<span class="nc" id="L196">    }</span>
+
+    private DefaultMutableTreeNode getNodo(DtGenero g) {
+<span class="nc" id="L199">        DefaultMutableTreeNode padre = new DefaultMutableTreeNode(g.getNombre());</span>
+<span class="nc bnc" id="L200" title="All 2 branches missed.">        for (DtGenero dtg : g.getSubGeneros()) {</span>
+<span class="nc" id="L201">            DefaultMutableTreeNode hijo = getNodo(dtg);</span>
+<span class="nc" id="L202">            padre.add(hijo);</span>
+<span class="nc" id="L203">        }</span>
+<span class="nc" id="L204">        return padre;</span>
+    }
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;Generated Code&quot;&gt;//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+<span class="nc" id="L211">        txtNickname = new javax.swing.JTextField();</span>
+<span class="nc" id="L212">        jLabel2 = new javax.swing.JLabel();</span>
+<span class="nc" id="L213">        jScrollPane2 = new javax.swing.JScrollPane();</span>
+<span class="nc" id="L214">        tablaClientes = new javax.swing.JTable();</span>
+<span class="nc" id="L215">        paneles = new javax.swing.JTabbedPane();</span>
+<span class="nc" id="L216">        jPanel1 = new javax.swing.JPanel();</span>
+<span class="nc" id="L217">        jScrollPane1 = new javax.swing.JScrollPane();</span>
+<span class="nc" id="L218">        tablaAlbumesArtistas = new javax.swing.JTable();</span>
+<span class="nc" id="L219">        jScrollPane3 = new javax.swing.JScrollPane();</span>
+<span class="nc" id="L220">        tablaAlbumesAlbumes = new javax.swing.JTable();</span>
+<span class="nc" id="L221">        txtAlbumesArtista = new javax.swing.JTextField();</span>
+<span class="nc" id="L222">        jLabel1 = new javax.swing.JLabel();</span>
+<span class="nc" id="L223">        txtAlbumAlbum = new javax.swing.JTextField();</span>
+<span class="nc" id="L224">        jLabel3 = new javax.swing.JLabel();</span>
+<span class="nc" id="L225">        jScrollPane8 = new javax.swing.JScrollPane();</span>
+<span class="nc" id="L226">        tablaAlbumesTemas = new javax.swing.JTable();</span>
+<span class="nc" id="L227">        jLabel7 = new javax.swing.JLabel();</span>
+<span class="nc" id="L228">        txtAlbumTema = new javax.swing.JTextField();</span>
+<span class="nc" id="L229">        btnCancelar = new javax.swing.JButton();</span>
+<span class="nc" id="L230">        btnAgregarTema = new javax.swing.JButton();</span>
+<span class="nc" id="L231">        btnAgregarAlbum = new javax.swing.JButton();</span>
+<span class="nc" id="L232">        jPanel2 = new javax.swing.JPanel();</span>
+<span class="nc" id="L233">        jScrollPane4 = new javax.swing.JScrollPane();</span>
+<span class="nc" id="L234">        treeLDGeneros = new javax.swing.JTree();</span>
+<span class="nc" id="L235">        jScrollPane5 = new javax.swing.JScrollPane();</span>
+<span class="nc" id="L236">        tablaLDListas = new javax.swing.JTable();</span>
+<span class="nc" id="L237">        txtLDLista = new javax.swing.JTextField();</span>
+<span class="nc" id="L238">        jLabel4 = new javax.swing.JLabel();</span>
+<span class="nc" id="L239">        btnCancelar2 = new javax.swing.JButton();</span>
+<span class="nc" id="L240">        btnAceptarLD = new javax.swing.JButton();</span>
+<span class="nc" id="L241">        jPanel3 = new javax.swing.JPanel();</span>
+<span class="nc" id="L242">        jScrollPane6 = new javax.swing.JScrollPane();</span>
+<span class="nc" id="L243">        tablaLPClientes = new javax.swing.JTable();</span>
+<span class="nc" id="L244">        jScrollPane7 = new javax.swing.JScrollPane();</span>
+<span class="nc" id="L245">        tablaLPListas = new javax.swing.JTable();</span>
+<span class="nc" id="L246">        txtLPCliente = new javax.swing.JTextField();</span>
+<span class="nc" id="L247">        jLabel5 = new javax.swing.JLabel();</span>
+<span class="nc" id="L248">        txtLPLista = new javax.swing.JTextField();</span>
+<span class="nc" id="L249">        jLabel6 = new javax.swing.JLabel();</span>
+<span class="nc" id="L250">        btnCancelar3 = new javax.swing.JButton();</span>
+<span class="nc" id="L251">        btnAceptarLP = new javax.swing.JButton();</span>
+
+<span class="nc" id="L253">        setClosable(true);</span>
+<span class="nc" id="L254">        setMaximizable(true);</span>
+<span class="nc" id="L255">        setTitle(&quot;Agregar a Favorito&quot;);</span>
+
+<span class="nc" id="L257">        txtNickname.addCaretListener(new javax.swing.event.CaretListener() {</span>
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+<span class="nc" id="L259">                txtNicknameCaretUpdate(evt);</span>
+<span class="nc" id="L260">            }</span>
+        });
+
+<span class="nc" id="L263">        jLabel2.setText(&quot;Nickname:&quot;);</span>
+
+<span class="nc" id="L265">        tablaClientes.setModel(new javax.swing.table.DefaultTableModel(</span>
+            new Object [][] {
+
+            },
+            new String [] {
+                &quot;Nickname&quot;, &quot;Nombre&quot;, &quot;Apellido&quot;, &quot;Correo&quot;
+            }
+<span class="nc" id="L272">        ) {</span>
+<span class="nc" id="L273">            boolean[] canEdit = new boolean [] {</span>
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+<span class="nc" id="L278">                return canEdit [columnIndex];</span>
+            }
+        });
+<span class="nc" id="L281">        tablaClientes.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);</span>
+<span class="nc" id="L282">        tablaClientes.getTableHeader().setReorderingAllowed(false);</span>
+<span class="nc" id="L283">        jScrollPane2.setViewportView(tablaClientes);</span>
+<span class="nc bnc" id="L284" title="All 2 branches missed.">        if (tablaClientes.getColumnModel().getColumnCount() &gt; 0) {</span>
+<span class="nc" id="L285">            tablaClientes.getColumnModel().getColumn(0).setResizable(false);</span>
+<span class="nc" id="L286">            tablaClientes.getColumnModel().getColumn(1).setResizable(false);</span>
+<span class="nc" id="L287">            tablaClientes.getColumnModel().getColumn(2).setResizable(false);</span>
+<span class="nc" id="L288">            tablaClientes.getColumnModel().getColumn(3).setResizable(false);</span>
+        }
+
+<span class="nc" id="L291">        tablaAlbumesArtistas.setModel(new javax.swing.table.DefaultTableModel(</span>
+            new Object [][] {
+
+            },
+            new String [] {
+                &quot;Nickname&quot;, &quot;Nombre&quot;, &quot;Apellido&quot;, &quot;Correo&quot;
+            }
+<span class="nc" id="L298">        ) {</span>
+<span class="nc" id="L299">            boolean[] canEdit = new boolean [] {</span>
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+<span class="nc" id="L304">                return canEdit [columnIndex];</span>
+            }
+        });
+<span class="nc" id="L307">        tablaAlbumesArtistas.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);</span>
+<span class="nc" id="L308">        tablaAlbumesArtistas.getTableHeader().setReorderingAllowed(false);</span>
+<span class="nc" id="L309">        jScrollPane1.setViewportView(tablaAlbumesArtistas);</span>
+<span class="nc bnc" id="L310" title="All 2 branches missed.">        if (tablaAlbumesArtistas.getColumnModel().getColumnCount() &gt; 0) {</span>
+<span class="nc" id="L311">            tablaAlbumesArtistas.getColumnModel().getColumn(0).setResizable(false);</span>
+<span class="nc" id="L312">            tablaAlbumesArtistas.getColumnModel().getColumn(1).setResizable(false);</span>
+<span class="nc" id="L313">            tablaAlbumesArtistas.getColumnModel().getColumn(2).setResizable(false);</span>
+<span class="nc" id="L314">            tablaAlbumesArtistas.getColumnModel().getColumn(3).setResizable(false);</span>
+        }
+
+<span class="nc" id="L317">        tablaAlbumesAlbumes.setModel(new javax.swing.table.DefaultTableModel(</span>
+            new Object [][] {
+
+            },
+            new String [] {
+                &quot;Nombre&quot;, &quot;Anio&quot;
+            }
+<span class="nc" id="L324">        ) {</span>
+<span class="nc" id="L325">            boolean[] canEdit = new boolean [] {</span>
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+<span class="nc" id="L330">                return canEdit [columnIndex];</span>
+            }
+        });
+<span class="nc" id="L333">        tablaAlbumesAlbumes.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);</span>
+<span class="nc" id="L334">        tablaAlbumesAlbumes.getTableHeader().setReorderingAllowed(false);</span>
+<span class="nc" id="L335">        jScrollPane3.setViewportView(tablaAlbumesAlbumes);</span>
+<span class="nc bnc" id="L336" title="All 2 branches missed.">        if (tablaAlbumesAlbumes.getColumnModel().getColumnCount() &gt; 0) {</span>
+<span class="nc" id="L337">            tablaAlbumesAlbumes.getColumnModel().getColumn(0).setResizable(false);</span>
+<span class="nc" id="L338">            tablaAlbumesAlbumes.getColumnModel().getColumn(1).setResizable(false);</span>
+        }
+
+<span class="nc" id="L341">        txtAlbumesArtista.addCaretListener(new javax.swing.event.CaretListener() {</span>
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+<span class="nc" id="L343">                txtAlbumesArtistaCaretUpdate(evt);</span>
+<span class="nc" id="L344">            }</span>
+        });
+
+<span class="nc" id="L347">        jLabel1.setText(&quot;Nickname:&quot;);</span>
+
+<span class="nc" id="L349">        txtAlbumAlbum.addCaretListener(new javax.swing.event.CaretListener() {</span>
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+<span class="nc" id="L351">                txtAlbumAlbumCaretUpdate(evt);</span>
+<span class="nc" id="L352">            }</span>
+        });
+
+<span class="nc" id="L355">        jLabel3.setText(&quot;Nombre Album:&quot;);</span>
+
+<span class="nc" id="L357">        tablaAlbumesTemas.setModel(new javax.swing.table.DefaultTableModel(</span>
+            new Object [][] {
+
+            },
+            new String [] {
+                &quot;Nombre&quot;, &quot;Duracion&quot;
+            }
+<span class="nc" id="L364">        ) {</span>
+<span class="nc" id="L365">            boolean[] canEdit = new boolean [] {</span>
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+<span class="nc" id="L370">                return canEdit [columnIndex];</span>
+            }
+        });
+<span class="nc" id="L373">        tablaAlbumesTemas.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);</span>
+<span class="nc" id="L374">        tablaAlbumesTemas.getTableHeader().setReorderingAllowed(false);</span>
+<span class="nc" id="L375">        jScrollPane8.setViewportView(tablaAlbumesTemas);</span>
+<span class="nc bnc" id="L376" title="All 2 branches missed.">        if (tablaAlbumesTemas.getColumnModel().getColumnCount() &gt; 0) {</span>
+<span class="nc" id="L377">            tablaAlbumesTemas.getColumnModel().getColumn(0).setResizable(false);</span>
+<span class="nc" id="L378">            tablaAlbumesTemas.getColumnModel().getColumn(1).setResizable(false);</span>
+        }
+
+<span class="nc" id="L381">        jLabel7.setText(&quot;Nombre Tema:&quot;);</span>
+
+<span class="nc" id="L383">        txtAlbumTema.addCaretListener(new javax.swing.event.CaretListener() {</span>
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+<span class="nc" id="L385">                txtAlbumTemaCaretUpdate(evt);</span>
+<span class="nc" id="L386">            }</span>
+        });
+
+<span class="nc" id="L389">        btnCancelar.setText(&quot;Cancelar&quot;);</span>
+<span class="nc" id="L390">        btnCancelar.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L392">                btnCancelarActionPerformed(evt);</span>
+<span class="nc" id="L393">            }</span>
+        });
+
+<span class="nc" id="L396">        btnAgregarTema.setText(&quot;Agregar Tema&quot;);</span>
+<span class="nc" id="L397">        btnAgregarTema.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L399">                btnAgregarTemaActionPerformed(evt);</span>
+<span class="nc" id="L400">            }</span>
+        });
+
+<span class="nc" id="L403">        btnAgregarAlbum.setText(&quot;Agregar Album&quot;);</span>
+<span class="nc" id="L404">        btnAgregarAlbum.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L406">                btnAgregarAlbumActionPerformed(evt);</span>
+<span class="nc" id="L407">            }</span>
+        });
+
+<span class="nc" id="L410">        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);</span>
+<span class="nc" id="L411">        jPanel1.setLayout(jPanel1Layout);</span>
+<span class="nc" id="L412">        jPanel1Layout.setHorizontalGroup(</span>
+<span class="nc" id="L413">            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L414">            .addGroup(jPanel1Layout.createSequentialGroup()</span>
+<span class="nc" id="L415">                .addContainerGap()</span>
+<span class="nc" id="L416">                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L417">                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)</span>
+<span class="nc" id="L418">                    .addGroup(jPanel1Layout.createSequentialGroup()</span>
+<span class="nc" id="L419">                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)</span>
+<span class="nc" id="L420">                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L421">                            .addGroup(jPanel1Layout.createSequentialGroup()</span>
+<span class="nc" id="L422">                                .addComponent(jLabel1)</span>
+<span class="nc" id="L423">                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
+<span class="nc" id="L424">                                .addComponent(txtAlbumesArtista, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L425">                            .addGroup(jPanel1Layout.createSequentialGroup()</span>
+<span class="nc" id="L426">                                .addComponent(jLabel3)</span>
+<span class="nc" id="L427">                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
+<span class="nc" id="L428">                                .addComponent(txtAlbumAlbum)))</span>
+<span class="nc" id="L429">                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L430">                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L431">                            .addGroup(jPanel1Layout.createSequentialGroup()</span>
+<span class="nc" id="L432">                                .addComponent(jLabel7)</span>
+<span class="nc" id="L433">                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
+<span class="nc" id="L434">                                .addComponent(txtAlbumTema))</span>
+<span class="nc" id="L435">                            .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))</span>
+<span class="nc" id="L436">                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()</span>
+<span class="nc" id="L437">                        .addGap(0, 0, Short.MAX_VALUE)</span>
+<span class="nc" id="L438">                        .addComponent(btnAgregarAlbum)</span>
+<span class="nc" id="L439">                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L440">                        .addComponent(btnAgregarTema)</span>
+<span class="nc" id="L441">                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L442">                        .addComponent(btnCancelar)))</span>
+<span class="nc" id="L443">                .addContainerGap())</span>
+        );
+<span class="nc" id="L445">        jPanel1Layout.setVerticalGroup(</span>
+<span class="nc" id="L446">            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L447">            .addGroup(jPanel1Layout.createSequentialGroup()</span>
+<span class="nc" id="L448">                .addContainerGap()</span>
+<span class="nc" id="L449">                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L450">                    .addComponent(txtAlbumesArtista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L451">                    .addComponent(jLabel1))</span>
+<span class="nc" id="L452">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L453">                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L454">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L455">                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L456">                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L457">                        .addComponent(txtAlbumTema, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L458">                        .addComponent(jLabel7))</span>
+<span class="nc" id="L459">                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L460">                        .addComponent(txtAlbumAlbum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L461">                        .addComponent(jLabel3)))</span>
+<span class="nc" id="L462">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L463">                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)</span>
+<span class="nc" id="L464">                    .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)</span>
+<span class="nc" id="L465">                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))</span>
+<span class="nc" id="L466">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L467">                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L468">                    .addComponent(btnCancelar)</span>
+<span class="nc" id="L469">                    .addComponent(btnAgregarTema)</span>
+<span class="nc" id="L470">                    .addComponent(btnAgregarAlbum))</span>
+<span class="nc" id="L471">                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))</span>
+        );
+
+<span class="nc" id="L474">        paneles.addTab(&quot;Albumes / Temas&quot;, jPanel1);</span>
+
+<span class="nc" id="L476">        treeLDGeneros.setBorder(javax.swing.BorderFactory.createTitledBorder(&quot;Generos&quot;));</span>
+<span class="nc" id="L477">        treeLDGeneros.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {</span>
+            public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
+<span class="nc" id="L479">                treeLDGenerosValueChanged(evt);</span>
+<span class="nc" id="L480">            }</span>
+        });
+<span class="nc" id="L482">        jScrollPane4.setViewportView(treeLDGeneros);</span>
+
+<span class="nc" id="L484">        tablaLDListas.setModel(new javax.swing.table.DefaultTableModel(</span>
+            new Object [][] {
+
+            },
+            new String [] {
+                &quot;Nombre&quot;
+            }
+<span class="nc" id="L491">        ) {</span>
+<span class="nc" id="L492">            boolean[] canEdit = new boolean [] {</span>
+                false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+<span class="nc" id="L497">                return canEdit [columnIndex];</span>
+            }
+        });
+<span class="nc" id="L500">        tablaLDListas.getTableHeader().setReorderingAllowed(false);</span>
+<span class="nc" id="L501">        jScrollPane5.setViewportView(tablaLDListas);</span>
+<span class="nc bnc" id="L502" title="All 2 branches missed.">        if (tablaLDListas.getColumnModel().getColumnCount() &gt; 0) {</span>
+<span class="nc" id="L503">            tablaLDListas.getColumnModel().getColumn(0).setResizable(false);</span>
+        }
+
+<span class="nc" id="L506">        txtLDLista.addCaretListener(new javax.swing.event.CaretListener() {</span>
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+<span class="nc" id="L508">                txtLDListaCaretUpdate(evt);</span>
+<span class="nc" id="L509">            }</span>
+        });
+
+<span class="nc" id="L512">        jLabel4.setText(&quot;Nombre Lista:&quot;);</span>
+
+<span class="nc" id="L514">        btnCancelar2.setText(&quot;Cancelar&quot;);</span>
+<span class="nc" id="L515">        btnCancelar2.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L517">                btnCancelar2ActionPerformed(evt);</span>
+<span class="nc" id="L518">            }</span>
+        });
+
+<span class="nc" id="L521">        btnAceptarLD.setText(&quot;Agregar&quot;);</span>
+<span class="nc" id="L522">        btnAceptarLD.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L524">                btnAceptarLDActionPerformed(evt);</span>
+<span class="nc" id="L525">            }</span>
+        });
+
+<span class="nc" id="L528">        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);</span>
+<span class="nc" id="L529">        jPanel2.setLayout(jPanel2Layout);</span>
+<span class="nc" id="L530">        jPanel2Layout.setHorizontalGroup(</span>
+<span class="nc" id="L531">            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L532">            .addGroup(jPanel2Layout.createSequentialGroup()</span>
+<span class="nc" id="L533">                .addContainerGap()</span>
+<span class="nc" id="L534">                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L535">                    .addGroup(jPanel2Layout.createSequentialGroup()</span>
+<span class="nc" id="L536">                        .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)</span>
+<span class="nc" id="L537">                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
+<span class="nc" id="L538">                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L539">                            .addGroup(jPanel2Layout.createSequentialGroup()</span>
+<span class="nc" id="L540">                                .addComponent(jLabel4)</span>
+<span class="nc" id="L541">                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
+<span class="nc" id="L542">                                .addComponent(txtLDLista, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L543">                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)))</span>
+<span class="nc" id="L544">                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()</span>
+<span class="nc" id="L545">                        .addGap(0, 0, Short.MAX_VALUE)</span>
+<span class="nc" id="L546">                        .addComponent(btnAceptarLD)</span>
+<span class="nc" id="L547">                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L548">                        .addComponent(btnCancelar2)))</span>
+<span class="nc" id="L549">                .addContainerGap())</span>
+        );
+<span class="nc" id="L551">        jPanel2Layout.setVerticalGroup(</span>
+<span class="nc" id="L552">            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L553">            .addGroup(jPanel2Layout.createSequentialGroup()</span>
+<span class="nc" id="L554">                .addContainerGap()</span>
+<span class="nc" id="L555">                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L556">                    .addGroup(jPanel2Layout.createSequentialGroup()</span>
+<span class="nc" id="L557">                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L558">                            .addComponent(txtLDLista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L559">                            .addComponent(jLabel4))</span>
+<span class="nc" id="L560">                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L561">                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))</span>
+<span class="nc" id="L562">                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 343, Short.MAX_VALUE))</span>
+<span class="nc" id="L563">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L564">                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L565">                    .addComponent(btnCancelar2)</span>
+<span class="nc" id="L566">                    .addComponent(btnAceptarLD))</span>
+<span class="nc" id="L567">                .addContainerGap())</span>
+        );
+
+<span class="nc" id="L570">        paneles.addTab(&quot;Listas por Defecto&quot;, jPanel2);</span>
+
+<span class="nc" id="L572">        tablaLPClientes.setModel(new javax.swing.table.DefaultTableModel(</span>
+            new Object [][] {
+
+            },
+            new String [] {
+                &quot;Nickname&quot;, &quot;Nombre&quot;, &quot;Apellido&quot;, &quot;Correo&quot;
+            }
+<span class="nc" id="L579">        ) {</span>
+<span class="nc" id="L580">            boolean[] canEdit = new boolean [] {</span>
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+<span class="nc" id="L585">                return canEdit [columnIndex];</span>
+            }
+        });
+<span class="nc" id="L588">        tablaLPClientes.getTableHeader().setReorderingAllowed(false);</span>
+<span class="nc" id="L589">        jScrollPane6.setViewportView(tablaLPClientes);</span>
+<span class="nc bnc" id="L590" title="All 2 branches missed.">        if (tablaLPClientes.getColumnModel().getColumnCount() &gt; 0) {</span>
+<span class="nc" id="L591">            tablaLPClientes.getColumnModel().getColumn(0).setResizable(false);</span>
+<span class="nc" id="L592">            tablaLPClientes.getColumnModel().getColumn(1).setResizable(false);</span>
+<span class="nc" id="L593">            tablaLPClientes.getColumnModel().getColumn(2).setResizable(false);</span>
+<span class="nc" id="L594">            tablaLPClientes.getColumnModel().getColumn(3).setResizable(false);</span>
+        }
+
+<span class="nc" id="L597">        tablaLPListas.setModel(new javax.swing.table.DefaultTableModel(</span>
+            new Object [][] {
+
+            },
+            new String [] {
+                &quot;Nombre&quot;
+            }
+        ));
+<span class="nc" id="L605">        tablaLPListas.getTableHeader().setReorderingAllowed(false);</span>
+<span class="nc" id="L606">        jScrollPane7.setViewportView(tablaLPListas);</span>
+
+<span class="nc" id="L608">        txtLPCliente.addCaretListener(new javax.swing.event.CaretListener() {</span>
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+<span class="nc" id="L610">                txtLPClienteCaretUpdate(evt);</span>
+<span class="nc" id="L611">            }</span>
+        });
+
+<span class="nc" id="L614">        jLabel5.setText(&quot;Nickname:&quot;);</span>
+
+<span class="nc" id="L616">        txtLPLista.addCaretListener(new javax.swing.event.CaretListener() {</span>
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+<span class="nc" id="L618">                txtLPListaCaretUpdate(evt);</span>
+<span class="nc" id="L619">            }</span>
+        });
+
+<span class="nc" id="L622">        jLabel6.setText(&quot;Lista:&quot;);</span>
+
+<span class="nc" id="L624">        btnCancelar3.setText(&quot;Cancelar&quot;);</span>
+<span class="nc" id="L625">        btnCancelar3.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L627">                btnCancelar3ActionPerformed(evt);</span>
+<span class="nc" id="L628">            }</span>
+        });
+
+<span class="nc" id="L631">        btnAceptarLP.setText(&quot;Aceptar&quot;);</span>
+<span class="nc" id="L632">        btnAceptarLP.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L634">                btnAceptarLPActionPerformed(evt);</span>
+<span class="nc" id="L635">            }</span>
+        });
+
+<span class="nc" id="L638">        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);</span>
+<span class="nc" id="L639">        jPanel3.setLayout(jPanel3Layout);</span>
+<span class="nc" id="L640">        jPanel3Layout.setHorizontalGroup(</span>
+<span class="nc" id="L641">            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L642">            .addGroup(jPanel3Layout.createSequentialGroup()</span>
+<span class="nc" id="L643">                .addContainerGap()</span>
+<span class="nc" id="L644">                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L645">                    .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)</span>
+<span class="nc" id="L646">                    .addGroup(jPanel3Layout.createSequentialGroup()</span>
+<span class="nc" id="L647">                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L648">                            .addGroup(jPanel3Layout.createSequentialGroup()</span>
+<span class="nc" id="L649">                                .addComponent(jLabel5)</span>
+<span class="nc" id="L650">                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
+<span class="nc" id="L651">                                .addComponent(txtLPCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L652">                            .addGroup(jPanel3Layout.createSequentialGroup()</span>
+<span class="nc" id="L653">                                .addComponent(jLabel6)</span>
+<span class="nc" id="L654">                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L655">                                .addComponent(txtLPLista, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))</span>
+<span class="nc" id="L656">                        .addGap(0, 0, Short.MAX_VALUE))</span>
+<span class="nc" id="L657">                    .addComponent(jScrollPane7)</span>
+<span class="nc" id="L658">                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()</span>
+<span class="nc" id="L659">                        .addGap(0, 0, Short.MAX_VALUE)</span>
+<span class="nc" id="L660">                        .addComponent(btnAceptarLP)</span>
+<span class="nc" id="L661">                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L662">                        .addComponent(btnCancelar3)))</span>
+<span class="nc" id="L663">                .addContainerGap())</span>
+        );
+<span class="nc" id="L665">        jPanel3Layout.setVerticalGroup(</span>
+<span class="nc" id="L666">            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L667">            .addGroup(jPanel3Layout.createSequentialGroup()</span>
+<span class="nc" id="L668">                .addContainerGap()</span>
+<span class="nc" id="L669">                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L670">                    .addComponent(txtLPCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L671">                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L672">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L673">                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L674">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L675">                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L676">                    .addComponent(txtLPLista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L677">                    .addComponent(jLabel6))</span>
+<span class="nc" id="L678">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L679">                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L680">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)</span>
+<span class="nc" id="L681">                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L682">                    .addComponent(btnCancelar3)</span>
+<span class="nc" id="L683">                    .addComponent(btnAceptarLP))</span>
+<span class="nc" id="L684">                .addContainerGap())</span>
+        );
+
+<span class="nc" id="L687">        paneles.addTab(&quot;Listas Particulares&quot;, jPanel3);</span>
+
+<span class="nc" id="L689">        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());</span>
+<span class="nc" id="L690">        getContentPane().setLayout(layout);</span>
+<span class="nc" id="L691">        layout.setHorizontalGroup(</span>
+<span class="nc" id="L692">            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L693">            .addGroup(layout.createSequentialGroup()</span>
+<span class="nc" id="L694">                .addContainerGap()</span>
+<span class="nc" id="L695">                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L696">                    .addComponent(jScrollPane2)</span>
+<span class="nc" id="L697">                    .addGroup(layout.createSequentialGroup()</span>
+<span class="nc" id="L698">                        .addComponent(jLabel2)</span>
+<span class="nc" id="L699">                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
+<span class="nc" id="L700">                        .addComponent(txtNickname, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L701">                        .addGap(0, 0, Short.MAX_VALUE))</span>
+<span class="nc" id="L702">                    .addComponent(paneles))</span>
+<span class="nc" id="L703">                .addContainerGap())</span>
+        );
+<span class="nc" id="L705">        layout.setVerticalGroup(</span>
+<span class="nc" id="L706">            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L707">            .addGroup(layout.createSequentialGroup()</span>
+<span class="nc" id="L708">                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="nc" id="L709">                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L710">                    .addComponent(txtNickname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L711">                    .addComponent(jLabel2))</span>
+<span class="nc" id="L712">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
+<span class="nc" id="L713">                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L714">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L715">                .addComponent(paneles, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L716">                .addContainerGap())</span>
+        );
+
+<span class="nc" id="L719">        pack();</span>
+<span class="nc" id="L720">    }// &lt;/editor-fold&gt;//GEN-END:initComponents</span>
+
+    private void txtNicknameCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtNicknameCaretUpdate
+<span class="nc" id="L723">        cargarDatosClientes(clientes, txtNickname.getText());</span>
+<span class="nc" id="L724">    }//GEN-LAST:event_txtNicknameCaretUpdate</span>
+
+    private void txtAlbumesArtistaCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtAlbumesArtistaCaretUpdate
+<span class="nc" id="L727">        cargarDatosAlbumesArtistas(artistas, txtAlbumesArtista.getText());</span>
+<span class="nc" id="L728">    }//GEN-LAST:event_txtAlbumesArtistaCaretUpdate</span>
+
+    private void txtAlbumAlbumCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtAlbumAlbumCaretUpdate
+<span class="nc bnc" id="L731" title="All 2 branches missed.">        if (tablaAlbumesArtistas.getSelectedRow() != -1) {</span>
+<span class="nc" id="L732">            cargarDatosAlbumesAlbumes(iUsuario.listarAlbumesArtista(tablaAlbumesArtistas.getValueAt(tablaAlbumesArtistas.getSelectedRow(), 0).toString()), txtAlbumAlbum.getText());</span>
+        }
+<span class="nc" id="L734">    }//GEN-LAST:event_txtAlbumAlbumCaretUpdate</span>
+
+    private void txtAlbumTemaCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtAlbumTemaCaretUpdate
+<span class="nc bnc" id="L737" title="All 4 branches missed.">        if (tablaAlbumesArtistas.getSelectedRow() != -1 &amp;&amp; tablaAlbumesAlbumes.getSelectedRow() != -1) {</span>
+<span class="nc" id="L738">            cargarDatosAlbumesTemas(iUsuario.obtenerAlbumContenido(tablaAlbumesArtistas.getValueAt(tablaAlbumesArtistas.getSelectedRow(), 0).toString(), tablaAlbumesAlbumes.getValueAt(tablaAlbumesAlbumes.getSelectedRow(), 0).toString()), txtAlbumTema.getText());</span>
+        }
+<span class="nc" id="L740">    }//GEN-LAST:event_txtAlbumTemaCaretUpdate</span>
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+<span class="nc" id="L743">        dispose();</span>
+<span class="nc" id="L744">    }//GEN-LAST:event_btnCancelarActionPerformed</span>
+
+    private void btnAgregarAlbumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarAlbumActionPerformed
+<span class="nc bnc" id="L747" title="All 2 branches missed.">        if (tablaClientes.getSelectedRow() == -1) {</span>
+<span class="nc" id="L748">            JOptionPane.showMessageDialog(this, &quot;Seleccione un cliente&quot;);</span>
+<span class="nc" id="L749">            return;</span>
+        }
+<span class="nc bnc" id="L751" title="All 2 branches missed.">        if (tablaAlbumesArtistas.getSelectedRow() == -1) {</span>
+<span class="nc" id="L752">            JOptionPane.showMessageDialog(this, &quot;Seleccione un artista&quot;);</span>
+<span class="nc" id="L753">            return;</span>
+        }
+<span class="nc bnc" id="L755" title="All 2 branches missed.">        if (tablaAlbumesAlbumes.getSelectedRow() == -1) {</span>
+<span class="nc" id="L756">            JOptionPane.showMessageDialog(this, &quot;Seleccione un album&quot;);</span>
+<span class="nc" id="L757">            return;</span>
+        }
+
+<span class="nc" id="L760">        String nickCliente = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 0).toString();</span>
+<span class="nc" id="L761">        String nickArtista = tablaAlbumesArtistas.getValueAt(tablaAlbumesArtistas.getSelectedRow(), 0).toString();</span>
+<span class="nc" id="L762">        String nombreAlbum = tablaAlbumesAlbumes.getValueAt(tablaAlbumesAlbumes.getSelectedRow(), 0).toString();</span>
+
+        try {
+<span class="nc" id="L765">            iUsuario.agregarAlbumFav(nickCliente, nickArtista, nombreAlbum);</span>
+<span class="nc" id="L766">            JOptionPane.showMessageDialog(this, &quot;Album agregado a favoritos&quot;);</span>
+<span class="nc" id="L767">        } catch (UnsupportedOperationException e) {</span>
+<span class="nc" id="L768">            JOptionPane.showMessageDialog(this, &quot;Error : &quot; + e.getMessage(), &quot;Error&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L769">        }</span>
+<span class="nc" id="L770">    }//GEN-LAST:event_btnAgregarAlbumActionPerformed</span>
+
+    private void btnAgregarTemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarTemaActionPerformed
+<span class="nc bnc" id="L773" title="All 2 branches missed.">        if (tablaClientes.getSelectedRow() == -1) {</span>
+<span class="nc" id="L774">            JOptionPane.showMessageDialog(this, &quot;Seleccione un cliente&quot;);</span>
+<span class="nc" id="L775">            return;</span>
+        }
+<span class="nc bnc" id="L777" title="All 2 branches missed.">        if (tablaAlbumesArtistas.getSelectedRow() == -1) {</span>
+<span class="nc" id="L778">            JOptionPane.showMessageDialog(this, &quot;Seleccione un artista&quot;);</span>
+<span class="nc" id="L779">            return;</span>
+        }
+<span class="nc bnc" id="L781" title="All 2 branches missed.">        if (tablaAlbumesAlbumes.getSelectedRow() == -1) {</span>
+<span class="nc" id="L782">            JOptionPane.showMessageDialog(this, &quot;Seleccione un album&quot;);</span>
+<span class="nc" id="L783">            return;</span>
+        }
+<span class="nc bnc" id="L785" title="All 2 branches missed.">        if (tablaAlbumesTemas.getSelectedRow() == -1) {</span>
+<span class="nc" id="L786">            JOptionPane.showMessageDialog(this, &quot;Seleccione un tema&quot;);</span>
+<span class="nc" id="L787">            return;</span>
+        }
+
+<span class="nc" id="L790">        String nickCliente = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 0).toString();</span>
+<span class="nc" id="L791">        String nickArtista = tablaAlbumesArtistas.getValueAt(tablaAlbumesArtistas.getSelectedRow(), 0).toString();</span>
+<span class="nc" id="L792">        String nombreAlbum = tablaAlbumesAlbumes.getValueAt(tablaAlbumesAlbumes.getSelectedRow(), 0).toString();</span>
+<span class="nc" id="L793">        String nombreTema = tablaAlbumesTemas.getValueAt(tablaAlbumesTemas.getSelectedRow(), 0).toString();</span>
+
+        try {
+<span class="nc" id="L796">            iUsuario.agregarTemaFav(nickCliente, nickArtista, nombreAlbum, nombreTema);</span>
+<span class="nc" id="L797">            JOptionPane.showMessageDialog(this, &quot;Tema agregado a favoritos&quot;);</span>
+<span class="nc" id="L798">        } catch (UnsupportedOperationException e) {</span>
+<span class="nc" id="L799">            JOptionPane.showMessageDialog(this, &quot;Error : &quot; + e.getMessage(), &quot;Error&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L800">        }</span>
+<span class="nc" id="L801">    }//GEN-LAST:event_btnAgregarTemaActionPerformed</span>
+
+    private void treeLDGenerosValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_treeLDGenerosValueChanged
+<span class="nc bnc" id="L804" title="All 2 branches missed.">        if (treeLDGeneros.getSelectionPath() == null) {</span>
+<span class="nc" id="L805">            return;</span>
+        }
+
+<span class="nc" id="L808">        DefaultMutableTreeNode selectedElement = (DefaultMutableTreeNode) treeLDGeneros.getSelectionPath().getLastPathComponent();</span>
+<span class="nc" id="L809">        String generoSeleccionado = selectedElement.getUserObject().toString();</span>
+
+<span class="nc" id="L811">        cargarDatosLDListas(iContenido.listarLisReproduccionGen(generoSeleccionado), txtLDLista.getText());</span>
+<span class="nc" id="L812">    }//GEN-LAST:event_treeLDGenerosValueChanged</span>
+
+    private void txtLDListaCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtLDListaCaretUpdate
+<span class="nc bnc" id="L815" title="All 2 branches missed.">        if (treeLDGeneros.getSelectionPath() == null) {</span>
+<span class="nc" id="L816">            return;</span>
+        }
+
+<span class="nc" id="L819">        DefaultMutableTreeNode selectedElement = (DefaultMutableTreeNode) treeLDGeneros.getSelectionPath().getLastPathComponent();</span>
+<span class="nc" id="L820">        String generoSeleccionado = selectedElement.getUserObject().toString();</span>
+
+<span class="nc" id="L822">        cargarDatosLDListas(iContenido.listarLisReproduccionGen(generoSeleccionado), txtLDLista.getText());</span>
+<span class="nc" id="L823">    }//GEN-LAST:event_txtLDListaCaretUpdate</span>
+
+    private void btnCancelar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelar2ActionPerformed
+<span class="nc" id="L826">        dispose();</span>
+<span class="nc" id="L827">    }//GEN-LAST:event_btnCancelar2ActionPerformed</span>
+
+    private void btnAceptarLDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarLDActionPerformed
+<span class="nc bnc" id="L830" title="All 2 branches missed.">        if (tablaClientes.getSelectedRow() == -1) {</span>
+<span class="nc" id="L831">            JOptionPane.showMessageDialog(this, &quot;Seleccione un cliente&quot;);</span>
+<span class="nc" id="L832">            return;</span>
+        }
+<span class="nc bnc" id="L834" title="All 2 branches missed.">        if (treeLDGeneros.getSelectionPath() == null) {</span>
+<span class="nc" id="L835">            JOptionPane.showMessageDialog(this, &quot;Seleccione un genero&quot;);</span>
+<span class="nc" id="L836">            return;</span>
+        }
+<span class="nc bnc" id="L838" title="All 2 branches missed.">        if (tablaLDListas.getSelectedRow() == -1) {</span>
+<span class="nc" id="L839">            JOptionPane.showMessageDialog(this, &quot;Seleccione una lista&quot;);</span>
+<span class="nc" id="L840">            return;</span>
+        }
+
+<span class="nc" id="L843">        String nickCliente = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 0).toString();</span>
+<span class="nc" id="L844">        DefaultMutableTreeNode selectedElement = (DefaultMutableTreeNode) treeLDGeneros.getSelectionPath().getLastPathComponent();</span>
+<span class="nc" id="L845">        String generoSeleccionado = selectedElement.getUserObject().toString();</span>
+<span class="nc" id="L846">        String nomLista = tablaLDListas.getValueAt(tablaLDListas.getSelectedRow(), 0).toString();</span>
+
+        try {
+<span class="nc" id="L849">            iUsuario.agregarLDFav(nickCliente, generoSeleccionado, nomLista);</span>
+<span class="nc" id="L850">            JOptionPane.showMessageDialog(this, &quot;Lista agregada a favoritos&quot;);</span>
+<span class="nc" id="L851">        } catch (UnsupportedOperationException e) {</span>
+<span class="nc" id="L852">            JOptionPane.showMessageDialog(this, &quot;Error : &quot; + e.getMessage(), &quot;Error&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L853">        }</span>
+<span class="nc" id="L854">    }//GEN-LAST:event_btnAceptarLDActionPerformed</span>
+
+    private void txtLPClienteCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtLPClienteCaretUpdate
+<span class="nc" id="L857">        cargarDatosLPClientes(clientes, txtLPCliente.getText());</span>
+<span class="nc" id="L858">    }//GEN-LAST:event_txtLPClienteCaretUpdate</span>
+
+    private void txtLPListaCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtLPListaCaretUpdate
+<span class="nc bnc" id="L861" title="All 2 branches missed.">        if (tablaLPClientes.getSelectedRow() != -1) {</span>
+<span class="nc" id="L862">            cargarDatosLPListas(iUsuario.listarLisReproduccion(tablaLPClientes.getValueAt(tablaLPClientes.getSelectedRow(), 0).toString()), txtLPLista.getText());</span>
+        }
+<span class="nc" id="L864">    }//GEN-LAST:event_txtLPListaCaretUpdate</span>
+
+    private void btnCancelar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelar3ActionPerformed
+<span class="nc" id="L867">        dispose();</span>
+<span class="nc" id="L868">    }//GEN-LAST:event_btnCancelar3ActionPerformed</span>
+
+    private void btnAceptarLPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarLPActionPerformed
+<span class="nc bnc" id="L871" title="All 2 branches missed.">        if (tablaClientes.getSelectedRow() == -1) {</span>
+<span class="nc" id="L872">            JOptionPane.showMessageDialog(this, &quot;Seleccione un cliente&quot;);</span>
+<span class="nc" id="L873">            return;</span>
+        }
+<span class="nc bnc" id="L875" title="All 2 branches missed.">        if (tablaLPClientes.getSelectedRow() == -1) {</span>
+<span class="nc" id="L876">            JOptionPane.showMessageDialog(this, &quot;Seleccione un cliente (abajo)&quot;);</span>
+<span class="nc" id="L877">            return;</span>
+        }
+<span class="nc bnc" id="L879" title="All 2 branches missed.">        if (tablaLPListas.getSelectedRow() == -1) {</span>
+<span class="nc" id="L880">            JOptionPane.showMessageDialog(this, &quot;Seleccione una lista&quot;);</span>
+<span class="nc" id="L881">            return;</span>
+        }
+
+<span class="nc" id="L884">        String nickCliente = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 0).toString();</span>
+<span class="nc" id="L885">        String nickClienteAbajo = tablaLPClientes.getValueAt(tablaLPClientes.getSelectedRow(), 0).toString();</span>
+<span class="nc" id="L886">        String nombreLista = tablaLPListas.getValueAt(tablaLPListas.getSelectedRow(), 0).toString();</span>
+
+        try {
+<span class="nc" id="L889">            iUsuario.agregarLPFav(nickCliente, nickClienteAbajo, nombreLista);</span>
+<span class="nc" id="L890">            JOptionPane.showMessageDialog(this, &quot;Lista agregada a favoritos&quot;);</span>
+<span class="nc" id="L891">        } catch (UnsupportedOperationException e) {</span>
+<span class="nc" id="L892">            JOptionPane.showMessageDialog(this, &quot;Error : &quot; + e.getMessage(), &quot;Error&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L893">        }</span>
+<span class="nc" id="L894">    }//GEN-LAST:event_btnAceptarLPActionPerformed</span>
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAceptarLD;
+    private javax.swing.JButton btnAceptarLP;
+    private javax.swing.JButton btnAgregarAlbum;
+    private javax.swing.JButton btnAgregarTema;
+    private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnCancelar2;
+    private javax.swing.JButton btnCancelar3;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JTabbedPane paneles;
+    private javax.swing.JTable tablaAlbumesAlbumes;
+    private javax.swing.JTable tablaAlbumesArtistas;
+    private javax.swing.JTable tablaAlbumesTemas;
+    private javax.swing.JTable tablaClientes;
+    private javax.swing.JTable tablaLDListas;
+    private javax.swing.JTable tablaLPClientes;
+    private javax.swing.JTable tablaLPListas;
+    private javax.swing.JTree treeLDGeneros;
+    private javax.swing.JTextField txtAlbumAlbum;
+    private javax.swing.JTextField txtAlbumTema;
+    private javax.swing.JTextField txtAlbumesArtista;
+    private javax.swing.JTextField txtLDLista;
+    private javax.swing.JTextField txtLPCliente;
+    private javax.swing.JTextField txtLPLista;
+    private javax.swing.JTextField txtNickname;
+    // End of variables declaration//GEN-END:variables
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

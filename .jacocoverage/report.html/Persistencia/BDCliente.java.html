@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>BDCliente.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;Tarea1&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">Persistencia</a> &gt; <span class="el_source">BDCliente.java</span></div><h1>BDCliente.java</h1><pre class="source lang-java linenums">package Persistencia;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+<span class="fc" id="L7">public class BDCliente extends BDUsuario {</span>
+
+    public boolean agregarListaDefaultFav(String nomGenero, String nomLista, String nomCliente) {
+        try {
+<span class="nc" id="L11">            int idLista = obtenerIdListaDefecto(nomGenero, nomLista);</span>
+
+<span class="nc" id="L13">            PreparedStatement agregar = conexion.prepareStatement(&quot;INSERT INTO favl VALUES (?, ?)&quot;);</span>
+<span class="nc" id="L14">            agregar.setString(1, nomCliente);</span>
+<span class="nc" id="L15">            agregar.setInt(2, idLista);</span>
+<span class="nc" id="L16">            agregar.executeUpdate();</span>
+<span class="nc" id="L17">            agregar.close();</span>
+
+<span class="nc" id="L19">            return true;</span>
+<span class="nc" id="L20">        } catch (SQLException e) {</span>
+<span class="nc" id="L21">            e.printStackTrace();</span>
+<span class="nc" id="L22">            return false;</span>
+        }
+    }
+
+    public boolean agregarListaParticularFav(String duenio, String nomLista, String cliente) {
+        try {
+<span class="nc" id="L28">            int idLista = obtenerIdListaParticular(duenio, nomLista);</span>
+
+<span class="nc" id="L30">            PreparedStatement agregar = conexion.prepareStatement(&quot;INSERT INTO favl VALUES (?, ?)&quot;);</span>
+<span class="nc" id="L31">            agregar.setString(1, cliente);</span>
+<span class="nc" id="L32">            agregar.setInt(2, idLista);</span>
+<span class="nc" id="L33">            agregar.executeUpdate();</span>
+<span class="nc" id="L34">            agregar.close();</span>
+
+<span class="nc" id="L36">            return true;</span>
+<span class="nc" id="L37">        } catch (SQLException e) {</span>
+<span class="nc" id="L38">            e.printStackTrace();</span>
+<span class="nc" id="L39">            return false;</span>
+        }
+    }
+
+    public boolean agregarAlbumFav(String nickArt, String nomAlbum, String nickCli) {
+        try {
+<span class="nc" id="L45">            int idAlbum = obtenerIdAlbum(nickArt, nomAlbum);</span>
+
+<span class="nc" id="L47">            PreparedStatement agregar = conexion.prepareStatement(&quot;INSERT INTO fava VALUES (?, ?, ?)&quot;);</span>
+<span class="nc" id="L48">            agregar.setInt(1, idAlbum);</span>
+<span class="nc" id="L49">            agregar.setString(2, nickArt);</span>
+<span class="nc" id="L50">            agregar.setString(3, nickCli);</span>
+<span class="nc" id="L51">            agregar.executeUpdate();</span>
+<span class="nc" id="L52">            agregar.close();</span>
+
+<span class="nc" id="L54">            return true;</span>
+<span class="nc" id="L55">        } catch (SQLException ex) {</span>
+<span class="nc" id="L56">            ex.printStackTrace();</span>
+<span class="nc" id="L57">            return false;</span>
+        }
+    }
+
+    public boolean agregarTemaFav(String nickArt, String nomAlbum, String nomTema, String nickCliente) {
+        try {
+<span class="nc" id="L63">            PreparedStatement agregar = conexion.prepareStatement(&quot;INSERT INTO favt (nickname, idTema) VALUES (?, ?)&quot;);</span>
+<span class="nc" id="L64">            agregar.setString(1, nickCliente);</span>
+<span class="nc" id="L65">            agregar.setInt(2, obtenerIdTema(nickArt, obtenerIdAlbum(nickArt, nomAlbum), nomTema));</span>
+<span class="nc" id="L66">            agregar.executeUpdate();</span>
+<span class="nc" id="L67">            agregar.close();</span>
+
+<span class="nc" id="L69">            return true;</span>
+<span class="nc" id="L70">        } catch (SQLException ex) {</span>
+<span class="nc" id="L71">            ex.printStackTrace();</span>
+<span class="nc" id="L72">            return false;</span>
+        }
+    }
+
+    public boolean eliminarAlbumFav(String nickArtista, String nombreAlbum, String nickCliente) {
+        try {
+<span class="nc" id="L78">            PreparedStatement delete = conexion.prepareStatement(&quot;DELETE FROM fava WHERE idAlbum = ? AND nicknameArtista = ? AND nicknameCliente = ?&quot;);</span>
+<span class="nc" id="L79">            delete.setInt(1, obtenerIdAlbum(nickArtista, nombreAlbum));</span>
+<span class="nc" id="L80">            delete.setString(2, nickArtista);</span>
+<span class="nc" id="L81">            delete.setString(3, nickCliente);</span>
+<span class="nc" id="L82">            delete.executeUpdate();</span>
+<span class="nc" id="L83">            delete.close();</span>
+
+<span class="nc" id="L85">            return true;</span>
+<span class="nc" id="L86">        } catch (SQLException e) {</span>
+<span class="nc" id="L87">            e.printStackTrace();</span>
+<span class="nc" id="L88">            return false;</span>
+        }
+    }
+
+    public boolean eliminarListaPorDefectoFav(String nombreGenero, String nombreLista, String nickCliente) {
+        try {
+<span class="nc" id="L94">            PreparedStatement delete = conexion.prepareStatement(&quot;DELETE FROM favl WHERE nickname = ? AND idLista = ?&quot;);</span>
+<span class="nc" id="L95">            delete.setString(1, nickCliente);</span>
+<span class="nc" id="L96">            delete.setInt(2, obtenerIdListaDefecto(nombreGenero, nombreLista));</span>
+<span class="nc" id="L97">            delete.executeUpdate();</span>
+<span class="nc" id="L98">            delete.close();</span>
+
+<span class="nc" id="L100">            return true;</span>
+<span class="nc" id="L101">        } catch (SQLException e) {</span>
+<span class="nc" id="L102">            e.printStackTrace();</span>
+<span class="nc" id="L103">            return false;</span>
+        }
+    }
+
+    public boolean eliminarListaParticularFav(String nickDuenio, String nombreLista, String nickCliente) {
+        try {
+<span class="nc" id="L109">            PreparedStatement delete = conexion.prepareStatement(&quot;DELETE FROM favl WHERE nickname = ? AND idLista = ?&quot;);</span>
+<span class="nc" id="L110">            delete.setString(1, nickCliente);</span>
+<span class="nc" id="L111">            delete.setInt(2, obtenerIdListaParticular(nickDuenio, nombreLista));</span>
+<span class="nc" id="L112">            delete.executeUpdate();</span>
+<span class="nc" id="L113">            delete.close();</span>
+
+<span class="nc" id="L115">            return true;</span>
+<span class="nc" id="L116">        } catch (SQLException e) {</span>
+<span class="nc" id="L117">            e.printStackTrace();</span>
+<span class="nc" id="L118">            return false;</span>
+        }
+    }
+
+    public boolean eliminarTemaFav(String nickArtista, String nomAlbum, String nomTema, String nickCliente) {
+        try {
+<span class="nc" id="L124">            PreparedStatement delete = conexion.prepareStatement(&quot;DELETE FROM favt WHERE nickname = ? AND idTema = ?&quot;);</span>
+<span class="nc" id="L125">            delete.setString(1, nickCliente);</span>
+<span class="nc" id="L126">            delete.setInt(2, obtenerIdTema(nickArtista, obtenerIdAlbum(nickArtista, nomAlbum), nomTema));</span>
+<span class="nc" id="L127">            delete.executeUpdate();</span>
+<span class="nc" id="L128">            delete.close();</span>
+
+<span class="nc" id="L130">            return true;</span>
+<span class="nc" id="L131">        } catch (SQLException e) {</span>
+<span class="nc" id="L132">            e.printStackTrace();</span>
+<span class="nc" id="L133">            return false;</span>
+        }
+    }
+
+    public boolean asociarListaACliente(int idLista, String nickCliente) {
+        try {
+<span class="fc" id="L139">            PreparedStatement insertar = conexion.prepareStatement(&quot;INSERT INTO clientecrealista (idLista, nickname) VALUES (?, ?)&quot;);</span>
+<span class="fc" id="L140">            insertar.setInt(1, idLista);</span>
+<span class="fc" id="L141">            insertar.setString(2, nickCliente);</span>
+<span class="fc" id="L142">            insertar.executeUpdate();</span>
+<span class="fc" id="L143">            insertar.close();</span>
+
+<span class="fc" id="L145">            return true;</span>
+<span class="nc" id="L146">        } catch (SQLException ex) {</span>
+<span class="nc" id="L147">            ex.printStackTrace();</span>
+<span class="nc" id="L148">            return false;</span>
+        }
+    }
+
+    private int obtenerIdTema(String nickArtista, int idAlbum, String nomTema) {
+        try {
+<span class="nc" id="L154">            PreparedStatement query = conexion.prepareStatement(&quot;SELECT idTema FROM tema WHERE nicknameArtista = ? AND idAlbum = ? AND nombre = ?&quot;);</span>
+<span class="nc" id="L155">            query.setString(1, nickArtista);</span>
+<span class="nc" id="L156">            query.setInt(2, idAlbum);</span>
+<span class="nc" id="L157">            query.setString(3, nomTema);</span>
+
+<span class="nc" id="L159">            int idTema = 0;</span>
+<span class="nc" id="L160">            ResultSet rs = query.executeQuery();</span>
+
+<span class="nc bnc" id="L162" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L163">                idTema = rs.getInt(1);</span>
+            }
+
+<span class="nc" id="L166">            rs.close();</span>
+<span class="nc" id="L167">            query.close();</span>
+
+<span class="nc" id="L169">            return idTema;</span>
+<span class="nc" id="L170">        } catch (SQLException e) {</span>
+<span class="nc" id="L171">            e.printStackTrace();</span>
+<span class="nc" id="L172">            return 0;</span>
+        }
+    }
+
+    private int obtenerIdListaDefecto(String nombreGenero, String nombreLista) {
+        try {
+<span class="nc" id="L178">            PreparedStatement buscar = conexion.prepareStatement(&quot;SELECT l.idLista FROM lista AS l, listapordefecto AS ld WHERE l.idLista = ld.idLista AND l.nombre = ? AND ld.nombreGenero = ?&quot;);</span>
+<span class="nc" id="L179">            buscar.setString(1, nombreLista);</span>
+<span class="nc" id="L180">            buscar.setString(2, nombreGenero);</span>
+
+<span class="nc" id="L182">            int idLista = 0;</span>
+<span class="nc" id="L183">            ResultSet rs = buscar.executeQuery();</span>
+<span class="nc bnc" id="L184" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L185">                idLista = rs.getInt(1);</span>
+            }
+
+<span class="nc" id="L188">            rs.close();</span>
+<span class="nc" id="L189">            buscar.close();</span>
+
+<span class="nc" id="L191">            return idLista;</span>
+<span class="nc" id="L192">        } catch (SQLException e) {</span>
+<span class="nc" id="L193">            e.printStackTrace();</span>
+<span class="nc" id="L194">            return 0;</span>
+        }
+    }
+
+    private int obtenerIdListaParticular(String cliente, String nomLista) {
+        try {
+<span class="nc" id="L200">            PreparedStatement lista = conexion.prepareStatement(&quot;SELECT l.idLista FROM lista AS l, listaparticular AS lp WHERE l.idLista = lp.idLista AND l.nombre = ? AND lp.nickname = ?&quot;);</span>
+<span class="nc" id="L201">            lista.setString(1, nomLista);</span>
+<span class="nc" id="L202">            lista.setString(2, cliente);</span>
+
+<span class="nc" id="L204">            int idLista = 0;</span>
+<span class="nc" id="L205">            ResultSet rs = lista.executeQuery();</span>
+<span class="nc bnc" id="L206" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L207">                idLista = rs.getInt(1);</span>
+            }
+<span class="nc" id="L209">            rs.close();</span>
+<span class="nc" id="L210">            lista.close();</span>
+
+<span class="nc" id="L212">            return idLista;</span>
+<span class="nc" id="L213">        } catch (SQLException e) {</span>
+<span class="nc" id="L214">            e.printStackTrace();;</span>
+<span class="nc" id="L215">            return 0;</span>
+        }
+    }
+
+    private int obtenerIdAlbum(String nickArt, String nomAlbum) {
+        try {
+<span class="nc" id="L221">            PreparedStatement buscar = conexion.prepareStatement(&quot;SELECT idAlbum FROM album WHERE nicknameArtista = ? AND nombre = ?&quot;);</span>
+<span class="nc" id="L222">            buscar.setString(1, nickArt);</span>
+<span class="nc" id="L223">            buscar.setString(2, nomAlbum);</span>
+<span class="nc" id="L224">            ResultSet rs = buscar.executeQuery();</span>
+<span class="nc" id="L225">            int id = 0;</span>
+<span class="nc bnc" id="L226" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L227">                id = rs.getInt(&quot;idAlbum&quot;);</span>
+            }
+<span class="nc" id="L229">            rs.close();</span>
+<span class="nc" id="L230">            buscar.close();</span>
+
+<span class="nc" id="L232">            return id;</span>
+<span class="nc" id="L233">        } catch (SQLException ex) {</span>
+<span class="nc" id="L234">            ex.printStackTrace();</span>
+        }
+
+<span class="nc" id="L237">        return 0;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

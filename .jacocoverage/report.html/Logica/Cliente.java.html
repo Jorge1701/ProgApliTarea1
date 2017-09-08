@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Cliente.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;Tarea1&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">Logica</a> &gt; <span class="el_source">Cliente.java</span></div><h1>Cliente.java</h1><pre class="source lang-java linenums">package Logica;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
+public class Cliente extends Usuario {
+
+    private HashMap&lt;String, Usuario&gt; seguidos;
+    private HashMap&lt;String, ListaParticular&gt; listasParticulares;
+
+    private ArrayList&lt;Album&gt; albumesfav;
+    private ArrayList&lt;Lista&gt; listasfav;
+    private ArrayList&lt;Tema&gt; temasfav;
+
+    public Cliente(String nickname, String nombre, String apellido, String email, DtFecha fechaNac, String imagen) {
+<span class="fc" id="L18">        super(nickname, nombre, apellido, email, fechaNac, imagen);</span>
+
+<span class="fc" id="L20">        this.seguidos = new HashMap();</span>
+<span class="fc" id="L21">        this.listasParticulares = new HashMap&lt;String, ListaParticular&gt;();</span>
+<span class="fc" id="L22">        this.albumesfav = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L23">        this.listasfav = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L24">        this.temasfav = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L25">    }</span>
+
+    public int agregarAlbumFav(Album a) {
+<span class="pc bpc" id="L28" title="1 of 2 branches missed.">        if (albumesfav.contains(a)) {</span>
+<span class="nc" id="L29">            throw new UnsupportedOperationException(&quot;Album ya en favoritos&quot;);</span>
+        } else {
+<span class="fc" id="L31">            albumesfav.add(a);</span>
+<span class="fc" id="L32">            return albumesfav.indexOf(a);</span>
+        }
+    }
+
+    public int agregarListaFav(Lista l) {
+<span class="pc bpc" id="L37" title="1 of 2 branches missed.">        if (listasfav.contains(l)) {</span>
+<span class="nc" id="L38">            throw new UnsupportedOperationException(&quot;Lista ya en favoritos&quot;);</span>
+        } else {
+<span class="fc" id="L40">            listasfav.add(l);</span>
+<span class="fc" id="L41">            return listasfav.indexOf(l);</span>
+        }
+    }
+
+    public int agregarTemaFav(Tema t) {
+<span class="pc bpc" id="L46" title="1 of 2 branches missed.">        if (temasfav.contains(t)) {</span>
+<span class="nc" id="L47">            throw new UnsupportedOperationException(&quot;Tema ya en favoritos&quot;);</span>
+        } else {
+<span class="fc" id="L49">            temasfav.add(t);</span>
+<span class="fc" id="L50">            return temasfav.indexOf(t);</span>
+        }
+    }
+
+    public void agregarLista(Lista l) {
+<span class="nc" id="L55">        this.listasParticulares.put(l.getNombre(), (ListaParticular) l);</span>
+<span class="nc" id="L56">    }</span>
+
+    public void eliminarAlbumFav(int i) {
+<span class="nc bnc" id="L59" title="All 2 branches missed.">        if (albumesfav.size() &gt;= i) {</span>
+<span class="nc" id="L60">            albumesfav.remove(i);</span>
+        } else {
+<span class="nc" id="L62">            throw new UnsupportedOperationException(&quot;Album no esta en favoritos&quot;);</span>
+        }
+<span class="nc" id="L64">    }</span>
+
+    public void eliminarListaFav(int i) {
+<span class="nc bnc" id="L67" title="All 2 branches missed.">        if (listasfav.size() &gt;= i) {</span>
+<span class="nc" id="L68">            listasfav.remove(i);</span>
+        } else {
+<span class="nc" id="L70">            throw new UnsupportedOperationException(&quot;Lista no esta en favoritos&quot;);</span>
+        }
+<span class="nc" id="L72">    }</span>
+
+    public void eliminarTemaFav(int i) {
+<span class="nc bnc" id="L75" title="All 2 branches missed.">        if (temasfav.size() &gt;= i) {</span>
+<span class="nc" id="L76">            temasfav.remove(i);</span>
+        } else {
+<span class="nc" id="L78">            throw new UnsupportedOperationException(&quot;Tema no esta en favoritos&quot;);</span>
+        }
+<span class="nc" id="L80">    }</span>
+
+    public ArrayList&lt;DtAlbum&gt; obtenerDtAlbumesFav() {
+<span class="nc" id="L83">        ArrayList&lt;DtAlbum&gt; favs = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">        for (Album album : albumesfav) {</span>
+<span class="nc" id="L85">            favs.add(album.getData());</span>
+<span class="nc" id="L86">        }</span>
+<span class="nc" id="L87">        return favs;</span>
+    }
+
+    public ArrayList&lt;DtLista&gt; obtenerDtListasFav() {
+<span class="nc" id="L91">        ArrayList&lt;DtLista&gt; favs = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">        for (Lista lista : listasfav) {</span>
+<span class="nc" id="L93">            favs.add(lista.getData());</span>
+<span class="nc" id="L94">        }</span>
+<span class="nc" id="L95">        return favs;</span>
+    }
+
+    public ArrayList&lt;DtTema&gt; obtenerDtTemasFav() {
+<span class="nc" id="L99">        ArrayList&lt;DtTema&gt; favs = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L100" title="All 2 branches missed.">        for (Tema tema : temasfav) {</span>
+<span class="nc" id="L101">            favs.add(tema.getData());</span>
+<span class="nc" id="L102">        }</span>
+<span class="nc" id="L103">        return favs;</span>
+    }
+
+    public ArrayList&lt;Album&gt; obtenerAlbumsFav() {
+<span class="nc" id="L107">        return albumesfav;</span>
+    }
+
+    public ArrayList&lt;Lista&gt; obtenerListasFav() {
+<span class="nc" id="L111">        return listasfav;</span>
+    }
+
+    public ArrayList&lt;Tema&gt; obtenerTemasFav() {
+<span class="nc" id="L115">        return temasfav;</span>
+    }
+
+    @Override
+    public String getTipo() {
+<span class="nc" id="L120">        return &quot;Cliente&quot;;</span>
+    }
+
+    @Override
+    public DtCliente getData() {
+<span class="nc" id="L125">        return new DtCliente(getNickname(), getNombre(), getApellido(), getEmail(), getFechaNac(), getImagen());</span>
+    }
+
+    @Override
+    public DtPerfilUsuario obtenerPerfil() {
+<span class="nc" id="L130">        DtUsuario info = getData();</span>
+<span class="nc" id="L131">        ArrayList&lt;DtCliente&gt; dtSeguidores = getSeguidores();</span>
+<span class="nc" id="L132">        ArrayList&lt;DtUsuario&gt; dtSeguidos = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L133">        ArrayList&lt;DtListaParticular&gt; dtListasCreadas = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L134">        ArrayList&lt;DtAlbum&gt; dtAlbumes = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L135">        ArrayList&lt;DtLista&gt; dtListas = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L136">        ArrayList&lt;DtTema&gt; dtTemas = new ArrayList&lt;&gt;();</span>
+
+<span class="nc" id="L138">        Iterator i = listasParticulares.entrySet().iterator();</span>
+<span class="nc bnc" id="L139" title="All 2 branches missed.">        while (i.hasNext()) {</span>
+<span class="nc" id="L140">            ListaParticular p = (ListaParticular) ((Map.Entry) i.next()).getValue();</span>
+<span class="nc" id="L141">            dtListasCreadas.add((DtListaParticular) p.getData());</span>
+<span class="nc" id="L142">        }</span>
+
+<span class="nc bnc" id="L144" title="All 2 branches missed.">        for (Album a : this.albumesfav) {</span>
+<span class="nc" id="L145">            dtAlbumes.add(a.getData());</span>
+<span class="nc" id="L146">        }</span>
+
+<span class="nc bnc" id="L148" title="All 2 branches missed.">        for (Lista l : this.listasfav) {</span>
+<span class="nc" id="L149">            dtListas.add(l.getData());</span>
+<span class="nc" id="L150">        }</span>
+
+<span class="nc bnc" id="L152" title="All 2 branches missed.">        for (Tema t : this.temasfav) {</span>
+<span class="nc" id="L153">            dtTemas.add(t.getData());</span>
+<span class="nc" id="L154">        }</span>
+
+<span class="nc" id="L156">        Iterator i2 = this.seguidos.entrySet().iterator();</span>
+<span class="nc bnc" id="L157" title="All 2 branches missed.">        while (i2.hasNext()) {</span>
+<span class="nc" id="L158">            Usuario u = (Usuario) ((Map.Entry) i2.next()).getValue();</span>
+<span class="nc" id="L159">            dtSeguidos.add(u.getData());</span>
+<span class="nc" id="L160">        }</span>
+
+<span class="nc" id="L162">        return new DtPerfilCliente(dtSeguidos, dtListasCreadas, dtAlbumes, dtListas, dtTemas, info, dtSeguidores);</span>
+    }
+
+    public boolean agregar(Usuario u) {
+<span class="pc bpc" id="L166" title="1 of 2 branches missed.">        if (seguidos.get(u.getNickname()) != null) {</span>
+<span class="nc" id="L167">            return false;</span>
+        }
+<span class="pc bpc" id="L169" title="1 of 2 branches missed.">        if (!u.meComenzoASeguir(this)) {</span>
+<span class="nc" id="L170">            return false;</span>
+        }
+<span class="fc" id="L172">        seguidos.put(u.getNickname(), u);</span>
+<span class="fc" id="L173">        return true;</span>
+    }
+
+    public boolean dejarSeguir(Usuario u) {
+<span class="nc bnc" id="L177" title="All 2 branches missed.">        if (seguidos.get(u.getNickname()) == null) {</span>
+<span class="nc" id="L178">            return false;</span>
+        }
+<span class="nc bnc" id="L180" title="All 2 branches missed.">        if (!u.meDejoDeSeguir(this)) {</span>
+<span class="nc" id="L181">            return false;</span>
+        }
+<span class="nc" id="L183">        seguidos.remove(u.getNickname());</span>
+<span class="nc" id="L184">        return true;</span>
+    }
+
+    public HashMap&lt;String, Usuario&gt; getSeguidos() {
+<span class="nc" id="L188">        return seguidos;</span>
+    }
+
+    public ListaParticular getListaParticular(String nombre) {
+<span class="nc" id="L192">        return listasParticulares.get(nombre);</span>
+    }
+
+    public HashMap&lt;String, ListaParticular&gt; getListasParticulares() {
+<span class="nc" id="L196">        return listasParticulares;</span>
+    }
+
+    public void setSeguidos(HashMap&lt;String, Usuario&gt; seguidos) {
+<span class="nc" id="L200">        this.seguidos = seguidos;</span>
+<span class="nc" id="L201">    }</span>
+
+    public void setListasParticulares(HashMap&lt;String, ListaParticular&gt; listasParticulares) {
+<span class="nc" id="L204">        this.listasParticulares = listasParticulares;</span>
+<span class="nc" id="L205">    }</span>
+
+    public Lista getLista(String nomL) {
+
+<span class="fc" id="L209">        Lista l = this.listasParticulares.get(nomL);</span>
+
+<span class="pc bpc" id="L211" title="1 of 2 branches missed.">        if (l == null) {</span>
+<span class="nc" id="L212">            throw new UnsupportedOperationException(&quot;No existe la lista&quot; + nomL + &quot; en el sistema.&quot;);</span>
+        } else {
+<span class="fc" id="L214">            return l;</span>
+        }
+    }
+
+    public ArrayList&lt;DtLista&gt; listarLisReproduccion() {
+<span class="nc" id="L219">        ArrayList&lt;DtLista&gt; res = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L220">        Iterator it = listasParticulares.entrySet().iterator();</span>
+<span class="nc bnc" id="L221" title="All 2 branches missed.">        while (it.hasNext()) {</span>
+<span class="nc" id="L222">            ListaParticular lp = (ListaParticular) ((Map.Entry) it.next()).getValue();</span>
+<span class="nc" id="L223">            res.add(new DtListaParticular(lp.isPrivada(), lp.getNombre(), lp.getTemas(), lp.getImagen()));</span>
+
+<span class="nc" id="L225">        }</span>
+<span class="nc" id="L226">        return res;</span>
+    }
+
+    public DtLista seleccionarLista(String nombreL) {
+<span class="nc" id="L230">        ListaParticular lp = listasParticulares.get(nombreL);</span>
+<span class="nc" id="L231">        return new DtListaParticular(lp.isPrivada(), lp.getNombre(), lp.getTemas(), lp.getImagen());</span>
+    }
+
+    public ArrayList&lt;DtUsuario&gt; obtenerSeguidos() {
+<span class="nc" id="L235">        ArrayList&lt;DtUsuario&gt; dtu = new ArrayList&lt;&gt;();</span>
+
+<span class="nc" id="L237">        Iterator it = seguidos.entrySet().iterator();</span>
+<span class="nc bnc" id="L238" title="All 2 branches missed.">        while (it.hasNext()) {</span>
+<span class="nc" id="L239">            Usuario u = (Usuario) ((Map.Entry) it.next()).getValue();</span>
+<span class="nc" id="L240">            dtu.add(u.getData());</span>
+<span class="nc" id="L241">        }</span>
+<span class="nc" id="L242">        return dtu;</span>
+    }
+
+    public void cargarLista(ListaParticular lp) {
+<span class="fc" id="L246">        listasParticulares.put(lp.getNombre(), lp);</span>
+<span class="fc" id="L247">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

@@ -1,0 +1,1259 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>CargaDatosPrueba.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;Tarea1&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">Persistencia</a> &gt; <span class="el_source">CargaDatosPrueba.java</span></div><h1>CargaDatosPrueba.java</h1><pre class="source lang-java linenums">package Persistencia;
+
+import Logica.DtAlbum;
+import Logica.DtArtista;
+import Logica.DtCliente;
+import Logica.DtFecha;
+import Logica.DtGenero;
+import Logica.DtLista;
+import Logica.DtListaDefecto;
+import Logica.DtListaParticular;
+import Logica.DtTema;
+import Logica.DtTemaLocal;
+import Logica.DtTemaRemoto;
+import Logica.DtTime;
+import Logica.DtUsuario;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Time;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+<span class="fc" id="L27">public class CargaDatosPrueba {</span>
+
+    // Datos del DatosPrueba2017.doc del Drive...
+    // Pefiles (Ref, Nickname, Correo, Nombre, Apellido, FechaNac, Tipo)
+<span class="fc" id="L31">    private String[][] perfiles = {</span>
+        {&quot;VP&quot;, &quot;vpeople&quot;, &quot;vpeople@tuta.io&quot;, &quot;Village&quot;, &quot;People&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1977&quot;, &quot;A&quot;},
+        {&quot;DM&quot;, &quot;dmode&quot;, &quot;dmode@tuta.io&quot;, &quot;Depeche&quot;, &quot;Mode&quot;, &quot;14&quot;, &quot;6&quot;, &quot;1980&quot;, &quot;A&quot;},
+        {&quot;CL&quot;, &quot;clauper&quot;, &quot;clauper@hotmail.com&quot;, &quot;Cyndi&quot;, &quot;Lauper&quot;, &quot;22&quot;, &quot;6&quot;, &quot;1953&quot;, &quot;A&quot;},
+        {&quot;BS&quot;, &quot;bruceTheBoss&quot;, &quot;bruceTheBoss@gmail.com&quot;, &quot;Bruce&quot;, &quot;Springsteen&quot;, &quot;23&quot;, &quot;9&quot;, &quot;1949&quot;, &quot;A&quot;},
+        {&quot;TN&quot;, &quot;tripleNelson&quot;, &quot;tripleNelson@tuta.io&quot;, &quot;La Triple&quot;, &quot;Nelson&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1998&quot;, &quot;A&quot;},
+        {&quot;LL&quot;, &quot;la_ley&quot;, &quot;la_ley@tuta.io&quot;, &quot;La&quot;, &quot;Ley&quot;, &quot;14&quot;, &quot;2&quot;, &quot;1987&quot;, &quot;A&quot;},
+        {&quot;TJ&quot;, &quot;tigerOfWales&quot;, &quot;tigerOfWales@tuta.io&quot;, &quot;Tom&quot;, &quot;Jones&quot;, &quot;7&quot;, &quot;6&quot;, &quot;1940&quot;, &quot;A&quot;},
+        {&quot;PT&quot;, &quot;chaiko&quot;, &quot;chaiko@tuta.io&quot;, &quot;Piotr&quot;, &quot;Tchaikovsky&quot;, &quot;25&quot;, &quot;4&quot;, &quot;1840&quot;, &quot;A&quot;},
+        {&quot;NN&quot;, &quot;nicoleneu&quot;, &quot;nicoleneu@hotmail.com&quot;, &quot;Nicole&quot;, &quot;Neumann&quot;, &quot;31&quot;, &quot;10&quot;, &quot;1980&quot;, &quot;A&quot;},
+        {&quot;PI&quot;, &quot;lospimpi&quot;, &quot;lospimpi@gmail.com&quot;, &quot;Pimpinela&quot;, &quot;&quot;, &quot;13&quot;, &quot;8&quot;, &quot;1981&quot;, &quot;A&quot;},
+        {&quot;DY&quot;, &quot;dyangounchained&quot;, &quot;dyangounchained@gmail.com&quot;, &quot;Dyango&quot;, &quot;&quot;, &quot;5&quot;, &quot;3&quot;, &quot;1940&quot;, &quot;A&quot;},
+        {&quot;AL&quot;, &quot;alcides&quot;, &quot;alcides@tuta.io&quot;, &quot;Alcides&quot;, &quot;&quot;, &quot;17&quot;, &quot;7&quot;, &quot;1952&quot;, &quot;A&quot;},
+        {&quot;VC&quot;, &quot;el_padrino&quot;, &quot;el_padrino@tuta.io&quot;, &quot;Vito&quot;, &quot;Corleone&quot;, &quot;8&quot;, &quot;3&quot;, &quot;1972&quot;, &quot;C&quot;},
+        {&quot;SO&quot;, &quot;scarlettO&quot;, &quot;scarlettO@tuta.io&quot;, &quot;Scarlett&quot;, &quot;O’Hara&quot;, &quot;27&quot;, &quot;11&quot;, &quot;1984&quot;, &quot;C&quot;},
+        {&quot;PA&quot;, &quot;ppArgento&quot;, &quot;ppArgento@hotmail.com&quot;, &quot;Pepe&quot;, &quot;Argento&quot;, &quot;14&quot;, &quot;2&quot;, &quot;1955&quot;, &quot;C&quot;},
+        {&quot;WW&quot;, &quot;Heisenberg&quot;, &quot;Heisenberg@tuta.io&quot;, &quot;Walter&quot;, &quot;White&quot;, &quot;7&quot;, &quot;3&quot;, &quot;1956&quot;, &quot;C&quot;},
+        {&quot;OK&quot;, &quot;benKenobi&quot;, &quot;benKenobi@gmail.com&quot;, &quot;Obi-Wan&quot;, &quot;Kenobi&quot;, &quot;2&quot;, &quot;4&quot;, &quot;1914&quot;, &quot;C&quot;},
+        {&quot;ML&quot;, &quot;lachiqui&quot;, &quot;lachiqui@hotmail.com.ar&quot;, &quot;Mirtha&quot;, &quot;Legrand&quot;, &quot;23&quot;, &quot;2&quot;, &quot;1927&quot;, &quot;C&quot;},
+        {&quot;CB&quot;, &quot;cbochinche&quot;, &quot;cbochinche@vera.com.uy&quot;, &quot;Cacho&quot;, &quot;Bochinche&quot;, &quot;8&quot;, &quot;5&quot;, &quot;1937&quot;, &quot;C&quot;},
+        {&quot;EL&quot;, &quot;Eleven11&quot;, &quot;Eleven11@gmail.com&quot;, &quot;Eleven&quot;, &quot;&quot;, &quot;31&quot;, &quot;12&quot;, &quot;1971&quot;, &quot;C&quot;}
+    };
+
+    // Datos Opcionales de Artistas (Ref, Imagen, Bio, Web)
+<span class="fc" id="L55">    private String[][] infoArtistas = {</span>
+        {&quot;VP&quot;, &quot;vpeople.jpg&quot;, &quot;Village People es una innovadora formación musical de estilo disco de finales de los años 70. Fue famosa tanto por sus peculiares disfraces, como por sus canciones pegadizas, con letras sugerentes y llenas de dobles sentidos.&quot;, &quot;www.officialvillagepeople.com&quot;},
+        {&quot;DM&quot;, &quot;dmode.jpg&quot;, &quot;&quot;, &quot;www.depechemode.com&quot;},
+        {&quot;CL&quot;, &quot;clauper.png&quot;, &quot;Cynthia Ann Stephanie Lauper, conocida simplemente como Cyndi Lauper, es una cantautora, actriz y empresaria estadounidense. Después de participaren el grupo musical, Blue Angel, en 1983 firmó con Portrait Records (filial de Epic Records) y lanzó su exitoso álbum debut \&quot;She's So Unusual\&quot; a finales de ese mismo año. Siguió lanzando una serie de álbumes en los que encontró una inmensa popularidad, superando los límites de contenido de las letras de sus canciones.&quot;, &quot;cyndilauper.com&quot;},
+        {&quot;BS&quot;, &quot;bruceTheBoss.jpg&quot;, &quot;&quot;, &quot;brucespringsteen.net&quot;},
+        {&quot;TJ&quot;, &quot;&quot;, &quot;Sir Thomas John, conocido por su nombre artístico de Tom Jones, es un cantante británico. Ha vendido más de 100 millones de discos en todo el mundo.1&quot;, &quot;www.tomjones.com&quot;},
+        {&quot;TN&quot;, &quot;tripleNelson.jpg&quot;, &quot;La Triple Nelson es un grupo de rock uruguayo formado en enero de 1998 e integrado inicialmente por Christian Cary (guitarra y voz), Fernando &amp;quot;Paco&amp;quot; Pintos (bajo y coros) y Rubén Otonello (actualmente su nuevo baterista es Rafael Ugo).&quot;, &quot;&quot;},
+        {&quot;LL&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;},
+        {&quot;PT&quot;, &quot;&quot;, &quot;Piotr Ilich Chaikovski fue un compositor ruso del período del Romanticismo&quot;, &quot;&quot;},
+        {&quot;NN&quot;, &quot;nicoleneu.jpg&quot;, &quot;&quot;, &quot;&quot;},
+        {&quot;PI&quot;, &quot;lospimpi.jpg&quot;, &quot;&quot;, &quot;www.pimpinela.net&quot;},
+        {&quot;DY&quot;, &quot;&quot;, &quot;José Gómez Romero, conocido artísticamente como Dyango es un cantante español de música romántica.&quot;, &quot;&quot;},
+        {&quot;AL&quot;, &quot;&quot;, &quot;Su carrera comienza en 1976 cuando forma la banda Los Playeros junto a su hermano Víctor. Al poco tiempo se mudan a San Luis donde comienzan a hacerse conocidos en la escena musical. Su éxito a nivel nacional llega a comienzos de los años 1990 cuando desembarca en Buenos Aires y graba el éxito \&quot;Violeta\&quot;, originalmente compuesta e interpretada en 1985 por el músico brasileño Luiz Caldas bajo el título «Fricote».&quot;, &quot;&quot;}
+    };
+
+    // Datos Opcionales de Clientes (Ref, Imagen,)
+<span class="fc" id="L71">    private String[][] infoClientes = {</span>
+        {&quot;VC&quot;, &quot;el_padrino.jpg&quot;},
+        {&quot;SO&quot;, &quot;scarlettO.jpg&quot;},
+        {&quot;PA&quot;, &quot;ppArgento.png&quot;},
+        {&quot;WW&quot;, &quot;Heisenberg.jpg&quot;},
+        {&quot;OK&quot;, &quot;benKenobi.png&quot;},
+        {&quot;ML&quot;, &quot;lachiqui.jpg&quot;},
+        {&quot;CB&quot;, &quot;cbochinche.jpg&quot;},
+        {&quot;EL&quot;, &quot;Eleven11.jpg&quot;}
+    };
+
+    // Seguidores (Seguidor, Seguido)
+<span class="fc" id="L83">    private String[][] seguidores = {</span>
+        {&quot;VC&quot;, &quot;VP&quot;},
+        {&quot;VC&quot;, &quot;DM&quot;},
+        {&quot;VC&quot;, &quot;CL&quot;},
+        {&quot;VC&quot;, &quot;OK&quot;},
+        {&quot;VC&quot;, &quot;ML&quot;},
+        {&quot;VC&quot;, &quot;CB&quot;},
+        {&quot;VC&quot;, &quot;EL&quot;},
+        {&quot;SO&quot;, &quot;DM&quot;},
+        {&quot;SO&quot;, &quot;BS&quot;},
+        {&quot;SO&quot;, &quot;TJ&quot;},
+        {&quot;SO&quot;, &quot;TN&quot;},
+        {&quot;SO&quot;, &quot;WW&quot;},
+        {&quot;SO&quot;, &quot;OK&quot;},
+        {&quot;SO&quot;, &quot;ML&quot;},
+        {&quot;PA&quot;, &quot;DM&quot;},
+        {&quot;PA&quot;, &quot;BS&quot;},
+        {&quot;PA&quot;, &quot;TN&quot;},
+        {&quot;PA&quot;, &quot;OK&quot;},
+        {&quot;PA&quot;, &quot;ML&quot;},
+        {&quot;PA&quot;, &quot;CB&quot;},
+        {&quot;PA&quot;, &quot;EL&quot;},
+        {&quot;WW&quot;, &quot;DM&quot;},
+        {&quot;WW&quot;, &quot;BS&quot;},
+        {&quot;WW&quot;, &quot;TJ&quot;},
+        {&quot;WW&quot;, &quot;TN&quot;},
+        {&quot;WW&quot;, &quot;PI&quot;},
+        {&quot;WW&quot;, &quot;DY&quot;},
+        {&quot;WW&quot;, &quot;AL&quot;},
+        {&quot;WW&quot;, &quot;VC&quot;},
+        {&quot;WW&quot;, &quot;SO&quot;},
+        {&quot;WW&quot;, &quot;PA&quot;},
+        {&quot;WW&quot;, &quot;OK&quot;},
+        {&quot;WW&quot;, &quot;ML&quot;},
+        {&quot;WW&quot;, &quot;EL&quot;},
+        {&quot;OK&quot;, &quot;DM&quot;},
+        {&quot;OK&quot;, &quot;BS&quot;},
+        {&quot;OK&quot;, &quot;LL&quot;},
+        {&quot;OK&quot;, &quot;PT&quot;},
+        {&quot;OK&quot;, &quot;NN&quot;},
+        {&quot;OK&quot;, &quot;PI&quot;},
+        {&quot;OK&quot;, &quot;AL&quot;},
+        {&quot;OK&quot;, &quot;VC&quot;},
+        {&quot;OK&quot;, &quot;PA&quot;},
+        {&quot;OK&quot;, &quot;ML&quot;},
+        {&quot;OK&quot;, &quot;CB&quot;},
+        {&quot;OK&quot;, &quot;EL&quot;},
+        {&quot;ML&quot;, &quot;BS&quot;},
+        {&quot;ML&quot;, &quot;LL&quot;},
+        {&quot;ML&quot;, &quot;PI&quot;},
+        {&quot;ML&quot;, &quot;AL&quot;},
+        {&quot;ML&quot;, &quot;VC&quot;},
+        {&quot;ML&quot;, &quot;SO&quot;},
+        {&quot;ML&quot;, &quot;PA&quot;},
+        {&quot;CB&quot;, &quot;LL&quot;},
+        {&quot;CB&quot;, &quot;PI&quot;},
+        {&quot;CB&quot;, &quot;DY&quot;},
+        {&quot;CB&quot;, &quot;AL&quot;},
+        {&quot;CB&quot;, &quot;PA&quot;},
+        {&quot;EL&quot;, &quot;LL&quot;},
+        {&quot;EL&quot;, &quot;VC&quot;},
+        {&quot;EL&quot;, &quot;SO&quot;},
+        {&quot;EL&quot;, &quot;PA&quot;}
+    };
+
+    // Generos (Ref, Nombre, Padre)
+<span class="fc" id="L149">    private String[][] generos = {</span>
+        {&quot;ROK&quot;, &quot;Rock&quot;, &quot;&quot;},
+        {&quot;RCL&quot;, &quot;Rock Clasico&quot;, &quot;ROK&quot;},
+        {&quot;RKL&quot;, &quot;Rock Latino&quot;, &quot;ROK&quot;},
+        {&quot;RAR&quot;, &quot;Rock &amp; Roll&quot;, &quot;ROK&quot;},
+        {&quot;CLA&quot;, &quot;Clasica&quot;, &quot;&quot;},
+        {&quot;DIS&quot;, &quot;Disco&quot;, &quot;&quot;},
+        {&quot;POP&quot;, &quot;Pop&quot;, &quot;&quot;},
+        {&quot;EPO&quot;, &quot;Electropop&quot;, &quot;POP&quot;},
+        {&quot;DPO&quot;, &quot;Dance-pop&quot;, &quot;POP&quot;},
+        {&quot;PCL&quot;, &quot;Pop Clasico&quot;, &quot;POP&quot;},
+        {&quot;BAL&quot;, &quot;Balada&quot;, &quot;&quot;},
+        {&quot;CUM&quot;, &quot;Cumbia&quot;, &quot;&quot;}
+    };
+
+    // Albumes (Ref artista, Ref album, Nombre, Generos, Anio, Imagen)
+<span class="fc" id="L165">    private String[][] albumes = {</span>
+        {&quot;VP&quot;, &quot;VPL&quot;, &quot;Village People Live and Sleazy&quot;, &quot;DIS,DPO,PCL&quot;, &quot;1980&quot;, &quot;&quot;},
+        {&quot;DM&quot;, &quot;DMV&quot;, &quot;Violator&quot;, &quot;EPO&quot;, &quot;1990&quot;, &quot;&quot;},
+        {&quot;CL&quot;, &quot;CLU&quot;, &quot;She’s So Unusual&quot;, &quot;PCL,DPO&quot;, &quot;1983&quot;, &quot;She’s So Unusual.PNG&quot;},
+        {&quot;BS&quot;, &quot;USA&quot;, &quot;Born In The U.S.A.&quot;, &quot;RCL,RAR,PCL&quot;, &quot;1984&quot;, &quot;&quot;},
+        {&quot;TJ&quot;, &quot;INU&quot;, &quot;It’s Not Unusual&quot;, &quot;RCL,PCL&quot;, &quot;1965&quot;, &quot;It’s Not Unusual.jpeg&quot;},
+        {&quot;TN&quot;, &quot;AYS&quot;, &quot;Agua Y Sal&quot;, &quot;RKL&quot;, &quot;2012&quot;, &quot;&quot;},
+        {&quot;LL&quot;, &quot;LLU&quot;, &quot;MTV Unplugged&quot;, &quot;RKL,PCL&quot;, &quot;2001&quot;, &quot;MTV Unplugged.jpg&quot;},
+        {&quot;PT&quot;, &quot;LDC&quot;, &quot;El Lago De Los Cisnes&quot;, &quot;CLA&quot;, &quot;1875&quot;, &quot;&quot;},
+        {&quot;PT&quot;, &quot;CPP&quot;, &quot;Concierto Para Piano No. 1 En Si Menor, Opus 23&quot;, &quot;CLA&quot;, &quot;1875&quot;, &quot;&quot;},
+        {&quot;NN&quot;, &quot;PAM&quot;, &quot;Primer Amor&quot;, &quot;EPO&quot;, &quot;1994&quot;, &quot;&quot;},
+        {&quot;PI&quot;, &quot;AMA&quot;, &quot;Hay Amores Que Matan&quot;, &quot;PCL,BAL&quot;, &quot;1993&quot;, &quot;&quot;},
+        {&quot;DY&quot;, &quot;LOC&quot;, &quot;Un Loco Como Yo&quot;, &quot;PCL,BAL&quot;, &quot;1993&quot;, &quot;Un Loco Como Yo.jpg&quot;},
+        {&quot;AL&quot;, &quot;VIO&quot;, &quot;20 Grandes Éxitos&quot;, &quot;CUM&quot;, &quot;1989&quot;, &quot;20 Grandes Éxitos.jpg&quot;}
+    };
+
+    // Temas de los Albumes (Ref album, Ref tema, Nombre, Minutos, Segundos, Ubicacion)
+<span class="fc" id="L182">    private String[][] temas = {</span>
+        {&quot;VPL&quot;, &quot;T11&quot;, &quot;YMCA&quot;, &quot;4&quot;, &quot;28&quot;, &quot;1&quot;},
+        {&quot;VPL&quot;, &quot;T12&quot;, &quot;Macho Man&quot;, &quot;3&quot;, &quot;28&quot;, &quot;2&quot;},
+        {&quot;VPL&quot;, &quot;T13&quot;, &quot;In the Navy&quot;, &quot;3&quot;, &quot;13&quot;, &quot;3&quot;},
+        {&quot;DMV&quot;, &quot;T21&quot;, &quot;Personal Jesus&quot;, &quot;4&quot;, &quot;56&quot;, &quot;1&quot;},
+        {&quot;DMV&quot;, &quot;T22&quot;, &quot;Enjoy The Silence&quot;, &quot;4&quot;, &quot;21&quot;, &quot;2&quot;},
+        {&quot;CLU&quot;, &quot;T31&quot;, &quot;Girls Just Want To Have Fun&quot;, &quot;3&quot;, &quot;15&quot;, &quot;1&quot;},
+        {&quot;CLU&quot;, &quot;T32&quot;, &quot;Time After Time&quot;, &quot;5&quot;, &quot;12&quot;, &quot;2&quot;},
+        {&quot;USA&quot;, &quot;T41&quot;, &quot;Born In The U.S.A.&quot;, &quot;4&quot;, &quot;58&quot;, &quot;1&quot;},
+        {&quot;USA&quot;, &quot;T42&quot;, &quot;Glory Days&quot;, &quot;5&quot;, &quot;23&quot;, &quot;2&quot;},
+        {&quot;USA&quot;, &quot;T43&quot;, &quot;Dancing In The Dark&quot;, &quot;3&quot;, &quot;58&quot;, &quot;3&quot;},
+        {&quot;INU&quot;, &quot;T51&quot;, &quot;It's Not Unusual&quot;, &quot;2&quot;, &quot;0&quot;, &quot;1&quot;},
+        {&quot;AYS&quot;, &quot;T61&quot;, &quot;Adegio De Mi Pais&quot;, &quot;4&quot;, &quot;50&quot;, &quot;1&quot;},
+        {&quot;LLU&quot;, &quot;T71&quot;, &quot;El Duelo&quot;, &quot;5&quot;, &quot;23&quot;, &quot;1&quot;},
+        {&quot;LLU&quot;, &quot;T72&quot;, &quot;Mentira&quot;, &quot;4&quot;, &quot;48&quot;, &quot;2&quot;},
+        {&quot;LDC&quot;, &quot;T81&quot;, &quot;Acto 2, Numero 10, Escena (Moderato)&quot;, &quot;2&quot;, &quot;40&quot;, &quot;1&quot;},
+        {&quot;CPP&quot;, &quot;T91&quot;, &quot;Primer Movimiento (Allegro non troppo e molto maestroso - Allegro con spirito)&quot;, &quot;21&quot;, &quot;58&quot;, &quot;1&quot;},
+        {&quot;PAM&quot;, &quot;T101&quot;, &quot;No Quiero Estudiar&quot;, &quot;2&quot;, &quot;12&quot;, &quot;1&quot;},
+        {&quot;AMA&quot;, &quot;T111&quot;, &quot;Por Ese Hombre&quot;, &quot;4&quot;, &quot;45&quot;, &quot;1&quot;},
+        {&quot;LOC&quot;, &quot;T121&quot;, &quot;Por Ese Hombre&quot;, &quot;5&quot;, &quot;13&quot;, &quot;1&quot;},
+        {&quot;VIO&quot;, &quot;T131&quot;, &quot;Violeta&quot;, &quot;1&quot;, &quot;56&quot;, &quot;1&quot;}
+    };
+
+    // Archivos y Streams de Musica (Album ref, Ref, Archivo, Stream)
+<span class="fc" id="L206">    private String[][] archivosYStreams = {</span>
+        {&quot;VPL&quot;, &quot;T11&quot;, &quot;&quot;, &quot;bit.ly/SCvpymca&quot;},
+        {&quot;VPL&quot;, &quot;T12&quot;, &quot;Macho Man.mp3&quot;, &quot;&quot;},
+        {&quot;VPL&quot;, &quot;T13&quot;, &quot;&quot;, &quot;bit.ly/SCvpinthenavy&quot;},
+        {&quot;DMV&quot;, &quot;T21&quot;, &quot;Personal Jesus.mp3&quot;, &quot;&quot;},
+        {&quot;DMV&quot;, &quot;T22&quot;, &quot;Enjoy The Silence.mp3&quot;, &quot;&quot;},
+        {&quot;CLU&quot;, &quot;T31&quot;, &quot;&quot;, &quot;bit.ly/SCclgirlsjustwant&quot;},
+        {&quot;CLU&quot;, &quot;T32&quot;, &quot;Time After Time.mp3&quot;, &quot;&quot;},
+        {&quot;USA&quot;, &quot;T41&quot;, &quot;&quot;, &quot;bit.ly/SCbsborninusa&quot;},
+        {&quot;USA&quot;, &quot;T42&quot;, &quot;&quot;, &quot;bit.ly/SCbsglorydays&quot;},
+        {&quot;USA&quot;, &quot;T43&quot;, &quot;Dancing In The Dark.mp3&quot;, &quot;&quot;},
+        {&quot;INU&quot;, &quot;T51&quot;, &quot;It's Not Unusual.mp3&quot;, &quot;&quot;},
+        {&quot;AYS&quot;, &quot;T61&quot;, &quot;&quot;, &quot;bit.ly/SCtnadagiopais&quot;},
+        {&quot;LLU&quot;, &quot;T71&quot;, &quot;El Duelo.mp3&quot;, &quot;&quot;},
+        {&quot;LLU&quot;, &quot;T72&quot;, &quot;Mentira.mp3&quot;, &quot;&quot;},
+        {&quot;LDC&quot;, &quot;T81&quot;, &quot;&quot;, &quot;bit.ly/SCptswanlake&quot;},
+        {&quot;CPP&quot;, &quot;T91&quot;, &quot;&quot;, &quot;bit.ly/SCptpiano&quot;},
+        {&quot;PAM&quot;, &quot;T101&quot;, &quot;No Quiero Estudiar.mp3&quot;, &quot;&quot;},
+        {&quot;AMA&quot;, &quot;T111&quot;, &quot;Por Ese Hombre.mp3&quot;, &quot;&quot;},
+        {&quot;LOC&quot;, &quot;T121&quot;, &quot;&quot;, &quot;bit.ly/SCdyporesehombre&quot;},
+        {&quot;VIO&quot;, &quot;T131&quot;, &quot;&quot;, &quot;bit.ly/SCvioleta&quot;}
+    };
+
+    // Listas de Reproduccion por Defecto (Ref, Nombre, Genero, Imagen)
+<span class="fc" id="L230">    private String[][] listasPorDefecto = {</span>
+        {&quot;LD1&quot;, &quot;Noche De La Nostalgia&quot;, &quot;PCL&quot;, &quot;Noche De La Nostalgia.jpg&quot;},
+        {&quot;LD2&quot;, &quot;Rock En Español&quot;, &quot;RKL&quot;, &quot;&quot;},
+        {&quot;LD3&quot;, &quot;Musica Clasica&quot;, &quot;CLA&quot;, &quot;Musica Clasica.jpg&quot;}
+    };
+
+    // Listas de Reproduccion Particulares (Ref cliente, Ref, Nombre, Publica, Imagen)
+<span class="fc" id="L237">    private String[][] listasParticulares = {</span>
+        {&quot;VC&quot;, &quot;LP1&quot;, &quot;Musica Inspiradora&quot;, &quot;S&quot;, &quot;Musica Inspiradora.jpg&quot;},
+        {&quot;SO&quot;, &quot;LP2&quot;, &quot;De Todo Un Poco&quot;, &quot;S&quot;, &quot;&quot;},
+        {&quot;WW&quot;, &quot;LP3&quot;, &quot;Para Cocinar&quot;, &quot;N&quot;, &quot;Para Cocinar.jpg&quot;},
+        {&quot;ML&quot;, &quot;LP4&quot;, &quot;Para Las Chicas&quot;, &quot;S&quot;, &quot;&quot;},
+        {&quot;CB&quot;, &quot;LP5&quot;, &quot;Fiesteras&quot;, &quot;S&quot;, &quot;Fiesteras.jpg&quot;},
+        {&quot;CB&quot;, &quot;LP6&quot;, &quot;Mis Favoritas&quot;, &quot;N&quot;, &quot;&quot;}
+    };
+
+    // Temas De Listas (Ref Lista, Ref Album, Ref Tema)
+<span class="fc" id="L247">    private String[][] temasDeListas = {</span>
+        {&quot;LD1&quot;, &quot;VPL&quot;, &quot;T11&quot;},
+        {&quot;LD1&quot;, &quot;VPL&quot;, &quot;T12&quot;},
+        {&quot;LD1&quot;, &quot;VPL&quot;, &quot;T13&quot;},
+        {&quot;LD1&quot;, &quot;CLU&quot;, &quot;T31&quot;},
+        {&quot;LD1&quot;, &quot;CLU&quot;, &quot;T32&quot;},
+        {&quot;LD1&quot;, &quot;USA&quot;, &quot;T41&quot;},
+        {&quot;LD1&quot;, &quot;USA&quot;, &quot;T42&quot;},
+        {&quot;LD1&quot;, &quot;USA&quot;, &quot;T43&quot;},
+        {&quot;LD1&quot;, &quot;INU&quot;, &quot;T51&quot;},
+        {&quot;LD2&quot;, &quot;AYS&quot;, &quot;T61&quot;},
+        {&quot;LD2&quot;, &quot;LLU&quot;, &quot;T71&quot;},
+        {&quot;LD2&quot;, &quot;LLU&quot;, &quot;T72&quot;},
+        {&quot;LD3&quot;, &quot;LDC&quot;, &quot;T81&quot;},
+        {&quot;LD3&quot;, &quot;CPP&quot;, &quot;T91&quot;},
+        {&quot;LP1&quot;, &quot;LDC&quot;, &quot;T81&quot;},
+        {&quot;LP1&quot;, &quot;CPP&quot;, &quot;T91&quot;},
+        {&quot;LP1&quot;, &quot;DMV&quot;, &quot;T21&quot;},
+        {&quot;LP2&quot;, &quot;CLU&quot;, &quot;T31&quot;},
+        {&quot;LP2&quot;, &quot;CLU&quot;, &quot;T32&quot;},
+        {&quot;LP2&quot;, &quot;INU&quot;, &quot;T51&quot;},
+        {&quot;LP2&quot;, &quot;LDC&quot;, &quot;T81&quot;},
+        {&quot;LP3&quot;, &quot;DMV&quot;, &quot;T21&quot;},
+        {&quot;LP3&quot;, &quot;DMV&quot;, &quot;T22&quot;},
+        {&quot;LP3&quot;, &quot;USA&quot;, &quot;T41&quot;},
+        {&quot;LP3&quot;, &quot;USA&quot;, &quot;T42&quot;},
+        {&quot;LP4&quot;, &quot;CLU&quot;, &quot;T31&quot;},
+        {&quot;LP4&quot;, &quot;INU&quot;, &quot;T51&quot;},
+        {&quot;LP4&quot;, &quot;CPP&quot;, &quot;T91&quot;},
+        {&quot;LP4&quot;, &quot;PAM&quot;, &quot;T101&quot;},
+        {&quot;LP4&quot;, &quot;LOC&quot;, &quot;T121&quot;},
+        {&quot;LP5&quot;, &quot;VPL&quot;, &quot;T11&quot;},
+        {&quot;LP5&quot;, &quot;VPL&quot;, &quot;T12&quot;},
+        {&quot;LP5&quot;, &quot;VPL&quot;, &quot;T13&quot;},
+        {&quot;LP5&quot;, &quot;USA&quot;, &quot;T42&quot;},
+        {&quot;LP5&quot;, &quot;VIO&quot;, &quot;T131&quot;},
+        {&quot;LP6&quot;, &quot;AYS&quot;, &quot;T61&quot;},
+        {&quot;LP6&quot;, &quot;CPP&quot;, &quot;T91&quot;},
+        {&quot;LP6&quot;, &quot;AMA&quot;, &quot;T111&quot;}
+    };
+
+    // Favoritos
+    // Temas Favoritos (Ref Cliente, Ref Album, Ref Tema)
+<span class="fc" id="L290">    private String[][] refTemaFav = {</span>
+        {&quot;VC&quot;, &quot;LLU&quot;, &quot;T71&quot;},
+        {&quot;PA&quot;, &quot;AYS&quot;, &quot;T61&quot;},
+        {&quot;CB&quot;, &quot;CPP&quot;, &quot;T91&quot;},
+        {&quot;EL&quot;, &quot;PAM&quot;, &quot;T101&quot;}
+    };
+
+    // Listas Favoritas (Ref Cliente, Ref Listas)
+<span class="fc" id="L298">    private String[][] refListaFav = {</span>
+        {&quot;VC&quot;, &quot;LD1&quot;},
+        {&quot;VC&quot;, &quot;LD3&quot;},
+        {&quot;SO&quot;, &quot;LD3&quot;},
+        {&quot;PA&quot;, &quot;LD1&quot;},
+        {&quot;PA&quot;, &quot;LD2&quot;},
+        {&quot;WW&quot;, &quot;LP1&quot;},
+        {&quot;CB&quot;, &quot;LD1&quot;},
+        {&quot;CB&quot;, &quot;LD2&quot;}
+    };
+
+    // Albumes Favoritos (Ref Cliente, Ref Album)
+<span class="fc" id="L310">    private String[][] refAlbumFav = {</span>
+        {&quot;VC&quot;, &quot;DMV&quot;},
+        {&quot;VC&quot;, &quot;LDC&quot;},
+        {&quot;VC&quot;, &quot;CPP&quot;},
+        {&quot;OK&quot;, &quot;LDC&quot;},
+        {&quot;OK&quot;, &quot;CPP&quot;},
+        {&quot;CB&quot;, &quot;AMA&quot;}
+    };
+    // Fin de datos de prueba
+
+<span class="fc" id="L320">    protected Connection conexion = new ConexionBD().getConexion();</span>
+
+    // Funciones para levantar datos de la BD
+    public ArrayList&lt;DtUsuario&gt; cargarUsuarios() {
+        try {
+<span class="fc" id="L325">            ArrayList&lt;DtUsuario&gt; usuarios = new ArrayList&lt;&gt;();</span>
+
+<span class="fc" id="L327">            PreparedStatement usuario = conexion.prepareStatement(&quot;SELECT * FROM artista&quot;);</span>
+<span class="fc" id="L328">            ResultSet artistas = usuario.executeQuery();</span>
+
+<span class="fc bfc" id="L330" title="All 2 branches covered.">            while (artistas.next()) {</span>
+<span class="fc" id="L331">                String nickName = artistas.getString(1);</span>
+<span class="fc" id="L332">                String nombre = artistas.getString(2);</span>
+<span class="fc" id="L333">                String apellido = artistas.getString(3);</span>
+<span class="fc" id="L334">                String correo = artistas.getString(4);</span>
+<span class="fc" id="L335">                Date fecha = artistas.getDate(5);</span>
+<span class="fc" id="L336">                Calendar cal = Calendar.getInstance();      //Las funciones getDay(), getYear() y getMonth() están obsoletas(retornan valores incorrectos), por eso se usa Calendar.</span>
+<span class="fc" id="L337">                cal.setTime(fecha);</span>
+<span class="fc" id="L338">                DtFecha dtFecha = new DtFecha(cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR));</span>
+<span class="fc" id="L339">                String biografia = artistas.getString(6);</span>
+<span class="fc" id="L340">                String web = artistas.getString(7);</span>
+<span class="fc" id="L341">                String imagen = artistas.getString(8);</span>
+<span class="fc" id="L342">                usuarios.add(new DtArtista(nickName, nombre, apellido, correo, dtFecha, imagen, biografia, web));</span>
+<span class="fc" id="L343">            }</span>
+
+<span class="fc" id="L345">            usuario.close();</span>
+<span class="fc" id="L346">            artistas.close();</span>
+
+<span class="fc" id="L348">            PreparedStatement usuario1 = conexion.prepareStatement(&quot;SELECT * FROM cliente&quot;);</span>
+<span class="fc" id="L349">            ResultSet clientes = usuario1.executeQuery();</span>
+
+<span class="fc bfc" id="L351" title="All 2 branches covered.">            while (clientes.next()) {</span>
+<span class="fc" id="L352">                String nickName = clientes.getString(1);</span>
+<span class="fc" id="L353">                String nombre = clientes.getString(2);</span>
+<span class="fc" id="L354">                String apellido = clientes.getString(3);</span>
+<span class="fc" id="L355">                String correo = clientes.getString(4);</span>
+<span class="fc" id="L356">                String imagen = clientes.getString(6);</span>
+<span class="fc" id="L357">                Date fecha = clientes.getDate(5);</span>
+<span class="fc" id="L358">                Calendar cal = Calendar.getInstance();</span>
+<span class="fc" id="L359">                cal.setTime(fecha);</span>
+<span class="fc" id="L360">                DtFecha dtFecha = new DtFecha(cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR));</span>
+<span class="fc" id="L361">                usuarios.add(new DtCliente(nickName, nombre, apellido, correo, dtFecha, imagen));</span>
+
+<span class="fc" id="L363">            }</span>
+
+<span class="fc" id="L365">            usuario1.close();</span>
+<span class="fc" id="L366">            clientes.close();</span>
+
+<span class="fc" id="L368">            return usuarios;</span>
+<span class="nc" id="L369">        } catch (SQLException ex) {</span>
+<span class="nc" id="L370">            Logger.getLogger(CargaDatosPrueba.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L371">            return null;</span>
+        }
+    }
+
+    public ArrayList&lt;String[]&gt; loadFollowers() {
+        try {
+<span class="fc" id="L377">            ArrayList&lt;String[]&gt; res = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L378">            PreparedStatement s = conexion.prepareStatement(&quot;SELECT * FROM seguir_usuario&quot;);</span>
+<span class="fc" id="L379">            ResultSet r = s.executeQuery();</span>
+<span class="fc bfc" id="L380" title="All 2 branches covered.">            while (r.next()) {</span>
+<span class="fc" id="L381">                res.add(new String[]{r.getString(1), r.getString(2)});</span>
+            }
+<span class="fc" id="L383">            r.close();</span>
+<span class="fc" id="L384">            s.close();</span>
+<span class="fc" id="L385">            return res;</span>
+
+<span class="nc" id="L387">        } catch (SQLException e) {</span>
+<span class="nc" id="L388">            e.printStackTrace();</span>
+<span class="nc" id="L389">            return null;</span>
+        }
+    }
+
+    public ArrayList&lt;String[]&gt; cargarGeneros() {
+        try {
+<span class="fc" id="L395">            ArrayList&lt;String[]&gt; res = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L396">            PreparedStatement query = conexion.prepareStatement(&quot;SELECT * FROM genero&quot;);</span>
+<span class="fc" id="L397">            ResultSet rs = query.executeQuery();</span>
+
+<span class="fc bfc" id="L399" title="All 2 branches covered.">            while (rs.next()) {</span>
+<span class="fc bfc" id="L400" title="All 2 branches covered.">                if (rs.getString(2) != null) {</span>
+<span class="fc" id="L401">                    res.add(new String[]{rs.getString(1), rs.getString(2)});</span>
+                }
+            }
+
+<span class="fc" id="L405">            rs.close();</span>
+<span class="fc" id="L406">            query.close();</span>
+
+<span class="fc" id="L408">            return res;</span>
+<span class="nc" id="L409">        } catch (SQLException e) {</span>
+<span class="nc" id="L410">            e.printStackTrace();</span>
+<span class="nc" id="L411">            return null;</span>
+        }
+    }
+
+    public ArrayList&lt;DtAlbum&gt; cargarAlbumes() {
+        try {
+<span class="fc" id="L417">            ArrayList&lt;DtAlbum&gt; dtas = new ArrayList&lt;&gt;();</span>
+
+<span class="fc" id="L419">            PreparedStatement query = conexion.prepareStatement(&quot;SELECT nicknameArtista, nombre, anio, imagen FROM album&quot;);</span>
+<span class="fc" id="L420">            ResultSet rs = query.executeQuery();</span>
+<span class="fc bfc" id="L421" title="All 2 branches covered.">            while (rs.next()) {</span>
+<span class="fc" id="L422">                dtas.add(new DtAlbum(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getString(4)));</span>
+            }
+
+<span class="fc" id="L425">            rs.close();</span>
+<span class="fc" id="L426">            query.close();</span>
+
+<span class="fc" id="L428">            return dtas;</span>
+<span class="nc" id="L429">        } catch (SQLException e) {</span>
+<span class="nc" id="L430">            e.printStackTrace();</span>
+<span class="nc" id="L431">            return null;</span>
+        }
+    }
+
+    public ArrayList&lt;String&gt; cargarGenerosAlbum(String nicknameArtista, String nombre) {
+        try {
+<span class="fc" id="L437">            ArrayList&lt;String&gt; generos = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L438">            int idAlbum = obtenerIdAlbum(nicknameArtista, nombre);</span>
+
+<span class="fc" id="L440">            PreparedStatement query = conexion.prepareStatement(&quot;SELECT nombreGenero FROM clasificacionalbum WHERE idAlbum = ? AND nicknameArtista = ?&quot;);</span>
+<span class="fc" id="L441">            query.setInt(1, idAlbum);</span>
+<span class="fc" id="L442">            query.setString(2, nicknameArtista);</span>
+
+<span class="fc" id="L444">            ResultSet rs = query.executeQuery();</span>
+<span class="fc bfc" id="L445" title="All 2 branches covered.">            while (rs.next()) {</span>
+<span class="fc" id="L446">                generos.add(rs.getString(1));</span>
+            }
+
+<span class="fc" id="L449">            rs.close();</span>
+<span class="fc" id="L450">            query.close();</span>
+
+<span class="fc" id="L452">            return generos;</span>
+<span class="nc" id="L453">        } catch (SQLException e) {</span>
+<span class="nc" id="L454">            e.printStackTrace();</span>
+<span class="nc" id="L455">            return null;</span>
+        }
+    }
+
+    public ArrayList&lt;DtTema&gt; cargarTemasAlbum(String nicknameArtista, String nombreAlbum) {
+        try {
+<span class="fc" id="L461">            ArrayList&lt;DtTema&gt; temas = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L462">            PreparedStatement query = conexion.prepareStatement(&quot;SELECT nombre, duracion, ubicacion, tipo, link FROM tema WHERE nicknameArtista = ? AND idAlbum = ?&quot;);</span>
+<span class="fc" id="L463">            query.setString(1, nicknameArtista);</span>
+<span class="fc" id="L464">            query.setInt(2, obtenerIdAlbum(nicknameArtista, nombreAlbum));</span>
+
+<span class="fc" id="L466">            ResultSet rs = query.executeQuery();</span>
+<span class="fc bfc" id="L467" title="All 2 branches covered.">            while (rs.next()) {</span>
+<span class="fc" id="L468">                String nombre = rs.getString(&quot;nombre&quot;);</span>
+<span class="fc" id="L469">                Time duracion = rs.getTime(&quot;duracion&quot;);</span>
+<span class="fc" id="L470">                int ubicacion = rs.getInt(&quot;ubicacion&quot;);</span>
+
+<span class="fc bfc" id="L472" title="All 2 branches covered.">                if (rs.getString(&quot;tipo&quot;).equals(&quot;A&quot;)) {</span>
+<span class="fc" id="L473">                    temas.add(new DtTemaLocal(rs.getString(&quot;link&quot;), nombre, new DtTime(duracion.getHours(), duracion.getMinutes(), duracion.getSeconds()), ubicacion));</span>
+                } else {
+<span class="fc" id="L475">                    temas.add(new DtTemaRemoto(rs.getString(&quot;link&quot;), nombre, new DtTime(duracion.getHours(), duracion.getMinutes(), duracion.getSeconds()), ubicacion));</span>
+                }
+<span class="fc" id="L477">            }</span>
+
+<span class="fc" id="L479">            rs.close();</span>
+<span class="fc" id="L480">            query.close();</span>
+
+<span class="fc" id="L482">            return temas;</span>
+<span class="nc" id="L483">        } catch (SQLException e) {</span>
+<span class="nc" id="L484">            e.printStackTrace();</span>
+<span class="nc" id="L485">            return null;</span>
+        }
+    }
+
+    public ArrayList&lt;String[]&gt; cargarListasParticulares() {
+        try {
+<span class="fc" id="L491">            ArrayList&lt;String[]&gt; res = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L492">            PreparedStatement l = conexion.prepareStatement(&quot;SELECT l.idLista, l.nombre, lp.nickname, lp.Publica, l.imagen, lp.nickname FROM lista AS l, listaparticular AS lp WHERE l.idLista = lp.idLista&quot;);</span>
+<span class="fc" id="L493">            ResultSet listas = l.executeQuery();</span>
+
+<span class="fc bfc" id="L495" title="All 2 branches covered.">            while (listas.next()) {</span>
+<span class="fc" id="L496">                res.add(new String[]{String.valueOf(listas.getInt(1)), listas.getString(2), listas.getString(3), listas.getString(4), listas.getString(5), listas.getString(6)});</span>
+            }
+
+<span class="fc" id="L499">            return res;</span>
+<span class="nc" id="L500">        } catch (SQLException ex) {</span>
+<span class="nc" id="L501">            Logger.getLogger(CargaDatosPrueba.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L502">            return null;</span>
+        }
+
+    }
+
+    public ArrayList&lt;String[]&gt; cargarTemasLista(int idLista) {
+        try {
+<span class="fc" id="L509">            ArrayList&lt;String[]&gt; temasInfo = new ArrayList&lt;&gt;();</span>
+
+<span class="fc" id="L511">            PreparedStatement query = conexion.prepareStatement(&quot;SELECT t.nombre, a.nicknameArtista, a.nombre AS 'album' FROM listatienetemas AS ltt, tema AS t, album AS a WHERE ltt.idTema = t.idTema AND t.idAlbum = a.idAlbum AND ltt.idLista = ?&quot;);</span>
+<span class="fc" id="L512">            query.setInt(1, idLista);</span>
+
+<span class="fc" id="L514">            ResultSet rs = query.executeQuery();</span>
+
+<span class="fc bfc" id="L516" title="All 2 branches covered.">            while (rs.next()) {</span>
+<span class="fc" id="L517">                temasInfo.add(new String[]{rs.getString(&quot;nicknameArtista&quot;), rs.getString(&quot;album&quot;), rs.getString(&quot;nombre&quot;)});</span>
+            }
+
+<span class="fc" id="L520">            rs.close();</span>
+<span class="fc" id="L521">            query.close();</span>
+
+<span class="fc" id="L523">            return temasInfo;</span>
+<span class="nc" id="L524">        } catch (SQLException e) {</span>
+<span class="nc" id="L525">            e.printStackTrace();</span>
+<span class="nc" id="L526">            return null;</span>
+        }
+    }
+
+    public ArrayList&lt;String[]&gt; cargarListasDefecto() {
+        try {
+<span class="fc" id="L532">            ArrayList&lt;String[]&gt; res = new ArrayList&lt;&gt;();</span>
+
+<span class="fc" id="L534">            PreparedStatement l = conexion.prepareStatement(&quot;SELECT l.idLista, ld.nombreGenero, l.nombre, l.imagen FROM listapordefecto AS ld, lista AS l WHERE ld.idLista = l.idLista&quot;);</span>
+
+<span class="fc" id="L536">            ResultSet listas = l.executeQuery();</span>
+<span class="fc bfc" id="L537" title="All 2 branches covered.">            while (listas.next()) {</span>
+<span class="fc" id="L538">                res.add(new String[]{String.valueOf(listas.getString(1)), listas.getString(2), listas.getString(3), listas.getString(4)});</span>
+            }
+
+<span class="fc" id="L541">            l.close();</span>
+<span class="fc" id="L542">            listas.close();</span>
+
+<span class="fc" id="L544">            return res;</span>
+<span class="nc" id="L545">        } catch (SQLException ex) {</span>
+<span class="nc" id="L546">            Logger.getLogger(CargaDatosPrueba.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L547">            return null;</span>
+        }
+    }
+
+    public ArrayList&lt;String[]&gt; cargarAlbumesFavoritos() {
+        try {
+<span class="fc" id="L553">            ArrayList&lt;String[]&gt; res = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L554">            String sql = &quot;SELECT a.nombre, f.nicknameCliente,f.nicknameArtista FROM album as a , fava as f WHERE a.idAlbum = f.idAlbum&quot;;</span>
+<span class="fc" id="L555">            PreparedStatement statament = conexion.prepareStatement(sql);</span>
+<span class="fc" id="L556">            ResultSet favoritos = statament.executeQuery();</span>
+
+<span class="fc bfc" id="L558" title="All 2 branches covered.">            while (favoritos.next()) {</span>
+
+<span class="fc" id="L560">                String nombreAlbum = favoritos.getString(1);</span>
+<span class="fc" id="L561">                String nicknameCliente = favoritos.getString(2);</span>
+<span class="fc" id="L562">                String nicknameArtista = favoritos.getString(3);</span>
+<span class="fc" id="L563">                res.add(new String[]{nombreAlbum, nicknameCliente, nicknameArtista});</span>
+
+<span class="fc" id="L565">            }</span>
+<span class="fc" id="L566">            statament.close();</span>
+<span class="fc" id="L567">            favoritos.close();</span>
+<span class="fc" id="L568">            return res;</span>
+<span class="nc" id="L569">        } catch (SQLException ex) {</span>
+<span class="nc" id="L570">            Logger.getLogger(CargaDatosPrueba.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L571">            return null;</span>
+        }
+
+    }
+
+    public ArrayList&lt;String[]&gt; cargaTemasFavoritos() {
+
+        try {
+<span class="fc" id="L579">            ArrayList&lt;String[]&gt; res = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L580">            String sql = &quot;SELECT f.nickname, t.nombre, a.nombre,t.nicknameArtista FROM favt as f , tema as t , album as a WHERE f.idTema=t.idTema and t.idAlbum=a.idAlbum&quot;;</span>
+<span class="fc" id="L581">            PreparedStatement statament = conexion.prepareStatement(sql);</span>
+<span class="fc" id="L582">            ResultSet favoritos = statament.executeQuery();</span>
+<span class="fc bfc" id="L583" title="All 2 branches covered.">            while (favoritos.next()) {</span>
+<span class="fc" id="L584">                String nickname = favoritos.getString(1);</span>
+<span class="fc" id="L585">                String nombreTema = favoritos.getString(2);</span>
+<span class="fc" id="L586">                String nombreAlbum = favoritos.getString(3);</span>
+<span class="fc" id="L587">                String nicknameArtista = favoritos.getString(4);</span>
+<span class="fc" id="L588">                res.add(new String[]{nickname, nombreTema, nombreAlbum, nicknameArtista});</span>
+<span class="fc" id="L589">            }</span>
+<span class="fc" id="L590">            statament.close();</span>
+<span class="fc" id="L591">            favoritos.close();</span>
+<span class="fc" id="L592">            return res;</span>
+<span class="nc" id="L593">        } catch (SQLException ex) {</span>
+<span class="nc" id="L594">            Logger.getLogger(CargaDatosPrueba.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L595">            return null;</span>
+        }
+
+    }
+
+    public ArrayList&lt;String[]&gt; cargaListasFavoritosP() {
+
+        try {
+<span class="fc" id="L603">            ArrayList&lt;String[]&gt; res = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L604">            String sqlP = &quot;SELECT f.nickname ,lp.nickname,l.nombre  FROM favl as f, listaparticular as lp , lista as l WHERE f.idLista=l.idLista and l.idLista = lp.idLista&quot;;</span>
+<span class="fc" id="L605">            PreparedStatement statamentD = conexion.prepareStatement(sqlP);</span>
+<span class="fc" id="L606">            ResultSet favoritosD = statamentD.executeQuery();</span>
+<span class="fc bfc" id="L607" title="All 2 branches covered.">            while (favoritosD.next()) {</span>
+<span class="fc" id="L608">                String nickname = favoritosD.getString(1);</span>
+<span class="fc" id="L609">                String nicknameCreador = favoritosD.getString(2);</span>
+<span class="fc" id="L610">                String nombre = favoritosD.getString(3);</span>
+<span class="fc" id="L611">                res.add(new String[]{nickname, nicknameCreador, nombre});</span>
+<span class="fc" id="L612">            }</span>
+<span class="fc" id="L613">            statamentD.close();</span>
+<span class="fc" id="L614">            favoritosD.close();</span>
+<span class="fc" id="L615">            return res;</span>
+<span class="nc" id="L616">        } catch (SQLException ex) {</span>
+<span class="nc" id="L617">            Logger.getLogger(CargaDatosPrueba.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L618">            return null;</span>
+        }
+
+    }
+
+    public ArrayList&lt;String[]&gt; cargaListasFavoritosD() {
+
+        try {
+<span class="fc" id="L626">            ArrayList&lt;String[]&gt; res = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L627">            String sqlD = &quot;SELECT f.nickname ,ld.nombreGenero,l.nombre  FROM favl as f, listapordefecto as ld , lista as l WHERE f.idLista=l.idLista and l.idLista = ld.idLista&quot;;</span>
+<span class="fc" id="L628">            PreparedStatement statamentD = conexion.prepareStatement(sqlD);</span>
+<span class="fc" id="L629">            ResultSet favoritosD = statamentD.executeQuery();</span>
+<span class="fc bfc" id="L630" title="All 2 branches covered.">            while (favoritosD.next()) {</span>
+<span class="fc" id="L631">                String nickname = favoritosD.getString(1);</span>
+<span class="fc" id="L632">                String nombreGenero = favoritosD.getString(2);</span>
+<span class="fc" id="L633">                String nombre = favoritosD.getString(3);</span>
+<span class="fc" id="L634">                res.add(new String[]{nickname, nombreGenero, nombre});</span>
+<span class="fc" id="L635">            }</span>
+<span class="fc" id="L636">            statamentD.close();</span>
+<span class="fc" id="L637">            favoritosD.close();</span>
+<span class="fc" id="L638">            return res;</span>
+<span class="nc" id="L639">        } catch (SQLException ex) {</span>
+<span class="nc" id="L640">            Logger.getLogger(CargaDatosPrueba.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L641">            return null;</span>
+        }
+
+    }
+
+    // Obtener Id de cosas
+    public int obtenerIdAlbum(String nickArtista, String nombreAlbum) {
+        try {
+<span class="fc" id="L649">            PreparedStatement query = conexion.prepareStatement(&quot;SELECT idAlbum FROM album WHERE nombre = ? AND nicknameArtista = ?&quot;);</span>
+<span class="fc" id="L650">            query.setString(1, nombreAlbum);</span>
+<span class="fc" id="L651">            query.setString(2, nickArtista);</span>
+
+<span class="fc" id="L653">            ResultSet rs = query.executeQuery();</span>
+<span class="fc" id="L654">            int idAlbum = 0;</span>
+
+<span class="fc bfc" id="L656" title="All 2 branches covered.">            while (rs.next()) {</span>
+<span class="fc" id="L657">                idAlbum = rs.getInt(1);</span>
+            }
+
+<span class="fc" id="L660">            rs.close();</span>
+<span class="fc" id="L661">            query.close();</span>
+
+<span class="fc" id="L663">            return idAlbum;</span>
+<span class="nc" id="L664">        } catch (SQLException ex) {</span>
+<span class="nc" id="L665">            ex.printStackTrace();</span>
+<span class="nc" id="L666">            return 0;</span>
+        }
+    }
+
+    public int obtenerIdListaParticular(String nickCliente, String nombreLista) {
+        try {
+<span class="fc" id="L672">            PreparedStatement query = conexion.prepareStatement(&quot;SELECT l.idLista FROM lista AS l, listaparticular AS lp WHERE l.idLista = lp.idLista AND lp.nickname = ? AND l.nombre = ?&quot;);</span>
+<span class="fc" id="L673">            query.setString(1, nickCliente);</span>
+<span class="fc" id="L674">            query.setString(2, nombreLista);</span>
+
+<span class="fc" id="L676">            int idLista = 0;</span>
+<span class="fc" id="L677">            ResultSet rs = query.executeQuery();</span>
+
+<span class="fc bfc" id="L679" title="All 2 branches covered.">            while (rs.next()) {</span>
+<span class="fc" id="L680">                idLista = rs.getInt(1);</span>
+            }
+
+<span class="fc" id="L683">            rs.close();</span>
+<span class="fc" id="L684">            query.close();</span>
+
+<span class="fc" id="L686">            return idLista;</span>
+<span class="nc" id="L687">        } catch (SQLException e) {</span>
+<span class="nc" id="L688">            e.printStackTrace();</span>
+<span class="nc" id="L689">            return 0;</span>
+        }
+    }
+
+    public int obtenerIdListaDefecto(String nombreGenero, String nombreLista) {
+        try {
+<span class="fc" id="L695">            PreparedStatement query = conexion.prepareStatement(&quot;SELECT l.idLista FROM lista AS l, listapordefecto AS ld WHERE l.idLista = ld.idLista AND nombreGenero = ? AND nombre = ?;&quot;);</span>
+<span class="fc" id="L696">            query.setString(1, nombreGenero);</span>
+<span class="fc" id="L697">            query.setString(2, nombreLista);</span>
+
+<span class="fc" id="L699">            int idLista = 0;</span>
+<span class="fc" id="L700">            ResultSet rs = query.executeQuery();</span>
+
+<span class="fc bfc" id="L702" title="All 2 branches covered.">            while (rs.next()) {</span>
+<span class="fc" id="L703">                idLista = rs.getInt(1);</span>
+            }
+
+<span class="fc" id="L706">            rs.close();</span>
+<span class="fc" id="L707">            query.close();</span>
+
+<span class="fc" id="L709">            return idLista;</span>
+<span class="nc" id="L710">        } catch (SQLException e) {</span>
+<span class="nc" id="L711">            e.printStackTrace();</span>
+<span class="nc" id="L712">            return 0;</span>
+        }
+    }
+
+    public int obtenerIdTema(String nickArtista, int idAlbum, String nombreTema) {
+        try {
+<span class="fc" id="L718">            PreparedStatement query = conexion.prepareStatement(&quot;SELECT idTema FROM tema WHERE nicknameArtista = ? AND idAlbum = ? AND nombre = ?&quot;);</span>
+<span class="fc" id="L719">            query.setString(1, nickArtista);</span>
+<span class="fc" id="L720">            query.setInt(2, idAlbum);</span>
+<span class="fc" id="L721">            query.setString(3, nombreTema);</span>
+
+<span class="fc" id="L723">            int idTema = 0;</span>
+<span class="fc" id="L724">            ResultSet rs = query.executeQuery();</span>
+
+<span class="fc bfc" id="L726" title="All 2 branches covered.">            while (rs.next()) {</span>
+<span class="fc" id="L727">                idTema = rs.getInt(1);</span>
+            }
+
+<span class="fc" id="L730">            rs.close();</span>
+<span class="fc" id="L731">            query.close();</span>
+
+<span class="fc" id="L733">            return idTema;</span>
+
+<span class="nc" id="L735">        } catch (SQLException e) {</span>
+<span class="nc" id="L736">            e.printStackTrace();</span>
+<span class="nc" id="L737">            return 0;</span>
+        }
+    }
+
+    // Insertar Datos de prueba en la BD
+    public boolean insertarDatosPrueba() {
+<span class="pc bpc" id="L743" title="1 of 2 branches missed.">        if (!insertarUsuarios()) {</span>
+<span class="nc" id="L744">            return false;</span>
+        }
+<span class="pc bpc" id="L746" title="1 of 2 branches missed.">        if (!insertarSeguidores()) {</span>
+<span class="nc" id="L747">            return false;</span>
+        }
+<span class="pc bpc" id="L749" title="1 of 2 branches missed.">        if (!insertarGeneros()) {</span>
+<span class="nc" id="L750">            return false;</span>
+        }
+<span class="pc bpc" id="L752" title="1 of 2 branches missed.">        if (!insertarAlbumes()) {</span>
+<span class="nc" id="L753">            return false;</span>
+        }
+<span class="pc bpc" id="L755" title="1 of 2 branches missed.">        if (!insertarTemas()) {</span>
+<span class="nc" id="L756">            return false;</span>
+        }
+<span class="pc bpc" id="L758" title="1 of 2 branches missed.">        if (!insertarListaParticular()) {</span>
+<span class="nc" id="L759">            return false;</span>
+        }
+<span class="pc bpc" id="L761" title="1 of 2 branches missed.">        if (!insertarListaPorDefecto()) {</span>
+<span class="nc" id="L762">            return false;</span>
+        }
+<span class="pc bpc" id="L764" title="1 of 2 branches missed.">        if (!insertarTemasLista()) {</span>
+<span class="nc" id="L765">            return false;</span>
+        }
+<span class="pc bpc" id="L767" title="1 of 2 branches missed.">        if (!insertarTemaFavorito()) {</span>
+<span class="nc" id="L768">            return false;</span>
+        }
+<span class="pc bpc" id="L770" title="1 of 2 branches missed.">        if (!insertarAlbumFavorito()) {</span>
+<span class="nc" id="L771">            return false;</span>
+        }
+<span class="pc bpc" id="L773" title="1 of 2 branches missed.">        if (!insertarListaFavorita()) {</span>
+<span class="nc" id="L774">            return false;</span>
+        }
+<span class="fc" id="L776">        return true;</span>
+    }
+
+    private boolean insertarUsuarios() {
+<span class="fc" id="L780">        BDUsuario bdu = new BDUsuario();</span>
+<span class="fc" id="L781">        boolean res = false;</span>
+        DtUsuario dtu;
+<span class="fc bfc" id="L783" title="All 2 branches covered.">        for (String[] usuario : perfiles) {</span>
+
+<span class="fc" id="L785">            String nickName = usuario[1];</span>
+<span class="fc" id="L786">            String nombre = usuario[3];</span>
+<span class="fc" id="L787">            String apellido = usuario[4];</span>
+<span class="fc" id="L788">            String correo = usuario[2];</span>
+<span class="fc" id="L789">            String imagen = &quot;&quot;;</span>
+
+<span class="fc" id="L791">            DtFecha fecha = new DtFecha(Integer.parseInt(usuario[5]), Integer.parseInt(usuario[6]), Integer.parseInt(usuario[7]));</span>
+<span class="fc bfc" id="L792" title="All 2 branches covered.">            if (usuario[8] == &quot;A&quot;) {</span>
+
+<span class="fc" id="L794">                String bio = &quot;&quot;;</span>
+<span class="fc" id="L795">                String web = &quot;&quot;;</span>
+
+<span class="fc bfc" id="L797" title="All 2 branches covered.">                for (String[] info : infoArtistas) {</span>
+<span class="fc bfc" id="L798" title="All 2 branches covered.">                    if (info[0] == usuario[0]) {</span>
+<span class="fc" id="L799">                        imagen = info[1];</span>
+<span class="fc" id="L800">                        bio = info[2];</span>
+<span class="fc" id="L801">                        web = info[3];</span>
+                    }
+                }
+<span class="fc" id="L804">                dtu = new DtArtista(nickName, nombre, apellido, correo, fecha, imagen, bio, web);</span>
+
+<span class="fc" id="L806">            } else {</span>
+<span class="fc bfc" id="L807" title="All 2 branches covered.">                for (String[] info : infoClientes) {</span>
+<span class="fc bfc" id="L808" title="All 2 branches covered.">                    if (info[0] == usuario[0]) {</span>
+<span class="fc" id="L809">                        imagen = info[1];</span>
+                    }
+                }
+               
+<span class="fc" id="L813">                dtu = new DtCliente(nickName, nombre, apellido, correo, fecha, imagen);</span>
+            }
+<span class="fc" id="L815">            res = bdu.ingresarUsuario(dtu);</span>
+<span class="pc bpc" id="L816" title="1 of 2 branches missed.">            if (res == false) {</span>
+<span class="nc" id="L817">                break;</span>
+            }
+        }
+<span class="fc" id="L820">        return res;</span>
+    }
+
+    private boolean insertarSeguidores() {
+<span class="fc" id="L824">        BDCliente bdc = new BDCliente();</span>
+
+<span class="fc bfc" id="L826" title="All 2 branches covered.">        for (String[] seguidor : seguidores) {</span>
+<span class="fc" id="L827">            String codC = seguidor[0];</span>
+<span class="fc" id="L828">            String codU = seguidor[1];</span>
+
+<span class="fc" id="L830">            String nickC = &quot;&quot;;</span>
+<span class="fc" id="L831">            String nickU = &quot;&quot;;</span>
+
+<span class="fc bfc" id="L833" title="All 2 branches covered.">            for (String[] usuario : perfiles) {</span>
+<span class="fc bfc" id="L834" title="All 2 branches covered.">                if (usuario[0] == codC) {</span>
+<span class="fc" id="L835">                    nickC = usuario[1];</span>
+                }
+
+<span class="fc bfc" id="L838" title="All 2 branches covered.">                if (usuario[0] == codU) {</span>
+<span class="fc" id="L839">                    nickU = usuario[1];</span>
+                }
+            }
+
+<span class="pc bpc" id="L843" title="1 of 2 branches missed.">            if (!bdc.seguirUsuario(nickC, nickU)) {</span>
+<span class="nc" id="L844">                return false;</span>
+            }
+        }
+
+<span class="fc" id="L848">        return true;</span>
+    }
+
+    private boolean insertarGeneros() {
+<span class="fc" id="L852">        String nombre = &quot;&quot;;</span>
+<span class="fc" id="L853">        String padre = &quot;&quot;;</span>
+<span class="fc" id="L854">        String pRef = &quot;&quot;;</span>
+<span class="fc" id="L855">        BDGenero bdg = new BDGenero();</span>
+
+<span class="fc" id="L857">        bdg.ingresarGeneros(&quot;Géneros&quot;, null);</span>
+
+<span class="fc bfc" id="L859" title="All 2 branches covered.">        for (String[] genero : generos) {</span>
+<span class="fc" id="L860">            nombre = genero[1];</span>
+<span class="fc" id="L861">            pRef = genero[2];</span>
+
+<span class="fc bfc" id="L863" title="All 2 branches covered.">            if (&quot;&quot;.equals(pRef)) {</span>
+<span class="fc" id="L864">                padre = &quot;Géneros&quot;;</span>
+            } else {
+<span class="pc bpc" id="L866" title="1 of 2 branches missed.">                for (String[] generoPadre : generos) {</span>
+<span class="fc bfc" id="L867" title="All 2 branches covered.">                    if (pRef.equals(generoPadre[0])) {</span>
+<span class="fc" id="L868">                        padre = generoPadre[1];</span>
+<span class="fc" id="L869">                        break;</span>
+                    }
+                }
+            }
+<span class="pc bpc" id="L873" title="1 of 2 branches missed.">            if (!bdg.ingresarGeneros(nombre, padre)) {</span>
+<span class="nc" id="L874">                return false;</span>
+            }
+        }
+<span class="fc" id="L877">        return true;</span>
+    }
+
+    private boolean insertarAlbumes() {
+<span class="fc" id="L881">        BDAlbum bda = new BDAlbum();</span>
+
+<span class="fc bfc" id="L883" title="All 2 branches covered.">        for (String[] album : albumes) {    // comentario</span>
+<span class="fc" id="L884">            String nickArtista = &quot;&quot;;</span>
+
+<span class="pc bpc" id="L886" title="1 of 2 branches missed.">            for (String[] perfil : perfiles) {</span>
+<span class="fc bfc" id="L887" title="All 2 branches covered.">                if (perfil[0] == album[0]) {</span>
+<span class="fc" id="L888">                    nickArtista = perfil[1];</span>
+<span class="fc" id="L889">                    break;</span>
+                }
+            }
+
+<span class="fc" id="L893">            int idAlbum = bda.insertarAlbum(new DtAlbum(nickArtista, album[2], Integer.parseInt(album[4]), album[5]));</span>
+
+<span class="fc bfc" id="L895" title="All 2 branches covered.">            for (String refGenero : album[3].split(&quot;,&quot;)) {</span>
+<span class="fc" id="L896">                String nombreGenero = &quot;&quot;;</span>
+
+<span class="pc bpc" id="L898" title="1 of 2 branches missed.">                for (String[] genero : generos) {</span>
+<span class="fc bfc" id="L899" title="All 2 branches covered.">                    if (refGenero.equals(genero[0])) {</span>
+<span class="fc" id="L900">                        nombreGenero = genero[1];</span>
+<span class="fc" id="L901">                        break;</span>
+                    }
+                }
+
+<span class="fc" id="L905">                bda.insertarGeneroDeAlbum(idAlbum, nickArtista, nombreGenero);</span>
+            }
+        }
+
+<span class="fc" id="L909">        return true;</span>
+    }
+
+    private boolean insertarTemas() {
+<span class="fc" id="L913">        BDAlbum bda = new BDAlbum();</span>
+
+<span class="fc bfc" id="L915" title="All 2 branches covered.">        for (String[] tema : temas) {</span>
+<span class="fc" id="L916">            String nickArtista = &quot;&quot;;</span>
+<span class="fc" id="L917">            String nombreAlbum = &quot;&quot;;</span>
+
+<span class="fc bfc" id="L919" title="All 2 branches covered.">            for (String[] album : albumes) {</span>
+<span class="fc bfc" id="L920" title="All 2 branches covered.">                if (album[1] == tema[0]) {</span>
+<span class="fc" id="L921">                    nombreAlbum = album[2];</span>
+
+<span class="fc bfc" id="L923" title="All 2 branches covered.">                    for (String[] usuario : perfiles) {</span>
+<span class="fc bfc" id="L924" title="All 2 branches covered.">                        if (usuario[0] == album[0]) {</span>
+<span class="fc" id="L925">                            nickArtista = usuario[1];</span>
+                        }
+                    }
+                }
+            }
+
+<span class="fc" id="L931">            int idAlbum = obtenerIdAlbum(nickArtista, nombreAlbum);</span>
+<span class="fc" id="L932">            String nombre = tema[2];</span>
+<span class="fc" id="L933">            Time duracion = new Time(0, Integer.parseInt(tema[4]), Integer.parseInt(tema[5]));</span>
+<span class="fc" id="L934">            int ubicacion = Integer.parseInt(tema[5]);</span>
+
+<span class="fc" id="L936">            String tipo = &quot;&quot;;</span>
+<span class="fc" id="L937">            String link = &quot;&quot;;</span>
+
+<span class="fc bfc" id="L939" title="All 2 branches covered.">            for (String[] as : archivosYStreams) {</span>
+<span class="fc bfc" id="L940" title="All 4 branches covered.">                if (as[0] == tema[0] &amp;&amp; as[1] == tema[1]) {</span>
+<span class="fc bfc" id="L941" title="All 2 branches covered.">                    if (as[3] != &quot;&quot;) {</span>
+<span class="fc" id="L942">                        tipo = &quot;S&quot;;</span>
+<span class="fc" id="L943">                        link = as[3];</span>
+                    } else {
+<span class="fc" id="L945">                        tipo = &quot;A&quot;;</span>
+<span class="fc" id="L946">                        link = as[2];</span>
+                    }
+                }
+            }
+
+<span class="fc" id="L951">            bda.insertarTemaDeAlbum(nickArtista, idAlbum, nombre, duracion, ubicacion, tipo, link);</span>
+        }
+
+<span class="fc" id="L954">        return true;</span>
+    }
+
+    private boolean insertarListaPorDefecto() {
+<span class="fc" id="L958">        BDLista bdl = new BDLista();</span>
+<span class="fc bfc" id="L959" title="All 2 branches covered.">        for (String[] listaPordefecto : listasPorDefecto) {</span>
+
+<span class="fc" id="L961">            String nombre = listaPordefecto[1];</span>
+<span class="fc" id="L962">            String refGenero = listaPordefecto[2];</span>
+<span class="fc" id="L963">            String imagen = listaPordefecto[3];</span>
+
+<span class="fc" id="L965">            String nombreGenero = &quot;&quot;;</span>
+
+<span class="fc bfc" id="L967" title="All 2 branches covered.">            for (String[] genero : generos) {</span>
+<span class="fc bfc" id="L968" title="All 2 branches covered.">                if (genero[0] == refGenero) {</span>
+<span class="fc" id="L969">                    nombreGenero = genero[1];</span>
+                }
+            }
+<span class="fc" id="L972">            DtLista lista = new DtListaDefecto(new DtGenero(nombreGenero, null), nombre, null, imagen);</span>
+
+<span class="pc bpc" id="L974" title="1 of 2 branches missed.">            if (!bdl.altaLista(lista, &quot;&quot;)) {</span>
+<span class="nc" id="L975">                return false;</span>
+            }
+        }
+<span class="fc" id="L978">        return true;</span>
+    }
+
+    private boolean insertarListaParticular() {
+<span class="fc" id="L982">        BDLista bdl = new BDLista();</span>
+<span class="fc" id="L983">        BDCliente bdc = new BDCliente();</span>
+
+<span class="fc bfc" id="L985" title="All 2 branches covered.">        for (String[] listaParticular : listasParticulares) {</span>
+<span class="fc" id="L986">            String refCliente = listaParticular[0];</span>
+<span class="fc" id="L987">            String nombreLista = listaParticular[2];</span>
+<span class="fc" id="L988">            String publica = listaParticular[3];</span>
+<span class="fc" id="L989">            String imagen = listaParticular[4];</span>
+
+<span class="fc" id="L991">            String nickCliente = &quot;&quot;;</span>
+
+<span class="fc bfc" id="L993" title="All 2 branches covered.">            for (String[] cliente : perfiles) {</span>
+<span class="fc bfc" id="L994" title="All 2 branches covered.">                if (cliente[0] == refCliente) {</span>
+<span class="fc" id="L995">                    nickCliente = cliente[1];</span>
+                }
+            }
+<span class="fc bfc" id="L998" title="All 2 branches covered.">            DtLista lista = new DtListaParticular(&quot;S&quot;.equals(publica) ? false : true, nombreLista, null, imagen);</span>
+<span class="pc bpc" id="L999" title="1 of 2 branches missed.">            if (!bdl.altaLista(lista, nickCliente)) {</span>
+<span class="nc" id="L1000">                return false;</span>
+            }
+
+<span class="pc bpc" id="L1003" title="1 of 2 branches missed.">            if (!bdc.asociarListaACliente(obtenerIdListaParticular(nickCliente, nombreLista), nickCliente)) {</span>
+<span class="nc" id="L1004">                return false;</span>
+            }
+        }
+
+<span class="fc" id="L1008">        return true;</span>
+    }
+
+    private boolean insertarTemasLista() {
+<span class="fc" id="L1012">        BDLista bdl = new BDLista();</span>
+
+<span class="fc bfc" id="L1014" title="All 2 branches covered.">        for (String[] ltt : temasDeListas) {</span>
+<span class="fc" id="L1015">            String nombreAlbum = &quot;&quot;;</span>
+<span class="fc" id="L1016">            String nickArtista = &quot;&quot;;</span>
+
+<span class="fc bfc" id="L1018" title="All 2 branches covered.">            for (String[] album : albumes) {</span>
+<span class="fc bfc" id="L1019" title="All 2 branches covered.">                if (album[1] == ltt[1]) {</span>
+<span class="fc" id="L1020">                    nombreAlbum = album[2];</span>
+
+<span class="fc bfc" id="L1022" title="All 2 branches covered.">                    for (String[] perfil : perfiles) {</span>
+<span class="fc bfc" id="L1023" title="All 2 branches covered.">                        if (perfil[0] == album[0]) {</span>
+<span class="fc" id="L1024">                            nickArtista = perfil[1];</span>
+                        }
+                    }
+                }
+            }
+
+<span class="fc" id="L1030">            String nombreTema = &quot;&quot;;</span>
+
+<span class="fc bfc" id="L1032" title="All 2 branches covered.">            for (String[] t : temas) {</span>
+<span class="fc bfc" id="L1033" title="All 2 branches covered.">                if (t[1] == ltt[2]) {</span>
+<span class="fc" id="L1034">                    nombreTema = t[2];</span>
+                }
+            }
+
+<span class="fc" id="L1038">            int idAlbum = obtenerIdAlbum(nickArtista, nombreAlbum);</span>
+<span class="fc" id="L1039">            int idTema = obtenerIdTema(nickArtista, idAlbum, nombreTema);</span>
+
+<span class="fc" id="L1041">            int idLista = 0;</span>
+
+<span class="fc" id="L1043">            String nombreLista = &quot;&quot;;</span>
+<span class="fc bfc" id="L1044" title="All 2 branches covered.">            if (ltt[0].substring(0, 2).equals(&quot;LD&quot;)) {</span>
+<span class="fc" id="L1045">                String nombreGenero = &quot;&quot;;</span>
+
+<span class="fc bfc" id="L1047" title="All 2 branches covered.">                for (String[] lista : listasPorDefecto) {</span>
+<span class="fc bfc" id="L1048" title="All 2 branches covered.">                    if (lista[0] == ltt[0]) {</span>
+<span class="fc" id="L1049">                        nombreLista = lista[1];</span>
+
+<span class="fc bfc" id="L1051" title="All 2 branches covered.">                        for (String[] genero : generos) {</span>
+<span class="fc bfc" id="L1052" title="All 2 branches covered.">                            if (genero[0] == lista[2]) {</span>
+<span class="fc" id="L1053">                                nombreGenero = genero[1];</span>
+                            }
+                        }
+                    }
+                }
+
+<span class="fc" id="L1059">                idLista = obtenerIdListaDefecto(nombreGenero, nombreLista);</span>
+<span class="fc" id="L1060">            } else {</span>
+<span class="fc" id="L1061">                String nickCliente = &quot;&quot;;</span>
+<span class="fc bfc" id="L1062" title="All 2 branches covered.">                for (String[] lista : listasParticulares) {</span>
+<span class="fc bfc" id="L1063" title="All 2 branches covered.">                    if (lista[1] == ltt[0]) {</span>
+<span class="fc" id="L1064">                        nombreLista = lista[2];</span>
+
+<span class="fc bfc" id="L1066" title="All 2 branches covered.">                        for (String[] perfil : perfiles) {</span>
+<span class="fc bfc" id="L1067" title="All 2 branches covered.">                            if (lista[0] == perfil[0]) {</span>
+<span class="fc" id="L1068">                                nickCliente = perfil[1];</span>
+                            }
+                        }
+                    }
+                }
+
+<span class="fc" id="L1074">                idLista = obtenerIdListaParticular(nickCliente, nombreLista);</span>
+            }
+
+<span class="pc bpc" id="L1077" title="1 of 2 branches missed.">            if (!bdl.insertarTemaALista(nickArtista, idAlbum, idTema, idLista)) {</span>
+<span class="nc" id="L1078">                return false;</span>
+            }
+        }
+
+<span class="fc" id="L1082">        return true;</span>
+    }
+
+    // Temas Favoritos (Ref Cliente, Ref Album, Ref Tema)
+    public boolean insertarTemaFavorito() {
+<span class="fc" id="L1087">        BDFavorito bdf = new BDFavorito();</span>
+<span class="fc bfc" id="L1088" title="All 2 branches covered.">        for (String[] temafav : refTemaFav) {</span>
+<span class="fc" id="L1089">            String refCliente = temafav[0];</span>
+<span class="fc" id="L1090">            String refAlbum = temafav[1];</span>
+<span class="fc" id="L1091">            String refTema = temafav[2];</span>
+
+<span class="fc" id="L1093">            String nicknameCliente = &quot;&quot;;</span>
+<span class="fc" id="L1094">            String refArtista = &quot;&quot;;</span>
+<span class="fc" id="L1095">            String nombreAlbum = &quot;&quot;;</span>
+<span class="fc" id="L1096">            String nicknameArtista = &quot;&quot;;</span>
+<span class="fc" id="L1097">            String nombreTema = &quot;&quot;;</span>
+
+<span class="fc bfc" id="L1099" title="All 2 branches covered.">            for (String[] cliente : perfiles) {</span>
+<span class="fc bfc" id="L1100" title="All 2 branches covered.">                if (refCliente == cliente[0]) {</span>
+<span class="fc" id="L1101">                    nicknameCliente = cliente[1];</span>
+                }
+            }
+<span class="fc bfc" id="L1104" title="All 2 branches covered.">            for (String[] album : albumes) {</span>
+<span class="fc bfc" id="L1105" title="All 2 branches covered.">                if (refAlbum == album[1]) {</span>
+<span class="fc" id="L1106">                    refArtista = album[0];</span>
+<span class="fc" id="L1107">                    nombreAlbum = album[2];</span>
+                }
+            }
+<span class="fc bfc" id="L1110" title="All 2 branches covered.">            for (String[] artista : perfiles) {</span>
+<span class="fc bfc" id="L1111" title="All 2 branches covered.">                if (refArtista == artista[0]) {</span>
+<span class="fc" id="L1112">                    nicknameArtista = artista[1];</span>
+                }
+            }
+<span class="fc bfc" id="L1115" title="All 2 branches covered.">            for (String[] tema : temas) {</span>
+<span class="fc bfc" id="L1116" title="All 2 branches covered.">                if (refTema == tema[1]) {</span>
+<span class="fc" id="L1117">                    nombreTema = tema[2];</span>
+                }
+            }
+<span class="fc" id="L1120">            int idAlbum = obtenerIdAlbum(nicknameArtista, nombreAlbum);</span>
+<span class="fc" id="L1121">            int idTema = obtenerIdTema(nicknameArtista, idAlbum, nombreTema);</span>
+
+<span class="pc bpc" id="L1123" title="1 of 2 branches missed.">            if (!bdf.altaTemaFavortio(nicknameCliente, idTema)) {</span>
+<span class="nc" id="L1124">                return false;</span>
+            }
+        }
+<span class="fc" id="L1127">        return true;</span>
+
+    }
+
+    // Albumes Favoritos (Ref Cliente, Ref Album)
+    public boolean insertarAlbumFavorito() {
+<span class="fc" id="L1133">        BDFavorito bdf = new BDFavorito();</span>
+<span class="fc bfc" id="L1134" title="All 2 branches covered.">        for (String[] albumFav : refAlbumFav) {</span>
+<span class="fc" id="L1135">            String refCliente = albumFav[0];</span>
+<span class="fc" id="L1136">            String refAlbum = albumFav[1];</span>
+
+<span class="fc" id="L1138">            String nickCliente = &quot;&quot;;</span>
+<span class="fc" id="L1139">            String nickArtista = &quot;&quot;;</span>
+<span class="fc" id="L1140">            String nombreAlbum = &quot;&quot;;</span>
+<span class="fc" id="L1141">            String refArtista = &quot;&quot;;</span>
+<span class="fc bfc" id="L1142" title="All 2 branches covered.">            for (String[] cliente : perfiles) {</span>
+<span class="fc bfc" id="L1143" title="All 2 branches covered.">                if (refCliente == cliente[0]) {</span>
+<span class="fc" id="L1144">                    nickCliente = cliente[1];</span>
+                }
+            }
+<span class="fc bfc" id="L1147" title="All 2 branches covered.">            for (String[] album : albumes) {</span>
+<span class="fc bfc" id="L1148" title="All 2 branches covered.">                if (refAlbum == album[1]) {</span>
+<span class="fc" id="L1149">                    nombreAlbum = album[2];</span>
+<span class="fc" id="L1150">                    refArtista = album[0];</span>
+                }
+            }
+<span class="fc bfc" id="L1153" title="All 2 branches covered.">            for (String[] artista : perfiles) {</span>
+<span class="fc bfc" id="L1154" title="All 2 branches covered.">                if (refArtista == artista[0]) {</span>
+<span class="fc" id="L1155">                    nickArtista = artista[1];</span>
+                }
+            }
+<span class="fc" id="L1158">            int idalbum = obtenerIdAlbum(nickArtista, nombreAlbum);</span>
+<span class="pc bpc" id="L1159" title="1 of 2 branches missed.">            if (!bdf.altaAlbumFavorito(idalbum, nickArtista, nickCliente)) {</span>
+<span class="nc" id="L1160">                return false;</span>
+            }
+        }
+<span class="fc" id="L1163">        return true;</span>
+    }
+
+    // Listas Favoritas (Ref Cliente, Ref Listas)
+    public boolean insertarListaFavorita() {
+<span class="fc" id="L1168">        BDFavorito bdf = new BDFavorito();</span>
+<span class="fc bfc" id="L1169" title="All 2 branches covered.">        for (String[] listafav : refListaFav) {</span>
+<span class="fc" id="L1170">            String refCliente = listafav[0];</span>
+<span class="fc" id="L1171">            String refLista = listafav[1];</span>
+
+<span class="fc" id="L1173">            String nickCliente = &quot;&quot;;</span>
+<span class="fc" id="L1174">            String nickArtista = &quot;&quot;;</span>
+<span class="fc" id="L1175">            String nombreLista = &quot;&quot;;</span>
+<span class="fc" id="L1176">            String nombreGenero = &quot;&quot;;</span>
+<span class="fc" id="L1177">            String refGenero = &quot;&quot;;</span>
+<span class="fc" id="L1178">            String refArtista = &quot;&quot;;</span>
+
+<span class="fc bfc" id="L1180" title="All 2 branches covered.">            for (String[] cliente : perfiles) {</span>
+<span class="fc bfc" id="L1181" title="All 2 branches covered.">                if (refCliente == cliente[0]) {</span>
+<span class="fc" id="L1182">                    nickCliente = cliente[1];</span>
+                }
+            }
+<span class="fc bfc" id="L1185" title="All 2 branches covered.">            for (String[] listaD : listasPorDefecto) {</span>
+<span class="fc bfc" id="L1186" title="All 2 branches covered.">                if (refLista == listaD[0]) {</span>
+<span class="fc" id="L1187">                    nombreLista = listaD[1];</span>
+<span class="fc" id="L1188">                    refGenero = listaD[2];</span>
+                }
+            }
+<span class="fc bfc" id="L1191" title="All 2 branches covered.">            for (String[] listaP : listasParticulares) {</span>
+<span class="fc bfc" id="L1192" title="All 2 branches covered.">                if (refLista == listaP[1]) {</span>
+<span class="fc" id="L1193">                    nombreLista = listaP[2];</span>
+<span class="fc" id="L1194">                    refArtista = listaP[0];</span>
+                }
+            }
+<span class="fc bfc" id="L1197" title="All 2 branches covered.">            for (String[] artista : perfiles) {</span>
+<span class="fc bfc" id="L1198" title="All 2 branches covered.">                if (refArtista == artista[0]) {</span>
+<span class="fc" id="L1199">                    nickArtista = artista[1];</span>
+                }
+            }
+
+<span class="fc bfc" id="L1203" title="All 2 branches covered.">            for (String[] genero : generos) {</span>
+<span class="fc bfc" id="L1204" title="All 2 branches covered.">                if (refGenero == genero[0]) {</span>
+<span class="fc" id="L1205">                    nombreGenero = genero[1];</span>
+                }
+            }
+
+            int idLista;
+<span class="fc bfc" id="L1210" title="All 2 branches covered.">            if (nombreGenero == &quot;&quot;) {</span>
+
+<span class="fc" id="L1212">                idLista = obtenerIdListaParticular(nickArtista, nombreLista);</span>
+            } else {
+
+<span class="fc" id="L1215">                idLista = obtenerIdListaDefecto(nombreGenero, nombreLista);</span>
+            }
+
+<span class="pc bpc" id="L1218" title="1 of 2 branches missed.">            if (!bdf.altaListaFavorita(nickCliente, idLista)) {</span>
+<span class="nc" id="L1219">                return false;</span>
+            }
+        }
+<span class="fc" id="L1222">        return true;</span>
+    }
+
+    // Borrar todos los datos de la BD
+    public boolean borrarTodosLosDatos() {
+        try {
+<span class="fc" id="L1228">            PreparedStatement query = conexion.prepareStatement(&quot;SHOW TABLES&quot;);</span>
+
+<span class="fc" id="L1230">            ResultSet tablas = query.executeQuery();</span>
+
+<span class="fc bfc" id="L1232" title="All 2 branches covered.">            while (tablas.next()) {</span>
+<span class="fc" id="L1233">                borrarDatosTabla(tablas.getString(1));</span>
+            }
+
+<span class="fc" id="L1236">            tablas.close();</span>
+<span class="fc" id="L1237">            query.close();</span>
+
+<span class="fc" id="L1239">            return true;</span>
+<span class="nc" id="L1240">        } catch (SQLException e) {</span>
+<span class="nc" id="L1241">            e.printStackTrace();</span>
+<span class="nc" id="L1242">            return false;</span>
+        }
+    }
+
+    private boolean borrarDatosTabla(String nombre) {
+        try {
+<span class="fc" id="L1248">            PreparedStatement truncate = conexion.prepareStatement(&quot;DELETE FROM &quot; + nombre);</span>
+<span class="fc" id="L1249">            truncate.executeUpdate();</span>
+<span class="fc" id="L1250">            truncate.close();</span>
+
+<span class="fc" id="L1252">            return true;</span>
+<span class="nc" id="L1253">        } catch (SQLException e) {</span>
+<span class="nc" id="L1254">            e.printStackTrace();</span>
+<span class="nc" id="L1255">            return false;</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

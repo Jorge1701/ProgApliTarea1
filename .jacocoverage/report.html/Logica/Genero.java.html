@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Genero.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;Tarea1&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">Logica</a> &gt; <span class="el_source">Genero.java</span></div><h1>Genero.java</h1><pre class="source lang-java linenums">package Logica;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
+public class Genero {
+
+    private String nombre;
+    private HashMap&lt;String, Genero&gt; subgeneros;
+    private ArrayList&lt;Album&gt; albumes;
+    private HashMap&lt;String, ListaDefecto&gt; listasDefecto;
+
+<span class="nc" id="L15">    public Genero(String nombre, HashMap&lt;String, Genero&gt; subgeneros, ArrayList&lt;Album&gt; albumes, HashMap&lt;String, ListaDefecto&gt; listasDefecto) {</span>
+<span class="nc" id="L16">        this.nombre = nombre;</span>
+<span class="nc" id="L17">        this.subgeneros = subgeneros;</span>
+<span class="nc" id="L18">        this.albumes = albumes;</span>
+<span class="nc" id="L19">        this.listasDefecto = listasDefecto;</span>
+<span class="nc" id="L20">    }</span>
+
+<span class="fc" id="L22">    public Genero(String nombre) {</span>
+<span class="fc" id="L23">        this.nombre = nombre;</span>
+<span class="fc" id="L24">        subgeneros = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L25">        albumes = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L26">        listasDefecto = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L27">    }</span>
+
+    public void agregarGenero(String padre, String nombre) {
+<span class="fc bfc" id="L30" title="All 2 branches covered.">        if (this.nombre.equals(padre)) {</span>
+<span class="fc" id="L31">            subgeneros.put(nombre, new Genero(nombre));</span>
+        } else {
+<span class="fc" id="L33">            Iterator i = subgeneros.entrySet().iterator();</span>
+<span class="fc bfc" id="L34" title="All 2 branches covered.">            while (i.hasNext()) {</span>
+<span class="fc" id="L35">                Genero g = (Genero) ((Map.Entry) i.next()).getValue();</span>
+<span class="fc" id="L36">                g.agregarGenero(padre, nombre);</span>
+<span class="fc" id="L37">            }</span>
+        }
+<span class="fc" id="L39">    }</span>
+
+    public boolean existe(String nombre) {
+<span class="fc bfc" id="L42" title="All 2 branches covered.">        if (getNombre().equals(nombre)) {</span>
+<span class="fc" id="L43">            return true;</span>
+        } else {
+<span class="fc" id="L45">            Iterator i = subgeneros.entrySet().iterator();</span>
+<span class="fc" id="L46">            boolean existe = false;</span>
+
+<span class="fc bfc" id="L48" title="All 2 branches covered.">            while (i.hasNext()) {</span>
+<span class="fc" id="L49">                Genero g = (Genero) ((Map.Entry) i.next()).getValue();</span>
+<span class="fc bfc" id="L50" title="All 4 branches covered.">                existe = existe || g.existe(nombre);</span>
+<span class="fc" id="L51">            }</span>
+
+<span class="fc" id="L53">            return existe;</span>
+        }
+    }
+
+    public void setAlbumes(ArrayList&lt;Album&gt; albumes) {
+<span class="nc" id="L58">        this.albumes = albumes;</span>
+<span class="nc" id="L59">    }</span>
+
+    public void setListasDefecto(HashMap&lt;String, ListaDefecto&gt; listasDefecto) {
+<span class="nc" id="L62">        this.listasDefecto = listasDefecto;</span>
+<span class="nc" id="L63">    }</span>
+
+    public ArrayList&lt;Album&gt; getAlbumes() {
+<span class="nc" id="L66">        return albumes;</span>
+    }
+
+    public ListaDefecto getListaDefecto(String nombre) {
+<span class="fc" id="L70">        return listasDefecto.get(nombre);</span>
+    }
+
+    public HashMap&lt;String, ListaDefecto&gt; getListasDefecto() {
+<span class="nc" id="L74">        return listasDefecto;</span>
+    }
+
+    public void setNombre(String nombre) {
+<span class="nc" id="L78">        this.nombre = nombre;</span>
+<span class="nc" id="L79">    }</span>
+
+    public void setSubgeneros(HashMap&lt;String, Genero&gt; subgeneros) {
+<span class="nc" id="L82">        this.subgeneros = subgeneros;</span>
+<span class="nc" id="L83">    }</span>
+
+    public String getNombre() {
+<span class="fc" id="L86">        return nombre;</span>
+    }
+
+    public HashMap&lt;String, Genero&gt; getSubgeneros() {
+<span class="nc" id="L90">        return subgeneros;</span>
+    }
+
+    public DtGenero getData() {
+<span class="nc" id="L94">        return new DtGenero(this.nombre, devolverSubgeneros(this));</span>
+    }
+
+    public ArrayList&lt;DtGenero&gt; devolverSubgeneros(Genero g) {                                   //para obtener la lista de Dt de subgeneros recursivamente
+<span class="nc" id="L98">        ArrayList&lt;DtGenero&gt; res = new ArrayList&lt;DtGenero&gt;();</span>
+<span class="nc" id="L99">        Iterator it = g.subgeneros.entrySet().iterator();</span>
+<span class="nc bnc" id="L100" title="All 2 branches missed.">        while (it.hasNext()) {</span>
+<span class="nc" id="L101">            Genero genero = (Genero) ((Map.Entry) it.next()).getValue();</span>
+<span class="nc" id="L102">            res.add(new DtGenero(genero.getNombre(), genero.devolverSubgeneros(genero)));</span>
+<span class="nc" id="L103">        }</span>
+<span class="nc" id="L104">        return res;</span>
+    }
+
+    public Genero obtener(String nombre) {
+<span class="fc bfc" id="L108" title="All 2 branches covered.">        if (this.nombre.equals(nombre)) {</span>
+<span class="fc" id="L109">            return this;</span>
+        } else {
+<span class="fc" id="L111">            Iterator it = subgeneros.entrySet().iterator();</span>
+<span class="fc bfc" id="L112" title="All 2 branches covered.">            while (it.hasNext()) {</span>
+<span class="fc" id="L113">                Genero genero = (Genero) ((Map.Entry) it.next()).getValue();</span>
+<span class="fc" id="L114">                Genero encontrado = genero.obtener(nombre);</span>
+<span class="fc bfc" id="L115" title="All 2 branches covered.">                if (encontrado != null) {</span>
+<span class="fc" id="L116">                    return encontrado;</span>
+                }
+<span class="fc" id="L118">            }</span>
+<span class="fc" id="L119">            return null;</span>
+        }
+    }
+
+    public ArrayList&lt;DtAlbum&gt; obtenerAlbumes() {
+<span class="nc" id="L124">        ArrayList&lt;DtAlbum&gt; res = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L125" title="All 2 branches missed.">        for (Album a : albumes) {</span>
+<span class="nc" id="L126">            res.add(new DtAlbum(a.getNickArtista(), a.getNombre(), a.getAnio(), a.getImagen()));</span>
+<span class="nc" id="L127">        }</span>
+<span class="nc" id="L128">        return res;</span>
+    }
+
+    public ArrayList&lt;DtLista&gt; listarLisReproduccion() {
+<span class="nc" id="L132">        ArrayList&lt;DtLista&gt; res = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L133">        Iterator it = listasDefecto.entrySet().iterator();</span>
+
+<span class="nc bnc" id="L135" title="All 2 branches missed.">        while (it.hasNext()) {</span>
+<span class="nc" id="L136">            ListaDefecto ld = (ListaDefecto) ((Map.Entry) it.next()).getValue();</span>
+<span class="nc" id="L137">            res.add(new DtLista(ld.getNombre(), ld.getTemas(), ld.getImagen()));</span>
+<span class="nc" id="L138">        }</span>
+<span class="nc" id="L139">        return res;</span>
+    }
+
+    public DtLista seleccionarLista(String nombreL) {
+<span class="nc" id="L143">        ListaDefecto ld = this.listasDefecto.get(nombreL);</span>
+<span class="nc" id="L144">        return new DtListaDefecto(ld.getGenero().getData(), ld.getNombre(), ld.getTemas(), ld.getImagen());</span>
+    }
+
+    public DtAlbumContenido obtenerAlbumContenido(String nomAlbum, String nickArtista) {
+<span class="nc bnc" id="L148" title="All 2 branches missed.">        for (Album album : albumes) {</span>
+<span class="nc bnc" id="L149" title="All 4 branches missed.">            if (album.getNickArtista().equals(nickArtista) &amp;&amp; album.getNombre().equals(nomAlbum)) {</span>
+<span class="nc" id="L150">                return album.obtenerAlbumContenido();</span>
+            }
+<span class="nc" id="L152">        }</span>
+
+<span class="nc" id="L154">        return null;</span>
+    }
+
+    public void cargarAlbum(Album a) {
+<span class="fc" id="L158">        albumes.add(a);</span>
+<span class="fc" id="L159">    }</span>
+
+    public void cargarLista(ListaDefecto ld) {
+<span class="fc" id="L162">        listasDefecto.put(ld.getNombre(), ld);</span>
+<span class="fc" id="L163">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

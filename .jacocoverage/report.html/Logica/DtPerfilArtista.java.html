@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>DtPerfilArtista.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;Tarea1&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">Logica</a> &gt; <span class="el_source">DtPerfilArtista.java</span></div><h1>DtPerfilArtista.java</h1><pre class="source lang-java linenums">package Logica;
+
+import java.util.ArrayList;
+
+public class DtPerfilArtista extends DtPerfilUsuario {
+    
+    private final ArrayList&lt;DtAlbum&gt; albumes;
+    private String web;
+    private String biografia;
+    
+    public DtPerfilArtista(ArrayList&lt;DtAlbum&gt; albumes, DtUsuario info, ArrayList&lt;DtCliente&gt; seguidores,String biografia, String web) {
+<span class="nc" id="L12">        super(info, seguidores);</span>
+<span class="nc" id="L13">        this.albumes = albumes;</span>
+<span class="nc" id="L14">        this.biografia = biografia;</span>
+<span class="nc" id="L15">        this.web = web;</span>
+<span class="nc" id="L16">    }</span>
+    public String getBiografia(){
+<span class="nc" id="L18">    return biografia;</span>
+    }
+    public String getWeb(){
+<span class="nc" id="L21">    return web;</span>
+    }
+    public ArrayList&lt;DtAlbum&gt; getAlbumes() {
+<span class="nc" id="L24">        return albumes;</span>
+    }
+   public DtPerfilArtista getInfoArtista(){
+<span class="nc" id="L27">       DtPerfilArtista dt = new DtPerfilArtista(albumes, info, seguidores, biografia, web);</span>
+<span class="nc" id="L28">   return dt;</span>
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

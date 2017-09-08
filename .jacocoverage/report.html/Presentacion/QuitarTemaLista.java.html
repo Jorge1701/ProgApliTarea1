@@ -1,0 +1,497 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>QuitarTemaLista.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;Tarea1&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">Presentacion</a> &gt; <span class="el_source">QuitarTemaLista.java</span></div><h1>QuitarTemaLista.java</h1><pre class="source lang-java linenums">package Presentacion;
+
+import Logica.DtCliente;
+import Logica.DtLista;
+import Logica.DtListaDefecto;
+import Logica.DtTema;
+import Logica.DtUsuario;
+import Logica.Fabrica;
+import Logica.IContenido;
+import Logica.IUsuario;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
+
+public class QuitarTemaLista extends javax.swing.JInternalFrame {
+
+    private IUsuario iUsuario;
+    private IContenido iContenido;
+    //private ArrayList&lt;DtUsuario&gt; clientes;
+    String nickCliente; 
+
+<span class="nc" id="L26">    public QuitarTemaLista() {</span>
+<span class="nc" id="L27">        initComponents();</span>
+
+<span class="nc" id="L29">        iUsuario = Fabrica.getIControladorUsuario();</span>
+<span class="nc" id="L30">        iContenido = Fabrica.getIControladorContenido();</span>
+<span class="nc" id="L31">        PestaniaMouseClicked(null);</span>
+
+        
+<span class="nc" id="L34">        tablaClientes.getSelectionModel().addListSelectionListener(new ListSelectionListener() {</span>
+            public void valueChanged(ListSelectionEvent e) {
+<span class="nc" id="L36">                DefaultTableModel dtm = (DefaultTableModel) tablaListParticular.getModel();</span>
+<span class="nc" id="L37">                dtm.setRowCount(0);</span>
+<span class="nc" id="L38">                DefaultTableModel dtm2 = (DefaultTableModel) tablaTemas.getModel();</span>
+<span class="nc" id="L39">                dtm2.setRowCount(0);</span>
+<span class="nc" id="L40">                cargarDatosLPListas();</span>
+<span class="nc" id="L41">            }</span>
+        });
+
+<span class="nc" id="L44">        tablaListParticular.getSelectionModel().addListSelectionListener(new ListSelectionListener() {</span>
+            public void valueChanged(ListSelectionEvent e) {
+<span class="nc bnc" id="L46" title="All 2 branches missed.">                if (tablaListParticular.getSelectedRow() == -1) {</span>
+<span class="nc" id="L47">                    return;</span>
+                }
+<span class="nc" id="L49">                cargarTemasLPListas(tablaListParticular.getValueAt(tablaListParticular.getSelectedRow(), 0).toString());</span>
+<span class="nc" id="L50">            }</span>
+        });
+
+<span class="nc" id="L53">        tablaListDefecto.getSelectionModel().addListSelectionListener(new ListSelectionListener() {</span>
+            public void valueChanged(ListSelectionEvent e) {
+<span class="nc bnc" id="L55" title="All 2 branches missed.">                if (tablaListDefecto.getSelectedRow() == -1) {</span>
+<span class="nc" id="L56">                    return;</span>
+                }
+<span class="nc" id="L58">                cargarTemasListaDef(tablaListDefecto.getValueAt(tablaListDefecto.getSelectedRow(), 0).toString());</span>
+<span class="nc" id="L59">            }</span>
+        });
+
+<span class="nc" id="L62">    }</span>
+
+    private void cargarDatosLPListas() {
+
+<span class="nc bnc" id="L66" title="All 2 branches missed.">        if (tablaClientes.getSelectedRow() == -1) {</span>
+<span class="nc" id="L67">            return;</span>
+        }
+
+<span class="nc" id="L70">        DefaultTableModel dtm = (DefaultTableModel) tablaListParticular.getModel();</span>
+<span class="nc" id="L71">        dtm.setRowCount(0);</span>
+<span class="nc" id="L72">        nickCliente = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 0).toString();</span>
+<span class="nc" id="L73">        ArrayList&lt;DtLista&gt; dtListas = iUsuario.listarLisReproduccion(nickCliente);</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">        for (DtLista dtLista : dtListas) {</span>
+
+<span class="nc" id="L76">            Object[] data = {</span>
+<span class="nc" id="L77">                dtLista.getNombre()</span>
+            };
+<span class="nc" id="L79">            dtm.addRow(data);</span>
+
+<span class="nc" id="L81">        }</span>
+
+<span class="nc" id="L83">    }</span>
+
+    private void cargarTemasLPListas(String nomLista) {
+
+<span class="nc bnc" id="L87" title="All 2 branches missed.">        if (tablaListParticular.getSelectedRow() == -1) {</span>
+<span class="nc" id="L88">            return;</span>
+        }
+
+<span class="nc" id="L91">        DefaultTableModel dtm = (DefaultTableModel) tablaTemas.getModel();</span>
+<span class="nc" id="L92">        dtm.setRowCount(0);</span>
+<span class="nc" id="L93">        List&lt;DtTema&gt; dtTemas = iContenido.selecLista(nickCliente, nomLista);</span>
+
+<span class="nc bnc" id="L95" title="All 2 branches missed.">        for (DtTema dtTema : dtTemas) {</span>
+
+<span class="nc" id="L97">            Object[] data = {</span>
+<span class="nc" id="L98">                dtTema.getNombre(),</span>
+<span class="nc" id="L99">                dtTema.getAlbum(),</span>
+<span class="nc" id="L100">                dtTema.getArtista(),</span>
+<span class="nc" id="L101">                dtTema.getDuracion().toString()</span>
+            };
+<span class="nc" id="L103">            dtm.addRow(data);</span>
+
+<span class="nc" id="L105">        }</span>
+    
+<span class="nc" id="L107">    }</span>
+    
+    private void cargarTemasListaDef(String nomListaD){
+        
+<span class="nc" id="L111">        List&lt;DtTema&gt; dtTemas = iContenido.selecListaDef(nomListaD);</span>
+        
+<span class="nc" id="L113">        DefaultTableModel dtm = (DefaultTableModel) tablaTemas.getModel();</span>
+<span class="nc" id="L114">        dtm.setRowCount(0);</span>
+        
+<span class="nc bnc" id="L116" title="All 2 branches missed.">        for (DtTema dtTema : dtTemas) {</span>
+               
+<span class="nc" id="L118">                Object[] data = {</span>
+<span class="nc" id="L119">                    dtTema.getNombre(),</span>
+<span class="nc" id="L120">                    dtTema.getAlbum(),</span>
+<span class="nc" id="L121">                    dtTema.getArtista(),</span>
+<span class="nc" id="L122">                    dtTema.getDuracion().toString()</span>
+                };
+<span class="nc" id="L124">                dtm.addRow(data);</span>
+            
+<span class="nc" id="L126">        }</span>
+    
+<span class="nc" id="L128">    }</span>
+   
+    @SuppressWarnings(&quot;unchecked&quot;)
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;Generated Code&quot;&gt;//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+<span class="nc" id="L134">        TipoLista = new javax.swing.ButtonGroup();</span>
+<span class="nc" id="L135">        buttonGroup1 = new javax.swing.ButtonGroup();</span>
+<span class="nc" id="L136">        btnAceptar = new javax.swing.JButton();</span>
+<span class="nc" id="L137">        btnCancelar = new javax.swing.JButton();</span>
+<span class="nc" id="L138">        jSplitPane2 = new javax.swing.JSplitPane();</span>
+<span class="nc" id="L139">        Pestania = new javax.swing.JTabbedPane();</span>
+<span class="nc" id="L140">        jPanel3 = new javax.swing.JPanel();</span>
+<span class="nc" id="L141">        jSplitPane3 = new javax.swing.JSplitPane();</span>
+<span class="nc" id="L142">        jPanel5 = new javax.swing.JPanel();</span>
+<span class="nc" id="L143">        jScrollPane1 = new javax.swing.JScrollPane();</span>
+<span class="nc" id="L144">        tablaClientes = new javax.swing.JTable();</span>
+<span class="nc" id="L145">        jPanel6 = new javax.swing.JPanel();</span>
+<span class="nc" id="L146">        jScrollPane2 = new javax.swing.JScrollPane();</span>
+<span class="nc" id="L147">        tablaListParticular = new javax.swing.JTable();</span>
+<span class="nc" id="L148">        jPanel4 = new javax.swing.JPanel();</span>
+<span class="nc" id="L149">        jPanel7 = new javax.swing.JPanel();</span>
+<span class="nc" id="L150">        jScrollPane4 = new javax.swing.JScrollPane();</span>
+<span class="nc" id="L151">        tablaListDefecto = new javax.swing.JTable();</span>
+<span class="nc" id="L152">        jPanel2 = new javax.swing.JPanel();</span>
+<span class="nc" id="L153">        jScrollPane3 = new javax.swing.JScrollPane();</span>
+<span class="nc" id="L154">        tablaTemas = new javax.swing.JTable();</span>
+
+<span class="nc" id="L156">        setClosable(true);</span>
+<span class="nc" id="L157">        setIconifiable(true);</span>
+<span class="nc" id="L158">        setMaximizable(true);</span>
+<span class="nc" id="L159">        setTitle(&quot;Quitar Tema Lista&quot;);</span>
+
+<span class="nc" id="L161">        btnAceptar.setText(&quot;Aceptar&quot;);</span>
+<span class="nc" id="L162">        btnAceptar.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L164">                btnAceptarActionPerformed(evt);</span>
+<span class="nc" id="L165">            }</span>
+        });
+
+<span class="nc" id="L168">        btnCancelar.setText(&quot;Cancelar&quot;);</span>
+<span class="nc" id="L169">        btnCancelar.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L171">                btnCancelarActionPerformed(evt);</span>
+<span class="nc" id="L172">            }</span>
+        });
+
+<span class="nc" id="L175">        jSplitPane2.setDividerLocation(280);</span>
+<span class="nc" id="L176">        jSplitPane2.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);</span>
+<span class="nc" id="L177">        jSplitPane2.setPreferredSize(new java.awt.Dimension(559, 597));</span>
+
+<span class="nc" id="L179">        Pestania.addChangeListener(new javax.swing.event.ChangeListener() {</span>
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+<span class="nc" id="L181">                PestaniaStateChanged(evt);</span>
+<span class="nc" id="L182">            }</span>
+        });
+<span class="nc" id="L184">        Pestania.addMouseListener(new java.awt.event.MouseAdapter() {</span>
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+<span class="nc" id="L186">                PestaniaMouseClicked(evt);</span>
+<span class="nc" id="L187">            }</span>
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+<span class="nc" id="L189">                PestaniaMouseReleased(evt);</span>
+<span class="nc" id="L190">            }</span>
+        });
+
+<span class="nc" id="L193">        jSplitPane3.setDividerLocation(140);</span>
+<span class="nc" id="L194">        jSplitPane3.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);</span>
+
+<span class="nc" id="L196">        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(&quot;Clientes&quot;));</span>
+
+<span class="nc" id="L198">        tablaClientes.setModel(new javax.swing.table.DefaultTableModel(</span>
+            new Object [][] {
+
+            },
+            new String [] {
+                &quot;Nickname&quot;, &quot;Nombre&quot;, &quot;Apellido&quot;
+            }
+<span class="nc" id="L205">        ) {</span>
+<span class="nc" id="L206">            boolean[] canEdit = new boolean [] {</span>
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+<span class="nc" id="L211">                return canEdit [columnIndex];</span>
+            }
+        });
+<span class="nc" id="L214">        tablaClientes.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);</span>
+<span class="nc" id="L215">        jScrollPane1.setViewportView(tablaClientes);</span>
+
+<span class="nc" id="L217">        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);</span>
+<span class="nc" id="L218">        jPanel5.setLayout(jPanel5Layout);</span>
+<span class="nc" id="L219">        jPanel5Layout.setHorizontalGroup(</span>
+<span class="nc" id="L220">            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L221">            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE)</span>
+        );
+<span class="nc" id="L223">        jPanel5Layout.setVerticalGroup(</span>
+<span class="nc" id="L224">            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L225">            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)</span>
+        );
+
+<span class="nc" id="L228">        jSplitPane3.setTopComponent(jPanel5);</span>
+
+<span class="nc" id="L230">        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(&quot;Listas&quot;));</span>
+
+<span class="nc" id="L232">        tablaListParticular.setModel(new javax.swing.table.DefaultTableModel(</span>
+            new Object [][] {
+
+            },
+            new String [] {
+                &quot;Nombre&quot;
+            }
+        ));
+<span class="nc" id="L240">        jScrollPane2.setViewportView(tablaListParticular);</span>
+
+<span class="nc" id="L242">        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);</span>
+<span class="nc" id="L243">        jPanel6.setLayout(jPanel6Layout);</span>
+<span class="nc" id="L244">        jPanel6Layout.setHorizontalGroup(</span>
+<span class="nc" id="L245">            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L246">            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE)</span>
+        );
+<span class="nc" id="L248">        jPanel6Layout.setVerticalGroup(</span>
+<span class="nc" id="L249">            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L250">            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)</span>
+        );
+
+<span class="nc" id="L253">        jSplitPane3.setRightComponent(jPanel6);</span>
+
+<span class="nc" id="L255">        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);</span>
+<span class="nc" id="L256">        jPanel3.setLayout(jPanel3Layout);</span>
+<span class="nc" id="L257">        jPanel3Layout.setHorizontalGroup(</span>
+<span class="nc" id="L258">            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L259">            .addComponent(jSplitPane3)</span>
+        );
+<span class="nc" id="L261">        jPanel3Layout.setVerticalGroup(</span>
+<span class="nc" id="L262">            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L263">            .addGroup(jPanel3Layout.createSequentialGroup()</span>
+<span class="nc" id="L264">                .addContainerGap()</span>
+<span class="nc" id="L265">                .addComponent(jSplitPane3))</span>
+        );
+
+<span class="nc" id="L268">        Pestania.addTab(&quot;Lista Particular&quot;, jPanel3);</span>
+
+<span class="nc" id="L270">        jPanel7.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));</span>
+
+<span class="nc" id="L272">        tablaListDefecto.setModel(new javax.swing.table.DefaultTableModel(</span>
+            new Object [][] {
+
+            },
+            new String [] {
+                &quot;Nombre&quot;, &quot;Genero&quot;
+            }
+        ));
+<span class="nc" id="L280">        jScrollPane4.setViewportView(tablaListDefecto);</span>
+
+<span class="nc" id="L282">        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);</span>
+<span class="nc" id="L283">        jPanel7.setLayout(jPanel7Layout);</span>
+<span class="nc" id="L284">        jPanel7Layout.setHorizontalGroup(</span>
+<span class="nc" id="L285">            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L286">            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 548, Short.MAX_VALUE)</span>
+        );
+<span class="nc" id="L288">        jPanel7Layout.setVerticalGroup(</span>
+<span class="nc" id="L289">            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L290">            .addGroup(jPanel7Layout.createSequentialGroup()</span>
+<span class="nc" id="L291">                .addContainerGap()</span>
+<span class="nc" id="L292">                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE))</span>
+        );
+
+<span class="nc" id="L295">        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);</span>
+<span class="nc" id="L296">        jPanel4.setLayout(jPanel4Layout);</span>
+<span class="nc" id="L297">        jPanel4Layout.setHorizontalGroup(</span>
+<span class="nc" id="L298">            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L299">            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+        );
+<span class="nc" id="L301">        jPanel4Layout.setVerticalGroup(</span>
+<span class="nc" id="L302">            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L303">            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+        );
+
+<span class="nc" id="L306">        Pestania.addTab(&quot;Lista por defecto&quot;, jPanel4);</span>
+
+<span class="nc" id="L308">        jSplitPane2.setTopComponent(Pestania);</span>
+<span class="nc" id="L309">        Pestania.getAccessibleContext().setAccessibleName(&quot;&quot;);</span>
+
+<span class="nc" id="L311">        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(&quot;Temas&quot;));</span>
+
+<span class="nc" id="L313">        tablaTemas.setModel(new javax.swing.table.DefaultTableModel(</span>
+            new Object [][] {
+
+            },
+            new String [] {
+                &quot;Nombre&quot;, &quot;Album&quot;, &quot;Artista&quot;, &quot;Duracionl&quot;
+            }
+        ));
+<span class="nc" id="L321">        jScrollPane3.setViewportView(tablaTemas);</span>
+
+<span class="nc" id="L323">        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);</span>
+<span class="nc" id="L324">        jPanel2.setLayout(jPanel2Layout);</span>
+<span class="nc" id="L325">        jPanel2Layout.setHorizontalGroup(</span>
+<span class="nc" id="L326">            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L327">            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 545, Short.MAX_VALUE)</span>
+        );
+<span class="nc" id="L329">        jPanel2Layout.setVerticalGroup(</span>
+<span class="nc" id="L330">            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L331">            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)</span>
+        );
+
+<span class="nc" id="L334">        jSplitPane2.setRightComponent(jPanel2);</span>
+
+<span class="nc" id="L336">        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());</span>
+<span class="nc" id="L337">        getContentPane().setLayout(layout);</span>
+<span class="nc" id="L338">        layout.setHorizontalGroup(</span>
+<span class="nc" id="L339">            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L340">            .addGroup(layout.createSequentialGroup()</span>
+<span class="nc" id="L341">                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L342">                    .addGroup(layout.createSequentialGroup()</span>
+<span class="nc" id="L343">                        .addGap(207, 207, 207)</span>
+<span class="nc" id="L344">                        .addComponent(btnAceptar)</span>
+<span class="nc" id="L345">                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
+<span class="nc" id="L346">                        .addComponent(btnCancelar))</span>
+<span class="nc" id="L347">                    .addGroup(layout.createSequentialGroup()</span>
+<span class="nc" id="L348">                        .addContainerGap()</span>
+<span class="nc" id="L349">                        .addComponent(jSplitPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))</span>
+<span class="nc" id="L350">                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))</span>
+        );
+<span class="nc" id="L352">        layout.setVerticalGroup(</span>
+<span class="nc" id="L353">            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L354">            .addGroup(layout.createSequentialGroup()</span>
+<span class="nc" id="L355">                .addComponent(jSplitPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 439, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L356">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)</span>
+<span class="nc" id="L357">                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L358">                    .addComponent(btnAceptar)</span>
+<span class="nc" id="L359">                    .addComponent(btnCancelar))</span>
+<span class="nc" id="L360">                .addContainerGap())</span>
+        );
+
+<span class="nc" id="L363">        pack();</span>
+<span class="nc" id="L364">    }// &lt;/editor-fold&gt;//GEN-END:initComponents</span>
+
+
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+        // TODO add your handling code here:
+<span class="nc bnc" id="L369" title="All 2 branches missed.">        if (tablaTemas.getSelectedRow() == -1) {</span>
+<span class="nc" id="L370">            JOptionPane.showMessageDialog(this, &quot;Seleccione un tema&quot;);</span>
+<span class="nc" id="L371">            return;</span>
+        }
+
+<span class="nc bnc" id="L374" title="All 4 branches missed.">        if ((tablaClientes.getSelectedRow() == -1) &amp;&amp; (Pestania.getSelectedIndex() == 0)) {</span>
+<span class="nc" id="L375">            JOptionPane.showMessageDialog(this, &quot;Seleccione un cliente&quot;);</span>
+<span class="nc" id="L376">            return;</span>
+        }
+<span class="nc bnc" id="L378" title="All 4 branches missed.">        if ((tablaListParticular.getSelectedRow() == -1) &amp;&amp; (Pestania.getSelectedIndex() == 0)) {</span>
+<span class="nc" id="L379">            JOptionPane.showMessageDialog(this, &quot;Seleccione una Lista&quot;);</span>
+<span class="nc" id="L380">            return;</span>
+        }
+<span class="nc bnc" id="L382" title="All 4 branches missed.">        if ((tablaListDefecto.getSelectedRow() == -1) &amp;&amp; !(Pestania.getSelectedIndex() == 0)) {</span>
+<span class="nc" id="L383">            JOptionPane.showMessageDialog(this, &quot;Seleccione una Lista&quot;);</span>
+<span class="nc" id="L384">            return;</span>
+        }
+<span class="nc" id="L386">        String nomListaP = &quot;&quot;;</span>
+<span class="nc" id="L387">        String nomListaD = &quot;&quot;;</span>
+<span class="nc" id="L388">        String nickC = &quot;&quot;;</span>
+        
+        
+<span class="nc" id="L391">        String nomTema = tablaTemas.getValueAt(tablaTemas.getSelectedRow(), 0).toString();        </span>
+<span class="nc bnc" id="L392" title="All 2 branches missed.">        if (Pestania.getSelectedIndex() == 0) {</span>
+<span class="nc" id="L393">            nickC = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 0).toString();</span>
+<span class="nc" id="L394">            nomListaP = tablaListParticular.getValueAt(tablaListParticular.getSelectedRow(), 0).toString();</span>
+        } else {
+<span class="nc" id="L396">            nomListaD = tablaListDefecto.getValueAt(tablaListDefecto.getSelectedRow(), 0).toString();</span>
+        }
+        
+        
+        try {
+            
+<span class="nc bnc" id="L402" title="All 2 branches missed.">            if(Pestania.getSelectedIndex() == 0){</span>
+<span class="nc bnc" id="L403" title="All 2 branches missed.">               if(iContenido.quitarTema(nomTema,nomListaP,nickC)==false){</span>
+<span class="nc" id="L404">                    JOptionPane.showMessageDialog(this,&quot;Error Al quitar Tema&quot;);</span>
+<span class="nc" id="L405">               }else{JOptionPane.showMessageDialog(this, &quot;Se elimino tema correctamente&quot;);}</span>
+<span class="nc" id="L406">                cargarTemasLPListas(nomListaP);</span>
+            }else{
+<span class="nc bnc" id="L408" title="All 2 branches missed.">                if(iContenido.quitarTema(nomTema, nomListaD, null)==false){JOptionPane.showMessageDialog(this,&quot;Error Al quitar Tema&quot;);</span>
+<span class="nc" id="L409">                }else{JOptionPane.showMessageDialog(this, &quot;Se elimino tema correctamente&quot;);}</span>
+<span class="nc" id="L410">                cargarTemasListaDef(nomListaD);</span>
+                
+            }
+            
+            
+<span class="nc" id="L415">        } catch (Exception e) {</span>
+<span class="nc" id="L416">            System.out.println(&quot;errr&quot;);</span>
+<span class="nc" id="L417">            JOptionPane.showMessageDialog(this, &quot;Error : &quot; + e.getMessage(), &quot;Error&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L418">        }</span>
+<span class="nc" id="L419">    }//GEN-LAST:event_btnAceptarActionPerformed</span>
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+<span class="nc" id="L422">        dispose();</span>
+<span class="nc" id="L423">    }//GEN-LAST:event_btnCancelarActionPerformed</span>
+
+    private void PestaniaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PestaniaMouseReleased
+
+<span class="nc" id="L427">    }//GEN-LAST:event_PestaniaMouseReleased</span>
+
+    private void PestaniaStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_PestaniaStateChanged
+
+<span class="nc" id="L431">    }//GEN-LAST:event_PestaniaStateChanged</span>
+
+    private void PestaniaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PestaniaMouseClicked
+
+<span class="nc bnc" id="L435" title="All 2 branches missed.">        if (Pestania.getSelectedIndex() == 0) {</span>
+
+<span class="nc" id="L437">            ArrayList&lt;DtUsuario&gt; dtc = iUsuario.listarClientes();</span>
+
+<span class="nc" id="L439">            DefaultTableModel dtm = (DefaultTableModel) tablaClientes.getModel();</span>
+<span class="nc" id="L440">            dtm.setRowCount(0);</span>
+
+<span class="nc bnc" id="L442" title="All 2 branches missed.">            for (DtUsuario dtu : dtc) {</span>
+
+<span class="nc" id="L444">                Object[] data = {</span>
+<span class="nc" id="L445">                    dtu.getNickname(),</span>
+<span class="nc" id="L446">                    dtu.getNombre(),</span>
+<span class="nc" id="L447">                    dtu.getApellido()</span>
+                };
+<span class="nc" id="L449">                dtm.addRow(data);</span>
+<span class="nc" id="L450">            }</span>
+
+<span class="nc" id="L452">        } else {</span>
+
+<span class="nc" id="L454">            ArrayList&lt;DtLista&gt; dtld = iContenido.listarLisReproduccionDef();</span>
+
+<span class="nc" id="L456">            DefaultTableModel dtm = (DefaultTableModel) tablaListDefecto.getModel();</span>
+<span class="nc" id="L457">            dtm.setRowCount(0);</span>
+            
+<span class="nc" id="L459">            DefaultTableModel dtm2 = (DefaultTableModel) tablaTemas.getModel();</span>
+<span class="nc" id="L460">            dtm2.setRowCount(0);</span>
+
+<span class="nc bnc" id="L462" title="All 2 branches missed.">            for (DtLista lista : dtld) {</span>
+<span class="nc" id="L463">                Object[] data = {</span>
+<span class="nc" id="L464">                    lista.getNombre(),</span>
+<span class="nc" id="L465">                    ((DtListaDefecto) lista).getGenero().getNombre()</span>
+                };
+<span class="nc" id="L467">                dtm.addRow(data);</span>
+<span class="nc" id="L468">            }</span>
+        }
+<span class="nc" id="L470">    }//GEN-LAST:event_PestaniaMouseClicked</span>
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTabbedPane Pestania;
+    private javax.swing.ButtonGroup TipoLista;
+    private javax.swing.JButton btnAceptar;
+    private javax.swing.JButton btnCancelar;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JSplitPane jSplitPane2;
+    private javax.swing.JSplitPane jSplitPane3;
+    private javax.swing.JTable tablaClientes;
+    private javax.swing.JTable tablaListDefecto;
+    private javax.swing.JTable tablaListParticular;
+    private javax.swing.JTable tablaTemas;
+    // End of variables declaration//GEN-END:variables
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

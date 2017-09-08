@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>BDGenero.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;Tarea1&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">Persistencia</a> &gt; <span class="el_source">BDGenero.java</span></div><h1>BDGenero.java</h1><pre class="source lang-java linenums">package Persistencia;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Types;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+<span class="fc" id="L10">public class BDGenero {</span>
+
+<span class="fc" id="L12">    protected Connection conexion = new ConexionBD().getConexion();</span>
+
+    // ingresar generos a la BD
+    public boolean ingresarGeneros(String nombre, String padre) {
+
+        try {
+<span class="fc" id="L18">            PreparedStatement insertar = conexion.prepareStatement(&quot;INSERT INTO genero(nombreGenero,Padre) VALUES(?,?)&quot;);</span>
+<span class="fc" id="L19">            insertar.setString(1, nombre);</span>
+<span class="fc bfc" id="L20" title="All 2 branches covered.">            if (padre == null) {</span>
+<span class="fc" id="L21">                insertar.setNull(2, Types.VARCHAR);</span>
+            } else {
+<span class="fc" id="L23">                insertar.setString(2, padre);</span>
+            }
+<span class="fc" id="L25">            insertar.executeUpdate();</span>
+<span class="fc" id="L26">            insertar.close();</span>
+<span class="nc" id="L27">        } catch (SQLException ex) {</span>
+<span class="nc" id="L28">            Logger.getLogger(BDGenero.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L29">            return false;</span>
+<span class="fc" id="L30">        }</span>
+
+<span class="fc" id="L32">        return true;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

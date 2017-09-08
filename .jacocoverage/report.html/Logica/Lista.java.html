@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Lista.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;Tarea1&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">Logica</a> &gt; <span class="el_source">Lista.java</span></div><h1>Lista.java</h1><pre class="source lang-java linenums">package Logica;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
+
+public abstract class Lista {
+
+    private String nombre;
+    protected ArrayList&lt;Tema&gt; temas;
+    private String imagen;
+
+<span class="fc" id="L13">    public Lista(String nombre, ArrayList&lt;Tema&gt; temas, String imagen) {</span>
+<span class="fc" id="L14">        this.nombre = nombre;</span>
+<span class="fc" id="L15">        this.temas = temas;</span>
+<span class="fc" id="L16">        this.imagen = imagen;</span>
+<span class="fc" id="L17">    }</span>
+
+    public String getImagen() {
+<span class="nc" id="L20">        return imagen;</span>
+    }
+
+    public abstract DtLista getData();
+
+    public String getNombre() {
+<span class="fc" id="L26">        return nombre;</span>
+    }
+
+    public Tema getTema(String nombreT) {
+<span class="nc bnc" id="L30" title="All 2 branches missed.">        for (int i = 0; i &lt; temas.size(); i++) {</span>
+<span class="nc bnc" id="L31" title="All 2 branches missed.">        if (temas.get(i).getNombre().equals(nombreT)) {</span>
+<span class="nc" id="L32">                Tema tema = (Tema) temas.get(i);</span>
+<span class="nc" id="L33">                return tema;</span>
+            }
+        }
+<span class="nc" id="L36">        return null;</span>
+    }
+
+    public ArrayList&lt;DtTema&gt; getTemas() {
+<span class="nc" id="L40">        ArrayList&lt;DtTema&gt; temas = new ArrayList&lt;&gt;();</span>
+
+<span class="nc bnc" id="L42" title="All 2 branches missed.">        for (Tema t : this.temas) {</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">            if (t instanceof TemaLocal) {</span>
+<span class="nc" id="L44">                temas.add(((TemaLocal) t).getData());</span>
+            } else {
+<span class="nc" id="L46">                temas.add(((TemaRemoto) t).getData());</span>
+            }
+<span class="nc" id="L48">        }</span>
+
+<span class="nc" id="L50">        return temas;</span>
+    }
+
+
+    public ArrayList&lt;Tema&gt; obtenerTemas() {
+<span class="nc" id="L55">        ArrayList&lt;Tema&gt; temas = new ArrayList&lt;&gt;();</span>
+
+<span class="nc bnc" id="L57" title="All 2 branches missed.">        for (Tema t : this.temas) {</span>
+<span class="nc bnc" id="L58" title="All 2 branches missed.">            if (t instanceof TemaLocal) {</span>
+<span class="nc" id="L59">                temas.add(t);</span>
+            } else {
+<span class="nc" id="L61">                temas.add(t);</span>
+            }
+<span class="nc" id="L63">        }</span>
+
+<span class="nc" id="L65">        return temas;</span>
+    }
+
+    public void setNombre(String nombre) {
+<span class="nc" id="L69">        this.nombre = nombre;</span>
+<span class="nc" id="L70">    }</span>
+
+    public void setTemas(ArrayList&lt;Tema&gt; temas) {
+<span class="nc" id="L73">        this.temas = temas;</span>
+<span class="nc" id="L74">    }</span>
+
+    public void setImagen(String imagen) {
+<span class="nc" id="L77">        this.imagen = imagen;</span>
+<span class="nc" id="L78">    }</span>
+
+    public abstract boolean quitarTema(String nombreT);
+
+    public abstract boolean agregarTema(Tema tema);
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

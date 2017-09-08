@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>menu.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;Tarea1&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">Presentacion</a> &gt; <span class="el_source">menu.java</span></div><h1>menu.java</h1><pre class="source lang-java linenums">package Presentacion;
+
+import Logica.Fabrica;
+import Persistencia.CargaDatosPrueba;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
+
+public class menu extends javax.swing.JFrame {
+
+<span class="nc" id="L15">    public menu() {</span>
+<span class="nc" id="L16">        initComponents();</span>
+<span class="nc" id="L17">        this.setExtendedState(MAXIMIZED_BOTH);</span>
+<span class="nc" id="L18">        Fabrica.inicializarControladores();</span>
+        try {
+<span class="nc" id="L20">            Fabrica.levantarDatos();</span>
+<span class="nc" id="L21">        } catch (Exception e) {</span>
+<span class="nc" id="L22">            JOptionPane.showMessageDialog(this, e.getMessage());</span>
+<span class="nc" id="L23">        }</span>
+<span class="nc" id="L24">    }</span>
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;Generated Code&quot;&gt;//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+<span class="nc" id="L30">        PanelMenu = new DesktopFondo();</span>
+<span class="nc" id="L31">        barra = new javax.swing.JMenuBar();</span>
+<span class="nc" id="L32">        jMenu1 = new javax.swing.JMenu();</span>
+<span class="nc" id="L33">        altaPerfil = new javax.swing.JMenuItem();</span>
+<span class="nc" id="L34">        altaAlbum = new javax.swing.JMenuItem();</span>
+<span class="nc" id="L35">        altaGenero = new javax.swing.JMenuItem();</span>
+<span class="nc" id="L36">        crearListaRep = new javax.swing.JMenuItem();</span>
+<span class="nc" id="L37">        publicarLista = new javax.swing.JMenuItem();</span>
+<span class="nc" id="L38">        jMenu2 = new javax.swing.JMenu();</span>
+<span class="nc" id="L39">        consultaPerfilCliente = new javax.swing.JMenuItem();</span>
+<span class="nc" id="L40">        ConsultaPerfilArtista = new javax.swing.JMenuItem();</span>
+<span class="nc" id="L41">        consultaAlbum = new javax.swing.JMenuItem();</span>
+<span class="nc" id="L42">        consultaListaRep = new javax.swing.JMenuItem();</span>
+<span class="nc" id="L43">        jMenu3 = new javax.swing.JMenu();</span>
+<span class="nc" id="L44">        seguirUsuario = new javax.swing.JMenuItem();</span>
+<span class="nc" id="L45">        dejarSeguirUsuario = new javax.swing.JMenuItem();</span>
+<span class="nc" id="L46">        agregarTemaLista = new javax.swing.JMenuItem();</span>
+<span class="nc" id="L47">        quitarTemaLista = new javax.swing.JMenuItem();</span>
+<span class="nc" id="L48">        jMenu4 = new javax.swing.JMenu();</span>
+<span class="nc" id="L49">        guardarTLA = new javax.swing.JMenuItem();</span>
+<span class="nc" id="L50">        eliminarTLA = new javax.swing.JMenuItem();</span>
+<span class="nc" id="L51">        jMenu5 = new javax.swing.JMenu();</span>
+<span class="nc" id="L52">        cargarDatos = new javax.swing.JMenuItem();</span>
+
+<span class="nc" id="L54">        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);</span>
+<span class="nc" id="L55">        setTitle(&quot;Espotify&quot;);</span>
+<span class="nc" id="L56">        setBackground(new java.awt.Color(51, 153, 0));</span>
+<span class="nc" id="L57">        setIconImage(Toolkit.getDefaultToolkit().getImage(menu.class.getResource(&quot;/Imagenes/icono2.png&quot;)));</span>
+<span class="nc" id="L58">        setName(&quot;Espotify&quot;); // NOI18N</span>
+
+<span class="nc" id="L60">        PanelMenu.setBackground(new java.awt.Color(204, 204, 255));</span>
+
+<span class="nc" id="L62">        javax.swing.GroupLayout PanelMenuLayout = new javax.swing.GroupLayout(PanelMenu);</span>
+<span class="nc" id="L63">        PanelMenu.setLayout(PanelMenuLayout);</span>
+<span class="nc" id="L64">        PanelMenuLayout.setHorizontalGroup(</span>
+<span class="nc" id="L65">            PanelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L66">            .addGap(0, 660, Short.MAX_VALUE)</span>
+        );
+<span class="nc" id="L68">        PanelMenuLayout.setVerticalGroup(</span>
+<span class="nc" id="L69">            PanelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L70">            .addGap(0, 335, Short.MAX_VALUE)</span>
+        );
+
+<span class="nc" id="L73">        barra.setBackground(new java.awt.Color(255, 255, 255));</span>
+<span class="nc" id="L74">        barra.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));</span>
+
+<span class="nc" id="L76">        jMenu1.setText(&quot;Registros&quot;);</span>
+
+<span class="nc" id="L78">        altaPerfil.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));</span>
+<span class="nc" id="L79">        altaPerfil.setText(&quot;Alta de Perfil&quot;);</span>
+<span class="nc" id="L80">        altaPerfil.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L82">                altaPerfilActionPerformed(evt);</span>
+<span class="nc" id="L83">            }</span>
+        });
+<span class="nc" id="L85">        jMenu1.add(altaPerfil);</span>
+
+<span class="nc" id="L87">        altaAlbum.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));</span>
+<span class="nc" id="L88">        altaAlbum.setText(&quot;Alta Album&quot;);</span>
+<span class="nc" id="L89">        altaAlbum.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L91">                altaAlbumActionPerformed(evt);</span>
+<span class="nc" id="L92">            }</span>
+        });
+<span class="nc" id="L94">        jMenu1.add(altaAlbum);</span>
+
+<span class="nc" id="L96">        altaGenero.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_MASK));</span>
+<span class="nc" id="L97">        altaGenero.setText(&quot;Alta de Genero&quot;);</span>
+<span class="nc" id="L98">        altaGenero.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L100">                altaGeneroActionPerformed(evt);</span>
+<span class="nc" id="L101">            }</span>
+        });
+<span class="nc" id="L103">        jMenu1.add(altaGenero);</span>
+
+<span class="nc" id="L105">        crearListaRep.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));</span>
+<span class="nc" id="L106">        crearListaRep.setText(&quot;Crear Lista de Reproduccion&quot;);</span>
+<span class="nc" id="L107">        crearListaRep.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L109">                crearListaRepActionPerformed(evt);</span>
+<span class="nc" id="L110">            }</span>
+        });
+<span class="nc" id="L112">        jMenu1.add(crearListaRep);</span>
+
+<span class="nc" id="L114">        publicarLista.setText(&quot;Publicar Lista&quot;);</span>
+<span class="nc" id="L115">        publicarLista.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L117">                publicarListaActionPerformed(evt);</span>
+<span class="nc" id="L118">            }</span>
+        });
+<span class="nc" id="L120">        jMenu1.add(publicarLista);</span>
+
+<span class="nc" id="L122">        barra.add(jMenu1);</span>
+
+<span class="nc" id="L124">        jMenu2.setText(&quot;Consultas&quot;);</span>
+
+<span class="nc" id="L126">        consultaPerfilCliente.setText(&quot;Consulta de Perfil de Cliente&quot;);</span>
+<span class="nc" id="L127">        consultaPerfilCliente.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L129">                consultaPerfilClienteActionPerformed(evt);</span>
+<span class="nc" id="L130">            }</span>
+        });
+<span class="nc" id="L132">        jMenu2.add(consultaPerfilCliente);</span>
+
+<span class="nc" id="L134">        ConsultaPerfilArtista.setText(&quot;Consulta de Perfil de Artista&quot;);</span>
+<span class="nc" id="L135">        ConsultaPerfilArtista.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L137">                ConsultaPerfilArtistaActionPerformed(evt);</span>
+<span class="nc" id="L138">            }</span>
+        });
+<span class="nc" id="L140">        jMenu2.add(ConsultaPerfilArtista);</span>
+
+<span class="nc" id="L142">        consultaAlbum.setText(&quot;Consulta de Album&quot;);</span>
+<span class="nc" id="L143">        consultaAlbum.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L145">                consultaAlbumActionPerformed(evt);</span>
+<span class="nc" id="L146">            }</span>
+        });
+<span class="nc" id="L148">        jMenu2.add(consultaAlbum);</span>
+
+<span class="nc" id="L150">        consultaListaRep.setText(&quot;Consulta de Lista de Reproduccion&quot;);</span>
+<span class="nc" id="L151">        consultaListaRep.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L153">                consultaListaRepActionPerformed(evt);</span>
+<span class="nc" id="L154">            }</span>
+        });
+<span class="nc" id="L156">        jMenu2.add(consultaListaRep);</span>
+
+<span class="nc" id="L158">        barra.add(jMenu2);</span>
+
+<span class="nc" id="L160">        jMenu3.setText(&quot;Relaciones&quot;);</span>
+
+<span class="nc" id="L162">        seguirUsuario.setText(&quot;Seguir Usuario&quot;);</span>
+<span class="nc" id="L163">        seguirUsuario.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L165">                seguirUsuarioActionPerformed(evt);</span>
+<span class="nc" id="L166">            }</span>
+        });
+<span class="nc" id="L168">        jMenu3.add(seguirUsuario);</span>
+
+<span class="nc" id="L170">        dejarSeguirUsuario.setText(&quot;Dejar de Seguir Usuario&quot;);</span>
+<span class="nc" id="L171">        dejarSeguirUsuario.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L173">                dejarSeguirUsuarioActionPerformed(evt);</span>
+<span class="nc" id="L174">            }</span>
+        });
+<span class="nc" id="L176">        jMenu3.add(dejarSeguirUsuario);</span>
+
+<span class="nc" id="L178">        agregarTemaLista.setText(&quot;Agregar Tema a Lista&quot;);</span>
+<span class="nc" id="L179">        agregarTemaLista.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L181">                agregarTemaListaActionPerformed(evt);</span>
+<span class="nc" id="L182">            }</span>
+        });
+<span class="nc" id="L184">        jMenu3.add(agregarTemaLista);</span>
+
+<span class="nc" id="L186">        quitarTemaLista.setText(&quot;Quitar Tema de Lista&quot;);</span>
+<span class="nc" id="L187">        quitarTemaLista.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L189">                quitarTemaListaActionPerformed(evt);</span>
+<span class="nc" id="L190">            }</span>
+        });
+<span class="nc" id="L192">        jMenu3.add(quitarTemaLista);</span>
+
+<span class="nc" id="L194">        barra.add(jMenu3);</span>
+
+<span class="nc" id="L196">        jMenu4.setText(&quot;Favoritos&quot;);</span>
+
+<span class="nc" id="L198">        guardarTLA.setText(&quot;Agregar Tema/Lista/Album&quot;);</span>
+<span class="nc" id="L199">        guardarTLA.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L201">                guardarTLAActionPerformed(evt);</span>
+<span class="nc" id="L202">            }</span>
+        });
+<span class="nc" id="L204">        jMenu4.add(guardarTLA);</span>
+
+<span class="nc" id="L206">        eliminarTLA.setText(&quot;Eliminar Tema/Lista/Album&quot;);</span>
+<span class="nc" id="L207">        eliminarTLA.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L209">                eliminarTLAActionPerformed(evt);</span>
+<span class="nc" id="L210">            }</span>
+        });
+<span class="nc" id="L212">        jMenu4.add(eliminarTLA);</span>
+
+<span class="nc" id="L214">        barra.add(jMenu4);</span>
+
+<span class="nc" id="L216">        jMenu5.setText(&quot;Datos de Prueba&quot;);</span>
+
+<span class="nc" id="L218">        cargarDatos.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_SPACE, java.awt.event.InputEvent.CTRL_MASK));</span>
+<span class="nc" id="L219">        cargarDatos.setText(&quot;Cargar&quot;);</span>
+<span class="nc" id="L220">        cargarDatos.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L222">                cargarDatosActionPerformed(evt);</span>
+<span class="nc" id="L223">            }</span>
+        });
+<span class="nc" id="L225">        jMenu5.add(cargarDatos);</span>
+
+<span class="nc" id="L227">        barra.add(jMenu5);</span>
+
+<span class="nc" id="L229">        setJMenuBar(barra);</span>
+
+<span class="nc" id="L231">        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());</span>
+<span class="nc" id="L232">        getContentPane().setLayout(layout);</span>
+<span class="nc" id="L233">        layout.setHorizontalGroup(</span>
+<span class="nc" id="L234">            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L235">            .addComponent(PanelMenu)</span>
+        );
+<span class="nc" id="L237">        layout.setVerticalGroup(</span>
+<span class="nc" id="L238">            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L239">            .addComponent(PanelMenu, javax.swing.GroupLayout.Alignment.TRAILING)</span>
+        );
+
+<span class="nc" id="L242">        pack();</span>
+<span class="nc" id="L243">    }// &lt;/editor-fold&gt;//GEN-END:initComponents</span>
+
+    private void dejarSeguirUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dejarSeguirUsuarioActionPerformed
+<span class="nc" id="L246">        DejarSeguirUsuario dsu = new DejarSeguirUsuario();</span>
+<span class="nc" id="L247">        PanelMenu.add(dsu);</span>
+<span class="nc" id="L248">        centrar(dsu);</span>
+<span class="nc" id="L249">        dsu.show();</span>
+<span class="nc" id="L250">    }//GEN-LAST:event_dejarSeguirUsuarioActionPerformed</span>
+
+    private void consultaPerfilClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consultaPerfilClienteActionPerformed
+<span class="nc" id="L253">        ConsultaPerfil cpc = new ConsultaPerfil(&quot;Cliente&quot;);</span>
+<span class="nc" id="L254">        PanelMenu.add(cpc);</span>
+<span class="nc" id="L255">        centrar(cpc);</span>
+<span class="nc" id="L256">        cpc.show();</span>
+<span class="nc" id="L257">    }//GEN-LAST:event_consultaPerfilClienteActionPerformed</span>
+
+    private void seguirUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seguirUsuarioActionPerformed
+<span class="nc" id="L260">        SeguirUsuario cpc = new SeguirUsuario();</span>
+<span class="nc" id="L261">        PanelMenu.add(cpc);</span>
+<span class="nc" id="L262">        centrar(cpc);</span>
+<span class="nc" id="L263">        cpc.show();</span>
+<span class="nc" id="L264">    }//GEN-LAST:event_seguirUsuarioActionPerformed</span>
+
+    private void altaPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_altaPerfilActionPerformed
+<span class="nc" id="L267">        AltaPerfil ap = new AltaPerfil();</span>
+<span class="nc" id="L268">        PanelMenu.add(ap);</span>
+<span class="nc" id="L269">        centrar(ap);</span>
+<span class="nc" id="L270">        ap.show();</span>
+<span class="nc" id="L271">    }//GEN-LAST:event_altaPerfilActionPerformed</span>
+
+    private void quitarTemaListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitarTemaListaActionPerformed
+<span class="nc" id="L274">        QuitarTemaLista qtl = new QuitarTemaLista();</span>
+<span class="nc" id="L275">        PanelMenu.add(qtl);</span>
+<span class="nc" id="L276">        centrar(qtl);</span>
+<span class="nc" id="L277">        qtl.show();</span>
+<span class="nc" id="L278">    }//GEN-LAST:event_quitarTemaListaActionPerformed</span>
+
+    private void publicarListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_publicarListaActionPerformed
+<span class="nc" id="L281">        PublicarLista pt = new PublicarLista();</span>
+<span class="nc" id="L282">        PanelMenu.add(pt);</span>
+<span class="nc" id="L283">        centrar(pt);</span>
+<span class="nc" id="L284">        pt.show();</span>
+<span class="nc" id="L285">    }//GEN-LAST:event_publicarListaActionPerformed</span>
+    private void consultaAlbumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consultaAlbumActionPerformed
+<span class="nc" id="L287">        ConsultaAlbum cpc = new ConsultaAlbum();</span>
+<span class="nc" id="L288">        PanelMenu.add(cpc);</span>
+<span class="nc" id="L289">        centrar(cpc);</span>
+<span class="nc" id="L290">        cpc.show();</span>
+<span class="nc" id="L291">    }//GEN-LAST:event_consultaAlbumActionPerformed</span>
+
+    public void centrar(JInternalFrame cpc) {
+<span class="nc" id="L294">        Dimension desktopSize = this.getSize();</span>
+<span class="nc" id="L295">        Dimension jInternalFrameSize = cpc.getSize();</span>
+<span class="nc" id="L296">        int width = (desktopSize.width - jInternalFrameSize.width) / 2;</span>
+<span class="nc" id="L297">        int height = (desktopSize.height - jInternalFrameSize.height) / 2;</span>
+<span class="nc" id="L298">        cpc.setLocation(width, height - 30);</span>
+<span class="nc" id="L299">    }</span>
+
+    private void consultaListaRepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consultaListaRepActionPerformed
+<span class="nc" id="L302">        ConsultaListaReproduccion clr = new ConsultaListaReproduccion();</span>
+<span class="nc" id="L303">        PanelMenu.add(clr);</span>
+<span class="nc" id="L304">        centrar(clr);</span>
+<span class="nc" id="L305">        clr.show();</span>
+<span class="nc" id="L306">    }//GEN-LAST:event_consultaListaRepActionPerformed</span>
+    private void ConsultaPerfilArtistaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConsultaPerfilArtistaActionPerformed
+<span class="nc" id="L308">        ConsultaPerfil cpc = new ConsultaPerfil(&quot;Artista&quot;);</span>
+<span class="nc" id="L309">        PanelMenu.add(cpc);</span>
+<span class="nc" id="L310">        centrar(cpc);</span>
+<span class="nc" id="L311">        cpc.show();</span>
+<span class="nc" id="L312">    }//GEN-LAST:event_ConsultaPerfilArtistaActionPerformed</span>
+
+    private void cargarDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargarDatosActionPerformed
+<span class="nc" id="L315">        BarraCargando ba = new BarraCargando();</span>
+<span class="nc" id="L316">        PanelMenu.add(ba);</span>
+<span class="nc" id="L317">        centrar(ba);</span>
+<span class="nc" id="L318">        ba.show();</span>
+<span class="nc" id="L319">        menu m = this;</span>
+
+<span class="nc" id="L321">        new Thread(new Runnable() {</span>
+            @Override
+            public void run() {
+                try {
+<span class="nc" id="L325">                    Fabrica.cargaDatosPrueba();</span>
+<span class="nc" id="L326">                    ba.dispose();</span>
+<span class="nc" id="L327">                    JOptionPane.showMessageDialog(m, &quot;Los Datos de Prueba fueron cargados con exito&quot;);</span>
+<span class="nc" id="L328">                } catch (Exception ex) {</span>
+<span class="nc" id="L329">                    ba.dispose();</span>
+<span class="nc" id="L330">                    JOptionPane.showMessageDialog(m, &quot;Los Datos de Prueba no pudieron ser cargados: \n\n&quot; + ex.getMessage(), &quot;Error&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L331">                }</span>
+<span class="nc" id="L332">            }</span>
+<span class="nc" id="L333">        }).start();</span>
+<span class="nc" id="L334">    }//GEN-LAST:event_cargarDatosActionPerformed</span>
+
+    private void altaAlbumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_altaAlbumActionPerformed
+<span class="nc" id="L337">        AltaAlbum cpc = new AltaAlbum();</span>
+<span class="nc" id="L338">        PanelMenu.add(cpc);</span>
+<span class="nc" id="L339">        centrar(cpc);</span>
+<span class="nc" id="L340">        cpc.show();</span>
+<span class="nc" id="L341">    }//GEN-LAST:event_altaAlbumActionPerformed</span>
+
+    private void altaGeneroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_altaGeneroActionPerformed
+<span class="nc" id="L344">        AltaGenero cpc = new AltaGenero();</span>
+<span class="nc" id="L345">        PanelMenu.add(cpc);</span>
+<span class="nc" id="L346">        centrar(cpc);</span>
+<span class="nc" id="L347">        cpc.show();</span>
+
+<span class="nc" id="L349">    }//GEN-LAST:event_altaGeneroActionPerformed</span>
+
+    private void crearListaRepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearListaRepActionPerformed
+<span class="nc" id="L352">        CrearListaReproduccion clr = new CrearListaReproduccion();</span>
+<span class="nc" id="L353">        PanelMenu.add(clr);</span>
+<span class="nc" id="L354">        centrar(clr);</span>
+<span class="nc" id="L355">        clr.show();</span>
+<span class="nc" id="L356">    }//GEN-LAST:event_crearListaRepActionPerformed</span>
+
+    private void guardarTLAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarTLAActionPerformed
+<span class="nc" id="L359">        GuardarTLA gtla = new GuardarTLA();</span>
+<span class="nc" id="L360">        PanelMenu.add(gtla);</span>
+<span class="nc" id="L361">        centrar(gtla);</span>
+<span class="nc" id="L362">        gtla.show();</span>
+<span class="nc" id="L363">    }//GEN-LAST:event_guardarTLAActionPerformed</span>
+
+    private void eliminarTLAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarTLAActionPerformed
+<span class="nc" id="L366">        EliminarTLA etla = new EliminarTLA();</span>
+<span class="nc" id="L367">        PanelMenu.add(etla);</span>
+<span class="nc" id="L368">        centrar(etla);</span>
+<span class="nc" id="L369">        etla.show();</span>
+<span class="nc" id="L370">    }//GEN-LAST:event_eliminarTLAActionPerformed</span>
+
+    private void agregarTemaListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarTemaListaActionPerformed
+<span class="nc" id="L373">        AgregarTemaLista agr = new AgregarTemaLista();</span>
+<span class="nc" id="L374">        PanelMenu.add(agr);</span>
+<span class="nc" id="L375">        agr.setLocation(450, 10);</span>
+<span class="nc" id="L376">        agr.show();</span>
+<span class="nc" id="L377">    }//GEN-LAST:event_agregarTemaListaActionPerformed</span>
+
+    public static void main(String args[]) {
+<span class="nc" id="L380">        java.awt.EventQueue.invokeLater(new Runnable() {</span>
+            public void run() {
+<span class="nc" id="L382">                new menu().setVisible(true);</span>
+<span class="nc" id="L383">            }</span>
+        });
+<span class="nc" id="L385">    }</span>
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem ConsultaPerfilArtista;
+    private javax.swing.JDesktopPane PanelMenu;
+    private javax.swing.JMenuItem agregarTemaLista;
+    private javax.swing.JMenuItem altaAlbum;
+    private javax.swing.JMenuItem altaGenero;
+    private javax.swing.JMenuItem altaPerfil;
+    private javax.swing.JMenuBar barra;
+    private javax.swing.JMenuItem cargarDatos;
+    private javax.swing.JMenuItem consultaAlbum;
+    private javax.swing.JMenuItem consultaListaRep;
+    private javax.swing.JMenuItem consultaPerfilCliente;
+    private javax.swing.JMenuItem crearListaRep;
+    private javax.swing.JMenuItem dejarSeguirUsuario;
+    private javax.swing.JMenuItem eliminarTLA;
+    private javax.swing.JMenuItem guardarTLA;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenuItem publicarLista;
+    private javax.swing.JMenuItem quitarTemaLista;
+    private javax.swing.JMenuItem seguirUsuario;
+    // End of variables declaration//GEN-END:variables
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

@@ -1,0 +1,570 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>EliminarTLA.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;Tarea1&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">Presentacion</a> &gt; <span class="el_source">EliminarTLA.java</span></div><h1>EliminarTLA.java</h1><pre class="source lang-java linenums">package Presentacion;
+
+import Logica.DtAlbum;
+import Logica.DtLista;
+import Logica.DtListaParticular;
+import Logica.DtTema;
+import Logica.DtUsuario;
+import Logica.Fabrica;
+import Logica.IUsuario;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
+
+public class EliminarTLA extends javax.swing.JInternalFrame {
+
+    private IUsuario iUsuario;
+    private ArrayList&lt;DtUsuario&gt; clientes;
+
+<span class="nc" id="L21">    public EliminarTLA() {</span>
+<span class="nc" id="L22">        initComponents();</span>
+
+<span class="nc" id="L24">        iUsuario = Fabrica.getIControladorUsuario();</span>
+
+<span class="nc" id="L26">        clientes = iUsuario.listarClientes();</span>
+
+<span class="nc" id="L28">        cargarDatosClientes(clientes, &quot;&quot;);</span>
+
+<span class="nc" id="L30">        tablaClientes.getSelectionModel().addListSelectionListener(new ListSelectionListener() {</span>
+            public void valueChanged(ListSelectionEvent e) {
+<span class="nc" id="L32">                cargarAlbumesFav();</span>
+<span class="nc" id="L33">                cargarListasFav();</span>
+<span class="nc" id="L34">                cargarTemasFav();</span>
+<span class="nc" id="L35">            }</span>
+        });
+<span class="nc" id="L37">    }</span>
+
+    private void cargarDatosClientes(ArrayList&lt;DtUsuario&gt; dtu, String filtro) {
+<span class="nc bnc" id="L40" title="All 2 branches missed.">        if (dtu.isEmpty()) {</span>
+<span class="nc" id="L41">            JOptionPane.showMessageDialog(this, &quot;No hay ningun cliente registrado&quot;);</span>
+        }
+
+<span class="nc" id="L44">        DefaultTableModel dtm = (DefaultTableModel) tablaClientes.getModel();</span>
+<span class="nc" id="L45">        dtm.setRowCount(0);</span>
+<span class="nc bnc" id="L46" title="All 2 branches missed.">        for (DtUsuario dtUsuario : dtu) {</span>
+<span class="nc bnc" id="L47" title="All 2 branches missed.">            if (dtUsuario.getNickname().contains(filtro)) {</span>
+<span class="nc" id="L48">                Object[] data = {</span>
+<span class="nc" id="L49">                    dtUsuario.getNickname(),</span>
+<span class="nc" id="L50">                    dtUsuario.getNombre(),</span>
+<span class="nc" id="L51">                    dtUsuario.getApellido(),</span>
+<span class="nc" id="L52">                    dtUsuario.getEmail(),</span>
+<span class="nc" id="L53">                    dtUsuario.getFechaNac().toString()</span>
+                };
+<span class="nc" id="L55">                dtm.addRow(data);</span>
+            }
+<span class="nc" id="L57">        }</span>
+<span class="nc" id="L58">    }</span>
+
+    private void cargarAlbumesFav() {
+<span class="nc bnc" id="L61" title="All 2 branches missed.">        if (tablaClientes.getSelectedRow() == -1) {</span>
+<span class="nc" id="L62">            return;</span>
+        }
+
+<span class="nc" id="L65">        String nickCliente = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 0).toString();</span>
+
+<span class="nc" id="L67">        ArrayList&lt;DtAlbum&gt; dtAlbums = iUsuario.obtenerAlbumesFav(nickCliente);</span>
+<span class="nc" id="L68">        DefaultTableModel dtm = (DefaultTableModel) tablaAlbumes.getModel();</span>
+<span class="nc" id="L69">        dtm.setRowCount(0);</span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">        for (DtAlbum dtAlbum : dtAlbums) {</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">            if (dtAlbum.getNombre().contains(txtAlbum.getText())) {</span>
+<span class="nc" id="L72">                Object[] data = {</span>
+<span class="nc" id="L73">                    dtAlbum.getNickArtista(),</span>
+<span class="nc" id="L74">                    dtAlbum.getNombre(),</span>
+<span class="nc" id="L75">                    dtAlbum.getAnio()</span>
+                };
+<span class="nc" id="L77">                dtm.addRow(data);</span>
+            }
+<span class="nc" id="L79">        }</span>
+<span class="nc" id="L80">    }</span>
+
+    private void cargarListasFav() {
+<span class="nc bnc" id="L83" title="All 2 branches missed.">        if (tablaClientes.getSelectedRow() == -1) {</span>
+<span class="nc" id="L84">            return;</span>
+        }
+
+<span class="nc" id="L87">        String nickCliente = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 0).toString();</span>
+
+<span class="nc" id="L89">        ArrayList&lt;DtLista&gt; dtListas = iUsuario.obtenerListasFav(nickCliente);</span>
+<span class="nc" id="L90">        DefaultTableModel dtm2 = (DefaultTableModel) tablaListas.getModel();</span>
+<span class="nc" id="L91">        dtm2.setRowCount(0);</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">        for (DtLista dtLista : dtListas) {</span>
+<span class="nc bnc" id="L93" title="All 2 branches missed.">            if (dtLista.getNombre().contains(txtLista.getText())) {</span>
+<span class="nc" id="L94">                Object[] data = {</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">                    dtLista.getNombre(),</span>
+                    dtLista instanceof DtListaParticular ? &quot;Particular&quot; : &quot;Defecto&quot;
+                };
+<span class="nc" id="L98">                dtm2.addRow(data);</span>
+            }
+<span class="nc" id="L100">        }</span>
+<span class="nc" id="L101">    }</span>
+
+    private void cargarTemasFav() {
+<span class="nc bnc" id="L104" title="All 2 branches missed.">        if (tablaClientes.getSelectedRow() == -1) {</span>
+<span class="nc" id="L105">            return;</span>
+        }
+
+<span class="nc" id="L108">        String nickCliente = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 0).toString();</span>
+
+<span class="nc" id="L110">        ArrayList&lt;DtTema&gt; dtTemas = iUsuario.obtenerTemasFav(nickCliente);</span>
+<span class="nc" id="L111">        DefaultTableModel dtm3 = (DefaultTableModel) tablaTemas.getModel();</span>
+<span class="nc" id="L112">        dtm3.setRowCount(0);</span>
+<span class="nc bnc" id="L113" title="All 2 branches missed.">        for (DtTema dtTema : dtTemas) {</span>
+<span class="nc bnc" id="L114" title="All 2 branches missed.">            if (dtTema.getNombre().contains(txtTema.getText())) {</span>
+<span class="nc" id="L115">                Object[] data = {</span>
+<span class="nc" id="L116">                    dtTema.getNombre(),</span>
+<span class="nc" id="L117">                    dtTema.getDuracion().getMinutos() + &quot;:&quot; + dtTema.getDuracion().getSegundos()</span>
+                };
+<span class="nc" id="L119">                dtm3.addRow(data);</span>
+            }
+<span class="nc" id="L121">        }</span>
+<span class="nc" id="L122">    }</span>
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;Generated Code&quot;&gt;//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+<span class="nc" id="L128">        jSplitPane1 = new javax.swing.JSplitPane();</span>
+<span class="nc" id="L129">        jSplitPane2 = new javax.swing.JSplitPane();</span>
+<span class="nc" id="L130">        jPanel1 = new javax.swing.JPanel();</span>
+<span class="nc" id="L131">        jScrollPane2 = new javax.swing.JScrollPane();</span>
+<span class="nc" id="L132">        tablaClientes = new javax.swing.JTable();</span>
+<span class="nc" id="L133">        txtClientes = new javax.swing.JTextField();</span>
+<span class="nc" id="L134">        jLabel1 = new javax.swing.JLabel();</span>
+<span class="nc" id="L135">        jPanel3 = new javax.swing.JPanel();</span>
+<span class="nc" id="L136">        jScrollPane4 = new javax.swing.JScrollPane();</span>
+<span class="nc" id="L137">        tablaListas = new javax.swing.JTable();</span>
+<span class="nc" id="L138">        txtLista = new javax.swing.JTextField();</span>
+<span class="nc" id="L139">        jLabel3 = new javax.swing.JLabel();</span>
+<span class="nc" id="L140">        btnEliminarLista = new javax.swing.JButton();</span>
+<span class="nc" id="L141">        jSplitPane3 = new javax.swing.JSplitPane();</span>
+<span class="nc" id="L142">        jPanel2 = new javax.swing.JPanel();</span>
+<span class="nc" id="L143">        jScrollPane1 = new javax.swing.JScrollPane();</span>
+<span class="nc" id="L144">        tablaAlbumes = new javax.swing.JTable();</span>
+<span class="nc" id="L145">        jLabel2 = new javax.swing.JLabel();</span>
+<span class="nc" id="L146">        txtAlbum = new javax.swing.JTextField();</span>
+<span class="nc" id="L147">        btnEliminarAlbum = new javax.swing.JButton();</span>
+<span class="nc" id="L148">        jPanel4 = new javax.swing.JPanel();</span>
+<span class="nc" id="L149">        jScrollPane3 = new javax.swing.JScrollPane();</span>
+<span class="nc" id="L150">        tablaTemas = new javax.swing.JTable();</span>
+<span class="nc" id="L151">        jLabel4 = new javax.swing.JLabel();</span>
+<span class="nc" id="L152">        txtTema = new javax.swing.JTextField();</span>
+<span class="nc" id="L153">        btnEliminarTema = new javax.swing.JButton();</span>
+
+<span class="nc" id="L155">        setClosable(true);</span>
+<span class="nc" id="L156">        setMaximizable(true);</span>
+<span class="nc" id="L157">        setTitle(&quot;Eliminar un favorito&quot;);</span>
+<span class="nc" id="L158">        getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));</span>
+
+<span class="nc" id="L160">        jSplitPane1.setDividerLocation(500);</span>
+
+<span class="nc" id="L162">        jSplitPane2.setDividerLocation(310);</span>
+<span class="nc" id="L163">        jSplitPane2.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);</span>
+
+<span class="nc" id="L165">        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(&quot;Clientes&quot;));</span>
+
+<span class="nc" id="L167">        tablaClientes.setModel(new javax.swing.table.DefaultTableModel(</span>
+            new Object [][] {
+
+            },
+            new String [] {
+                &quot;Nickname&quot;, &quot;Nombre&quot;, &quot;Apellido&quot;, &quot;Correo&quot;
+            }
+<span class="nc" id="L174">        ) {</span>
+<span class="nc" id="L175">            boolean[] canEdit = new boolean [] {</span>
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+<span class="nc" id="L180">                return canEdit [columnIndex];</span>
+            }
+        });
+<span class="nc" id="L183">        tablaClientes.getTableHeader().setReorderingAllowed(false);</span>
+<span class="nc" id="L184">        jScrollPane2.setViewportView(tablaClientes);</span>
+<span class="nc bnc" id="L185" title="All 2 branches missed.">        if (tablaClientes.getColumnModel().getColumnCount() &gt; 0) {</span>
+<span class="nc" id="L186">            tablaClientes.getColumnModel().getColumn(0).setResizable(false);</span>
+<span class="nc" id="L187">            tablaClientes.getColumnModel().getColumn(1).setResizable(false);</span>
+<span class="nc" id="L188">            tablaClientes.getColumnModel().getColumn(2).setResizable(false);</span>
+<span class="nc" id="L189">            tablaClientes.getColumnModel().getColumn(3).setResizable(false);</span>
+        }
+
+<span class="nc" id="L192">        txtClientes.addCaretListener(new javax.swing.event.CaretListener() {</span>
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+<span class="nc" id="L194">                txtClientesCaretUpdate(evt);</span>
+<span class="nc" id="L195">            }</span>
+        });
+
+<span class="nc" id="L198">        jLabel1.setText(&quot;Nickname:&quot;);</span>
+
+<span class="nc" id="L200">        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);</span>
+<span class="nc" id="L201">        jPanel1.setLayout(jPanel1Layout);</span>
+<span class="nc" id="L202">        jPanel1Layout.setHorizontalGroup(</span>
+<span class="nc" id="L203">            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L204">            .addGroup(jPanel1Layout.createSequentialGroup()</span>
+<span class="nc" id="L205">                .addContainerGap()</span>
+<span class="nc" id="L206">                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L207">                    .addComponent(jScrollPane2)</span>
+<span class="nc" id="L208">                    .addGroup(jPanel1Layout.createSequentialGroup()</span>
+<span class="nc" id="L209">                        .addComponent(jLabel1)</span>
+<span class="nc" id="L210">                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L211">                        .addComponent(txtClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L212">                        .addGap(0, 282, Short.MAX_VALUE)))</span>
+<span class="nc" id="L213">                .addContainerGap())</span>
+        );
+<span class="nc" id="L215">        jPanel1Layout.setVerticalGroup(</span>
+<span class="nc" id="L216">            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L217">            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()</span>
+<span class="nc" id="L218">                .addContainerGap()</span>
+<span class="nc" id="L219">                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L220">                    .addComponent(txtClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L221">                    .addComponent(jLabel1))</span>
+<span class="nc" id="L222">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L223">                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)</span>
+<span class="nc" id="L224">                .addContainerGap())</span>
+        );
+
+<span class="nc" id="L227">        jSplitPane2.setTopComponent(jPanel1);</span>
+
+<span class="nc" id="L229">        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(&quot;Listas Favoritas&quot;));</span>
+
+<span class="nc" id="L231">        tablaListas.setModel(new javax.swing.table.DefaultTableModel(</span>
+            new Object [][] {
+
+            },
+            new String [] {
+                &quot;Nombre&quot;, &quot;Tipo&quot;
+            }
+<span class="nc" id="L238">        ) {</span>
+<span class="nc" id="L239">            boolean[] canEdit = new boolean [] {</span>
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+<span class="nc" id="L244">                return canEdit [columnIndex];</span>
+            }
+        });
+<span class="nc" id="L247">        jScrollPane4.setViewportView(tablaListas);</span>
+<span class="nc bnc" id="L248" title="All 2 branches missed.">        if (tablaListas.getColumnModel().getColumnCount() &gt; 0) {</span>
+<span class="nc" id="L249">            tablaListas.getColumnModel().getColumn(0).setResizable(false);</span>
+<span class="nc" id="L250">            tablaListas.getColumnModel().getColumn(1).setResizable(false);</span>
+        }
+
+<span class="nc" id="L253">        txtLista.addCaretListener(new javax.swing.event.CaretListener() {</span>
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+<span class="nc" id="L255">                txtListaCaretUpdate(evt);</span>
+<span class="nc" id="L256">            }</span>
+        });
+
+<span class="nc" id="L259">        jLabel3.setText(&quot;Lista:&quot;);</span>
+
+<span class="nc" id="L261">        btnEliminarLista.setText(&quot;Eliminar&quot;);</span>
+<span class="nc" id="L262">        btnEliminarLista.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L264">                btnEliminarListaActionPerformed(evt);</span>
+<span class="nc" id="L265">            }</span>
+        });
+
+<span class="nc" id="L268">        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);</span>
+<span class="nc" id="L269">        jPanel3.setLayout(jPanel3Layout);</span>
+<span class="nc" id="L270">        jPanel3Layout.setHorizontalGroup(</span>
+<span class="nc" id="L271">            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L272">            .addGroup(jPanel3Layout.createSequentialGroup()</span>
+<span class="nc" id="L273">                .addContainerGap()</span>
+<span class="nc" id="L274">                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L275">                    .addGroup(jPanel3Layout.createSequentialGroup()</span>
+<span class="nc" id="L276">                        .addComponent(jLabel3)</span>
+<span class="nc" id="L277">                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L278">                        .addComponent(txtLista, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L279">                        .addGap(0, 0, Short.MAX_VALUE))</span>
+<span class="nc" id="L280">                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()</span>
+<span class="nc" id="L281">                        .addGap(0, 3, Short.MAX_VALUE)</span>
+<span class="nc" id="L282">                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L283">                            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L284">                            .addComponent(btnEliminarLista, javax.swing.GroupLayout.Alignment.TRAILING))))</span>
+<span class="nc" id="L285">                .addContainerGap())</span>
+        );
+<span class="nc" id="L287">        jPanel3Layout.setVerticalGroup(</span>
+<span class="nc" id="L288">            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L289">            .addGroup(jPanel3Layout.createSequentialGroup()</span>
+<span class="nc" id="L290">                .addContainerGap()</span>
+<span class="nc" id="L291">                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L292">                    .addComponent(txtLista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L293">                    .addComponent(jLabel3))</span>
+<span class="nc" id="L294">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L295">                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L296">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L297">                .addComponent(btnEliminarLista)</span>
+<span class="nc" id="L298">                .addContainerGap(16, Short.MAX_VALUE))</span>
+        );
+
+<span class="nc" id="L301">        jSplitPane2.setRightComponent(jPanel3);</span>
+
+<span class="nc" id="L303">        jSplitPane1.setLeftComponent(jSplitPane2);</span>
+
+<span class="nc" id="L305">        jSplitPane3.setDividerLocation(310);</span>
+<span class="nc" id="L306">        jSplitPane3.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);</span>
+
+<span class="nc" id="L308">        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(&quot;Albumes Favoritos&quot;));</span>
+
+<span class="nc" id="L310">        tablaAlbumes.setModel(new javax.swing.table.DefaultTableModel(</span>
+            new Object [][] {
+
+            },
+            new String [] {
+                &quot;Nickartista&quot;, &quot;Nombre&quot;, &quot;Anio&quot;
+            }
+<span class="nc" id="L317">        ) {</span>
+<span class="nc" id="L318">            boolean[] canEdit = new boolean [] {</span>
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+<span class="nc" id="L323">                return canEdit [columnIndex];</span>
+            }
+        });
+<span class="nc" id="L326">        tablaAlbumes.getTableHeader().setReorderingAllowed(false);</span>
+<span class="nc" id="L327">        jScrollPane1.setViewportView(tablaAlbumes);</span>
+<span class="nc bnc" id="L328" title="All 2 branches missed.">        if (tablaAlbumes.getColumnModel().getColumnCount() &gt; 0) {</span>
+<span class="nc" id="L329">            tablaAlbumes.getColumnModel().getColumn(0).setResizable(false);</span>
+<span class="nc" id="L330">            tablaAlbumes.getColumnModel().getColumn(1).setResizable(false);</span>
+<span class="nc" id="L331">            tablaAlbumes.getColumnModel().getColumn(2).setResizable(false);</span>
+        }
+
+<span class="nc" id="L334">        jLabel2.setText(&quot;Album:&quot;);</span>
+
+<span class="nc" id="L336">        txtAlbum.addCaretListener(new javax.swing.event.CaretListener() {</span>
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+<span class="nc" id="L338">                txtAlbumCaretUpdate(evt);</span>
+<span class="nc" id="L339">            }</span>
+        });
+
+<span class="nc" id="L342">        btnEliminarAlbum.setText(&quot;Eliminar&quot;);</span>
+<span class="nc" id="L343">        btnEliminarAlbum.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L345">                btnEliminarAlbumActionPerformed(evt);</span>
+<span class="nc" id="L346">            }</span>
+        });
+
+<span class="nc" id="L349">        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);</span>
+<span class="nc" id="L350">        jPanel2.setLayout(jPanel2Layout);</span>
+<span class="nc" id="L351">        jPanel2Layout.setHorizontalGroup(</span>
+<span class="nc" id="L352">            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L353">            .addGroup(jPanel2Layout.createSequentialGroup()</span>
+<span class="nc" id="L354">                .addContainerGap()</span>
+<span class="nc" id="L355">                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L356">                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()</span>
+<span class="nc" id="L357">                        .addGap(0, 0, Short.MAX_VALUE)</span>
+<span class="nc" id="L358">                        .addComponent(btnEliminarAlbum))</span>
+<span class="nc" id="L359">                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE)</span>
+<span class="nc" id="L360">                    .addGroup(jPanel2Layout.createSequentialGroup()</span>
+<span class="nc" id="L361">                        .addComponent(jLabel2)</span>
+<span class="nc" id="L362">                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L363">                        .addComponent(txtAlbum, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L364">                        .addGap(0, 0, Short.MAX_VALUE)))</span>
+<span class="nc" id="L365">                .addContainerGap())</span>
+        );
+<span class="nc" id="L367">        jPanel2Layout.setVerticalGroup(</span>
+<span class="nc" id="L368">            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L369">            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()</span>
+<span class="nc" id="L370">                .addContainerGap()</span>
+<span class="nc" id="L371">                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L372">                    .addComponent(txtAlbum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L373">                    .addComponent(jLabel2))</span>
+<span class="nc" id="L374">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L375">                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L376">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L377">                .addComponent(btnEliminarAlbum)</span>
+<span class="nc" id="L378">                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))</span>
+        );
+
+<span class="nc" id="L381">        jSplitPane3.setTopComponent(jPanel2);</span>
+
+<span class="nc" id="L383">        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(&quot;Temas Favoritos&quot;));</span>
+
+<span class="nc" id="L385">        tablaTemas.setModel(new javax.swing.table.DefaultTableModel(</span>
+            new Object [][] {
+
+            },
+            new String [] {
+                &quot;Nombre&quot;, &quot;Duracion&quot;
+            }
+<span class="nc" id="L392">        ) {</span>
+<span class="nc" id="L393">            boolean[] canEdit = new boolean [] {</span>
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+<span class="nc" id="L398">                return canEdit [columnIndex];</span>
+            }
+        });
+<span class="nc" id="L401">        tablaTemas.getTableHeader().setReorderingAllowed(false);</span>
+<span class="nc" id="L402">        jScrollPane3.setViewportView(tablaTemas);</span>
+<span class="nc bnc" id="L403" title="All 2 branches missed.">        if (tablaTemas.getColumnModel().getColumnCount() &gt; 0) {</span>
+<span class="nc" id="L404">            tablaTemas.getColumnModel().getColumn(0).setResizable(false);</span>
+<span class="nc" id="L405">            tablaTemas.getColumnModel().getColumn(1).setResizable(false);</span>
+        }
+
+<span class="nc" id="L408">        jLabel4.setText(&quot;Tema:&quot;);</span>
+
+<span class="nc" id="L410">        txtTema.addCaretListener(new javax.swing.event.CaretListener() {</span>
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+<span class="nc" id="L412">                txtTemaCaretUpdate(evt);</span>
+<span class="nc" id="L413">            }</span>
+        });
+
+<span class="nc" id="L416">        btnEliminarTema.setText(&quot;Eliminar&quot;);</span>
+<span class="nc" id="L417">        btnEliminarTema.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L419">                btnEliminarTemaActionPerformed(evt);</span>
+<span class="nc" id="L420">            }</span>
+        });
+
+<span class="nc" id="L423">        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);</span>
+<span class="nc" id="L424">        jPanel4.setLayout(jPanel4Layout);</span>
+<span class="nc" id="L425">        jPanel4Layout.setHorizontalGroup(</span>
+<span class="nc" id="L426">            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L427">            .addGroup(jPanel4Layout.createSequentialGroup()</span>
+<span class="nc" id="L428">                .addContainerGap()</span>
+<span class="nc" id="L429">                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L430">                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE)</span>
+<span class="nc" id="L431">                    .addGroup(jPanel4Layout.createSequentialGroup()</span>
+<span class="nc" id="L432">                        .addComponent(jLabel4)</span>
+<span class="nc" id="L433">                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L434">                        .addComponent(txtTema, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L435">                        .addGap(0, 0, Short.MAX_VALUE))</span>
+<span class="nc" id="L436">                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()</span>
+<span class="nc" id="L437">                        .addGap(0, 0, Short.MAX_VALUE)</span>
+<span class="nc" id="L438">                        .addComponent(btnEliminarTema)))</span>
+<span class="nc" id="L439">                .addContainerGap())</span>
+        );
+<span class="nc" id="L441">        jPanel4Layout.setVerticalGroup(</span>
+<span class="nc" id="L442">            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L443">            .addGroup(jPanel4Layout.createSequentialGroup()</span>
+<span class="nc" id="L444">                .addContainerGap()</span>
+<span class="nc" id="L445">                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L446">                    .addComponent(txtTema, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L447">                    .addComponent(jLabel4))</span>
+<span class="nc" id="L448">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L449">                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L450">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L451">                .addComponent(btnEliminarTema)</span>
+<span class="nc" id="L452">                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))</span>
+        );
+
+<span class="nc" id="L455">        jSplitPane3.setRightComponent(jPanel4);</span>
+
+<span class="nc" id="L457">        jSplitPane1.setRightComponent(jSplitPane3);</span>
+
+<span class="nc" id="L459">        getContentPane().add(jSplitPane1);</span>
+
+<span class="nc" id="L461">        pack();</span>
+<span class="nc" id="L462">    }// &lt;/editor-fold&gt;//GEN-END:initComponents</span>
+
+    private void txtClientesCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtClientesCaretUpdate
+<span class="nc" id="L465">        cargarDatosClientes(clientes, txtClientes.getText());</span>
+<span class="nc" id="L466">    }//GEN-LAST:event_txtClientesCaretUpdate</span>
+
+    private void txtAlbumCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtAlbumCaretUpdate
+<span class="nc" id="L469">        cargarAlbumesFav();</span>
+<span class="nc" id="L470">    }//GEN-LAST:event_txtAlbumCaretUpdate</span>
+
+    private void txtListaCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtListaCaretUpdate
+<span class="nc" id="L473">        cargarListasFav();</span>
+<span class="nc" id="L474">    }//GEN-LAST:event_txtListaCaretUpdate</span>
+
+    private void txtTemaCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtTemaCaretUpdate
+<span class="nc" id="L477">        cargarTemasFav();</span>
+<span class="nc" id="L478">    }//GEN-LAST:event_txtTemaCaretUpdate</span>
+
+    private void btnEliminarAlbumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarAlbumActionPerformed
+<span class="nc bnc" id="L481" title="All 2 branches missed.">        if (tablaClientes.getSelectedRow() == -1) {</span>
+<span class="nc" id="L482">            return;</span>
+        }
+
+<span class="nc bnc" id="L485" title="All 2 branches missed.">        if (tablaAlbumes.getSelectedRow() == -1) {</span>
+<span class="nc" id="L486">            JOptionPane.showMessageDialog(this, &quot;No hay ningun tema seleccionado&quot;);</span>
+<span class="nc" id="L487">            return;</span>
+        }
+
+        try {
+<span class="nc" id="L491">            String nickCliente = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 0).toString();</span>
+<span class="nc" id="L492">            iUsuario.eliminarAlbumFav(nickCliente, tablaAlbumes.getSelectedRow());</span>
+<span class="nc" id="L493">            cargarAlbumesFav();</span>
+<span class="nc" id="L494">            JOptionPane.showMessageDialog(this, &quot;Se borro el album de favoritos&quot;);</span>
+<span class="nc" id="L495">        } catch (UnsupportedOperationException e) {</span>
+<span class="nc" id="L496">            JOptionPane.showMessageDialog(this, &quot;Error : &quot; + e.getMessage(), &quot;Error&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L497">        }</span>
+<span class="nc" id="L498">    }//GEN-LAST:event_btnEliminarAlbumActionPerformed</span>
+
+    private void btnEliminarListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarListaActionPerformed
+<span class="nc bnc" id="L501" title="All 2 branches missed.">        if (tablaClientes.getSelectedRow() == -1) {</span>
+<span class="nc" id="L502">            return;</span>
+        }
+
+<span class="nc bnc" id="L505" title="All 2 branches missed.">        if (tablaListas.getSelectedRow() == -1) {</span>
+<span class="nc" id="L506">            JOptionPane.showMessageDialog(this, &quot;No hay ningun tema seleccionado&quot;);</span>
+<span class="nc" id="L507">            return;</span>
+        }
+
+        try {
+<span class="nc" id="L511">            String nickCliente = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 0).toString();</span>
+<span class="nc" id="L512">            iUsuario.eliminarListaFav(nickCliente, tablaListas.getSelectedRow());</span>
+<span class="nc" id="L513">            cargarListasFav();</span>
+<span class="nc" id="L514">            JOptionPane.showMessageDialog(this, &quot;Se borro la lista de favoritos&quot;);</span>
+<span class="nc" id="L515">        } catch (UnsupportedOperationException e) {</span>
+<span class="nc" id="L516">            JOptionPane.showMessageDialog(this, &quot;Error : &quot; + e.getMessage(), &quot;Error&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L517">        }</span>
+<span class="nc" id="L518">    }//GEN-LAST:event_btnEliminarListaActionPerformed</span>
+
+    private void btnEliminarTemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarTemaActionPerformed
+<span class="nc bnc" id="L521" title="All 2 branches missed.">        if (tablaClientes.getSelectedRow() == -1) {</span>
+<span class="nc" id="L522">            return;</span>
+        }
+
+<span class="nc bnc" id="L525" title="All 2 branches missed.">        if (tablaTemas.getSelectedRow() == -1) {</span>
+<span class="nc" id="L526">            JOptionPane.showMessageDialog(this, &quot;No hay ningun tema seleccionado&quot;);</span>
+<span class="nc" id="L527">            return;</span>
+        }
+
+        try {
+<span class="nc" id="L531">            String nickCliente = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 0).toString();</span>
+<span class="nc" id="L532">            iUsuario.eliminarTemaFav(nickCliente, tablaTemas.getSelectedRow());</span>
+<span class="nc" id="L533">            cargarTemasFav();</span>
+<span class="nc" id="L534">            JOptionPane.showMessageDialog(this, &quot;Se borro el tema de favoritos&quot;);</span>
+<span class="nc" id="L535">        } catch (UnsupportedOperationException e) {</span>
+<span class="nc" id="L536">            JOptionPane.showMessageDialog(this, &quot;Error : &quot; + e.getMessage(), &quot;Error&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L537">        }</span>
+<span class="nc" id="L538">    }//GEN-LAST:event_btnEliminarTemaActionPerformed</span>
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnEliminarAlbum;
+    private javax.swing.JButton btnEliminarLista;
+    private javax.swing.JButton btnEliminarTema;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JSplitPane jSplitPane1;
+    private javax.swing.JSplitPane jSplitPane2;
+    private javax.swing.JSplitPane jSplitPane3;
+    private javax.swing.JTable tablaAlbumes;
+    private javax.swing.JTable tablaClientes;
+    private javax.swing.JTable tablaListas;
+    private javax.swing.JTable tablaTemas;
+    private javax.swing.JTextField txtAlbum;
+    private javax.swing.JTextField txtClientes;
+    private javax.swing.JTextField txtLista;
+    private javax.swing.JTextField txtTema;
+    // End of variables declaration//GEN-END:variables
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

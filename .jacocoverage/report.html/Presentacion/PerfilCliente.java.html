@@ -1,0 +1,578 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>PerfilCliente.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;Tarea1&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">Presentacion</a> &gt; <span class="el_source">PerfilCliente.java</span></div><h1>PerfilCliente.java</h1><pre class="source lang-java linenums">package Presentacion;
+
+import Logica.DtAlbum;
+import Logica.DtCliente;
+import Logica.DtLista;
+import Logica.DtListaParticular;
+import Logica.DtPerfilCliente;
+import Logica.DtTema;
+import Logica.DtUsuario;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
+import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
+
+public class PerfilCliente extends javax.swing.JInternalFrame {
+
+    PropertyManager pm;
+
+<span class="nc" id="L22">    public PerfilCliente(DtPerfilCliente dtPerfilCliente) {</span>
+<span class="nc" id="L23">        initComponents();</span>
+<span class="nc" id="L24">        pm = PropertyManager.getInstance();</span>
+
+<span class="nc" id="L26">        txtNickname.setEnabled(true);</span>
+<span class="nc" id="L27">        txtNombre.setEnabled(true);</span>
+<span class="nc" id="L28">        txtApellido.setEnabled(true);</span>
+<span class="nc" id="L29">        txtEmail.setEnabled(true);</span>
+<span class="nc" id="L30">        txtFechaNac.setEnabled(true);</span>
+
+<span class="nc" id="L32">        txtNickname.setEditable(false);</span>
+<span class="nc" id="L33">        txtNombre.setEditable(false);</span>
+<span class="nc" id="L34">        txtApellido.setEditable(false);</span>
+<span class="nc" id="L35">        txtEmail.setEditable(false);</span>
+<span class="nc" id="L36">        txtFechaNac.setEditable(false);</span>
+<span class="nc" id="L37">        tablaSeguidos.setEnabled(false);</span>
+<span class="nc" id="L38">        tablaSeguidores.setEnabled(false);</span>
+
+<span class="nc" id="L40">        setTitle(getTitle() + dtPerfilCliente.getInfo().getNickname());</span>
+
+        // Cargar datos basicos
+<span class="nc" id="L43">        txtNickname.setText(dtPerfilCliente.getInfo().getNickname());</span>
+<span class="nc" id="L44">        txtNombre.setText(dtPerfilCliente.getInfo().getNombre());</span>
+<span class="nc" id="L45">        txtApellido.setText(dtPerfilCliente.getInfo().getApellido());</span>
+<span class="nc" id="L46">        txtEmail.setText(dtPerfilCliente.getInfo().getEmail());</span>
+<span class="nc" id="L47">        txtFechaNac.setText(dtPerfilCliente.getInfo().getFechaNac().toString());</span>
+
+        // Cargar imagen
+        try {
+<span class="nc" id="L51">            String imagen = dtPerfilCliente.getInfo().getImagen();</span>
+<span class="nc" id="L52">            String path = pm.getProperty(&quot;pathImagenesUsuario&quot;);</span>
+            BufferedImage img;
+
+<span class="nc bnc" id="L55" title="All 4 branches missed.">            if (imagen == null || imagen.isEmpty()) {</span>
+<span class="nc" id="L56">                img = ImageIO.read(new File(path + &quot;userDefaullt.png&quot;));</span>
+            } else {
+<span class="nc" id="L58">                img = ImageIO.read(new File(path + imagen));</span>
+            }
+<span class="nc" id="L60">            PanelImagen pImg = new PanelImagen(img);</span>
+<span class="nc" id="L61">            imagenPanel.add(pImg);</span>
+<span class="nc" id="L62">            pImg.setBounds(0, 0, 163, 163);</span>
+
+<span class="nc" id="L64">        } catch (IOException e) {</span>
+<span class="nc" id="L65">            e.printStackTrace();</span>
+
+<span class="nc" id="L67">        }</span>
+
+        // Cargar Seguidores
+<span class="nc" id="L70">        ((TitledBorder) panelSeguidores.getBorder()).setTitle(&quot;Seguidores (&quot; + dtPerfilCliente.getSeguidores().size() + &quot;):&quot;);</span>
+
+<span class="nc" id="L72">        DefaultTableModel dtmSeguidores = (DefaultTableModel) tablaSeguidores.getModel();</span>
+
+<span class="nc" id="L74">        dtmSeguidores.setRowCount(</span>
+                0);
+        for (DtCliente dtc
+<span class="nc bnc" id="L77" title="All 2 branches missed.">                : dtPerfilCliente.getSeguidores()) {</span>
+<span class="nc" id="L78">            Object[] data = {</span>
+<span class="nc" id="L79">                dtc.getNickname(),</span>
+<span class="nc" id="L80">                dtc.getNombre() + &quot; &quot; + dtc.getApellido()</span>
+            };
+<span class="nc" id="L82">            dtmSeguidores.addRow(data);</span>
+<span class="nc" id="L83">        }</span>
+
+        // Cargar Seguidos
+<span class="nc" id="L86">        ((TitledBorder) panelSeguidos.getBorder()).setTitle(&quot;Seguidos (&quot; + dtPerfilCliente.getSeguidos().size() + &quot;):&quot;);</span>
+
+<span class="nc" id="L88">        DefaultTableModel dtmSeguidos = (DefaultTableModel) tablaSeguidos.getModel();</span>
+
+<span class="nc" id="L90">        dtmSeguidos.setRowCount(</span>
+                0);
+        for (DtUsuario dtc
+<span class="nc bnc" id="L93" title="All 2 branches missed.">                : dtPerfilCliente.getSeguidos()) {</span>
+<span class="nc" id="L94">            Object[] data = {</span>
+<span class="nc" id="L95">                dtc.getNickname(),</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">                dtc.getNombre() + &quot; &quot; + dtc.getApellido(),</span>
+                (dtc instanceof DtCliente ? &quot;Cliente&quot; : &quot;Artista&quot;)
+            };
+<span class="nc" id="L99">            dtmSeguidos.addRow(data);</span>
+<span class="nc" id="L100">        }</span>
+
+        // Cargar Listas Creadas
+<span class="nc" id="L103">        ((TitledBorder) panelListasCreadas.getBorder()).setTitle(&quot;Listas Creadas (&quot; + dtPerfilCliente.getListasCreadas().size() + &quot;):&quot;);</span>
+
+<span class="nc" id="L105">        DefaultTableModel dtmListasCreadas = (DefaultTableModel) tablaListasCreadas.getModel();</span>
+<span class="nc" id="L106">        dtmListasCreadas.setRowCount(0);</span>
+
+<span class="nc bnc" id="L108" title="All 2 branches missed.">        for (DtListaParticular dtlp : dtPerfilCliente.getListasCreadas()) {</span>
+<span class="nc" id="L109">            Object[] data = {</span>
+<span class="nc" id="L110">                dtlp.getNombre(),</span>
+<span class="nc" id="L111">                dtlp.getTemas().size()</span>
+            };
+<span class="nc" id="L113">            dtmListasCreadas.addRow(data);</span>
+<span class="nc" id="L114">        }</span>
+
+        // Cargar Listas Favoritos
+<span class="nc" id="L117">        ((TitledBorder) panelListasFavs.getBorder()).setTitle(&quot;Listas Favoritas (&quot; + dtPerfilCliente.getListasFavoritas().size() + &quot;):&quot;);</span>
+
+<span class="nc" id="L119">        DefaultTableModel dtmListasFavs = (DefaultTableModel) tablaListasFavs.getModel();</span>
+
+<span class="nc" id="L121">        dtmListasFavs.setRowCount(</span>
+                0);
+        for (DtLista dtl
+<span class="nc bnc" id="L124" title="All 2 branches missed.">                : dtPerfilCliente.getListasFavoritas()) {</span>
+<span class="nc" id="L125">            Object[] data = {</span>
+<span class="nc" id="L126">                dtl.getNombre(),</span>
+<span class="nc" id="L127">                dtl.getTemas().size()</span>
+            };
+<span class="nc" id="L129">            dtmListasFavs.addRow(data);</span>
+<span class="nc" id="L130">        }</span>
+
+        // Cargar Albumes Favoritos
+<span class="nc" id="L133">        ((TitledBorder) panelAlbumes.getBorder()).setTitle(&quot;Albumes Favoritos (&quot; + dtPerfilCliente.getAlbumes().size() + &quot;):&quot;);</span>
+
+<span class="nc" id="L135">        DefaultTableModel dtmAlbumes = (DefaultTableModel) tablaAlbumes.getModel();</span>
+
+<span class="nc" id="L137">        dtmAlbumes.setRowCount(</span>
+                0);
+        for (DtAlbum dta
+<span class="nc bnc" id="L140" title="All 2 branches missed.">                : dtPerfilCliente.getAlbumes()) {</span>
+<span class="nc" id="L141">            Object[] data = {</span>
+<span class="nc" id="L142">                dta.getNickArtista(),</span>
+<span class="nc" id="L143">                dta.getNombre(),</span>
+<span class="nc" id="L144">                dta.getAnio()</span>
+            };
+<span class="nc" id="L146">            dtmAlbumes.addRow(data);</span>
+<span class="nc" id="L147">        }</span>
+
+        // Cargar Temas Favoritos
+<span class="nc" id="L150">        ((TitledBorder) panelTemas.getBorder()).setTitle(&quot;Temas Favoritos (&quot; + dtPerfilCliente.getTemas().size() + &quot;):&quot;);</span>
+
+<span class="nc" id="L152">        DefaultTableModel dtmTemas = (DefaultTableModel) tablaTemas.getModel();</span>
+
+<span class="nc" id="L154">        dtmTemas.setRowCount(</span>
+                0);
+        for (DtTema dtt
+<span class="nc bnc" id="L157" title="All 2 branches missed.">                : dtPerfilCliente.getTemas()) {</span>
+<span class="nc" id="L158">            Object[] data = {</span>
+<span class="nc" id="L159">                dtt.getNombre(),</span>
+<span class="nc" id="L160">                dtt.getDuracion().getHoras() + &quot;:&quot; + dtt.getDuracion().getMinutos() + &quot;:&quot; + dtt.getDuracion().getSegundos(),};</span>
+<span class="nc" id="L161">            dtmTemas.addRow(data);</span>
+<span class="nc" id="L162">        }</span>
+<span class="nc" id="L163">    }</span>
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;Generated Code&quot;&gt;//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+<span class="nc" id="L169">        jSplitPane1 = new javax.swing.JSplitPane();</span>
+<span class="nc" id="L170">        PanelInfo = new javax.swing.JPanel();</span>
+<span class="nc" id="L171">        txtNickname = new javax.swing.JTextField();</span>
+<span class="nc" id="L172">        txtNombre = new javax.swing.JTextField();</span>
+<span class="nc" id="L173">        txtApellido = new javax.swing.JTextField();</span>
+<span class="nc" id="L174">        txtEmail = new javax.swing.JTextField();</span>
+<span class="nc" id="L175">        txtFechaNac = new javax.swing.JTextField();</span>
+<span class="nc" id="L176">        jLabel1 = new javax.swing.JLabel();</span>
+<span class="nc" id="L177">        jLabel2 = new javax.swing.JLabel();</span>
+<span class="nc" id="L178">        jLabel3 = new javax.swing.JLabel();</span>
+<span class="nc" id="L179">        jLabel4 = new javax.swing.JLabel();</span>
+<span class="nc" id="L180">        jLabel5 = new javax.swing.JLabel();</span>
+<span class="nc" id="L181">        imagenPanel = new javax.swing.JPanel();</span>
+<span class="nc" id="L182">        jSplitPane4 = new javax.swing.JSplitPane();</span>
+<span class="nc" id="L183">        panelSeguidores = new javax.swing.JPanel();</span>
+<span class="nc" id="L184">        jScrollPane2 = new javax.swing.JScrollPane();</span>
+<span class="nc" id="L185">        tablaSeguidores = new javax.swing.JTable();</span>
+<span class="nc" id="L186">        panelSeguidos = new javax.swing.JPanel();</span>
+<span class="nc" id="L187">        jScrollPane1 = new javax.swing.JScrollPane();</span>
+<span class="nc" id="L188">        tablaSeguidos = new javax.swing.JTable();</span>
+<span class="nc" id="L189">        jSplitPane2 = new javax.swing.JSplitPane();</span>
+<span class="nc" id="L190">        panelListasCreadas = new javax.swing.JPanel();</span>
+<span class="nc" id="L191">        jScrollPane3 = new javax.swing.JScrollPane();</span>
+<span class="nc" id="L192">        tablaListasCreadas = new javax.swing.JTable();</span>
+<span class="nc" id="L193">        panelListasFavs = new javax.swing.JPanel();</span>
+<span class="nc" id="L194">        jScrollPane4 = new javax.swing.JScrollPane();</span>
+<span class="nc" id="L195">        tablaListasFavs = new javax.swing.JTable();</span>
+<span class="nc" id="L196">        jSplitPane3 = new javax.swing.JSplitPane();</span>
+<span class="nc" id="L197">        panelAlbumes = new javax.swing.JPanel();</span>
+<span class="nc" id="L198">        jScrollPane5 = new javax.swing.JScrollPane();</span>
+<span class="nc" id="L199">        tablaAlbumes = new javax.swing.JTable();</span>
+<span class="nc" id="L200">        panelTemas = new javax.swing.JPanel();</span>
+<span class="nc" id="L201">        jScrollPane6 = new javax.swing.JScrollPane();</span>
+<span class="nc" id="L202">        tablaTemas = new javax.swing.JTable();</span>
+
+<span class="nc" id="L204">        setClosable(true);</span>
+<span class="nc" id="L205">        setIconifiable(true);</span>
+<span class="nc" id="L206">        setMaximizable(true);</span>
+<span class="nc" id="L207">        setTitle(&quot;Perfil del Cliente &quot;);</span>
+<span class="nc" id="L208">        getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.Y_AXIS));</span>
+
+<span class="nc" id="L210">        jSplitPane1.setDividerLocation(450);</span>
+<span class="nc" id="L211">        jSplitPane1.setLastDividerLocation(400);</span>
+<span class="nc" id="L212">        jSplitPane1.setMaximumSize(new java.awt.Dimension(2147483647, 100));</span>
+<span class="nc" id="L213">        jSplitPane1.setMinimumSize(new java.awt.Dimension(214, 100));</span>
+
+<span class="nc" id="L215">        PanelInfo.setBorder(javax.swing.BorderFactory.createTitledBorder(&quot;Informacion Basica&quot;));</span>
+
+<span class="nc" id="L217">        jLabel1.setText(&quot;Nickname:&quot;);</span>
+
+<span class="nc" id="L219">        jLabel2.setText(&quot;Nombre:&quot;);</span>
+
+<span class="nc" id="L221">        jLabel3.setText(&quot;Apellido:&quot;);</span>
+
+<span class="nc" id="L223">        jLabel4.setText(&quot;Email:&quot;);</span>
+
+<span class="nc" id="L225">        jLabel5.setText(&quot;Fecha Nac.:&quot;);</span>
+
+<span class="nc" id="L227">        imagenPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));</span>
+<span class="nc" id="L228">        imagenPanel.setPreferredSize(new java.awt.Dimension(163, 163));</span>
+
+<span class="nc" id="L230">        javax.swing.GroupLayout imagenPanelLayout = new javax.swing.GroupLayout(imagenPanel);</span>
+<span class="nc" id="L231">        imagenPanel.setLayout(imagenPanelLayout);</span>
+<span class="nc" id="L232">        imagenPanelLayout.setHorizontalGroup(</span>
+<span class="nc" id="L233">            imagenPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L234">            .addGap(0, 161, Short.MAX_VALUE)</span>
+        );
+<span class="nc" id="L236">        imagenPanelLayout.setVerticalGroup(</span>
+<span class="nc" id="L237">            imagenPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L238">            .addGap(0, 0, Short.MAX_VALUE)</span>
+        );
+
+<span class="nc" id="L241">        javax.swing.GroupLayout PanelInfoLayout = new javax.swing.GroupLayout(PanelInfo);</span>
+<span class="nc" id="L242">        PanelInfo.setLayout(PanelInfoLayout);</span>
+<span class="nc" id="L243">        PanelInfoLayout.setHorizontalGroup(</span>
+<span class="nc" id="L244">            PanelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L245">            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelInfoLayout.createSequentialGroup()</span>
+<span class="nc" id="L246">                .addContainerGap()</span>
+<span class="nc" id="L247">                .addGroup(PanelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L248">                    .addComponent(jLabel1)</span>
+<span class="nc" id="L249">                    .addComponent(jLabel2)</span>
+<span class="nc" id="L250">                    .addComponent(jLabel3)</span>
+<span class="nc" id="L251">                    .addComponent(jLabel4)</span>
+<span class="nc" id="L252">                    .addComponent(jLabel5))</span>
+<span class="nc" id="L253">                .addGap(18, 18, 18)</span>
+<span class="nc" id="L254">                .addGroup(PanelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)</span>
+<span class="nc" id="L255">                    .addComponent(txtNickname, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)</span>
+<span class="nc" id="L256">                    .addComponent(txtNombre)</span>
+<span class="nc" id="L257">                    .addComponent(txtApellido)</span>
+<span class="nc" id="L258">                    .addComponent(txtEmail)</span>
+<span class="nc" id="L259">                    .addComponent(txtFechaNac))</span>
+<span class="nc" id="L260">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)</span>
+<span class="nc" id="L261">                .addComponent(imagenPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L262">                .addGap(24, 24, 24))</span>
+        );
+<span class="nc" id="L264">        PanelInfoLayout.setVerticalGroup(</span>
+<span class="nc" id="L265">            PanelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L266">            .addGroup(PanelInfoLayout.createSequentialGroup()</span>
+<span class="nc" id="L267">                .addContainerGap()</span>
+<span class="nc" id="L268">                .addGroup(PanelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L269">                    .addComponent(txtNickname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L270">                    .addComponent(jLabel1))</span>
+<span class="nc" id="L271">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L272">                .addGroup(PanelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L273">                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L274">                    .addComponent(jLabel2))</span>
+<span class="nc" id="L275">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L276">                .addGroup(PanelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L277">                    .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L278">                    .addComponent(jLabel3))</span>
+<span class="nc" id="L279">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L280">                .addGroup(PanelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L281">                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L282">                    .addComponent(jLabel4))</span>
+<span class="nc" id="L283">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L284">                .addGroup(PanelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L285">                    .addComponent(txtFechaNac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L286">                    .addComponent(jLabel5))</span>
+<span class="nc" id="L287">                .addContainerGap(28, Short.MAX_VALUE))</span>
+<span class="nc" id="L288">            .addComponent(imagenPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+        );
+
+<span class="nc" id="L291">        jSplitPane1.setLeftComponent(PanelInfo);</span>
+
+<span class="nc" id="L293">        jSplitPane4.setDividerLocation(200);</span>
+
+<span class="nc" id="L295">        panelSeguidores.setBorder(javax.swing.BorderFactory.createTitledBorder(&quot;Seguidores&quot;));</span>
+
+<span class="nc" id="L297">        tablaSeguidores.setModel(new javax.swing.table.DefaultTableModel(</span>
+            new Object [][] {
+
+            },
+            new String [] {
+                &quot;Nickname&quot;, &quot;Nombre&quot;
+            }
+<span class="nc" id="L304">        ) {</span>
+<span class="nc" id="L305">            boolean[] canEdit = new boolean [] {</span>
+                true, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+<span class="nc" id="L310">                return canEdit [columnIndex];</span>
+            }
+        });
+<span class="nc" id="L313">        tablaSeguidores.getTableHeader().setReorderingAllowed(false);</span>
+<span class="nc" id="L314">        jScrollPane2.setViewportView(tablaSeguidores);</span>
+<span class="nc bnc" id="L315" title="All 2 branches missed.">        if (tablaSeguidores.getColumnModel().getColumnCount() &gt; 0) {</span>
+<span class="nc" id="L316">            tablaSeguidores.getColumnModel().getColumn(0).setResizable(false);</span>
+<span class="nc" id="L317">            tablaSeguidores.getColumnModel().getColumn(1).setResizable(false);</span>
+        }
+
+<span class="nc" id="L320">        javax.swing.GroupLayout panelSeguidoresLayout = new javax.swing.GroupLayout(panelSeguidores);</span>
+<span class="nc" id="L321">        panelSeguidores.setLayout(panelSeguidoresLayout);</span>
+<span class="nc" id="L322">        panelSeguidoresLayout.setHorizontalGroup(</span>
+<span class="nc" id="L323">            panelSeguidoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L324">            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)</span>
+        );
+<span class="nc" id="L326">        panelSeguidoresLayout.setVerticalGroup(</span>
+<span class="nc" id="L327">            panelSeguidoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L328">            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)</span>
+        );
+
+<span class="nc" id="L331">        jSplitPane4.setLeftComponent(panelSeguidores);</span>
+
+<span class="nc" id="L333">        panelSeguidos.setBorder(javax.swing.BorderFactory.createTitledBorder(&quot;Seguidos&quot;));</span>
+
+<span class="nc" id="L335">        tablaSeguidos.setModel(new javax.swing.table.DefaultTableModel(</span>
+            new Object [][] {
+
+            },
+            new String [] {
+                &quot;Nickname&quot;, &quot;Nombre&quot;, &quot;Tipo&quot;
+            }
+<span class="nc" id="L342">        ) {</span>
+<span class="nc" id="L343">            boolean[] canEdit = new boolean [] {</span>
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+<span class="nc" id="L348">                return canEdit [columnIndex];</span>
+            }
+        });
+<span class="nc" id="L351">        tablaSeguidos.getTableHeader().setReorderingAllowed(false);</span>
+<span class="nc" id="L352">        jScrollPane1.setViewportView(tablaSeguidos);</span>
+<span class="nc bnc" id="L353" title="All 2 branches missed.">        if (tablaSeguidos.getColumnModel().getColumnCount() &gt; 0) {</span>
+<span class="nc" id="L354">            tablaSeguidos.getColumnModel().getColumn(0).setResizable(false);</span>
+<span class="nc" id="L355">            tablaSeguidos.getColumnModel().getColumn(1).setResizable(false);</span>
+<span class="nc" id="L356">            tablaSeguidos.getColumnModel().getColumn(2).setResizable(false);</span>
+        }
+
+<span class="nc" id="L359">        javax.swing.GroupLayout panelSeguidosLayout = new javax.swing.GroupLayout(panelSeguidos);</span>
+<span class="nc" id="L360">        panelSeguidos.setLayout(panelSeguidosLayout);</span>
+<span class="nc" id="L361">        panelSeguidosLayout.setHorizontalGroup(</span>
+<span class="nc" id="L362">            panelSeguidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L363">            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)</span>
+        );
+<span class="nc" id="L365">        panelSeguidosLayout.setVerticalGroup(</span>
+<span class="nc" id="L366">            panelSeguidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L367">            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)</span>
+        );
+
+<span class="nc" id="L370">        jSplitPane4.setRightComponent(panelSeguidos);</span>
+
+<span class="nc" id="L372">        jSplitPane1.setRightComponent(jSplitPane4);</span>
+
+<span class="nc" id="L374">        getContentPane().add(jSplitPane1);</span>
+
+<span class="nc" id="L376">        jSplitPane2.setDividerLocation(450);</span>
+
+<span class="nc" id="L378">        panelListasCreadas.setBorder(javax.swing.BorderFactory.createTitledBorder(&quot;Listas Creadas&quot;));</span>
+
+<span class="nc" id="L380">        tablaListasCreadas.setModel(new javax.swing.table.DefaultTableModel(</span>
+            new Object [][] {
+
+            },
+            new String [] {
+                &quot;Nombre&quot;, &quot;Cant. Temas&quot;
+            }
+<span class="nc" id="L387">        ) {</span>
+<span class="nc" id="L388">            boolean[] canEdit = new boolean [] {</span>
+                true, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+<span class="nc" id="L393">                return canEdit [columnIndex];</span>
+            }
+        });
+<span class="nc" id="L396">        tablaListasCreadas.getTableHeader().setReorderingAllowed(false);</span>
+<span class="nc" id="L397">        jScrollPane3.setViewportView(tablaListasCreadas);</span>
+<span class="nc bnc" id="L398" title="All 2 branches missed.">        if (tablaListasCreadas.getColumnModel().getColumnCount() &gt; 0) {</span>
+<span class="nc" id="L399">            tablaListasCreadas.getColumnModel().getColumn(0).setResizable(false);</span>
+<span class="nc" id="L400">            tablaListasCreadas.getColumnModel().getColumn(1).setResizable(false);</span>
+        }
+
+<span class="nc" id="L403">        javax.swing.GroupLayout panelListasCreadasLayout = new javax.swing.GroupLayout(panelListasCreadas);</span>
+<span class="nc" id="L404">        panelListasCreadas.setLayout(panelListasCreadasLayout);</span>
+<span class="nc" id="L405">        panelListasCreadasLayout.setHorizontalGroup(</span>
+<span class="nc" id="L406">            panelListasCreadasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L407">            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 437, Short.MAX_VALUE)</span>
+        );
+<span class="nc" id="L409">        panelListasCreadasLayout.setVerticalGroup(</span>
+<span class="nc" id="L410">            panelListasCreadasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L411">            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)</span>
+        );
+
+<span class="nc" id="L414">        jSplitPane2.setLeftComponent(panelListasCreadas);</span>
+
+<span class="nc" id="L416">        panelListasFavs.setBorder(javax.swing.BorderFactory.createTitledBorder(&quot;Listas Favoritas&quot;));</span>
+
+<span class="nc" id="L418">        tablaListasFavs.setModel(new javax.swing.table.DefaultTableModel(</span>
+            new Object [][] {
+
+            },
+            new String [] {
+                &quot;Nombre&quot;, &quot;Cant. Temas&quot;
+            }
+<span class="nc" id="L425">        ) {</span>
+<span class="nc" id="L426">            boolean[] canEdit = new boolean [] {</span>
+                true, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+<span class="nc" id="L431">                return canEdit [columnIndex];</span>
+            }
+        });
+<span class="nc" id="L434">        tablaListasFavs.getTableHeader().setReorderingAllowed(false);</span>
+<span class="nc" id="L435">        jScrollPane4.setViewportView(tablaListasFavs);</span>
+<span class="nc bnc" id="L436" title="All 2 branches missed.">        if (tablaListasFavs.getColumnModel().getColumnCount() &gt; 0) {</span>
+<span class="nc" id="L437">            tablaListasFavs.getColumnModel().getColumn(0).setResizable(false);</span>
+<span class="nc" id="L438">            tablaListasFavs.getColumnModel().getColumn(1).setResizable(false);</span>
+        }
+
+<span class="nc" id="L441">        javax.swing.GroupLayout panelListasFavsLayout = new javax.swing.GroupLayout(panelListasFavs);</span>
+<span class="nc" id="L442">        panelListasFavs.setLayout(panelListasFavsLayout);</span>
+<span class="nc" id="L443">        panelListasFavsLayout.setHorizontalGroup(</span>
+<span class="nc" id="L444">            panelListasFavsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L445">            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE)</span>
+        );
+<span class="nc" id="L447">        panelListasFavsLayout.setVerticalGroup(</span>
+<span class="nc" id="L448">            panelListasFavsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L449">            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)</span>
+        );
+
+<span class="nc" id="L452">        jSplitPane2.setRightComponent(panelListasFavs);</span>
+
+<span class="nc" id="L454">        getContentPane().add(jSplitPane2);</span>
+
+<span class="nc" id="L456">        jSplitPane3.setDividerLocation(450);</span>
+
+<span class="nc" id="L458">        panelAlbumes.setBorder(javax.swing.BorderFactory.createTitledBorder(&quot;Albumes Favoritos&quot;));</span>
+
+<span class="nc" id="L460">        tablaAlbumes.setModel(new javax.swing.table.DefaultTableModel(</span>
+            new Object [][] {
+
+            },
+            new String [] {
+                &quot;Artista&quot;, &quot;Nombre&quot;, &quot;Año&quot;
+            }
+<span class="nc" id="L467">        ) {</span>
+<span class="nc" id="L468">            boolean[] canEdit = new boolean [] {</span>
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+<span class="nc" id="L473">                return canEdit [columnIndex];</span>
+            }
+        });
+<span class="nc" id="L476">        tablaAlbumes.getTableHeader().setReorderingAllowed(false);</span>
+<span class="nc" id="L477">        jScrollPane5.setViewportView(tablaAlbumes);</span>
+<span class="nc bnc" id="L478" title="All 2 branches missed.">        if (tablaAlbumes.getColumnModel().getColumnCount() &gt; 0) {</span>
+<span class="nc" id="L479">            tablaAlbumes.getColumnModel().getColumn(0).setResizable(false);</span>
+<span class="nc" id="L480">            tablaAlbumes.getColumnModel().getColumn(1).setResizable(false);</span>
+<span class="nc" id="L481">            tablaAlbumes.getColumnModel().getColumn(2).setResizable(false);</span>
+        }
+
+<span class="nc" id="L484">        javax.swing.GroupLayout panelAlbumesLayout = new javax.swing.GroupLayout(panelAlbumes);</span>
+<span class="nc" id="L485">        panelAlbumes.setLayout(panelAlbumesLayout);</span>
+<span class="nc" id="L486">        panelAlbumesLayout.setHorizontalGroup(</span>
+<span class="nc" id="L487">            panelAlbumesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L488">            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 437, Short.MAX_VALUE)</span>
+        );
+<span class="nc" id="L490">        panelAlbumesLayout.setVerticalGroup(</span>
+<span class="nc" id="L491">            panelAlbumesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L492">            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)</span>
+        );
+
+<span class="nc" id="L495">        jSplitPane3.setLeftComponent(panelAlbumes);</span>
+
+<span class="nc" id="L497">        panelTemas.setBorder(javax.swing.BorderFactory.createTitledBorder(&quot;Temas Favoritos&quot;));</span>
+
+<span class="nc" id="L499">        tablaTemas.setModel(new javax.swing.table.DefaultTableModel(</span>
+            new Object [][] {
+
+            },
+            new String [] {
+                &quot;Nombre&quot;, &quot;Duracion&quot;
+            }
+<span class="nc" id="L506">        ) {</span>
+<span class="nc" id="L507">            boolean[] canEdit = new boolean [] {</span>
+                true, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+<span class="nc" id="L512">                return canEdit [columnIndex];</span>
+            }
+        });
+<span class="nc" id="L515">        tablaTemas.getTableHeader().setReorderingAllowed(false);</span>
+<span class="nc" id="L516">        jScrollPane6.setViewportView(tablaTemas);</span>
+<span class="nc bnc" id="L517" title="All 2 branches missed.">        if (tablaTemas.getColumnModel().getColumnCount() &gt; 0) {</span>
+<span class="nc" id="L518">            tablaTemas.getColumnModel().getColumn(0).setResizable(false);</span>
+<span class="nc" id="L519">            tablaTemas.getColumnModel().getColumn(1).setResizable(false);</span>
+        }
+
+<span class="nc" id="L522">        javax.swing.GroupLayout panelTemasLayout = new javax.swing.GroupLayout(panelTemas);</span>
+<span class="nc" id="L523">        panelTemas.setLayout(panelTemasLayout);</span>
+<span class="nc" id="L524">        panelTemasLayout.setHorizontalGroup(</span>
+<span class="nc" id="L525">            panelTemasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L526">            .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE)</span>
+        );
+<span class="nc" id="L528">        panelTemasLayout.setVerticalGroup(</span>
+<span class="nc" id="L529">            panelTemasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L530">            .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)</span>
+        );
+
+<span class="nc" id="L533">        jSplitPane3.setRightComponent(panelTemas);</span>
+
+<span class="nc" id="L535">        getContentPane().add(jSplitPane3);</span>
+
+<span class="nc" id="L537">        pack();</span>
+<span class="nc" id="L538">    }// &lt;/editor-fold&gt;//GEN-END:initComponents</span>
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel PanelInfo;
+    private javax.swing.JPanel imagenPanel;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JSplitPane jSplitPane1;
+    private javax.swing.JSplitPane jSplitPane2;
+    private javax.swing.JSplitPane jSplitPane3;
+    private javax.swing.JSplitPane jSplitPane4;
+    private javax.swing.JPanel panelAlbumes;
+    private javax.swing.JPanel panelListasCreadas;
+    private javax.swing.JPanel panelListasFavs;
+    private javax.swing.JPanel panelSeguidores;
+    private javax.swing.JPanel panelSeguidos;
+    private javax.swing.JPanel panelTemas;
+    private javax.swing.JTable tablaAlbumes;
+    private javax.swing.JTable tablaListasCreadas;
+    private javax.swing.JTable tablaListasFavs;
+    private javax.swing.JTable tablaSeguidores;
+    private javax.swing.JTable tablaSeguidos;
+    private javax.swing.JTable tablaTemas;
+    private javax.swing.JTextField txtApellido;
+    private javax.swing.JTextField txtEmail;
+    private javax.swing.JTextField txtFechaNac;
+    private javax.swing.JTextField txtNickname;
+    private javax.swing.JTextField txtNombre;
+    // End of variables declaration//GEN-END:variables
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>
