@@ -13,6 +13,7 @@ public class Cliente extends Usuario {
     private ArrayList<Album> albumesfav;
     private ArrayList<Lista> listasfav;
     private ArrayList<Tema> temasfav;
+    private Suscripcion suscripcion;
 
     public Cliente(String nickname, String nombre, String apellido, String email, DtFecha fechaNac, String imagen) {
         super(nickname, nombre, apellido, email, fechaNac, imagen);
@@ -23,6 +24,18 @@ public class Cliente extends Usuario {
         this.listasfav = new ArrayList<>();
         this.temasfav = new ArrayList<>();
     }
+    
+    public Cliente(String nickname, String nombre, String apellido, String email, DtFecha fechaNac, String imagen,Suscripcion sus) {
+        super(nickname, nombre, apellido, email, fechaNac, imagen);
+
+        this.seguidos = new HashMap();
+        this.listasParticulares = new HashMap<String, ListaParticular>();
+        this.albumesfav = new ArrayList<>();
+        this.listasfav = new ArrayList<>();
+        this.temasfav = new ArrayList<>();
+        this.suscripcion= sus;
+    }
+    
 
     public int agregarAlbumFav(Album a) {
         if (albumesfav.contains(a)) {
