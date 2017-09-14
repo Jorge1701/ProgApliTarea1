@@ -431,4 +431,16 @@ public class ControladorUsuario implements IUsuario {
         return null;
 
     }
+
+    public boolean correoExiste(String correo) {
+          Iterator i = usuarios.entrySet().iterator();
+        while (i.hasNext()) {
+            Usuario u = (Usuario) ((Map.Entry) i.next()).getValue();
+
+            if (u.getEmail().equals(correo)) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

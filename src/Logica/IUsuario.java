@@ -41,4 +41,5 @@ public interface IUsuario {
     
     public void cargarAlbum(Album dta);
     public void cargarLista(ListaParticular lp, String nickcliente);
+    public boolean correoExiste(String correo);
 }
