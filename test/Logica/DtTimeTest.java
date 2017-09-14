@@ -17,22 +17,28 @@ import static org.junit.Assert.*;
  * @author Kopxe
  */
 public class DtTimeTest {
-    
+
     public DtTimeTest() {
     }
-    
+
+    private static DtTime time;
+    private static int horas;
+    private static int minutos;
+    private static int segundos;
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
+        time = new DtTime(horas, minutos, segundos);
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -43,12 +49,10 @@ public class DtTimeTest {
     @Test
     public void testGetHoras() {
         System.out.println("getHoras");
-        DtTime instance = null;
-        int expResult = 0;
+        DtTime instance = time;
+        int expResult = horas;
         int result = instance.getHoras();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -57,12 +61,10 @@ public class DtTimeTest {
     @Test
     public void testGetMinutos() {
         System.out.println("getMinutos");
-        DtTime instance = null;
-        int expResult = 0;
+        DtTime instance = time;
+        int expResult = minutos;
         int result = instance.getMinutos();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -71,12 +73,10 @@ public class DtTimeTest {
     @Test
     public void testGetSegundos() {
         System.out.println("getSegundos");
-        DtTime instance = null;
-        int expResult = 0;
+        DtTime instance = time;
+        int expResult = segundos;
         int result = instance.getSegundos();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -85,12 +85,10 @@ public class DtTimeTest {
     @Test
     public void testToString() {
         System.out.println("toString");
-        DtTime instance = null;
-        String expResult = "";
+        DtTime instance = time;
+        String expResult = horas + ":" + minutos + ":" + segundos;
         String result = instance.toString();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
-    
+
 }
