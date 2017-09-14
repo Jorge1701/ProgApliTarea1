@@ -175,7 +175,12 @@ public class ControladorUsuario implements IUsuario {
 
     @Override
     public DtUsuario getDataUsuario(String nickUsuario) {
-        return usuarios.get(nickUsuario).getData();
+        Usuario user = usuarios.get(nickUsuario);
+        if (user != null) {
+            return user.getData();
+        } else {
+            return null;
+        }
     }
 
     @Override
