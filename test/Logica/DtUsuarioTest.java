@@ -45,7 +45,7 @@ public class DtUsuarioTest {
 
     @Before
     public void setUp() {
-        dtUsuario = new DtUsuario(nickname, nombre, apellido, email, fechaNac, imagen);
+        dtUsuario = new DtUsuario(nickname, nombre, apellido, email, fechaNac, imagen,"");
     }
 
     @After

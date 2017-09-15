@@ -15,8 +15,8 @@ public class Cliente extends Usuario {
     private ArrayList<Tema> temasfav;
     private Suscripcion suscripcion;
 
-    public Cliente(String nickname, String nombre, String apellido, String email, DtFecha fechaNac, String imagen) {
-        super(nickname, nombre, apellido, email, fechaNac, imagen);
+    public Cliente(String nickname, String nombre, String apellido, String email, DtFecha fechaNac, String imagen,String contrasenia) {
+        super(nickname, nombre, apellido, email, fechaNac, imagen,contrasenia);
 
         this.seguidos = new HashMap();
         this.listasParticulares = new HashMap<String, ListaParticular>();
@@ -25,8 +25,8 @@ public class Cliente extends Usuario {
         this.temasfav = new ArrayList<>();
     }
     
-    public Cliente(String nickname, String nombre, String apellido, String email, DtFecha fechaNac, String imagen,Suscripcion sus) {
-        super(nickname, nombre, apellido, email, fechaNac, imagen);
+    public Cliente(String nickname, String nombre, String apellido, String email, DtFecha fechaNac, String imagen,String contrasenia,Suscripcion sus) {
+        super(nickname, nombre, apellido, email, fechaNac, imagen,contrasenia);
 
         this.seguidos = new HashMap();
         this.listasParticulares = new HashMap<String, ListaParticular>();
@@ -135,7 +135,7 @@ public class Cliente extends Usuario {
 
     @Override
     public DtCliente getData() {
-        return new DtCliente(getNickname(), getNombre(), getApellido(), getEmail(), getFechaNac(), getImagen());
+        return new DtCliente(getNickname(), getNombre(), getApellido(), getEmail(), getFechaNac(), getImagen(),getContrasenia());
     }
 
     @Override

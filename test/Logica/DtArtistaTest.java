@@ -49,7 +49,7 @@ public class DtArtistaTest {
 
     @Before
     public void setUp() {
-        dtArtista = new DtArtista(nickname, nombre, apellido, email, fechaNac, imagen, bio, web);
+        dtArtista = new DtArtista(nickname, nombre, apellido, email, fechaNac, imagen,"" ,bio, web);
     }
 
     @After

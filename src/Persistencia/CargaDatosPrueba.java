@@ -339,7 +339,8 @@ public class CargaDatosPrueba {
                 String biografia = artistas.getString(6);
                 String web = artistas.getString(7);
                 String imagen = artistas.getString(8);
-                usuarios.add(new DtArtista(nickName, nombre, apellido, correo, dtFecha, imagen, biografia, web));
+                String contrasenia = artistas.getString(9);
+                usuarios.add(new DtArtista(nickName, nombre, apellido, correo, dtFecha, imagen, contrasenia, biografia, web));
             }
 
             usuario.close();
@@ -358,7 +359,8 @@ public class CargaDatosPrueba {
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(fecha);
                 DtFecha dtFecha = new DtFecha(cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR));
-                usuarios.add(new DtCliente(nickName, nombre, apellido, correo, dtFecha, imagen));
+                String contrasenia = clientes.getString(7);
+                usuarios.add(new DtCliente(nickName, nombre, apellido, correo, dtFecha, imagen, contrasenia));
 
             }
 
@@ -801,7 +803,7 @@ public class CargaDatosPrueba {
                         web = info[3];
                     }
                 }
-                dtu = new DtArtista(nickName, nombre, apellido, correo, fecha, imagen, bio, web);
+                dtu = new DtArtista(nickName, nombre, apellido, correo, fecha, imagen,bio, web,"");
 
             } else {
                 for (String[] info : infoClientes) {
@@ -809,8 +811,8 @@ public class CargaDatosPrueba {
                         imagen = info[1];
                     }
                 }
-               
-                dtu = new DtCliente(nickName, nombre, apellido, correo, fecha, imagen);
+
+                dtu = new DtCliente(nickName, nombre, apellido, correo, fecha, imagen, "");
             }
             res = bdu.ingresarUsuario(dtu);
             if (res == false) {

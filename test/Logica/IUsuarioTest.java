@@ -636,6 +636,11 @@ public class IUsuarioTest {
 
         public void cargarLista(ListaParticular lp, String nickcliente) {
         }
+
+        @Override
+        public boolean correoExiste(String correo) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
     }
     
 }

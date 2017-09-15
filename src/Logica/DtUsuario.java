@@ -8,14 +8,16 @@ public class DtUsuario {
     private String email;
     private DtFecha fechaNac;
     private String imagen;
+    private String contrasenia;
 
-    public DtUsuario(String nickname, String nombre, String apellido, String email, DtFecha fechaNac, String imagen) {
+    public DtUsuario(String nickname, String nombre, String apellido, String email, DtFecha fechaNac, String imagen,String contrasenia) {
         this.nickname = nickname;
         this.nombre = nombre;
         this.apellido = apellido;
         this.email = email;
         this.fechaNac = fechaNac;
         this.imagen = imagen;
+        this.contrasenia = contrasenia;
     }
 
     public String getNickname() {
@@ -41,4 +43,9 @@ public class DtUsuario {
     public String getImagen() {
         return imagen;
     }
+
+    public String getContrasenia() {
+        return contrasenia;
+    }
+    
 }

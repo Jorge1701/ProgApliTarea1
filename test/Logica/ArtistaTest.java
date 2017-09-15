@@ -61,7 +61,7 @@ public class ArtistaTest {
 
     @Before
     public void setUp() {
-        artista = new Artista(nickname, nombre, apellido, email, fechaNac, imagen, biografia, web);
+        artista = new Artista(nickname, nombre, apellido, email, fechaNac, imagen, "", biografia, web);
         artista.setAlbumes(albumes);
     }
 
@@ -188,7 +188,7 @@ public class ArtistaTest {
     public void testGetData() {
         System.out.println("getData");
         Artista instance = artista;
-        DtArtista expResult = new DtArtista(nickname, nombre, apellido, email, fechaNac, imagen, biografia, web);
+        DtArtista expResult = new DtArtista(nickname, nombre, apellido, email, fechaNac, imagen,"", biografia, web);
         DtArtista obtenido = instance.getData();
 
         boolean result = true;

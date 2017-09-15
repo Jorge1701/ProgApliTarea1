@@ -47,7 +47,7 @@ public class ClienteTest {
 
     @Before
     public void setUp() {
-        cliente = new Cliente(nickname, nombre, apellido, email, fechaNac, imagen);
+        cliente = new Cliente(nickname, nombre, apellido, email, fechaNac, imagen,"");
     }
 
     @After
@@ -254,7 +254,7 @@ public class ClienteTest {
     public void testGetData() {
         System.out.println("getData");
         Cliente instance = cliente;
-        DtCliente expResult = new DtCliente(nickname, nombre, apellido, email, fechaNac, imagen);
+        DtCliente expResult = new DtCliente(nickname, nombre, apellido, email, fechaNac, imagen,"");
         DtCliente obtenido = instance.getData();
 
         boolean result = true;
