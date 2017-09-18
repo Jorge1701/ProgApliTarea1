@@ -360,7 +360,7 @@ public class CargaDatosPrueba {
                 cal.setTime(fecha);
                 DtFecha dtFecha = new DtFecha(cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR));
                 String contrasenia = clientes.getString(7);
-                usuarios.add(new DtCliente(nickName, nombre, apellido, correo, dtFecha, imagen, contrasenia));
+                usuarios.add(new DtCliente(nickName, nombre, apellido, correo, dtFecha, imagen, contrasenia,null));
 
             }
 
@@ -812,7 +812,7 @@ public class CargaDatosPrueba {
                     }
                 }
 
-                dtu = new DtCliente(nickName, nombre, apellido, correo, fecha, imagen, "");
+                dtu = new DtCliente(nickName, nombre, apellido, correo, fecha, imagen, "",null);
             }
             res = bdu.ingresarUsuario(dtu);
             if (res == false) {

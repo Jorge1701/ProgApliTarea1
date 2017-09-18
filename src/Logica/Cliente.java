@@ -120,6 +120,7 @@ public class Cliente extends Usuario {
         return albumesfav;
     }
 
+    
     public ArrayList<Lista> obtenerListasFav() {
         return listasfav;
     }
@@ -135,7 +136,7 @@ public class Cliente extends Usuario {
 
     @Override
     public DtCliente getData() {
-        return new DtCliente(getNickname(), getNombre(), getApellido(), getEmail(), getFechaNac(), getImagen(),getContrasenia());
+        return new DtCliente(getNickname(), getNombre(), getApellido(), getEmail(), getFechaNac(), getImagen(),getContrasenia(),getSuscripcion());
     }
 
     @Override
@@ -201,6 +202,16 @@ public class Cliente extends Usuario {
         return seguidos;
     }
 
+    public Suscripcion getSuscripcion() {
+        return suscripcion;
+    }
+
+    public void setSuscripcion(Suscripcion suscripcion) {
+        this.suscripcion = suscripcion;
+    }
+
+    
+    
     public ListaParticular getListaParticular(String nombre) {
         return listasParticulares.get(nombre);
     }

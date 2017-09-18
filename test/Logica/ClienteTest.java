@@ -254,7 +254,7 @@ public class ClienteTest {
     public void testGetData() {
         System.out.println("getData");
         Cliente instance = cliente;
-        DtCliente expResult = new DtCliente(nickname, nombre, apellido, email, fechaNac, imagen,"");
+        DtCliente expResult = new DtCliente(nickname, nombre, apellido, email, fechaNac, imagen,"",null);
         DtCliente obtenido = instance.getData();
 
         boolean result = true;
