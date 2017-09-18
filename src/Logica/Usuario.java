@@ -14,8 +14,9 @@ public abstract class Usuario {
     private DtFecha fechaNac;
     private String imagen;
     private HashMap<String,Cliente> seguidores;
+    private String contrasenia;
     
-    public Usuario(String nickname, String nombre, String apellido, String email, DtFecha fechaNac, String imagen) {
+    public Usuario(String nickname, String nombre, String apellido, String email, DtFecha fechaNac, String imagen,String contrasenia) {
         this.nickname = nickname;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -23,6 +24,7 @@ public abstract class Usuario {
         this.fechaNac = fechaNac;
         this.imagen = imagen;
         this.seguidores = new HashMap();
+        this.contrasenia = contrasenia;
     }
 
     public abstract String getTipo();
@@ -69,8 +71,16 @@ public abstract class Usuario {
         this.imagen = imagen;
     }
 
+    public void setContrasenia(String contrasenia) {
+        this.contrasenia = contrasenia;
+    }
+
     public String getImagen() {
         return imagen;
+    }
+
+    public String getContrasenia() {
+        return contrasenia;
     }
     
      public void setSeguidores(HashMap<String,Cliente> seguidores) {

@@ -63,7 +63,7 @@ public class AlbumTest {
 
     @Before
     public void setUp() {
-        artista = new Artista("nickname", "nombreArt", "apellidoArt", "emailArt", new DtFecha(12, 5, 1996), "imgArti", "bioArt", "webArt");
+        artista = new Artista("nickname", "nombreArt", "apellidoArt", "emailArt", new DtFecha(12, 5, 1996), "imgArti","", "bioArt", "webArt");
         album = new Album(artista.getNickname(), nombre, anio, imagen, temas, generos);
         album.setArtista(artista);
     }
@@ -235,7 +235,7 @@ public class AlbumTest {
     @Test
     public void testSetArtista() {
         System.out.println("setArtista");
-        Artista artista = new Artista("nick2", "nombre2", "apellido2", "email2", new DtFecha(2, 2, 2), "img2", "bio2", "web2");
+        Artista artista = new Artista("nick2", "nombre2", "apellido2", "email2", new DtFecha(2, 2, 2), "img2","", "bio2", "web2");
         Album instance = album;
         instance.setArtista(artista);
         assertEquals(artista, instance.getArtista());

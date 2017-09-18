@@ -76,9 +76,9 @@ public class ControladorUsuario implements IUsuario {
         if (this.bdUsuario.ingresarUsuario(dtu)) {
 
             if (dtu instanceof DtCliente) {
-                usr = new Cliente(dtu.getNickname(), dtu.getNombre(), dtu.getApellido(), dtu.getEmail(), new DtFecha(dtu.getFechaNac().getDia(), dtu.getFechaNac().getMes(), dtu.getFechaNac().getAnio()), dtu.getImagen());
+                usr = new Cliente(dtu.getNickname(), dtu.getNombre(), dtu.getApellido(), dtu.getEmail(), new DtFecha(dtu.getFechaNac().getDia(), dtu.getFechaNac().getMes(), dtu.getFechaNac().getAnio()), dtu.getImagen(), dtu.getContrasenia());
             } else {
-                usr = new Artista(dtu.getNickname(), dtu.getNombre(), dtu.getApellido(), dtu.getEmail(), new DtFecha(dtu.getFechaNac().getDia(), dtu.getFechaNac().getMes(), dtu.getFechaNac().getAnio()), dtu.getImagen(), ((DtArtista) dtu).getBiografia(), ((DtArtista) dtu).getWeb());
+                usr = new Artista(dtu.getNickname(), dtu.getNombre(), dtu.getApellido(), dtu.getEmail(), new DtFecha(dtu.getFechaNac().getDia(), dtu.getFechaNac().getMes(), dtu.getFechaNac().getAnio()), dtu.getImagen(), dtu.getContrasenia(), ((DtArtista) dtu).getBiografia(), ((DtArtista) dtu).getWeb());
             }
             this.usuarios.put(usr.getNickname(), usr);
             return true;
@@ -91,9 +91,9 @@ public class ControladorUsuario implements IUsuario {
     public void levantarUsuario(DtUsuario dtu) {
         Usuario u;
         if (dtu instanceof DtCliente) {
-            u = new Cliente(dtu.getNickname(), dtu.getNombre(), dtu.getApellido(), dtu.getEmail(), new DtFecha(dtu.getFechaNac().getDia(), dtu.getFechaNac().getMes(), dtu.getFechaNac().getAnio()), dtu.getImagen());
+            u = new Cliente(dtu.getNickname(), dtu.getNombre(), dtu.getApellido(), dtu.getEmail(), new DtFecha(dtu.getFechaNac().getDia(), dtu.getFechaNac().getMes(), dtu.getFechaNac().getAnio()), dtu.getImagen(), dtu.getContrasenia());
         } else {
-            u = new Artista(dtu.getNickname(), dtu.getNombre(), dtu.getApellido(), dtu.getEmail(), new DtFecha(dtu.getFechaNac().getDia(), dtu.getFechaNac().getMes(), dtu.getFechaNac().getAnio()), dtu.getImagen(), ((DtArtista) dtu).getBiografia(), ((DtArtista) dtu).getWeb());
+            u = new Artista(dtu.getNickname(), dtu.getNombre(), dtu.getApellido(), dtu.getEmail(), new DtFecha(dtu.getFechaNac().getDia(), dtu.getFechaNac().getMes(), dtu.getFechaNac().getAnio()), dtu.getImagen(), dtu.getContrasenia(), ((DtArtista) dtu).getBiografia(), ((DtArtista) dtu).getWeb());
         }
         usuarios.put(u.getNickname(), u);
     }
@@ -434,7 +434,7 @@ public class ControladorUsuario implements IUsuario {
 
     @Override
     public boolean correoExiste(String correo) {
-          Iterator i = usuarios.entrySet().iterator();
+        Iterator i = usuarios.entrySet().iterator();
         while (i.hasNext()) {
             Usuario u = (Usuario) ((Map.Entry) i.next()).getValue();
 

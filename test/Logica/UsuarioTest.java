@@ -329,7 +329,7 @@ public class UsuarioTest {
     public class UsuarioImpl extends Usuario {
 
         public UsuarioImpl() {
-            super("", "", "", "", null, "");
+            super("", "", "", "", null, "","");
         }
 
         public String getTipo() {

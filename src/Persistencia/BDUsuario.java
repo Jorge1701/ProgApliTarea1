@@ -71,6 +71,7 @@ public class BDUsuario {
         String apellido = dtu.getApellido();
         String correo = dtu.getEmail();
         String imagen = dtu.getImagen();
+        String contrasenia = dtu.getContrasenia();
 
         Date fecha = java.sql.Date.valueOf(dtu.getFechaNac().getAnio() + "-" + dtu.getFechaNac().getMes() + "-" + dtu.getFechaNac().getDia());
         //new Date(dtu.getFechaNac().getAnio(), dtu.getFechaNac().getMes(), dtu.getFechaNac().getDia());
@@ -81,7 +82,7 @@ public class BDUsuario {
                 String web = ((DtArtista) dtu).getWeb();
 
                 PreparedStatement insertar = conexion.prepareStatement("INSERT INTO artista "
-                        + "(nickname, nombre, apellido,correo,fecha_nac,biografia,sitio_web,imagen) values(?,?,?,?,?,?,?,?)");
+                        + "(nickname, nombre, apellido,correo,fecha_nac,biografia,sitio_web,imagen,contrasenia) values(?,?,?,?,?,?,?,?,?)");
                 insertar.setString(1, nickName);
                 insertar.setString(2, nombre);
                 insertar.setString(3, apellido);
@@ -94,6 +95,7 @@ public class BDUsuario {
                 // } else {
                 insertar.setString(8, imagen);
                 // }
+                insertar.setString(9, contrasenia);
                 insertar.executeUpdate();
                 insertar.close();
             } catch (SQLException ex) {
@@ -105,7 +107,7 @@ public class BDUsuario {
             
             try {
                 PreparedStatement insertar = conexion.prepareStatement("INSERT INTO cliente "
-                        + "(nickname, correo, nombre, apellido, fecha_nac,imagen) values(?,?,?,?,?,?)");
+                        + "(nickname, correo, nombre, apellido, fecha_nac,imagen,contrasenia) values(?,?,?,?,?,?,?)");
                 insertar.setString(1, nickName);
                 insertar.setString(2, nombre);
                 insertar.setString(3, apellido);
@@ -116,6 +118,7 @@ public class BDUsuario {
                 // } else {
                 insertar.setString(6, imagen);
                 //}
+                insertar.setString(7, contrasenia);
                 insertar.executeUpdate();
                 insertar.close();
             } catch (SQLException ex) {
