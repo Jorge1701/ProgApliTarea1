@@ -45,7 +45,7 @@ public class DtClienteTest {
 
     @Before
     public void setUp() {
-        dtCliente = new DtCliente(nickname, nombre, apellido, email, fechaNac, imagen,"");
+        dtCliente = new DtCliente(nickname, nombre, apellido, email, fechaNac, imagen, "", null);
     }
 
     @After
