@@ -445,6 +445,7 @@ public class ControladorUsuario implements IUsuario {
 
     }
 
+    @Override
     public boolean correoExiste(String correo) {
         Iterator i = usuarios.entrySet().iterator();
         while (i.hasNext()) {
@@ -467,5 +468,10 @@ public class ControladorUsuario implements IUsuario {
         } else {
             return "Contraseña invalida";
         }
+    }
+
+    @Override
+    public boolean actualizarSuscripcion(String nickname, String estado, DtFecha fecha) {
+        return true;
     }
 }

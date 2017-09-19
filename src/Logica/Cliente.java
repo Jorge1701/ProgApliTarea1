@@ -13,7 +13,8 @@ public class Cliente extends Usuario {
     private ArrayList<Album> albumesfav;
     private ArrayList<Lista> listasfav;
     private ArrayList<Tema> temasfav;
-    private Suscripcion suscripcion;
+    private ArrayList<Suscripcion> suscripciones;
+    private Suscripcion actual;
 
     public Cliente(String nickname, String nombre, String apellido, String email, DtFecha fechaNac, String imagen, String contrasenia) {
         super(nickname, nombre, apellido, email, fechaNac, imagen, contrasenia);
@@ -33,7 +34,8 @@ public class Cliente extends Usuario {
         this.albumesfav = new ArrayList<>();
         this.listasfav = new ArrayList<>();
         this.temasfav = new ArrayList<>();
-        this.suscripcion = sus;
+        this.suscripciones = new ArrayList<>();
+        this.actual = sus;
     }
 
     public int agregarAlbumFav(Album a) {
@@ -134,7 +136,7 @@ public class Cliente extends Usuario {
 
     @Override
     public DtCliente getData() {
-        return new DtCliente(getNickname(), getNombre(), getApellido(), getEmail(), getFechaNac(), getImagen(), getContrasenia(), getSuscripcion());
+        return new DtCliente(getNickname(), getNombre(), getApellido(), getEmail(), getFechaNac(), getImagen(), getContrasenia(), getSuscripcion().getData());
     }
 
     @Override
@@ -201,11 +203,19 @@ public class Cliente extends Usuario {
     }
 
     public Suscripcion getSuscripcion() {
-        return suscripcion;
+        return actual;
     }
 
     public void setSuscripcion(Suscripcion suscripcion) {
-        this.suscripcion = suscripcion;
+        this.actual = suscripcion;
+    }
+
+    public ArrayList<Suscripcion> getSuscripciones() {
+        return suscripciones;
+    }
+
+    public void setSuscripciones(ArrayList<Suscripcion> suscripciones) {
+        this.suscripciones = suscripciones;
     }
 
     public ListaParticular getListaParticular(String nombre) {

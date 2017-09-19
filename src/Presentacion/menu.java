@@ -27,7 +27,7 @@ public class menu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        PanelMenu = new DesktopFondo();
+        PanelMenu = new javax.swing.JDesktopPane();
         barra = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         altaPerfil = new javax.swing.JMenuItem();
@@ -35,6 +35,7 @@ public class menu extends javax.swing.JFrame {
         altaGenero = new javax.swing.JMenuItem();
         crearListaRep = new javax.swing.JMenuItem();
         publicarLista = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         consultaPerfilCliente = new javax.swing.JMenuItem();
         ConsultaPerfilArtista = new javax.swing.JMenuItem();
@@ -118,6 +119,14 @@ public class menu extends javax.swing.JFrame {
             }
         });
         jMenu1.add(publicarLista);
+
+        jMenuItem1.setText("Suscripciones");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
 
         barra.add(jMenu1);
 
@@ -376,6 +385,13 @@ public class menu extends javax.swing.JFrame {
         agr.show();
     }//GEN-LAST:event_agregarTemaListaActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        Suscripcion sus = new Suscripcion();
+        PanelMenu.add(sus);
+        sus.setLocation(450,10);
+        sus.show();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -405,6 +421,7 @@ public class menu extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem publicarLista;
     private javax.swing.JMenuItem quitarTemaLista;
     private javax.swing.JMenuItem seguirUsuario;

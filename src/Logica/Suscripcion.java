@@ -5,11 +5,15 @@ public class Suscripcion {
     private String estado;
     private String cuota;
     private DtFecha fecha_venc;
+    private DtFecha fecha;
+    private int monto;
 
-    public Suscripcion(String estado, String cuota, DtFecha fecha_venc) {
-        this.estado=estado;
-        this.cuota=cuota;
-        this.fecha_venc=fecha_venc;
+    public Suscripcion(String estado, String cuota, DtFecha fecha_venc, DtFecha fecha, int monto) {
+        this.estado = estado;
+        this.cuota = cuota;
+        this.fecha_venc = fecha_venc;
+        this.monto = monto;
+        this.fecha = fecha;
     }
 
     public String getEstado() {
@@ -24,6 +28,22 @@ public class Suscripcion {
         return fecha_venc;
     }
 
+    public int getMonto() {
+        return monto;
+    }
+
+    public DtFecha getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(DtFecha fecha) {
+        this.fecha = fecha;
+    }
+
+    public void setMonto(int monto) {
+        this.monto = monto;
+    }
+
     public void setEstado(String estado) {
         this.estado = estado;
     }
@@ -35,6 +55,9 @@ public class Suscripcion {
     public void setFecha_venc(DtFecha fecha_venc) {
         this.fecha_venc = fecha_venc;
     }
-    
-    
+
+    public DtSuscripcion getData() {
+        return new DtSuscripcion(getEstado(), getCuota(), getFechaVenc(), getFecha(), getMonto());
+    }
+
 }
