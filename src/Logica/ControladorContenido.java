@@ -15,7 +15,11 @@ public class ControladorContenido implements IContenido {
     private static ControladorContenido instancia;
 
     public static void cargarInstancia() {
-        instancia = new ControladorContenido();
+        if (instancia == null) {
+            instancia = new ControladorContenido();
+        } else {
+            instancia.reiniciar();
+        }
     }
 
     public static ControladorContenido getInstance() {
@@ -25,13 +29,26 @@ public class ControladorContenido implements IContenido {
         return instancia;
     }
 
-    private final Map<String, ListaDefecto> listasDefecto;
-    private final Map<String, ListaParticular> listasParticular;
+    private Map<String, ListaDefecto> listasDefecto;
+    private Map<String, ListaParticular> listasParticular;
     private Artista artista;
-    private final Genero genero;
+    private Genero genero;
     private Genero generoRecordado;
     private Cliente clienteFav;
     private IUsuario iUsuario;
+
+    @Override
+    public void reiniciar() {
+        this.listasParticular = new HashMap<>();
+        this.listasDefecto = new HashMap<>();
+        genero = new Genero("Géneros");
+
+        artista = null;
+        generoRecordado = null;
+        clienteFav = null;
+
+        iUsuario = null;
+    }
 
     @Override
     public void setIUsuario(IUsuario iUsuario) {
@@ -343,7 +360,7 @@ public class ControladorContenido implements IContenido {
         ArrayList<DtTema> res = aux.getTemas();
 
         //if (res.isEmpty()) {
-          //  throw new UnsupportedOperationException("No hay temas en esta lista");
+        //  throw new UnsupportedOperationException("No hay temas en esta lista");
         //} sino cuando borras un tema de una lista que solo tiene un tema crashea
         return res;
     }

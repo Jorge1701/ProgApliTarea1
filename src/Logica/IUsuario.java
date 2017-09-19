@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 public interface IUsuario {
     
+    public void reiniciar();
+    
     public void setIContenido(IContenido iContenido);
     public Usuario obtenerUsuario(String nick);
     public Artista selectArtista(String nick);
@@ -43,4 +45,5 @@ public interface IUsuario {
     public void cargarLista(ListaParticular lp, String nickcliente);
     public boolean correoExiste(String correo);
     public boolean actualizarSuscripcion(String nickname,String estado,DtFecha fecha);
+    public String chequearLogin(String nickname, String pass);
 }

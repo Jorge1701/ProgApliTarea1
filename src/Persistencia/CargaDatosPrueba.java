@@ -324,7 +324,7 @@ public class CargaDatosPrueba {
         try {
             ArrayList<DtUsuario> usuarios = new ArrayList<>();
 
-            PreparedStatement usuario = conexion.prepareStatement("SELECT * FROM artista");
+            PreparedStatement usuario = conexion.prepareStatement("SELECT nickname, nombre, apellido, correo, fecha_nac, biografia, sitio_web, imagen, contrasenia FROM artista");
             ResultSet artistas = usuario.executeQuery();
 
             while (artistas.next()) {
@@ -346,7 +346,7 @@ public class CargaDatosPrueba {
             usuario.close();
             artistas.close();
 
-            PreparedStatement usuario1 = conexion.prepareStatement("SELECT * FROM cliente");
+            PreparedStatement usuario1 = conexion.prepareStatement("SELECT nickname, nombre, apellido, correo, fecha_nac, imagen, contrasenia FROM cliente");
             ResultSet clientes = usuario1.executeQuery();
 
             while (clientes.next()) {
@@ -360,7 +360,7 @@ public class CargaDatosPrueba {
                 cal.setTime(fecha);
                 DtFecha dtFecha = new DtFecha(cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR));
                 String contrasenia = clientes.getString(7);
-                usuarios.add(new DtCliente(nickName, nombre, apellido, correo, dtFecha, imagen, contrasenia,null));
+                usuarios.add(new DtCliente(nickName, nombre, apellido, correo, dtFecha, imagen, contrasenia, null));
 
             }
 
@@ -803,7 +803,7 @@ public class CargaDatosPrueba {
                         web = info[3];
                     }
                 }
-                dtu = new DtArtista(nickName, nombre, apellido, correo, fecha, imagen,bio, web,"");
+                dtu = new DtArtista(nickName, nombre, apellido, correo, fecha, imagen, bio, web, "");
 
             } else {
                 for (String[] info : infoClientes) {
@@ -812,7 +812,7 @@ public class CargaDatosPrueba {
                     }
                 }
 
-                dtu = new DtCliente(nickName, nombre, apellido, correo, fecha, imagen, "",null);
+                dtu = new DtCliente(nickName, nombre, apellido, correo, fecha, imagen, "", null);
             }
             res = bdu.ingresarUsuario(dtu);
             if (res == false) {

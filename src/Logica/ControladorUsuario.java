@@ -13,7 +13,11 @@ public class ControladorUsuario implements IUsuario {
     private static ControladorUsuario instancia;
 
     public static void cargarInstancia() {
-        instancia = new ControladorUsuario();
+        if (instancia == null) {
+            instancia = new ControladorUsuario();
+        } else {
+            instancia.reiniciar();
+        }
     }
 
     public static ControladorUsuario getInstance() {
@@ -22,12 +26,21 @@ public class ControladorUsuario implements IUsuario {
         }
         return instancia;
     }
-    private final HashMap<String, Usuario> usuarios;
+
+    private HashMap<String, Usuario> usuarios;
     private Usuario usuarioRecordado;
 
     private BDUsuario bdUsuario = null;
 
     private IContenido iContenido;
+
+    public void reiniciar() {
+        this.usuarios = new HashMap();
+        this.usuarioRecordado = null;
+        this.bdUsuario = new BDUsuario();
+
+        iContenido = null;
+    }
 
     public void setIContenido(IContenido iContenido) {
         this.iContenido = iContenido;
@@ -445,10 +458,20 @@ public class ControladorUsuario implements IUsuario {
         return true;
     }
 
+    public String chequearLogin(String nickname, String pass) {
+        Usuario u = usuarios.get(nickname);
+
+        if (u == null) {
+            return "Nickname invalido";
+        } else if (u.getContrasenia().equals(pass)) {
+            return "";
+        } else {
+            return "Contraseña invalida";
+        }
+    }
+
     @Override
-    public boolean actualizarSuscripcion(String nickname, String estado,DtFecha fecha) {
-        
-        
+    public boolean actualizarSuscripcion(String nickname, String estado, DtFecha fecha) {
         return true;
     }
 }

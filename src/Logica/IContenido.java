@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface IContenido {
     
+    public void reiniciar();
+    
     public void indicarCliente(String nick);
     public void guardarTema(String nickArtista, String nomAlbum, String nomTema);
     public void guardarListaDefault(String nomGenero, String nomLista);

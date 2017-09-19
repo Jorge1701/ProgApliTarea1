@@ -13,8 +13,8 @@ public class Artista extends Usuario {
     private HashMap<String, Album> albumes;
     private BDAlbum bdAlbum = null;
 
-    public Artista(String nickname, String nombre, String apellido, String email, DtFecha fechaNac, String imagen,String contrasenia, String biografia, String web) {
-        super(nickname, nombre, apellido, email, fechaNac, imagen,contrasenia); //LLama al constructor de Usuario
+    public Artista(String nickname, String nombre, String apellido, String email, DtFecha fechaNac, String imagen, String contrasenia, String biografia, String web) {
+        super(nickname, nombre, apellido, email, fechaNac, imagen, contrasenia); //LLama al constructor de Usuario
         this.biografia = biografia;
         this.web = web;
         this.albumes = new HashMap();
@@ -92,7 +92,7 @@ public class Artista extends Usuario {
 
     @Override
     public DtArtista getData() {
-        return new DtArtista(getNickname(), getNombre(), getApellido(), getEmail(), getFechaNac(), getImagen(),getContrasenia() ,getBiografia(), getWeb());
+        return new DtArtista(getNickname(), getNombre(), getApellido(), getEmail(), getFechaNac(), getImagen(), getBiografia(), getWeb(), getContrasenia());
     }
 
     public String getBiografia() {

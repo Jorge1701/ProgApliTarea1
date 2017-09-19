@@ -104,10 +104,10 @@ public class BDUsuario {
             }
 
         } else {
-            
+
             try {
                 PreparedStatement insertar = conexion.prepareStatement("INSERT INTO cliente "
-                        + "(nickname, correo, nombre, apellido, fecha_nac,imagen,contrasenia) values(?,?,?,?,?,?,?)");
+                        + "(nickname, nombre, apellido, correo, fecha_nac,imagen,contrasenia) values(?,?,?,?,?,?,?)");
                 insertar.setString(1, nickName);
                 insertar.setString(2, nombre);
                 insertar.setString(3, apellido);
