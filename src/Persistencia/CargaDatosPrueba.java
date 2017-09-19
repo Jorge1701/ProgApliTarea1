@@ -803,7 +803,7 @@ public class CargaDatosPrueba {
                         web = info[3];
                     }
                 }
-                dtu = new DtArtista(nickName, nombre, apellido, correo, fecha, imagen, bio, web, "");
+                dtu = new DtArtista(nickName, nombre, apellido, correo, fecha, imagen, bio, web, "1234");
 
             } else {
                 for (String[] info : infoClientes) {
@@ -812,7 +812,7 @@ public class CargaDatosPrueba {
                     }
                 }
 
-                dtu = new DtCliente(nickName, nombre, apellido, correo, fecha, imagen, "", null);
+                dtu = new DtCliente(nickName, nombre, apellido, correo, fecha, imagen, "1234", null);
             }
             res = bdu.ingresarUsuario(dtu);
             if (res == false) {
