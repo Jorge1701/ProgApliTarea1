@@ -340,7 +340,7 @@ public class CargaDatosPrueba {
                 String web = artistas.getString(7);
                 String imagen = artistas.getString(8);
                 String contrasenia = artistas.getString(9);
-                usuarios.add(new DtArtista(nickName, nombre, apellido, correo, dtFecha, imagen, contrasenia, biografia, web));
+                usuarios.add(new DtArtista(nickName, nombre, apellido, correo, dtFecha, imagen, biografia, web, contrasenia));
             }
 
             usuario.close();
