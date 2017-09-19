@@ -444,4 +444,11 @@ public class ControladorUsuario implements IUsuario {
         }
         return true;
     }
+
+    @Override
+    public boolean actualizarSuscripcion(String nickname, String estado,DtFecha fecha) {
+        
+        
+        return true;
+    }
 }

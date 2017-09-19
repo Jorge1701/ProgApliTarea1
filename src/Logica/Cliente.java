@@ -13,10 +13,11 @@ public class Cliente extends Usuario {
     private ArrayList<Album> albumesfav;
     private ArrayList<Lista> listasfav;
     private ArrayList<Tema> temasfav;
-    private Suscripcion suscripcion;
+    private ArrayList<Suscripcion> suscripciones;
+    private Suscripcion actual;
 
-    public Cliente(String nickname, String nombre, String apellido, String email, DtFecha fechaNac, String imagen,String contrasenia) {
-        super(nickname, nombre, apellido, email, fechaNac, imagen,contrasenia);
+    public Cliente(String nickname, String nombre, String apellido, String email, DtFecha fechaNac, String imagen, String contrasenia) {
+        super(nickname, nombre, apellido, email, fechaNac, imagen, contrasenia);
 
         this.seguidos = new HashMap();
         this.listasParticulares = new HashMap<String, ListaParticular>();
@@ -24,18 +25,18 @@ public class Cliente extends Usuario {
         this.listasfav = new ArrayList<>();
         this.temasfav = new ArrayList<>();
     }
-    
-    public Cliente(String nickname, String nombre, String apellido, String email, DtFecha fechaNac, String imagen,String contrasenia,Suscripcion sus) {
-        super(nickname, nombre, apellido, email, fechaNac, imagen,contrasenia);
+
+    public Cliente(String nickname, String nombre, String apellido, String email, DtFecha fechaNac, String imagen, String contrasenia, Suscripcion sus) {
+        super(nickname, nombre, apellido, email, fechaNac, imagen, contrasenia);
 
         this.seguidos = new HashMap();
         this.listasParticulares = new HashMap<String, ListaParticular>();
         this.albumesfav = new ArrayList<>();
         this.listasfav = new ArrayList<>();
         this.temasfav = new ArrayList<>();
-        this.suscripcion= sus;
+        this.suscripciones = new ArrayList<>();
+        this.actual = sus;
     }
-    
 
     public int agregarAlbumFav(Album a) {
         if (albumesfav.contains(a)) {
@@ -120,7 +121,6 @@ public class Cliente extends Usuario {
         return albumesfav;
     }
 
-    
     public ArrayList<Lista> obtenerListasFav() {
         return listasfav;
     }
@@ -136,7 +136,7 @@ public class Cliente extends Usuario {
 
     @Override
     public DtCliente getData() {
-        return new DtCliente(getNickname(), getNombre(), getApellido(), getEmail(), getFechaNac(), getImagen(),getContrasenia(),getSuscripcion());
+        return new DtCliente(getNickname(), getNombre(), getApellido(), getEmail(), getFechaNac(), getImagen(), getContrasenia(), getSuscripcion().getData());
     }
 
     @Override
@@ -203,15 +203,21 @@ public class Cliente extends Usuario {
     }
 
     public Suscripcion getSuscripcion() {
-        return suscripcion;
+        return actual;
     }
 
     public void setSuscripcion(Suscripcion suscripcion) {
-        this.suscripcion = suscripcion;
+        this.actual = suscripcion;
     }
 
-    
-    
+    public ArrayList<Suscripcion> getSuscripciones() {
+        return suscripciones;
+    }
+
+    public void setSuscripciones(ArrayList<Suscripcion> suscripciones) {
+        this.suscripciones = suscripciones;
+    }
+
     public ListaParticular getListaParticular(String nombre) {
         return listasParticulares.get(nombre);
     }
