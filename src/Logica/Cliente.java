@@ -24,6 +24,8 @@ public class Cliente extends Usuario {
         this.albumesfav = new ArrayList<>();
         this.listasfav = new ArrayList<>();
         this.temasfav = new ArrayList<>();
+        //this.actual = null;
+        this.suscripciones = new ArrayList<>();
     }
 
     public Cliente(String nickname, String nombre, String apellido, String email, DtFecha fechaNac, String imagen, String contrasenia, Suscripcion sus) {
@@ -136,7 +138,11 @@ public class Cliente extends Usuario {
 
     @Override
     public DtCliente getData() {
-        return new DtCliente(getNickname(), getNombre(), getApellido(), getEmail(), getFechaNac(), getImagen(), getContrasenia(), getSuscripcion().getData());
+        if (getSuscripcion()!= null) {
+            return new DtCliente(getNickname(), getNombre(), getApellido(), getEmail(), getFechaNac(), getImagen(), getContrasenia(), getSuscripcion().getData());
+        }else{
+        return new DtCliente(getNickname(), getNombre(), getApellido(), getEmail(), getFechaNac(), getImagen(), getContrasenia(), null);
+        }
     }
 
     @Override

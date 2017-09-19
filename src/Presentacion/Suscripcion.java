@@ -1,6 +1,7 @@
 package Presentacion;
 
 import Logica.DtCliente;
+import Logica.DtFecha;
 import Logica.DtUsuario;
 import Logica.DtPerfilArtista;
 import Logica.DtPerfilCliente;
@@ -9,6 +10,8 @@ import Logica.Fabrica;
 import Logica.IUsuario;
 import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -34,15 +37,17 @@ public class Suscripcion extends javax.swing.JInternalFrame {
         DefaultTableModel dtm = (DefaultTableModel) tablaClientes.getModel();
         dtm.setRowCount(0);
         for (DtUsuario dtUsuario : dtu) {
-            if (dtUsuario.getNickname().contains(filtro) && ((DtCliente) dtUsuario).getSuscripcion().getEstado().equals("Pendiente")) {
-                Object[] data = {
-                    dtUsuario.getNickname(),
-                    dtUsuario.getNombre(),
-                    dtUsuario.getApellido(),
-                    ((DtCliente) dtUsuario).getSuscripcion().getEstado(),
-                    ((DtCliente) dtUsuario).getSuscripcion().getFechaVenc().toString()
-                };
-                dtm.addRow(data);
+            if (dtUsuario.getNickname().contains(filtro)) {
+                if (((DtCliente) dtUsuario).getSuscripcion() != null) {
+                    Object[] data = {
+                        dtUsuario.getNickname(),
+                        dtUsuario.getNombre(),
+                        dtUsuario.getApellido(),
+                        ((DtCliente) dtUsuario).getSuscripcion().getEstado(),
+                        ((DtCliente) dtUsuario).getSuscripcion().getFechaVenc().toString()
+                    };
+                    dtm.addRow(data);
+                }
             }
         }
     }
@@ -197,8 +202,14 @@ public class Suscripcion extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Hay campos obligatorios vacios:\n" + camposVacios);
             return;
         }
-        
-        //algo
+
+        Calendar hoy = new GregorianCalendar();
+
+        if (iUsuario.actualizarSuscripcion(nickname, txtEstado.getSelectedItem().toString(), new DtFecha(hoy.get(Calendar.DATE), hoy.get(Calendar.MONTH), hoy.get(Calendar.YEAR)))) {
+            javax.swing.JOptionPane.showMessageDialog(null, "Suscripción actualizada correctamente", "Felicitaciones!", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(null, "Error al actualizar la suscripción", "Ha ocurrido un error", JOptionPane.ERROR_MESSAGE);
+        }
 
     }
 
