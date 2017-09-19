@@ -2,11 +2,16 @@ package Logica;
 
 import Persistencia.BDCliente;
 import Persistencia.BDUsuario;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ControladorUsuario implements IUsuario {
 
@@ -472,6 +477,29 @@ public class ControladorUsuario implements IUsuario {
 
     @Override
     public boolean actualizarSuscripcion(String nickname, String estado, DtFecha fecha) {
+        
+        Usuario usr = usuarios.get(nickname);
+        
+        Suscripcion sus = ((Cliente)usr).getSuscripcion();
+        
+        if(sus.getEstado().equals("Pendiente")){
+        
+            sus.setEstado(estado);
+            sus.setFecha(fecha);
+            
+            if(sus.getCuota().equals("Semanal")){
+            //aumentar una semana la fecha y poner vigente
+            }else if(sus.getCuota().equals("Mensual")){
+            //aumentar un mes y poner en vigente
+            }else{
+            //aumentar un año y poner en vigente
+            }
+            
+            
+        }
+        
+        
+        
         return true;
     }
 }
