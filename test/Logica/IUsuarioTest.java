@@ -18,22 +18,22 @@ import static org.junit.Assert.*;
  * @author Kopxe
  */
 public class IUsuarioTest {
-    
+
     public IUsuarioTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -651,6 +651,11 @@ public class IUsuarioTest {
         public String chequearLogin(String nickname, String pass) {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
+
+        @Override
+        public boolean actualizarSuscripcion(String nickname, String estado, DtFecha fecha) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
     }
-    
+
 }
