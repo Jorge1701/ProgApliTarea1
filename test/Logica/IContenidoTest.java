@@ -678,6 +678,11 @@ public class IContenidoTest {
         public boolean agregarDeAlbumTema(String nombreT, String nombreLista, String nombreUser, String artista, String album) {
             return false;
         }
+
+        @Override
+        public void reiniciar() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
     }
     
 }
