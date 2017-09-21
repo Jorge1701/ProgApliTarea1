@@ -3,9 +3,6 @@ package Presentacion;
 import Logica.DtCliente;
 import Logica.DtFecha;
 import Logica.DtUsuario;
-import Logica.DtPerfilArtista;
-import Logica.DtPerfilCliente;
-import Logica.DtPerfilUsuario;
 import Logica.Fabrica;
 import Logica.IUsuario;
 import java.awt.Dimension;
@@ -26,6 +23,7 @@ public class Suscripcion extends javax.swing.JInternalFrame {
         txtEstado.setSelectedIndex(0);
         iUsuario = Fabrica.getIControladorUsuario();
         clientes = iUsuario.listarClientes();
+        cargarDatos(clientes, "");
 
     }
 
@@ -33,20 +31,22 @@ public class Suscripcion extends javax.swing.JInternalFrame {
         if (dtu.isEmpty()) {
             JOptionPane.showMessageDialog(this, "No hay ningun cliente registrado");
         }
-
+       
         DefaultTableModel dtm = (DefaultTableModel) tablaClientes.getModel();
         dtm.setRowCount(0);
         for (DtUsuario dtUsuario : dtu) {
             if (dtUsuario.getNickname().contains(filtro)) {
-                if (((DtCliente) dtUsuario).getSuscripcion() != null) {
+                if(((DtCliente)dtUsuario).getSuscripcion() != null){
+                    if(((DtCliente)dtUsuario).getSuscripcion().getEstado().equals("Pendiente")){
                     Object[] data = {
                         dtUsuario.getNickname(),
-                        dtUsuario.getNombre(),
-                        dtUsuario.getApellido(),
+                        dtUsuario.getNombre() +" "+ dtUsuario.getApellido(),
                         ((DtCliente) dtUsuario).getSuscripcion().getEstado(),
-                        ((DtCliente) dtUsuario).getSuscripcion().getFechaVenc().toString()
+                        ((DtCliente) dtUsuario).getSuscripcion().getCuota(),
+                        ((DtCliente) dtUsuario).getSuscripcion().getFecha().toString(),
                     };
                     dtm.addRow(data);
+                    }
                 }
             }
         }
@@ -76,7 +76,7 @@ public class Suscripcion extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Nickname", "Nombre", "Apellido", "Estado", "Tipo"
+                "Nickname", "Cliente", "Estado", "Tipo de Cuota", "Fecha "
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -204,12 +204,17 @@ public class Suscripcion extends javax.swing.JInternalFrame {
         }
 
         Calendar hoy = new GregorianCalendar();
-
-        if (iUsuario.actualizarSuscripcion(nickname, txtEstado.getSelectedItem().toString(), new DtFecha(hoy.get(Calendar.DATE), hoy.get(Calendar.MONTH), hoy.get(Calendar.YEAR)))) {
+        
+        if (iUsuario.actualizarSuscripcion(nickname, txtEstado.getSelectedItem().toString(), new DtFecha(hoy.get(Calendar.DATE), (hoy.get(Calendar.MONTH)+1), hoy.get(Calendar.YEAR)))) {
             javax.swing.JOptionPane.showMessageDialog(null, "Suscripción actualizada correctamente", "Felicitaciones!", JOptionPane.INFORMATION_MESSAGE);
         } else {
             javax.swing.JOptionPane.showMessageDialog(null, "Error al actualizar la suscripción", "Ha ocurrido un error", JOptionPane.ERROR_MESSAGE);
         }
+        
+        cargarDatos(clientes, txtNick.getText());
+
+        DefaultTableModel dtm = (DefaultTableModel) tablaClientes.getModel();
+        dtm.setRowCount(0);
 
     }
 

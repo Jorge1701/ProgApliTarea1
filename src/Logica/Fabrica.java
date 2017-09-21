@@ -175,6 +175,26 @@ public class Fabrica {
             ((Cliente) cliente).agregarListaFav(l);
         }
 
+        //levantar suscripciones
+        ArrayList<String[]> suscripciones = cdp.cargarSuscripciones();
+
+        if (suscripciones == null) {
+            throw new Exception("Error : Las suscripciones no pudieron ser cargadas");
+        }
+
+        for (String[] suscripcion : suscripciones) {
+            String nick = suscripcion[0];
+            String cuota = suscripcion[1];
+            String fecha_venc = suscripcion[2];
+            String fecha = suscripcion[3];
+            String estado = suscripcion[4];
+            int monto = Integer.parseInt(suscripcion[5]);
+            String[] arreglo = fecha.split("-");
+            String[] arreglo2 = fecha_venc.split("-");
+            Cliente cli = (Cliente) iu.obtenerUsuario(nick);
+            cli.cargarSuscripcion(new Suscripcion(estado, cuota, new DtFecha(Integer.parseInt(arreglo2[0]), Integer.parseInt(arreglo2[1]), Integer.parseInt(arreglo2[2])), new DtFecha(Integer.parseInt(arreglo[0]), Integer.parseInt(arreglo[1]), Integer.parseInt(arreglo[2])), monto));
+        }
+
     }
 
     public static IUsuario getIControladorUsuario() {
