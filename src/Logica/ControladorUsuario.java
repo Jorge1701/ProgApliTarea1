@@ -1,13 +1,16 @@
 package Logica;
 
 import Persistencia.BDCliente;
+import Persistencia.BDSuscripcion;
 import Persistencia.BDUsuario;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Level;
@@ -477,29 +480,67 @@ public class ControladorUsuario implements IUsuario {
 
     @Override
     public boolean actualizarSuscripcion(String nickname, String estado, DtFecha fecha) {
-        
+
         Usuario usr = usuarios.get(nickname);
-        
-        Suscripcion sus = ((Cliente)usr).getSuscripcion();
-        
-        if(sus.getEstado().equals("Pendiente")){
-        
-            sus.setEstado(estado);
-            sus.setFecha(fecha);
-            
-            if(sus.getCuota().equals("Semanal")){
-            //aumentar una semana la fecha y poner vigente
-            }else if(sus.getCuota().equals("Mensual")){
-            //aumentar un mes y poner en vigente
-            }else{
-            //aumentar un año y poner en vigente
+        BDSuscripcion bds = new BDSuscripcion();
+
+        Suscripcion sus = ((Cliente) usr).getSuscripcion();
+
+        if (estado.equals("Cancelada")) {
+            if (!bds.actulizarSuscripcion(nickname, estado, fecha, null)) {
+                return false;
             }
-            
-            
+            sus.setEstado(estado);
+            ((Cliente) usr).cancelarSuscripcion(sus);
+            return true;
+
+        } else {
+
+            Calendar c = new GregorianCalendar(fecha.getAnio(), fecha.getMes(), fecha.getDia());
+
+            if (sus.getCuota().equals("Semanal")) {
+
+                c.add(Calendar.DATE, 7);
+                DtFecha fecha_venc = new DtFecha(c.get(Calendar.DAY_OF_MONTH), c.get(Calendar.MONTH), c.get(Calendar.YEAR));
+
+                if (!bds.actulizarSuscripcion(nickname, estado, fecha, fecha_venc)) {
+                    return false;
+                }
+
+                sus.setFecha(fecha);
+                sus.setFecha_venc(fecha_venc);
+                sus.setEstado(estado);
+                return true;
+
+            } else if (sus.getCuota().equals("Mensual")) {
+
+                c.add(Calendar.MONTH, 1);
+                DtFecha fecha_venc = new DtFecha(c.get(Calendar.DAY_OF_MONTH), c.get(Calendar.MONTH), c.get(Calendar.YEAR));
+
+                if (!bds.actulizarSuscripcion(nickname, estado, fecha, fecha_venc)) {
+                    return false;
+                }
+
+                sus.setFecha(fecha);
+                sus.setFecha_venc(fecha_venc);
+                sus.setEstado(estado);
+                return true;
+            } else {
+
+                c.add(Calendar.YEAR, 1);
+                DtFecha fecha_venc = new DtFecha(c.get(Calendar.DAY_OF_MONTH), c.get(Calendar.MONTH), c.get(Calendar.YEAR));
+
+                if (!bds.actulizarSuscripcion(nickname, estado, fecha, fecha_venc)) {
+                    return false;
+                }
+
+                sus.setFecha(fecha);
+                sus.setFecha_venc(fecha_venc);
+                sus.setEstado(estado);
+                return true;
+            }
+
         }
-        
-        
-        
-        return true;
+
     }
 }

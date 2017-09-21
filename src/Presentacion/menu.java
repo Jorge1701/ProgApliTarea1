@@ -336,6 +336,7 @@ public class menu extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(m, "Los Datos de Prueba fueron cargados con exito");
                 } catch (Exception ex) {
                     ba.dispose();
+                    ex.printStackTrace();
                     JOptionPane.showMessageDialog(m, "Los Datos de Prueba no pudieron ser cargados: \n\n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }

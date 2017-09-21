@@ -138,10 +138,10 @@ public class Cliente extends Usuario {
 
     @Override
     public DtCliente getData() {
-        if (getSuscripcion()!= null) {
+        if (getSuscripcion() != null) {
             return new DtCliente(getNickname(), getNombre(), getApellido(), getEmail(), getFechaNac(), getImagen(), getContrasenia(), getSuscripcion().getData());
-        }else{
-        return new DtCliente(getNickname(), getNombre(), getApellido(), getEmail(), getFechaNac(), getImagen(), getContrasenia(), null);
+        } else {
+            return new DtCliente(getNickname(), getNombre(), getApellido(), getEmail(), getFechaNac(), getImagen(), getContrasenia(), null);
         }
     }
 
@@ -280,5 +280,18 @@ public class Cliente extends Usuario {
 
     public void cargarLista(ListaParticular lp) {
         listasParticulares.put(lp.getNombre(), lp);
+    }
+
+    public void cancelarSuscripcion(Suscripcion sus) {
+        suscripciones.add(sus);
+        actual = null;
+    }
+
+    public void cargarSuscripcion(Suscripcion sus) {
+        if (sus.getEstado().equals("Vigente") || sus.getEstado().equals("Pendiente")) {
+            actual = sus;
+        } else {
+            suscripciones.add(sus);
+        }
     }
 }
