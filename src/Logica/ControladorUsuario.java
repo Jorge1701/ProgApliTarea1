@@ -543,10 +543,23 @@ public class ControladorUsuario implements IUsuario {
         }
 
     }
-    public int getMonto(String cuota){
-       BDSuscripcion bds = new BDSuscripcion();
+
+    public int getMonto(String cuota) {
+        BDSuscripcion bds = new BDSuscripcion();
         int monto = bds.getMonto(cuota);
-        System.out.println("monto: "+monto);
         return monto;
+    }
+
+    public boolean ingresarSuscripcion(String nickname, String cuota) {
+        BDSuscripcion bds = new BDSuscripcion();
+        Calendar c = new GregorianCalendar();
+        DtFecha fecha = new DtFecha(c.get(Calendar.DATE), c.get(Calendar.MONTH) + 1, c.get(Calendar.YEAR));
+   
+        if (!bds.ingresarSuscripcion(nickname, cuota, null, fecha, "Pendiente")) {
+            return false;
+        } else {
+            return true;
+        }
+
     }
 }

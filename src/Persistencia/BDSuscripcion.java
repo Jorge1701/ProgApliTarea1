@@ -20,11 +20,11 @@ public class BDSuscripcion {
     protected Connection conexion = new ConexionBD().getConexion();
 
     public boolean ingresarSuscripcion(String nickname, String cuota, DtFecha fecha_venc, DtFecha fecha, String estado) {
-
+        Date fecha_venc1 = null;
         Date fecha1 = java.sql.Date.valueOf(fecha.getAnio() + "-" + fecha.getMes() + "-" + fecha.getDia());
-
-        Date fecha_venc1 = java.sql.Date.valueOf(fecha_venc.getAnio() + "-" + fecha_venc.getMes() + "-" + fecha_venc.getDia());
-
+        if (fecha_venc != null) {
+            fecha_venc1 = java.sql.Date.valueOf(fecha_venc.getAnio() + "-" + fecha_venc.getMes() + "-" + fecha_venc.getDia());
+        }
         try {
 
             PreparedStatement insertar = conexion.prepareStatement("INSERT INTO suscripcion "
@@ -45,7 +45,7 @@ public class BDSuscripcion {
     }
 
     public int getMonto(String cuota) {
-        int monto=0;
+        int monto = 0;
         try {
             PreparedStatement sql = conexion.prepareStatement("SELECT m.monto FROM monto as m WHERE cuota='" + cuota + "'");
             ResultSet rs = sql.executeQuery();
