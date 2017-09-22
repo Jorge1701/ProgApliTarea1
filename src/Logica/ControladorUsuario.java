@@ -543,4 +543,10 @@ public class ControladorUsuario implements IUsuario {
         }
 
     }
+    public int getMonto(String cuota){
+       BDSuscripcion bds = new BDSuscripcion();
+        int monto = bds.getMonto(cuota);
+        System.out.println("monto: "+monto);
+        return monto;
+    }
 }

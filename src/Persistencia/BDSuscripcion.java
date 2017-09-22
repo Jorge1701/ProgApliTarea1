@@ -45,14 +45,19 @@ public class BDSuscripcion {
     }
 
     public int getMonto(String cuota) {
+        int monto=0;
         try {
-            PreparedStatement sql = conexion.prepareStatement("SELECT monto FROM monto WHERE cuota='" + cuota + "'");
-            int rs = sql.executeUpdate();
-            return rs;
+            PreparedStatement sql = conexion.prepareStatement("SELECT m.monto FROM monto as m WHERE cuota='" + cuota + "'");
+            ResultSet rs = sql.executeQuery();
+            while (rs.next()) {
+                monto = rs.getInt("monto");
+                return monto;
+            }
         } catch (SQLException ex) {
             Logger.getLogger(BDSuscripcion.class.getName()).log(Level.SEVERE, null, ex);
             return 0;
         }
+        return monto;
     }
 
     public boolean actulizarSuscripcion(String nickname, String estado, DtFecha fecha, DtFecha fecha_venc) {

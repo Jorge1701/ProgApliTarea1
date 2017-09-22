@@ -27,7 +27,7 @@ public class menu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        PanelMenu = new DesktopFondo();
+        PanelMenu = new javax.swing.JDesktopPane();
         barra = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         altaPerfil = new javax.swing.JMenuItem();
