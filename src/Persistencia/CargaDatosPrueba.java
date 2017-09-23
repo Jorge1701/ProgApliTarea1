@@ -781,7 +781,7 @@ public class CargaDatosPrueba {
             ResultSet sus = sql.executeQuery();
 
             while (sus.next()) {
-                res.add(new String[]{sus.getString(1), sus.getString(2), sus.getString(3), sus.getString(4), sus.getString(5), String.valueOf(sus.getString(6))});
+                res.add(new String[]{sus.getString(1), sus.getString(2), sus.getString(3), sus.getString(4), sus.getString(5), sus.getString(6)});
             }
 
             return res;
