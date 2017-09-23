@@ -20,22 +20,22 @@ import static org.junit.Assert.*;
  * @author Kopxe
  */
 public class IContenidoTest {
-    
+
     public IContenidoTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -683,6 +683,11 @@ public class IContenidoTest {
         public void reiniciar() {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
+
+        @Override
+        public ArrayList<Object> buscar(String texto, String orden) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
     }
-    
+
 }

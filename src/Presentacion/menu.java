@@ -335,6 +335,7 @@ public class menu extends javax.swing.JFrame {
                     ba.dispose();
                     JOptionPane.showMessageDialog(m, "Los Datos de Prueba fueron cargados con exito");
                 } catch (Exception ex) {
+                    ex.printStackTrace();
                     ba.dispose();
                     JOptionPane.showMessageDialog(m, "Los Datos de Prueba no pudieron ser cargados: \n\n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
@@ -388,7 +389,7 @@ public class menu extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         Suscripcion sus = new Suscripcion();
         PanelMenu.add(sus);
-        sus.setLocation(450,10);
+        sus.setLocation(450, 10);
         sus.show();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 

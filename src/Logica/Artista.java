@@ -118,4 +118,16 @@ public class Artista extends Usuario {
     public void cargarAlbum(Album a) {
         albumes.put(a.getNombre(), a);
     }
+
+    public ArrayList<Album> getAlbumes() {
+        ArrayList<Album> res = new ArrayList<>();
+
+        Iterator i = albumes.entrySet().iterator();
+
+        while (i.hasNext()) {
+            res.add((Album) ((Map.Entry) i.next()).getValue());
+        }
+
+        return res;
+    }
 }

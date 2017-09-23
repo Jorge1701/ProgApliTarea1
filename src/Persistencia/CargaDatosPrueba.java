@@ -228,19 +228,19 @@ public class CargaDatosPrueba {
 
     // Listas de Reproduccion por Defecto (Ref, Nombre, Genero, Imagen)
     private String[][] listasPorDefecto = {
-        {"LD1", "Noche De La Nostalgia", "PCL", "Noche De La Nostalgia.jpg"},
-        {"LD2", "Rock En Español", "RKL", ""},
-        {"LD3", "Musica Clasica", "CLA", "Musica Clasica.jpg"}
+        {"LD1", "Noche De La Nostalgia", "PCL", "Noche De La Nostalgia.jpg", "23", "12", "1996"},
+        {"LD2", "Rock En Español", "RKL", "", "23", "12", "1995"},
+        {"LD3", "Musica Clasica", "CLA", "Musica Clasica.jpg", "23", "12", "1997"}
     };
 
     // Listas de Reproduccion Particulares (Ref cliente, Ref, Nombre, Publica, Imagen)
     private String[][] listasParticulares = {
-        {"VC", "LP1", "Musica Inspiradora", "S", "Musica Inspiradora.jpg"},
-        {"SO", "LP2", "De Todo Un Poco", "S", ""},
-        {"WW", "LP3", "Para Cocinar", "N", "Para Cocinar.jpg"},
-        {"ML", "LP4", "Para Las Chicas", "S", ""},
-        {"CB", "LP5", "Fiesteras", "S", "Fiesteras.jpg"},
-        {"CB", "LP6", "Mis Favoritas", "N", ""}
+        {"VC", "LP1", "Musica Inspiradora", "S", "Musica Inspiradora.jpg", "23", "12", "1998"},
+        {"SO", "LP2", "De Todo Un Poco", "S", "", "23", "12", "1999"},
+        {"WW", "LP3", "Para Cocinar", "N", "Para Cocinar.jpg", "23", "12", "2000"},
+        {"ML", "LP4", "Para Las Chicas", "S", "", "23", "12", "2001"},
+        {"CB", "LP5", "Fiesteras", "S", "Fiesteras.jpg", "23", "12", "2002"},
+        {"CB", "LP6", "Mis Favoritas", "N", "", "23", "12", "2003"}
     };
 
     // Temas De Listas (Ref Lista, Ref Album, Ref Tema)
@@ -491,11 +491,12 @@ public class CargaDatosPrueba {
     public ArrayList<String[]> cargarListasParticulares() {
         try {
             ArrayList<String[]> res = new ArrayList<>();
-            PreparedStatement l = conexion.prepareStatement("SELECT l.idLista, l.nombre, lp.nickname, lp.Publica, l.imagen, lp.nickname FROM lista AS l, listaparticular AS lp WHERE l.idLista = lp.idLista");
+            PreparedStatement l = conexion.prepareStatement("SELECT l.idLista, l.nombre, lp.nickname, lp.Publica, l.imagen, lp.nickname, l.fecha_creacion FROM lista AS l, listaparticular AS lp WHERE l.idLista = lp.idLista");
             ResultSet listas = l.executeQuery();
 
             while (listas.next()) {
-                res.add(new String[]{String.valueOf(listas.getInt(1)), listas.getString(2), listas.getString(3), listas.getString(4), listas.getString(5), listas.getString(6)});
+                Date fecha = listas.getDate(7);
+                res.add(new String[]{String.valueOf(listas.getInt(1)), listas.getString(2), listas.getString(3), listas.getString(4), listas.getString(5), listas.getString(6), String.valueOf(fecha.getDay()), String.valueOf(fecha.getMonth()), String.valueOf(fecha.getYear())});
             }
 
             return res;
@@ -533,11 +534,12 @@ public class CargaDatosPrueba {
         try {
             ArrayList<String[]> res = new ArrayList<>();
 
-            PreparedStatement l = conexion.prepareStatement("SELECT l.idLista, ld.nombreGenero, l.nombre, l.imagen FROM listapordefecto AS ld, lista AS l WHERE ld.idLista = l.idLista");
+            PreparedStatement l = conexion.prepareStatement("SELECT l.idLista, ld.nombreGenero, l.nombre, l.imagen, l.fecha_creacion FROM listapordefecto AS ld, lista AS l WHERE ld.idLista = l.idLista");
 
             ResultSet listas = l.executeQuery();
             while (listas.next()) {
-                res.add(new String[]{String.valueOf(listas.getString(1)), listas.getString(2), listas.getString(3), listas.getString(4)});
+                Date fecha = listas.getDate(5);
+                res.add(new String[]{String.valueOf(listas.getString(1)), listas.getString(2), listas.getString(3), listas.getString(4), String.valueOf(fecha.getDay()), String.valueOf(fecha.getMonth()), String.valueOf(fecha.getYear())});
             }
 
             l.close();
@@ -971,7 +973,10 @@ public class CargaDatosPrueba {
                     nombreGenero = genero[1];
                 }
             }
-            DtLista lista = new DtListaDefecto(new DtGenero(nombreGenero, null), nombre, null, imagen);
+
+            DtFecha f = new DtFecha(Integer.valueOf(listaPordefecto[4]), Integer.valueOf(listaPordefecto[5]), Integer.valueOf(listaPordefecto[6]));
+            System.out.println("Persistencia.CargaDatosPrueba.insertarListaPorDefecto() = " + f.toString());
+            DtLista lista = new DtListaDefecto(new DtGenero(nombreGenero, null), nombre, null, imagen, f);
 
             if (!bdl.altaLista(lista, "")) {
                 return false;
@@ -997,7 +1002,10 @@ public class CargaDatosPrueba {
                     nickCliente = cliente[1];
                 }
             }
-            DtLista lista = new DtListaParticular("S".equals(publica) ? false : true, nombreLista, null, imagen);
+
+            DtFecha f = new DtFecha(Integer.valueOf(listaParticular[5]), Integer.valueOf(listaParticular[6]), Integer.valueOf(listaParticular[7]));
+            System.out.println("Persistencia.CargaDatosPrueba.insertarListaParticular() = " + f.toString());
+            DtLista lista = new DtListaParticular("S".equals(publica) ? false : true, nombreLista, null, imagen, f);
             if (!bdl.altaLista(lista, nickCliente)) {
                 return false;
             }

@@ -18,22 +18,22 @@ import static org.junit.Assert.*;
  * @author Kopxe
  */
 public class ListaTest {
-    
+
     public ListaTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -191,24 +191,4 @@ public class ListaTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-
-    public class ListaImpl extends Lista {
-
-        public ListaImpl() {
-            super("", null, "");
-        }
-
-        public DtLista getData() {
-            return null;
-        }
-
-        public boolean quitarTema(String nombreT) {
-            return false;
-        }
-
-        public boolean agregarTema(Tema tema) {
-            return false;
-        }
-    }
-    
 }
