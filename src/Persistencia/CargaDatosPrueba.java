@@ -19,8 +19,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -78,6 +81,37 @@ public class CargaDatosPrueba {
         {"CB", "cbochinche.jpg"},
         {"EL", "Eleven11.jpg"}
     };
+
+    //Datos Suscripciones
+    private String[][] sus = {
+        {"VC", "S1"},
+        {"VC", "S2"},
+        {"SO", "S3"},
+        {"PA", "S4"},
+        {"PA", "S5"},
+        {"PA", "S6"},
+        {"WW", "S7"},
+        {"OK", "S8"},
+        {"ML", "S9"},
+        {"ML", "S10"},
+        {"CB", "S11"},
+        {"CB", "S12"},
+        {"EL", "S13"},};
+
+    private String[][] infosus = {
+        {"S1", "Vencida", "Semanal", "2/9/2016"},
+        {"S2", "Vigente", "Anual", "3/9/2016"},
+        {"S3", "Pendiente", "Mensual", "1/10/2016"},
+        {"S4", "Vencida", "Anual", "1/3/2016"},
+        {"S5", "Cancelada", "Mensual", "3/5/2016"},
+        {"S6", "Vigente", "Semanal", "16/10/2016"},
+        {"S7", "Vencida", "Anual", "10/6/2015"},
+        {"S8", "Pendiente", "Mensual", "15/10/2016"},
+        {"S9", "Cancelada", "Anual", "2/9/2016"},
+        {"S10", "Vigente", "Mensual", "25/9/2016"},
+        {"S11", "Vencida", "Semanal", "1/5/2016"},
+        {"S12", "Cancelada", "Anual", "2/10/2016"},
+        {"S13", "Pendiente", "Anual", "15/10/2016"},};
 
     // Seguidores (Seguidor, Seguido)
     private String[][] seguidores = {
@@ -741,6 +775,24 @@ public class CargaDatosPrueba {
             return 0;
         }
     }
+    
+     public ArrayList<String[]> cargarSuscripciones() {
+        try {
+            ArrayList<String[]> res = new ArrayList<>();
+            PreparedStatement sql = conexion.prepareStatement("SELECT s.nickname, s.cuota, s.fecha_venc, s.fecha, s.estado, m.monto FROM suscripcion AS s, monto AS m WHERE s.cuota = m.cuota");
+            ResultSet sus = sql.executeQuery();
+
+            while (sus.next()) {
+                res.add(new String[]{sus.getString(1), sus.getString(2), sus.getString(3), sus.getString(4), sus.getString(5), String.valueOf(sus.getString(6))});
+            }
+
+            return res;
+        } catch (SQLException ex) {
+            Logger.getLogger(CargaDatosPrueba.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+
+    }
 
     // Insertar Datos de prueba en la BD
     public boolean insertarDatosPrueba() {
@@ -776,6 +828,12 @@ public class CargaDatosPrueba {
         }
         if (!insertarListaFavorita()) {
             return false;
+        }
+        if (!insertarSuscripciones()) {
+            return false;
+        }
+        if(!insertarMontos()){
+        return false;
         }
         return true;
     }
@@ -1228,6 +1286,89 @@ public class CargaDatosPrueba {
             }
         }
         return true;
+    }
+
+    public boolean insertarSuscripciones() {
+        /*suscripcion[0] = ref nickname
+          suscripcion[1] = ref suscripcion
+
+            info[0] = ref suscripcion
+            info[1] = estado
+            info[2] = cuota
+            info[3] = fecha
+            usuario[0] = ref nickname
+            usuario[1] = nickname*/
+
+        BDSuscripcion bds = new BDSuscripcion();
+        String nickname = "";
+        String ref = "";
+        String cuota = "";
+        String estado = "";
+        DtFecha fecha_venc = null;
+        DtFecha fecha = null;
+        for (String[] suscripcion : sus) {
+
+            for (String[] usuario : perfiles) {
+                if (suscripcion[0] == usuario[0]) {
+                    nickname = usuario[1];
+                }
+            }
+
+            for (String[] info : infosus) {
+
+                if (suscripcion[1].equals(info[0])) {
+                    cuota = info[2];
+                    estado = info[1];
+                    String[] arreglo = info[3].split("/");
+                    fecha = new DtFecha(Integer.parseInt(arreglo[0]), Integer.parseInt(arreglo[1]), Integer.parseInt(arreglo[2]));
+                    Calendar c = new GregorianCalendar(fecha.getAnio(), fecha.getMes(), fecha.getDia());
+
+                    if (info[2].equals("Semanal")) {
+
+                        c.add(Calendar.DATE, 7);
+                        fecha_venc = new DtFecha(c.get(Calendar.DAY_OF_MONTH), c.get(Calendar.MONTH), c.get(Calendar.YEAR));
+
+                    } else if (info[2].equals("Mensual")) {
+
+                        c.add(Calendar.MONTH, 1);
+                        fecha_venc = new DtFecha(c.get(Calendar.DAY_OF_MONTH), c.get(Calendar.MONTH), c.get(Calendar.YEAR));
+
+                    } else {
+
+                        c.add(Calendar.YEAR, 1);
+                        fecha_venc = new DtFecha(c.get(Calendar.DAY_OF_MONTH), c.get(Calendar.MONTH), c.get(Calendar.YEAR));
+
+                    }
+
+                }
+            }
+
+            if (!bds.ingresarSuscripcion(nickname, cuota, fecha_venc, fecha, estado)) {
+                return false;
+            }
+
+        }
+
+        return true;
+
+    }
+    
+    public boolean insertarMontos(){
+        try {
+            PreparedStatement sql = conexion.prepareStatement("INSERT INTO monto(monto,cuota) VALUES (2,\"Semanal\")");
+            sql.executeUpdate();
+            sql.close();
+            PreparedStatement sql1 = conexion.prepareStatement("INSERT INTO monto(monto,cuota) VALUES (7,\"Mensual\")");
+            sql1.executeUpdate();
+            sql1.close();
+            PreparedStatement sql2 = conexion.prepareStatement("INSERT INTO monto(monto,cuota) VALUES (65,\"Anual\")");
+            sql2.executeUpdate();
+            sql2.close();
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(CargaDatosPrueba.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
     }
 
     // Borrar todos los datos de la BD

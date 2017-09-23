@@ -281,4 +281,17 @@ public class Cliente extends Usuario {
     public void cargarLista(ListaParticular lp) {
         listasParticulares.put(lp.getNombre(), lp);
     }
+
+    public void cancelarSuscripcion(Suscripcion sus) {
+        suscripciones.add(sus);
+        actual = null;
+    }
+
+    public void cargarSuscripcion(Suscripcion sus) {
+        if (sus.getEstado().equals("Vigente") || sus.getEstado().equals("Pendiente")) {
+            actual = sus;
+        } else {
+            suscripciones.add(sus);
+        }
+    }
 }
