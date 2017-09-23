@@ -695,7 +695,7 @@ public class ControladorContenido implements IContenido {
         if (o instanceof DtAlbum) {
             return ((DtAlbum) o).getAnio();
         } else if (o instanceof DtLista) {
-            return 0;//((DtLista) o).get;
+            return ((DtLista) o).getFecha().getAnio();
         } else if (o instanceof DtTema) {
             return ((Artista) iUsuario.obtenerUsuario(((DtTema) o).getArtista())).getAlbum(((DtTema) o).getAlbum()).getAnio();
         } else {
@@ -715,7 +715,10 @@ public class ControladorContenido implements IContenido {
     private ArrayList<Object> ordenarPorAnio(ArrayList<Object> lista) {
         Collections.sort(lista, new Comparator<Object>() {
             public int compare(Object o1, Object o2) {
-                return obtenerNombre(o1).compareTo(obtenerNombre(o2));
+                if (obtenerAnio(o1) == obtenerAnio(o2)) {
+                    return 0;
+                }
+                return obtenerAnio(o1) > obtenerAnio(o2) ? -1 : 1;
             }
         });
         return lista;
