@@ -6,8 +6,8 @@ public class DtListaDefecto extends DtLista {
 
     private final DtGenero genero;
 
-    public DtListaDefecto(DtGenero genero, String nombre, ArrayList<DtTema> temas, String imagen) {
-        super(nombre, temas, imagen);
+    public DtListaDefecto(DtGenero genero, String nombre, ArrayList<DtTema> temas, String imagen, DtFecha fecha) {
+        super(nombre, temas, imagen, fecha);
         this.genero = genero;
     }
 

@@ -110,7 +110,9 @@ public class Fabrica {
                 temas.add(((Artista) iu.obtenerUsuario(dtt[0])).getAlbum(dtt[1]).getTema(dtt[2]));
             }
 
-            iu.cargarLista(new ListaParticular(lista[5], lista[3].equals("N") ? true : false, lista[1], temas, lista[4]), lista[2]);
+            DtFecha fecha = new DtFecha(Integer.valueOf(lista[6]), Integer.valueOf(lista[7]), Integer.valueOf(lista[8]));
+
+            iu.cargarLista(new ListaParticular(lista[5], lista[3].equals("N") ? true : false, lista[1], temas, lista[4], fecha), lista[2]);
         }
 
         // Cargar Lista por Defecto
@@ -123,7 +125,9 @@ public class Fabrica {
                 temas.add(((Artista) iu.obtenerUsuario(dtt[0])).getAlbum(dtt[1]).getTema(dtt[2]));
             }
 
-            ic.cargarLista(new ListaDefecto(ic.obtenerGenero(lista[1]), lista[2], temas, lista[3]), lista[1]);
+            DtFecha fecha = new DtFecha(Integer.valueOf(lista[4]), Integer.valueOf(lista[5]), Integer.valueOf(lista[6]));
+            
+            ic.cargarLista(new ListaDefecto(ic.obtenerGenero(lista[1]), lista[2], temas, lista[3], fecha), lista[1]);
         }
 
         //Cargar Albumes Favoritos

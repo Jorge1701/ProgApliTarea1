@@ -1,23 +1,27 @@
 package Logica;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Map;
 
 public abstract class Lista {
 
     private String nombre;
     protected ArrayList<Tema> temas;
     private String imagen;
+    private DtFecha fecha;
 
-    public Lista(String nombre, ArrayList<Tema> temas, String imagen) {
+    public Lista(String nombre, ArrayList<Tema> temas, String imagen, DtFecha fecha) {
         this.nombre = nombre;
         this.temas = temas;
         this.imagen = imagen;
+        this.fecha = fecha;
     }
 
     public String getImagen() {
         return imagen;
+    }
+    
+    public DtFecha getFecha() {
+        return fecha;
     }
 
     public abstract DtLista getData();

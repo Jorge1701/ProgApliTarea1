@@ -26,6 +26,7 @@ public class TemaLocal extends Tema {
         DtTemaLocal dtTemaL = new DtTemaLocal(this.getDirectorio(), this.getNombre(), this.getDuracion(), this.getUbicacion());
         dtTemaL.setAlbum(this.getAlbum().getNombre());
         dtTemaL.setArtista(this.getAlbum().getNickArtista());
+        dtTemaL.setImagenAlbum(this.getAlbum().getImagen());
         return dtTemaL;
     }
 }

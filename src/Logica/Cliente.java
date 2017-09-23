@@ -256,7 +256,7 @@ public class Cliente extends Usuario {
         Iterator it = listasParticulares.entrySet().iterator();
         while (it.hasNext()) {
             ListaParticular lp = (ListaParticular) ((Map.Entry) it.next()).getValue();
-            res.add(new DtListaParticular(lp.isPrivada(), lp.getNombre(), lp.getTemas(), lp.getImagen()));
+            res.add(new DtListaParticular(lp.isPrivada(), lp.getNombre(), lp.getTemas(), lp.getImagen(), lp.getFecha()));
 
         }
         return res;
@@ -264,7 +264,7 @@ public class Cliente extends Usuario {
 
     public DtLista seleccionarLista(String nombreL) {
         ListaParticular lp = listasParticulares.get(nombreL);
-        return new DtListaParticular(lp.isPrivada(), lp.getNombre(), lp.getTemas(), lp.getImagen());
+        return new DtListaParticular(lp.isPrivada(), lp.getNombre(), lp.getTemas(), lp.getImagen(), lp.getFecha());
     }
 
     public ArrayList<DtUsuario> obtenerSeguidos() {

@@ -5,10 +5,10 @@ import Logica.DtListaDefecto;
 import Logica.DtListaParticular;
 import Logica.Lista;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,11 +24,12 @@ public class BDLista {
             } else {
                 tipo = "P";
             }
-            String sql = "INSERT INTO lista" + "(nombre,tipo,imagen) VALUES (?,?,?)";
+            String sql = "INSERT INTO lista" + "(nombre,tipo,imagen,fecha_creacion) VALUES (?,?,?,?)";
             PreparedStatement statament = conexion.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             statament.setString(1, dtl.getNombre());
             statament.setString(2, tipo);
             statament.setString(3, dtl.getImagen());
+            statament.setDate(4, java.sql.Date.valueOf(dtl.getFecha().getAnio() + "-" + dtl.getFecha().getMes() + "-" + dtl.getFecha().getDia()));
             statament.executeUpdate();
             ResultSet rs = statament.getGeneratedKeys();
             rs.next();
@@ -86,26 +87,26 @@ public class BDLista {
     public boolean quitarTemaLista(String NomUser, String NomLista, String NomTema) {
         try {
             if (NomUser == null) {
-                
+
                 PreparedStatement sql = conexion.prepareStatement("SELECT l.idLista FROM lista AS l, listapordefecto AS ld WHERE l.idLista = ld.idLista and l.nombre = '" + NomLista + "'");
                 ResultSet id = sql.executeQuery();
                 id.next();
                 int idLista = id.getInt(1);
-                sql.close(); 
-                
+                sql.close();
+
                 PreparedStatement query = conexion.prepareStatement("SELECT idTema FROM tema WHERE nombre = ?");
-                query.setString(1, NomTema);                
+                query.setString(1, NomTema);
                 int idTema = 0;
                 ResultSet rs = query.executeQuery();
                 while (rs.next()) {
                     idTema = rs.getInt(1);
                 }
                 rs.close();
-                query.close();                
-                               
+                query.close();
+
                 String sql2 = "DELETE FROM listatienetemas WHERE idTema=? and idLista=? ";
                 PreparedStatement delete = conexion.prepareStatement(sql2);
-                delete.setInt(1,idTema);
+                delete.setInt(1, idTema);
                 delete.setInt(2, idLista);
                 delete.executeUpdate();
                 delete.close();
@@ -114,20 +115,20 @@ public class BDLista {
                 ResultSet id = sql.executeQuery();
                 id.next();
                 int idLista = id.getInt(1);
-                sql.close();                
+                sql.close();
                 PreparedStatement query = conexion.prepareStatement("SELECT idTema FROM tema WHERE nombre = ?");
-                query.setString(1, NomTema);                
+                query.setString(1, NomTema);
                 int idTema = 0;
                 ResultSet rs = query.executeQuery();
                 while (rs.next()) {
                     idTema = rs.getInt(1);
                 }
                 rs.close();
-                query.close();                
-                                               
+                query.close();
+
                 String sql2 = "DELETE FROM listatienetemas WHERE idTema=? and idLista=? ";
                 PreparedStatement delete = conexion.prepareStatement(sql2);
-                delete.setInt(1,idTema);
+                delete.setInt(1, idTema);
                 delete.setInt(2, idLista);
                 delete.executeUpdate();
                 delete.close();
