@@ -975,7 +975,6 @@ public class CargaDatosPrueba {
             }
 
             DtFecha f = new DtFecha(Integer.valueOf(listaPordefecto[4]), Integer.valueOf(listaPordefecto[5]), Integer.valueOf(listaPordefecto[6]));
-            System.out.println("Persistencia.CargaDatosPrueba.insertarListaPorDefecto() = " + f.toString());
             DtLista lista = new DtListaDefecto(new DtGenero(nombreGenero, null), nombre, null, imagen, f);
 
             if (!bdl.altaLista(lista, "")) {
@@ -1004,7 +1003,6 @@ public class CargaDatosPrueba {
             }
 
             DtFecha f = new DtFecha(Integer.valueOf(listaParticular[5]), Integer.valueOf(listaParticular[6]), Integer.valueOf(listaParticular[7]));
-            System.out.println("Persistencia.CargaDatosPrueba.insertarListaParticular() = " + f.toString());
             DtLista lista = new DtListaParticular("S".equals(publica) ? false : true, nombreLista, null, imagen, f);
             if (!bdl.altaLista(lista, nickCliente)) {
                 return false;

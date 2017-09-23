@@ -24,8 +24,6 @@ public class Fabrica {
         if (!cdp.insertarDatosPrueba()) {
             throw new Exception("Error : no se puedieron levantar los datos de la BD");
         }
-        
-        System.out.println("Logica.Fabrica.cargaDatosPrueba() CARGADOS");
 
         levantarDatos();
     }
