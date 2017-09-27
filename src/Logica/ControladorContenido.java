@@ -723,4 +723,24 @@ public class ControladorContenido implements IContenido {
         });
         return lista;
     }
+
+    public ArrayList<String> obtenerGeneros() {
+        ArrayList<String> generos = new ArrayList<>();
+        obtenerNombres(generos, genero);
+        return generos;
+    }
+
+    private void obtenerNombres(ArrayList<String> nombres, Genero g) {
+        if (!g.getNombre().equals("Generos")) {
+            nombres.add(g.getNombre());
+        }
+
+        HashMap<String, Genero> sub_generos = g.getSubgeneros();
+
+        Iterator i = sub_generos.entrySet().iterator();
+        while (i.hasNext()) {
+            Genero sub = (Genero) ((Map.Entry) i.next()).getValue();
+            obtenerNombres(nombres, sub);
+        }
+    }
 }

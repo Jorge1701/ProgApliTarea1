@@ -688,6 +688,52 @@ public class IContenidoTest {
         public ArrayList<Object> buscar(String texto, String orden) {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
+
+        @Override
+        public ArrayList<String> obtenerGeneros() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
     }
 
+    /**
+     * Test of reiniciar method, of class IContenido.
+     */
+    @Test
+    public void testReiniciar() {
+        System.out.println("reiniciar");
+        IContenido instance = new IContenidoImpl();
+        instance.reiniciar();
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of obtenerGeneros method, of class IContenido.
+     */
+    @Test
+    public void testObtenerGeneros() {
+        System.out.println("obtenerGeneros");
+        IContenido instance = new IContenidoImpl();
+        ArrayList<String> expResult = null;
+        ArrayList<String> result = instance.obtenerGeneros();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of buscar method, of class IContenido.
+     */
+    @Test
+    public void testBuscar() {
+        System.out.println("buscar");
+        String texto = "";
+        String orden = "";
+        IContenido instance = new IContenidoImpl();
+        ArrayList<Object> expResult = null;
+        ArrayList<Object> result = instance.buscar(texto, orden);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
 }

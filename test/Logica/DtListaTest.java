@@ -79,5 +79,19 @@ public class DtListaTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
+
+    /**
+     * Test of getFecha method, of class DtLista.
+     */
+    @Test
+    public void testGetFecha() {
+        System.out.println("getFecha");
+        DtLista instance = null;
+        DtFecha expResult = null;
+        DtFecha result = instance.getFecha();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
     
 }

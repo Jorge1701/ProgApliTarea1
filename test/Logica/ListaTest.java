@@ -191,4 +191,37 @@ public class ListaTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
+
+    /**
+     * Test of getFecha method, of class Lista.
+     */
+    @Test
+    public void testGetFecha() {
+        System.out.println("getFecha");
+        Lista instance = null;
+        DtFecha expResult = null;
+        DtFecha result = instance.getFecha();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    public class ListaImpl extends Lista {
+
+        public ListaImpl() {
+            super("", null, "", null);
+        }
+
+        public DtLista getData() {
+            return null;
+        }
+
+        public boolean quitarTema(String nombreT) {
+            return false;
+        }
+
+        public boolean agregarTema(Tema tema) {
+            return false;
+        }
+    }
 }

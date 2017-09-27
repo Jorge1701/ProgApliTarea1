@@ -145,5 +145,32 @@ public class DtTemaTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
+
+    /**
+     * Test of getImagenAlbum method, of class DtTema.
+     */
+    @Test
+    public void testGetImagenAlbum() {
+        System.out.println("getImagenAlbum");
+        DtTema instance = null;
+        String expResult = "";
+        String result = instance.getImagenAlbum();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of setImagenAlbum method, of class DtTema.
+     */
+    @Test
+    public void testSetImagenAlbum() {
+        System.out.println("setImagenAlbum");
+        String imagenAlbum = "";
+        DtTema instance = null;
+        instance.setImagenAlbum(imagenAlbum);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
     
 }
