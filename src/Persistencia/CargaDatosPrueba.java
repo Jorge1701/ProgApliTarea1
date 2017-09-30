@@ -19,8 +19,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -1374,6 +1372,7 @@ public class CargaDatosPrueba {
     // Borrar todos los datos de la BD
     public boolean borrarTodosLosDatos() {
         try {
+            System.out.println("Persistencia.CargaDatosPrueba.borrarTodosLosDatos()");
             PreparedStatement query = conexion.prepareStatement("SHOW TABLES");
 
             ResultSet tablas = query.executeQuery();

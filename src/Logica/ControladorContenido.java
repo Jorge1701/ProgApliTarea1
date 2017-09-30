@@ -731,7 +731,7 @@ public class ControladorContenido implements IContenido {
     }
 
     private void obtenerNombres(ArrayList<String> nombres, Genero g) {
-        if (!g.getNombre().equals("Generos")) {
+        if (!g.getNombre().equals("Géneros")) {
             nombres.add(g.getNombre());
         }
 
