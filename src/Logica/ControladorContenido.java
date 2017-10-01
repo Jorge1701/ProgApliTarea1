@@ -8,6 +8,8 @@ import Persistencia.CargaDatosPrueba;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 
 public class ControladorContenido implements IContenido {
@@ -30,7 +32,6 @@ public class ControladorContenido implements IContenido {
     }
 
     private Map<String, ListaDefecto> listasDefecto;
-    private Map<String, ListaParticular> listasParticular;
     private Artista artista;
     private Genero genero;
     private Genero generoRecordado;
@@ -39,7 +40,6 @@ public class ControladorContenido implements IContenido {
 
     @Override
     public void reiniciar() {
-        this.listasParticular = new HashMap<>();
         this.listasDefecto = new HashMap<>();
         genero = new Genero("Géneros");
 
@@ -56,7 +56,6 @@ public class ControladorContenido implements IContenido {
     }
 
     private ControladorContenido() {
-        this.listasParticular = new HashMap<>();
         this.listasDefecto = new HashMap<>();
         genero = new Genero("Géneros");
     }
@@ -271,7 +270,7 @@ public class ControladorContenido implements IContenido {
                 return false;
             }
             if (bdLista.altaLista(dtl, nickCliente)) {
-                Lista ld = new ListaDefecto(this.genero.obtener(((DtListaDefecto) dtl).getGenero().getNombre()), dtl.getNombre(), new ArrayList<>(), dtl.getImagen());
+                Lista ld = new ListaDefecto(this.genero.obtener(((DtListaDefecto) dtl).getGenero().getNombre()), dtl.getNombre(), new ArrayList<>(), dtl.getImagen(), dtl.getFecha());
                 this.listasDefecto.put(ld.getNombre(), (ListaDefecto) ld);
                 this.genero.obtener(((DtListaDefecto) dtl).getGenero().getNombre()).cargarLista((ListaDefecto) ld);
                 return true;
@@ -285,7 +284,7 @@ public class ControladorContenido implements IContenido {
                 return false;
             }
             if (bdLista.altaLista(dtl, nickCliente)) {
-                Lista lp = new ListaParticular(dtl.getNombre(), dtl.getImagen());
+                Lista lp = new ListaParticular(dtl.getNombre(), dtl.getImagen(), dtl.getFecha());
                 ((Cliente) iUsuario.obtenerUsuario(nickCliente)).agregarLista(lp);
                 return true;
             } else {
@@ -388,6 +387,7 @@ public class ControladorContenido implements IContenido {
 
     }
 
+    @Override
     public boolean agregarDeListasDefectoTema(String nombreT, String nombreLista, String nombreUser, String listaDefecto) {
         Cliente u = (Cliente) iUsuario.obtenerUsuario(nombreUser);
         Tema tema = (Tema) listasDefecto.get(listaDefecto).getTema(nombreT);
@@ -422,6 +422,7 @@ public class ControladorContenido implements IContenido {
 
     }
 
+    @Override
     public boolean agregarDeListasParticularesTema(String nombreT, String nombreLista, String nombreUser, String duenio, String listaDelduenio) {
         Cliente u = (Cliente) iUsuario.obtenerUsuario(nombreUser);
         Tema tema = (Tema) ((ListaParticular) ((Cliente) iUsuario.obtenerUsuario(duenio)).getListaParticular(listaDelduenio)).getTema(nombreT);
@@ -456,6 +457,7 @@ public class ControladorContenido implements IContenido {
 
     }
 
+    @Override
     public boolean agregarDeAlbumTema(String nombreT, String nombreLista, String nombreUser, String artista, String album) {
         Cliente u = (Cliente) iUsuario.obtenerUsuario(nombreUser);
         Tema tema = (Tema) ((Album) ((Artista) iUsuario.obtenerUsuario(artista)).getAlbum(album)).getTema(nombreT);
@@ -588,6 +590,7 @@ public class ControladorContenido implements IContenido {
         }
     }
 
+    @Override
     public HashMap<String, Tema> listarTemas(String NombreAlbum, String nickArtista) {
         Album a = iUsuario.selectArtista(nickArtista).getAlbum(NombreAlbum);
         if (a == null) {
@@ -596,6 +599,7 @@ public class ControladorContenido implements IContenido {
         return a.getTemas();
     }
 
+    @Override
     public ArrayList<DtTema> listarTemasLD(String nombreLista) {
         Lista lista = (Lista) listasDefecto.get(nombreLista);
 
@@ -606,6 +610,7 @@ public class ControladorContenido implements IContenido {
 
     }
 
+    @Override
     public ArrayList<DtTema> listarTemasP(String nombreLista, String nickCliente) {
         Cliente c = (Cliente) iUsuario.obtenerUsuario(nickCliente);
         Lista l = c.getListaParticular(nombreLista);
@@ -613,5 +618,129 @@ public class ControladorContenido implements IContenido {
             throw new UnsupportedOperationException("La Lista No Existe");
         }
         return l.getTemas();
+    }
+
+    @Override
+    public ArrayList<Object> buscar(String texto, String orden) {
+        texto = texto.toLowerCase();
+
+        ArrayList<Object> resultados = new ArrayList<>();
+
+        ArrayList<DtUsuario> artistas = iUsuario.listarArtistas();
+        for (DtUsuario dtu : artistas) {
+            Artista a = (Artista) iUsuario.obtenerUsuario(dtu.getNickname());
+
+            for (Album album : a.getAlbumes()) {
+                if (album.getNombre().toLowerCase().contains(texto)) {
+                    resultados.add(album.getData());
+                }
+
+                Iterator i = album.getTemas().entrySet().iterator();
+
+                while (i.hasNext()) {
+                    Tema tema = (Tema) ((Map.Entry) i.next()).getValue();
+                    if (tema.getNombre().toLowerCase().contains(texto)) {
+                        resultados.add(tema.getData());
+                    }
+                }
+            }
+        }
+
+        ArrayList<DtUsuario> clientes = iUsuario.listarClientes();
+        for (DtUsuario dtu : clientes) {
+            Cliente c = (Cliente) iUsuario.obtenerUsuario(dtu.getNickname());
+
+            Iterator i = c.getListasParticulares().entrySet().iterator();
+
+            while (i.hasNext()) {
+                ListaParticular lista = (ListaParticular) ((Map.Entry) i.next()).getValue();
+                if (lista.getNombre().toLowerCase().contains(texto)) {
+                    resultados.add(lista.getData());
+                }
+            }
+        }
+
+        Iterator i = listasDefecto.entrySet().iterator();
+
+        while (i.hasNext()) {
+            ListaDefecto lista = (ListaDefecto) ((Map.Entry) i.next()).getValue();
+            if (lista.getNombre().toLowerCase().contains(texto)) {
+                resultados.add(lista.getData());
+            }
+        }
+
+        switch (orden) {
+            case "alfa":
+                return ordenarAlfabeticamente(resultados);
+            case "anio":
+                return ordenarPorAnio(resultados);
+            default:
+                return resultados;
+        }
+    }
+
+    private String obtenerNombre(Object o) {
+        if (o instanceof DtAlbum) {
+            return ((DtAlbum) o).getNombre();
+        } else if (o instanceof DtLista) {
+            return ((DtLista) o).getNombre();
+        } else if (o instanceof DtTema) {
+            return ((DtTema) o).getNombre();
+        } else {
+            return "";
+        }
+    }
+
+    private int obtenerAnio(Object o) {
+        if (o instanceof DtAlbum) {
+            return ((DtAlbum) o).getAnio();
+        } else if (o instanceof DtLista) {
+            return ((DtLista) o).getFecha().getAnio();
+        } else if (o instanceof DtTema) {
+            return ((Artista) iUsuario.obtenerUsuario(((DtTema) o).getArtista())).getAlbum(((DtTema) o).getAlbum()).getAnio();
+        } else {
+            return 0;
+        }
+    }
+
+    private ArrayList<Object> ordenarAlfabeticamente(ArrayList<Object> lista) {
+        Collections.sort(lista, new Comparator<Object>() {
+            public int compare(Object o1, Object o2) {
+                return obtenerNombre(o1).compareTo(obtenerNombre(o2));
+            }
+        });
+        return lista;
+    }
+
+    private ArrayList<Object> ordenarPorAnio(ArrayList<Object> lista) {
+        Collections.sort(lista, new Comparator<Object>() {
+            public int compare(Object o1, Object o2) {
+                if (obtenerAnio(o1) == obtenerAnio(o2)) {
+                    return 0;
+                }
+                return obtenerAnio(o1) > obtenerAnio(o2) ? -1 : 1;
+            }
+        });
+        return lista;
+    }
+
+    public ArrayList<String> obtenerGeneros() {
+        ArrayList<String> generos = new ArrayList<>();
+        obtenerNombres(generos, genero);
+        return generos;
+    }
+
+    private void obtenerNombres(ArrayList<String> nombres, Genero g) {
+        if (!g.getNombre().equals("Géneros")) {
+            nombres.add(g.getNombre());
+        }
+
+        HashMap<String, Genero> sub_generos = g.getSubgeneros();
+
+        Iterator i = sub_generos.entrySet().iterator();
+        while (i.hasNext()) {
+            Genero sub = (Genero) ((Map.Entry) i.next()).getValue();
+            obtenerNombres(nombres, sub);
+        }
     }
 }

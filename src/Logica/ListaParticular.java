@@ -8,14 +8,14 @@ public class ListaParticular extends Lista {
     private String nickDuenio;
     private boolean privada;
 
-    public ListaParticular(String nickDuenio, boolean privada, String nombre, ArrayList<Tema> temas, String imagen) {
-        super(nombre, temas, imagen);
+    public ListaParticular(String nickDuenio, boolean privada, String nombre, ArrayList<Tema> temas, String imagen, DtFecha fecha) {
+        super(nombre, temas, imagen, fecha);
         this.privada = privada;
         this.nickDuenio = nickDuenio;
     }
 
-    public ListaParticular(String nombre, String imagen) {
-        super(nombre, new ArrayList<>(), imagen);
+    public ListaParticular(String nombre, String imagen, DtFecha fecha) {
+        super(nombre, new ArrayList<>(), imagen, fecha);
         this.privada = true;
         this.nickDuenio = nickDuenio;
     }
@@ -26,7 +26,7 @@ public class ListaParticular extends Lista {
 
     @Override
     public DtLista getData() {
-        return new DtListaParticular(isPrivada(), getNombre(), getTemas(), getImagen());
+        return new DtListaParticular(isPrivada(), getNombre(), getTemas(), getImagen(), getFecha());
     }
 
     public boolean isPrivada() {

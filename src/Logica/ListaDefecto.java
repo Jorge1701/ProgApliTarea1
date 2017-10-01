@@ -7,14 +7,14 @@ public class ListaDefecto extends Lista {
 
     private Genero genero;
 
-    public ListaDefecto(Genero genero, String nombre, ArrayList<Tema> temas, String imagen) {
-        super(nombre, temas, imagen);
+    public ListaDefecto(Genero genero, String nombre, ArrayList<Tema> temas, String imagen, DtFecha fecha) {
+        super(nombre, temas, imagen, fecha);
         this.genero = genero;
     }
 
     @Override
     public DtLista getData() {
-        return new DtListaDefecto(genero.getData(), getNombre(), getTemas(), getImagen());
+        return new DtListaDefecto(genero.getData(), getNombre(), getTemas(), getImagen(), getFecha());
     }
 
     public Genero getGenero() {

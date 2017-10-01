@@ -136,4 +136,18 @@ public class DtUsuarioTest {
         assertEquals(expResult, result);
     }
 
+    /**
+     * Test of getContrasenia method, of class DtUsuario.
+     */
+    @Test
+    public void testGetContrasenia() {
+        System.out.println("getContrasenia");
+        DtUsuario instance = null;
+        String expResult = "";
+        String result = instance.getContrasenia();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
 }

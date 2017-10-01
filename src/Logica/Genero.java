@@ -134,14 +134,14 @@ public class Genero {
 
         while (it.hasNext()) {
             ListaDefecto ld = (ListaDefecto) ((Map.Entry) it.next()).getValue();
-            res.add(new DtLista(ld.getNombre(), ld.getTemas(), ld.getImagen()));
+            res.add(new DtLista(ld.getNombre(), ld.getTemas(), ld.getImagen(), ld.getFecha()));
         }
         return res;
     }
 
     public DtLista seleccionarLista(String nombreL) {
         ListaDefecto ld = this.listasDefecto.get(nombreL);
-        return new DtListaDefecto(ld.getGenero().getData(), ld.getNombre(), ld.getTemas(), ld.getImagen());
+        return new DtListaDefecto(ld.getGenero().getData(), ld.getNombre(), ld.getTemas(), ld.getImagen(), ld.getFecha());
     }
 
     public DtAlbumContenido obtenerAlbumContenido(String nomAlbum, String nickArtista) {

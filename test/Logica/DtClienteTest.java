@@ -5,6 +5,7 @@
  */
 package Logica;
 
+import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -84,6 +85,34 @@ public class DtClienteTest {
         }
 
         assertEquals(true, result);
+    }
+
+    /**
+     * Test of getSuscripciones method, of class DtCliente.
+     */
+    @Test
+    public void testGetSuscripciones() {
+        System.out.println("getSuscripciones");
+        DtCliente instance = null;
+        ArrayList<DtSuscripcion> expResult = null;
+        ArrayList<DtSuscripcion> result = instance.getSuscripciones();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getSuscripcion method, of class DtCliente.
+     */
+    @Test
+    public void testGetSuscripcion() {
+        System.out.println("getSuscripcion");
+        DtCliente instance = null;
+        DtSuscripcion expResult = null;
+        DtSuscripcion result = instance.getSuscripcion();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
 
 }
