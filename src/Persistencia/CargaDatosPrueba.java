@@ -30,26 +30,26 @@ public class CargaDatosPrueba {
     // Datos del DatosPrueba2017.doc del Drive...
     // Pefiles (Ref, Nickname, Correo, Nombre, Apellido, FechaNac, Tipo)
     private String[][] perfiles = {
-        {"VP", "vpeople", "vpeople@tuta.io", "Village", "People", "1", "1", "1977", "A"},
-        {"DM", "dmode", "dmode@tuta.io", "Depeche", "Mode", "14", "6", "1980", "A"},
-        {"CL", "clauper", "clauper@hotmail.com", "Cyndi", "Lauper", "22", "6", "1953", "A"},
-        {"BS", "bruceTheBoss", "bruceTheBoss@gmail.com", "Bruce", "Springsteen", "23", "9", "1949", "A"},
-        {"TN", "tripleNelson", "tripleNelson@tuta.io", "La Triple", "Nelson", "1", "1", "1998", "A"},
-        {"LL", "la_ley", "la_ley@tuta.io", "La", "Ley", "14", "2", "1987", "A"},
-        {"TJ", "tigerOfWales", "tigerOfWales@tuta.io", "Tom", "Jones", "7", "6", "1940", "A"},
-        {"PT", "chaiko", "chaiko@tuta.io", "Piotr", "Tchaikovsky", "25", "4", "1840", "A"},
-        {"NN", "nicoleneu", "nicoleneu@hotmail.com", "Nicole", "Neumann", "31", "10", "1980", "A"},
-        {"PI", "lospimpi", "lospimpi@gmail.com", "Pimpinela", "", "13", "8", "1981", "A"},
-        {"DY", "dyangounchained", "dyangounchained@gmail.com", "Dyango", "", "5", "3", "1940", "A"},
-        {"AL", "alcides", "alcides@tuta.io", "Alcides", "", "17", "7", "1952", "A"},
-        {"VC", "el_padrino", "el_padrino@tuta.io", "Vito", "Corleone", "8", "3", "1972", "C"},
-        {"SO", "scarlettO", "scarlettO@tuta.io", "Scarlett", "O’Hara", "27", "11", "1984", "C"},
-        {"PA", "ppArgento", "ppArgento@hotmail.com", "Pepe", "Argento", "14", "2", "1955", "C"},
-        {"WW", "Heisenberg", "Heisenberg@tuta.io", "Walter", "White", "7", "3", "1956", "C"},
-        {"OK", "benKenobi", "benKenobi@gmail.com", "Obi-Wan", "Kenobi", "2", "4", "1914", "C"},
-        {"ML", "lachiqui", "lachiqui@hotmail.com.ar", "Mirtha", "Legrand", "23", "2", "1927", "C"},
-        {"CB", "cbochinche", "cbochinche@vera.com.uy", "Cacho", "Bochinche", "8", "5", "1937", "C"},
-        {"EL", "Eleven11", "Eleven11@gmail.com", "Eleven", "", "31", "12", "1971", "C"}
+        {"VP", "vpeople", "vpeople@tuta.io", "Village", "People", "1", "1", "1977", "A", "vpeople"},
+        {"DM", "dmode", "dmode@tuta.io", "Depeche", "Mode", "14", "6", "1980", "A", "dmode"},
+        {"CL", "clauper", "clauper@hotmail.com", "Cyndi", "Lauper", "22", "6", "1953", "A", "clauper"},
+        {"BS", "bruceTheBoss", "bruceTheBoss@gmail.com", "Bruce", "Springsteen", "23", "9", "1949", "A", "bruceTheBoss"},
+        {"TN", "tripleNelson", "tripleNelson@tuta.io", "La Triple", "Nelson", "1", "1", "1998", "A", "tripleNelson"},
+        {"LL", "la_ley", "la_ley@tuta.io", "La", "Ley", "14", "2", "1987", "A", "la_ley"},
+        {"TJ", "tigerOfWales", "tigerOfWales@tuta.io", "Tom", "Jones", "7", "6", "1940", "A", "tiger"},
+        {"PT", "chaiko", "chaiko@tuta.io", "Piotr", "Tchaikovsky", "25", "4", "1840", "A", "chaiko"},
+        {"NN", "nicoleneu", "nicoleneu@hotmail.com", "Nicole", "Neumann", "31", "10", "1980", "A", "nicoleneu"},
+        {"PI", "lospimpi", "lospimpi@gmail.com", "Pimpinela", "", "13", "8", "1981", "A", "lospimpi"},
+        {"DY", "dyangounchained", "dyangounchained@gmail.com", "Dyango", "", "5", "3", "1940", "A", "dyango"},
+        {"AL", "alcides", "alcides@tuta.io", "Alcides", "", "17", "7", "1952", "A", "alcides"},
+        {"VC", "el_padrino", "el_padrino@tuta.io", "Vito", "Corleone", "8", "3", "1972", "C", "elpadrino"},
+        {"SO", "scarlettO", "scarlettO@tuta.io", "Scarlett", "O’Hara", "27", "11", "1984", "C", "scarletto"},
+        {"PA", "ppArgento", "ppArgento@hotmail.com", "Pepe", "Argento", "14", "2", "1955", "C", "ppargento"},
+        {"WW", "Heisenberg", "Heisenberg@tuta.io", "Walter", "White", "7", "3", "1956", "C", "heisenberg"},
+        {"OK", "benKenobi", "benKenobi@gmail.com", "Obi-Wan", "Kenobi", "2", "4", "1914", "C", "benkenobi"},
+        {"ML", "lachiqui", "lachiqui@hotmail.com.ar", "Mirtha", "Legrand", "23", "2", "1927", "C", "lachiqui"},
+        {"CB", "cbochinche", "cbochinche@vera.com.uy", "Cacho", "Bochinche", "8", "5", "1937", "C", "cbochinche"},
+        {"EL", "Eleven11", "Eleven11@gmail.com", "Eleven", "", "31", "12", "1971", "C", "eleven11"}
     };
 
     // Datos Opcionales de Artistas (Ref, Imagen, Bio, Web)
@@ -773,8 +773,8 @@ public class CargaDatosPrueba {
             return 0;
         }
     }
-    
-     public ArrayList<String[]> cargarSuscripciones() {
+
+    public ArrayList<String[]> cargarSuscripciones() {
         try {
             ArrayList<String[]> res = new ArrayList<>();
             PreparedStatement sql = conexion.prepareStatement("SELECT s.nickname, s.cuota, s.fecha_venc, s.fecha, s.estado, m.monto FROM suscripcion AS s, monto AS m WHERE s.cuota = m.cuota");
@@ -830,8 +830,8 @@ public class CargaDatosPrueba {
         if (!insertarSuscripciones()) {
             return false;
         }
-        if(!insertarMontos()){
-        return false;
+        if (!insertarMontos()) {
+            return false;
         }
         return true;
     }
@@ -861,7 +861,7 @@ public class CargaDatosPrueba {
                         web = info[3];
                     }
                 }
-                dtu = new DtArtista(nickName, nombre, apellido, correo, fecha, imagen, bio, web, "1234");
+                dtu = new DtArtista(nickName, nombre, apellido, correo, fecha, imagen, bio, web, usuario[9]);
 
             } else {
                 for (String[] info : infoClientes) {
@@ -870,7 +870,7 @@ public class CargaDatosPrueba {
                     }
                 }
 
-                dtu = new DtCliente(nickName, nombre, apellido, correo, fecha, imagen, "1234", null);
+                dtu = new DtCliente(nickName, nombre, apellido, correo, fecha, imagen, usuario[9], null);
             }
             res = bdu.ingresarUsuario(dtu);
             if (res == false) {
@@ -1350,8 +1350,8 @@ public class CargaDatosPrueba {
         return true;
 
     }
-    
-    public boolean insertarMontos(){
+
+    public boolean insertarMontos() {
         try {
             PreparedStatement sql = conexion.prepareStatement("INSERT INTO monto(monto,cuota) VALUES (2,\"Semanal\")");
             sql.executeUpdate();
