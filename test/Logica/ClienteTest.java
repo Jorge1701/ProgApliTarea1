@@ -469,4 +469,84 @@ public class ClienteTest {
         fail("The test case is a prototype.");
     }
 
+    /**
+     * Test of getSuscripcion method, of class Cliente.
+     */
+    @Test
+    public void testGetSuscripcion() {
+        System.out.println("getSuscripcion");
+        Cliente instance = null;
+        Suscripcion expResult = null;
+        Suscripcion result = instance.getSuscripcion();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of setSuscripcion method, of class Cliente.
+     */
+    @Test
+    public void testSetSuscripcion() {
+        System.out.println("setSuscripcion");
+        Suscripcion suscripcion = null;
+        Cliente instance = null;
+        instance.setSuscripcion(suscripcion);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getSuscripciones method, of class Cliente.
+     */
+    @Test
+    public void testGetSuscripciones() {
+        System.out.println("getSuscripciones");
+        Cliente instance = null;
+        ArrayList<Suscripcion> expResult = null;
+        ArrayList<Suscripcion> result = instance.getSuscripciones();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of setSuscripciones method, of class Cliente.
+     */
+    @Test
+    public void testSetSuscripciones() {
+        System.out.println("setSuscripciones");
+        ArrayList<Suscripcion> suscripciones = null;
+        Cliente instance = null;
+        instance.setSuscripciones(suscripciones);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of cancelarSuscripcion method, of class Cliente.
+     */
+    @Test
+    public void testCancelarSuscripcion() {
+        System.out.println("cancelarSuscripcion");
+        Suscripcion sus = null;
+        Cliente instance = null;
+        instance.cancelarSuscripcion(sus);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of cargarSuscripcion method, of class Cliente.
+     */
+    @Test
+    public void testCargarSuscripcion() {
+        System.out.println("cargarSuscripcion");
+        Suscripcion sus = null;
+        Cliente instance = null;
+        instance.cargarSuscripcion(sus);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
 }

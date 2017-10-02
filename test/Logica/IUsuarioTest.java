@@ -668,4 +668,63 @@ public class IUsuarioTest {
         }
     }
 
+    /**
+     * Test of reiniciar method, of class IUsuario.
+     */
+    @Test
+    public void testReiniciar() {
+        System.out.println("reiniciar");
+        IUsuario instance = new IUsuarioImpl();
+        instance.reiniciar();
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of correoExiste method, of class IUsuario.
+     */
+    @Test
+    public void testCorreoExiste() {
+        System.out.println("correoExiste");
+        String correo = "";
+        IUsuario instance = new IUsuarioImpl();
+        boolean expResult = false;
+        boolean result = instance.correoExiste(correo);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of actualizarSuscripcion method, of class IUsuario.
+     */
+    @Test
+    public void testActualizarSuscripcion() {
+        System.out.println("actualizarSuscripcion");
+        String nickname = "";
+        String estado = "";
+        DtFecha fecha = null;
+        IUsuario instance = new IUsuarioImpl();
+        boolean expResult = false;
+        boolean result = instance.actualizarSuscripcion(nickname, estado, fecha);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of chequearLogin method, of class IUsuario.
+     */
+    @Test
+    public void testChequearLogin() {
+        System.out.println("chequearLogin");
+        String nickname = "";
+        String pass = "";
+        IUsuario instance = new IUsuarioImpl();
+        String expResult = "";
+        String result = instance.chequearLogin(nickname, pass);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
 }

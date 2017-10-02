@@ -576,5 +576,47 @@ public class ControladorContenidoTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
+
+    /**
+     * Test of reiniciar method, of class ControladorContenido.
+     */
+    @Test
+    public void testReiniciar() {
+        System.out.println("reiniciar");
+        ControladorContenido instance = null;
+        instance.reiniciar();
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of buscar method, of class ControladorContenido.
+     */
+    @Test
+    public void testBuscar() {
+        System.out.println("buscar");
+        String texto = "";
+        String orden = "";
+        ControladorContenido instance = null;
+        ArrayList<Object> expResult = null;
+        ArrayList<Object> result = instance.buscar(texto, orden);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of obtenerGeneros method, of class ControladorContenido.
+     */
+    @Test
+    public void testObtenerGeneros() {
+        System.out.println("obtenerGeneros");
+        ControladorContenido instance = null;
+        ArrayList<String> expResult = null;
+        ArrayList<String> result = instance.obtenerGeneros();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
     
 }

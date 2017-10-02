@@ -571,5 +571,65 @@ public class ControladorUsuarioTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
+
+    /**
+     * Test of reiniciar method, of class ControladorUsuario.
+     */
+    @Test
+    public void testReiniciar() {
+        System.out.println("reiniciar");
+        ControladorUsuario instance = null;
+        instance.reiniciar();
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of correoExiste method, of class ControladorUsuario.
+     */
+    @Test
+    public void testCorreoExiste() {
+        System.out.println("correoExiste");
+        String correo = "";
+        ControladorUsuario instance = null;
+        boolean expResult = false;
+        boolean result = instance.correoExiste(correo);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of chequearLogin method, of class ControladorUsuario.
+     */
+    @Test
+    public void testChequearLogin() {
+        System.out.println("chequearLogin");
+        String nickname = "";
+        String pass = "";
+        ControladorUsuario instance = null;
+        String expResult = "";
+        String result = instance.chequearLogin(nickname, pass);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of actualizarSuscripcion method, of class ControladorUsuario.
+     */
+    @Test
+    public void testActualizarSuscripcion() {
+        System.out.println("actualizarSuscripcion");
+        String nickname = "";
+        String estado = "";
+        DtFecha fecha = null;
+        ControladorUsuario instance = null;
+        boolean expResult = false;
+        boolean result = instance.actualizarSuscripcion(nickname, estado, fecha);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
     
 }

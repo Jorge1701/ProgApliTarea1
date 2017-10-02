@@ -108,7 +108,6 @@ public class AltaAlbum extends javax.swing.JInternalFrame {
     }
 
     void mostrarGeneros() {
-
         jTreeGeneros.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         DtGenero g = iContenido.listarGenero();
 

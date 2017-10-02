@@ -19,22 +19,22 @@ import static org.junit.Assert.*;
  * @author Kopxe
  */
 public class UsuarioTest {
-    
+
     public UsuarioTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -329,7 +329,7 @@ public class UsuarioTest {
     public class UsuarioImpl extends Usuario {
 
         public UsuarioImpl() {
-            super("", "", "", "", null, "","");
+            super("", "", "", "", null, "", "");
         }
 
         public String getTipo() {
@@ -344,5 +344,31 @@ public class UsuarioTest {
             return null;
         }
     }
-    
+
+    /**
+     * Test of setContrasenia method, of class Usuario.
+     */
+    @Test
+    public void testSetContrasenia() {
+        System.out.println("setContrasenia");
+        String contrasenia = "";
+        Usuario instance = null;
+        instance.setContrasenia(contrasenia);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getContrasenia method, of class Usuario.
+     */
+    @Test
+    public void testGetContrasenia() {
+        System.out.println("getContrasenia");
+        Usuario instance = null;
+        String expResult = "";
+        String result = instance.getContrasenia();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
 }
