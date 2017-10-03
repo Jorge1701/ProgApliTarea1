@@ -51,4 +51,6 @@ public interface IUsuario {
     public boolean correoExiste(String correo);
     public boolean actualizarSuscripcion(String nickname,String estado,DtFecha fecha);
     public String chequearLogin(String nickname, String pass);
+    public int getMonto(String cuota);
+    public boolean ingresarSuscripcion(String nickname, String cuota);
 }
