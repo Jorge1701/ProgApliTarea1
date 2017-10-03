@@ -138,10 +138,35 @@ public class Cliente extends Usuario {
 
     @Override
     public DtCliente getData() {
-        if (getSuscripcion() != null) {
-            return new DtCliente(getNickname(), getNombre(), getApellido(), getEmail(), getFechaNac(), getImagen(), getContrasenia(), getSuscripcion().getData());
-        } else {
-            return new DtCliente(getNickname(), getNombre(), getApellido(), getEmail(), getFechaNac(), getImagen(), getContrasenia(), null);
+        if (getSuscripcion() != null && getSuscripciones() != null) {
+
+            ArrayList<Suscripcion> sus = getSuscripciones();
+
+            ArrayList<DtSuscripcion> suscripciones = new ArrayList<>();
+
+            for (Suscripcion s : sus) {
+                suscripciones.add(s.getData());
+            }
+
+            return new DtCliente(getNickname(), getNombre(), getApellido(), getEmail(), getFechaNac(), getImagen(), getContrasenia(), getSuscripcion().getData(), suscripciones);
+
+        } else if (getSuscripcion() != null && getSuscripciones() == null) {
+
+            return new DtCliente(getNickname(), getNombre(), getApellido(), getEmail(), getFechaNac(), getImagen(), getContrasenia(), getSuscripcion().getData(), null);
+
+        } else if (getSuscripcion() == null && getSuscripciones() != null) {
+
+            ArrayList<Suscripcion> sus = getSuscripciones();
+
+            ArrayList<DtSuscripcion> suscripciones = new ArrayList<>();
+
+            for (Suscripcion s : sus) {
+                suscripciones.add(s.getData());
+            }
+
+            return new DtCliente(getNickname(), getNombre(), getApellido(), getEmail(), getFechaNac(), getImagen(), getContrasenia(), null ,suscripciones);
+        }else {
+            return new DtCliente(getNickname(), getNombre(), getApellido(), getEmail(), getFechaNac(), getImagen(), getContrasenia(), null, null);
         }
     }
 
