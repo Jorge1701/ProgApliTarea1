@@ -126,7 +126,7 @@ public class Fabrica {
             }
 
             DtFecha fecha = new DtFecha(Integer.valueOf(lista[4]), Integer.valueOf(lista[5]), Integer.valueOf(lista[6]));
-            
+
             ic.cargarLista(new ListaDefecto(ic.obtenerGenero(lista[1]), lista[2], temas, lista[3], fecha), lista[1]);
         }
 
@@ -198,7 +198,6 @@ public class Fabrica {
             Cliente cli = (Cliente) iu.obtenerUsuario(nick);
             cli.cargarSuscripcion(new Suscripcion(estado, cuota, new DtFecha(Integer.parseInt(arreglo2[0]), Integer.parseInt(arreglo2[1]), Integer.parseInt(arreglo2[2])), new DtFecha(Integer.parseInt(arreglo[0]), Integer.parseInt(arreglo[1]), Integer.parseInt(arreglo[2])), monto));
         }
-
     }
 
     public static IUsuario getIControladorUsuario() {
