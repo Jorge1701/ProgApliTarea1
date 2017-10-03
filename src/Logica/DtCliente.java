@@ -21,4 +21,8 @@ public class DtCliente extends DtUsuario {
         return actual;
     }
 
+    public String getTipo() {
+        return "Cliente";
+    }
+
 }
