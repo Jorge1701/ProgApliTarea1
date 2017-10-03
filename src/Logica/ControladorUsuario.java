@@ -556,12 +556,23 @@ public class ControladorUsuario implements IUsuario {
         DtFecha fecha = new DtFecha(c.get(Calendar.DATE), c.get(Calendar.MONTH) + 1, c.get(Calendar.YEAR));
         Usuario usr = usuarios.get(nickname);
         int monto = bds.getMonto(cuota);
-        ((Cliente)usr).cargarSuscripcion(new Suscripcion("Pendiente", cuota, null, fecha, monto));
+        ((Cliente) usr).cargarSuscripcion(new Suscripcion("Pendiente", cuota, null, fecha, monto));
         if (!bds.ingresarSuscripcion(nickname, cuota, null, fecha, "Pendiente")) {
             return false;
         } else {
             return true;
         }
 
+    }
+
+    public boolean esCliente(String nickname) {
+
+        Usuario usr = usuarios.get(nickname);
+
+        if (usr instanceof Cliente) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

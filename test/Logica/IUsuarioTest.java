@@ -666,6 +666,11 @@ public class IUsuarioTest {
         public boolean ingresarSuscripcion(String nickname, String cuota) {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
+
+        @Override
+        public boolean esCliente(String nickname) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
     }
 
     /**
