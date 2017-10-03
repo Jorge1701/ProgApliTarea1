@@ -33,6 +33,11 @@ public interface IUsuario {
     public void agregarLDFav(String nickCliente, String nomGenero, String nomLista);
     public void agregarTemaFav(String nickCliente, String nickArtista, String nomAlbum, String nomTema);
     
+    public void quitarAlbumFav(String nickCliente, String nickArtista, String nomAlbum);
+    public void quitarLPFav(String nickCliente, String nickClienteDuenio, String nomLista);
+    public void quitarLDFav(String nickCliente, String nomGenero, String nomLista);
+    public void quitarTemaFav(String nickCliente, String nickArtista, String nomAlbum, String nomTema);
+    
     public void eliminarAlbumFav(String nickCliente, int i);
     public void eliminarListaFav(String nickCliente, int i);
     public void eliminarTemaFav(String nickCliente, int i);

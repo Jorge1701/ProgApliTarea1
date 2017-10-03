@@ -658,6 +658,25 @@ public class IUsuarioTest {
         }
 
         @Override
+        public void quitarAlbumFav(String nickCliente, String nickArtista, String nomAlbum) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void quitarLPFav(String nickCliente, String nickClienteDuenio, String nomLista) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void quitarLDFav(String nickCliente, String nomGenero, String nomLista) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void quitarTemaFav(String nickCliente, String nickArtista, String nomAlbum, String nomTema) {
+             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+        @Override
         public int getMonto(String cuota) {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
