@@ -565,14 +565,4 @@ public class ControladorUsuario implements IUsuario {
 
     }
 
-    public boolean esCliente(String nickname) {
-
-        Usuario usr = usuarios.get(nickname);
-
-        if (usr instanceof Cliente) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 }
