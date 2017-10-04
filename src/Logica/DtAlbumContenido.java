@@ -26,5 +26,14 @@ public class DtAlbumContenido {
         return temas;
     }
 
-   
+    public String getGeneros2() {
+        ArrayList<String> g = this.getGeneros();
+
+        String Generos = "";
+        for (int i = 0; i < g.size(); i++) {
+            Generos = Generos + g.get(i) + " ";
+        }
+        return Generos;
+    }
+
 }

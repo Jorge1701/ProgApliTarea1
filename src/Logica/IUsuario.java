@@ -33,6 +33,11 @@ public interface IUsuario {
     public void agregarLDFav(String nickCliente, String nomGenero, String nomLista);
     public void agregarTemaFav(String nickCliente, String nickArtista, String nomAlbum, String nomTema);
     
+    public void quitarAlbumFav(String nickCliente, String nickArtista, String nomAlbum);
+    public void quitarLPFav(String nickCliente, String nickClienteDuenio, String nomLista);
+    public void quitarLDFav(String nickCliente, String nomGenero, String nomLista);
+    public void quitarTemaFav(String nickCliente, String nickArtista, String nomAlbum, String nomTema);
+    
     public void eliminarAlbumFav(String nickCliente, int i);
     public void eliminarListaFav(String nickCliente, int i);
     public void eliminarTemaFav(String nickCliente, int i);
@@ -46,4 +51,6 @@ public interface IUsuario {
     public boolean correoExiste(String correo);
     public boolean actualizarSuscripcion(String nickname,String estado,DtFecha fecha);
     public String chequearLogin(String nickname, String pass);
+    public int getMonto(String cuota);
+    public boolean ingresarSuscripcion(String nickname, String cuota);
 }

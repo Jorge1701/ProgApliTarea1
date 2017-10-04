@@ -26,7 +26,7 @@ public class ListaParticular extends Lista {
 
     @Override
     public DtLista getData() {
-        return new DtListaParticular(isPrivada(), getNombre(), getTemas(), getImagen(), getFecha());
+        return new DtListaParticular(isPrivada(), getNombre(), getTemas(), getImagen(), getFecha(),getDuenio());
     }
 
     public boolean isPrivada() {
