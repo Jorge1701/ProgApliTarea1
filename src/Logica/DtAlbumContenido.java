@@ -25,6 +25,14 @@ public class DtAlbumContenido {
     public ArrayList<DtTema> getTemas() {
         return temas;
     }
+    
+    public String getGeneros2(){
+        String resultado=""; 
+        for(String genero : this.generos){
+            resultado = resultado +"; "+genero;
+        }
+        return resultado;
+    }
 
    
 }
