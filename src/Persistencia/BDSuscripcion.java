@@ -89,5 +89,20 @@ public class BDSuscripcion {
         }
 
     }
+    
+    
+    public boolean expirarSuscripcion(String nickname, String estado) {
+
+            try {
+                PreparedStatement sql = conexion.prepareStatement("UPDATE suscripcion SET estado='" + estado + "' WHERE nickname='" + nickname + "' and estado='Vigente'");
+                sql.executeUpdate();
+                sql.close();
+                return true;
+            } catch (SQLException ex) {
+                Logger.getLogger(BDSuscripcion.class.getName()).log(Level.SEVERE, null, ex);
+                return false;
+            }
+        }
+    
 
 }
