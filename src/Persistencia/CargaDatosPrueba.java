@@ -1059,7 +1059,7 @@ public class CargaDatosPrueba {
             }
 
             DtFecha f = new DtFecha(Integer.valueOf(listaParticular[5]), Integer.valueOf(listaParticular[6]), Integer.valueOf(listaParticular[7]));
-            DtLista lista = new DtListaParticular("S".equals(publica) ? false : true, nombreLista, null, imagen, f);
+            DtLista lista = new DtListaParticular("S".equals(publica) ? false : true, nombreLista, null, imagen, f,nickCliente);
             if (!bdl.altaLista(lista, nickCliente)) {
                 return false;
             }

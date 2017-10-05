@@ -426,7 +426,7 @@ public class CrearListaReproduccion extends javax.swing.JInternalFrame {
                 return;
             }
             nickCliente = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 0).toString();
-            lista = new DtListaParticular(true, nombre.getText(), new ArrayList<>(), nameImage, actual);
+            lista = new DtListaParticular(true, nombre.getText(), new ArrayList<>(), nameImage, actual,nickCliente);
             System.out.println(lista.getNombre());// Agregar que se ingrese la imagen en el diseño.
             if (!iContenido.crearListaReproduccion(lista, nickCliente)) {
                 JOptionPane.showMessageDialog(this, "La lista que intenta ingresar ya existe", "Mensaje", JOptionPane.ERROR_MESSAGE);

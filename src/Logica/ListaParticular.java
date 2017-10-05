@@ -14,7 +14,7 @@ public class ListaParticular extends Lista {
         this.nickDuenio = nickDuenio;
     }
 
-    public ListaParticular(String nombre, String imagen, DtFecha fecha) {
+    public ListaParticular(String nombre, String imagen, DtFecha fecha , String nickDuenio) {
         super(nombre, new ArrayList<>(), imagen, fecha);
         this.privada = true;
         this.nickDuenio = nickDuenio;
