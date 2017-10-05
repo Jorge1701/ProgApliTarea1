@@ -523,7 +523,7 @@ public class ControladorContenido implements IContenido {
         ListaParticular l = (ListaParticular) us.getLista(nomL);
 
         if (l == null) {
-            throw new UnsupportedOperationException("No existe la lista" + nomL + " en el sistema.");
+            throw new UnsupportedOperationException("No existe la lista \"" + nomL + "\" en el sistema.");
         }
 
         l.setPrivada(false);
