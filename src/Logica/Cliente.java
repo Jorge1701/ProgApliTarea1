@@ -365,8 +365,8 @@ public class Cliente extends Usuario {
     }
 
     public void renovarSuscripcion(Suscripcion s) {
-        actual = s;
-        //suscripciones.remove(s);
+        actual = new Suscripcion(s.getEstado(), s.getCuota(), s.getFechaVenc(), s.getFecha(), s.getMonto());
+        suscripciones.remove(s);
 
     }
 }
