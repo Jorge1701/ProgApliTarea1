@@ -104,5 +104,25 @@ public class BDSuscripcion {
             }
         }
     
+    
+    public boolean renovarSuscripcion(String nickname, String estado,String cuota,DtFecha fecha,DtFecha cambio,DtFecha fecha_venc) {
+
+        Date fecha1 = java.sql.Date.valueOf(fecha.getAnio() + "-" + fecha.getMes() + "-" + fecha.getDia());
+        
+        Date cambio1 = java.sql.Date.valueOf(cambio.getAnio() + "-" + cambio.getMes() + "-" + cambio.getDia());
+        
+        Date fecha_venc1 = java.sql.Date.valueOf(fecha_venc.getAnio() + "-" + fecha_venc.getMes() + "-" + fecha_venc.getDia());
+       
+            try {
+                PreparedStatement sql = conexion.prepareStatement("UPDATE suscripcion SET estado='Vigente', fecha='" + cambio1 + "' , fecha_venc='" + fecha_venc1 + "'  WHERE nickname='" + nickname + "' and estado='" + estado + "' and cuota='" + cuota + "' and fecha='" + fecha1 + "'");
+                sql.executeUpdate();
+                sql.close();
+                return true;
+            } catch (SQLException ex) {
+                Logger.getLogger(BDSuscripcion.class.getName()).log(Level.SEVERE, null, ex);
+                return false;
+            }
+        }
+    
 
 }
