@@ -194,13 +194,13 @@ public class Fabrica {
             String estado = suscripcion[4];
             String[] arreglo2 = null;
             int monto = Integer.parseInt(suscripcion[5]);
-            if(fecha_venc != null){
-            arreglo2 = fecha_venc.split("-");
+            if (fecha_venc != null) {
+                arreglo2 = fecha_venc.split("-");
             }
             String[] arreglo = fecha.split("-");
-            
+
             Cliente cli = (Cliente) iu.obtenerUsuario(nick);
-            cli.cargarSuscripcion(new Suscripcion(estado, cuota,arreglo2 == null ? null : new DtFecha(Integer.parseInt(arreglo2[0]), Integer.parseInt(arreglo2[1]), Integer.parseInt(arreglo2[2])), new DtFecha(Integer.parseInt(arreglo[0]), Integer.parseInt(arreglo[1]), Integer.parseInt(arreglo[2])), monto));
+            cli.cargarSuscripcion(new Suscripcion(estado, cuota, arreglo2 == null ? null : new DtFecha(Integer.parseInt(arreglo2[2]), Integer.parseInt(arreglo2[1]), Integer.parseInt(arreglo2[0])), new DtFecha(Integer.parseInt(arreglo[2]), Integer.parseInt(arreglo[1]), Integer.parseInt(arreglo[0])), monto));
         }
     }
 

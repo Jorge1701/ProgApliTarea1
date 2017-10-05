@@ -607,6 +607,7 @@ public class ControladorUsuario implements IUsuario {
 
     }
 
+    @Override
     public boolean chequearSuscripcion(String nickname) {
 
         Usuario usr = usuarios.get(nickname);
@@ -618,30 +619,116 @@ public class ControladorUsuario implements IUsuario {
             if (sus.getEstado().equals("Vigente")) {
 
                 Calendar hoy = new GregorianCalendar();
+               
 
-                Calendar fecha_venc = new GregorianCalendar(sus.getFechaVenc().getAnio(), sus.getFechaVenc().getMes(), sus.getFechaVenc().getDia());
+                if (hoy.get(Calendar.YEAR) == sus.getFechaVenc().getAnio() && (hoy.get(Calendar.MONTH) + 1) == sus.getFechaVenc().getMes() && hoy.get(Calendar.DAY_OF_MONTH) == sus.getFechaVenc().getDia()) {
 
-                if (hoy.before(fecha_venc)) {
+                    return true;
 
-                    if (!bds.expirarSuscripcion(nickname, "Vencida")) {
+                } else if (hoy.get(Calendar.YEAR) == sus.getFechaVenc().getAnio() && (hoy.get(Calendar.MONTH) + 1) == sus.getFechaVenc().getMes() && hoy.get(Calendar.DAY_OF_MONTH) > sus.getFechaVenc().getDia()) {
+
+                    if (bds.expirarSuscripcion(nickname, "Vencida")) {
+                        sus.setEstado("Vencida");
+                        ((Cliente) usr).cancelarSuscripcion(sus);
+                        return false;
+                    } else {
                         return false;
                     }
-                    sus.setEstado("Vencida");
-                    ((Cliente) usr).cancelarSuscripcion(sus);
-                    return true;
 
-                } else {
-                    return true;
+                } else if (hoy.get(Calendar.YEAR) == sus.getFechaVenc().getAnio() && (hoy.get(Calendar.MONTH) + 1) > sus.getFechaVenc().getMes()) {
+
+                    if (bds.expirarSuscripcion(nickname, "Vencida")) {
+                        sus.setEstado("Vencida");
+                        ((Cliente) usr).cancelarSuscripcion(sus);
+                        return false;
+                    } else {
+                        return false;
+                    }
+
+                } else if (hoy.get(Calendar.YEAR) > sus.getFechaVenc().getAnio()) {
+
+                    if (bds.expirarSuscripcion(nickname, "Vencida")) {
+                        sus.setEstado("Vencida");
+                        ((Cliente) usr).cancelarSuscripcion(sus);
+                        return false;
+                    } else {
+                        return false;
+                    }
                 }
 
-            } else {
-                return false;
+            }
+
+            return false;
+
+        }
+        return false;
+    }
+
+    @Override
+    public boolean renovarSuscripcion(String nickname, String estado, String cuota, String fecha, DtFecha cambio) {
+        BDSuscripcion bds = new BDSuscripcion();
+        Usuario usr = usuarios.get(nickname);
+        ArrayList<Suscripcion> sus = ((Cliente) usr).getSuscripciones();
+        Suscripcion suscripcion = null;
+        String[] fecha1 = fecha.split("/");
+        DtFecha fechafinal = new DtFecha(Integer.parseInt(fecha1[2]), Integer.parseInt(fecha1[1]), Integer.parseInt(fecha1[0]));
+        DtFecha fecha_venc = null;
+
+        for (Suscripcion s : sus) {
+
+            if (s.getEstado().equals(estado) && s.getCuota().equals(cuota) && s.getFecha().getAnio() == fechafinal.getAnio() && s.getFecha().getMes() == fechafinal.getMes() && s.getFecha().getDia() == fechafinal.getDia()) {
+                suscripcion = s;
             }
 
         }
 
-        return false;
+        if (suscripcion != null) {
 
+            Calendar c = new GregorianCalendar(cambio.getAnio(), cambio.getMes(), cambio.getDia());
+
+            if (suscripcion.getCuota().equals("Semanal")) {
+
+                c.add(Calendar.DATE, 7);
+                fecha_venc = new DtFecha(c.get(Calendar.DAY_OF_MONTH), c.get(Calendar.MONTH), c.get(Calendar.YEAR));
+
+                if (!bds.renovarSuscripcion(suscripcion.getData(), nickname ,cambio, fecha_venc)) {
+                    return false;
+                }
+                ((Cliente) usr).renovarSuscripcion(suscripcion);
+                suscripcion.setFecha(cambio);
+                suscripcion.setFecha_venc(fecha_venc);
+                suscripcion.setEstado(estado);
+                return true;
+
+            } else if (suscripcion.getCuota().equals("Mensual")) {
+
+                c.add(Calendar.MONTH, 1);
+                fecha_venc = new DtFecha(c.get(Calendar.DAY_OF_MONTH), c.get(Calendar.MONTH), c.get(Calendar.YEAR));
+
+                if (!bds.renovarSuscripcion(suscripcion.getData(), nickname ,cambio, fecha_venc)) {
+                    return false;
+                }
+                ((Cliente) usr).renovarSuscripcion(suscripcion);
+                suscripcion.setFecha(cambio);
+                suscripcion.setFecha_venc(fecha_venc);
+                suscripcion.setEstado(estado);
+                return true;
+            } else {
+
+                c.add(Calendar.YEAR, 1);
+                fecha_venc = new DtFecha(c.get(Calendar.DAY_OF_MONTH), c.get(Calendar.MONTH), c.get(Calendar.YEAR));
+
+                if (!bds.renovarSuscripcion(suscripcion.getData(), nickname ,cambio, fecha_venc)) {
+                    return false;
+                }
+                ((Cliente) usr).renovarSuscripcion(suscripcion);
+                suscripcion.setFecha(cambio);
+                suscripcion.setFecha_venc(fecha_venc);
+                suscripcion.setEstado(estado);
+                return true;
+            }
+        } else {
+            return false;
+        }
     }
-
 }
