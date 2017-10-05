@@ -618,30 +618,42 @@ public class ControladorUsuario implements IUsuario {
             if (sus.getEstado().equals("Vigente")) {
 
                 Calendar hoy = new GregorianCalendar();
+                Calendar fecha_venc = new GregorianCalendar(sus.getFechaVenc().getAnio(), sus.getFechaVenc().getAnio(), sus.getFechaVenc().getAnio());
 
-                Calendar fecha_venc = new GregorianCalendar(sus.getFechaVenc().getAnio(), sus.getFechaVenc().getMes(), sus.getFechaVenc().getDia());
+                if (hoy.get(Calendar.YEAR) == fecha_venc.get(Calendar.YEAR) && (hoy.get(Calendar.MONTH) + 1) == (fecha_venc.get(Calendar.MONTH) + 1) && hoy.get(Calendar.DAY_OF_MONTH) == fecha_venc.get(Calendar.DAY_OF_MONTH)) {
 
-                if (hoy.before(fecha_venc)) {
+                    return true;
 
-                    if (!bds.expirarSuscripcion(nickname, "Vencida")) {
+                } else if (hoy.get(Calendar.YEAR) == fecha_venc.get(Calendar.YEAR) && (hoy.get(Calendar.MONTH) + 1) == (fecha_venc.get(Calendar.MONTH) + 1) && hoy.get(Calendar.DAY_OF_MONTH) > fecha_venc.get(Calendar.DAY_OF_MONTH)) {
+
+                    if (bds.expirarSuscripcion(nickname,"Vencida")) {
+                        sus.setEstado("Vencida");
+                        ((Cliente) usr).cancelarSuscripcion(sus);
                         return false;
                     }
-                    sus.setEstado("Vencida");
-                    ((Cliente) usr).cancelarSuscripcion(sus);
-                    return true;
 
-                } else {
-                    return true;
+                } else if (hoy.get(Calendar.YEAR) == fecha_venc.get(Calendar.YEAR) && (hoy.get(Calendar.MONTH) + 1) > (fecha_venc.get(Calendar.MONTH) + 1)) {
+
+                    if (bds.expirarSuscripcion(nickname, "Vencida")) {
+                        sus.setEstado("Vencida");
+                        ((Cliente) usr).cancelarSuscripcion(sus);
+                        return false;
+                    }
+
+                } else if (hoy.get(Calendar.YEAR) > fecha_venc.get(Calendar.YEAR)) {
+
+                    if (bds.expirarSuscripcion(nickname, "Vencida")) {
+                        sus.setEstado("Vencida");
+                        ((Cliente) usr).cancelarSuscripcion(sus);
+                        return false;
+                    }
                 }
 
-            } else {
-                return false;
             }
 
+            return false;
+
         }
-
         return false;
-
     }
-
 }
