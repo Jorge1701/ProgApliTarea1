@@ -61,15 +61,26 @@ public class BDSuscripcion {
         return monto;
     }
 
-    public boolean actulizarSuscripcion(String nickname, String estado, DtFecha fecha, DtFecha fecha_venc) {
-        Date fecha1 = java.sql.Date.valueOf(fecha.getAnio() + "-" + fecha.getMes() + "-" + fecha.getDia());
+    public boolean actulizarSuscripcion(String nickname, DtSuscripcion s, String estado, DtFecha cambio, DtFecha fecha_venc) {
+
+        Date fecha1 = java.sql.Date.valueOf(s.getFecha().getAnio() + "-" + s.getFecha().getMes() + "-" + s.getFecha().getDia());
+        Date fechavenc1 = java.sql.Date.valueOf(s.getFechaVenc().getAnio() + "-" + s.getFechaVenc().getMes() + "-" + s.getFechaVenc().getDia());
+        //las de arriba son para ubicar la suscripcion en la bd
+        Date cambio1 = java.sql.Date.valueOf(cambio.getAnio() + "-" + cambio.getMes() + "-" + cambio.getDia());
+
         if (fecha_venc != null) {
             Date fecha_venc1 = java.sql.Date.valueOf(fecha_venc.getAnio() + "-" + fecha_venc.getMes() + "-" + fecha_venc.getDia());
 
             try {
-                PreparedStatement sql = conexion.prepareStatement("UPDATE suscripcion SET estado='" + estado + "',fecha='" + fecha1 + "',fecha_venc='" + fecha_venc1 + "' WHERE nickname='" + nickname + "'");
-                sql.executeUpdate();
+                PreparedStatement sql = conexion.prepareStatement("SELECT idSuscripcion FROM suscripcion WHERE nickname = '" + nickname + "' and cuota = '" + s.getCuota() + "' and  estado= '" + s.getEstado() + "' and fecha = '" + fecha1 + "' and fecha_venc = '" + fechavenc1 + "'");
+                ResultSet id = sql.executeQuery();
+                id.next();
+                int idSuscripcion = id.getInt(1);
                 sql.close();
+
+                PreparedStatement sql2 = conexion.prepareStatement("UPDATE suscripcion SET estado='" + estado + "',fecha='" + fecha1 + "',fecha_venc='" + fecha_venc1 + "' WHERE idSuscripcion='" + idSuscripcion + "'");
+                sql2.executeUpdate();
+                sql2.close();
                 return true;
             } catch (SQLException ex) {
                 Logger.getLogger(BDSuscripcion.class.getName()).log(Level.SEVERE, null, ex);
@@ -79,9 +90,15 @@ public class BDSuscripcion {
         } else {
 
             try {
-                PreparedStatement sql = conexion.prepareStatement("UPDATE suscripcion SET estado='" + estado + "',fecha='" + fecha1 + "' WHERE nickname='" + nickname + "'");
-                sql.executeUpdate();
+                PreparedStatement sql = conexion.prepareStatement("SELECT idSuscripcion FROM suscripcion WHERE nickname = '" + nickname + "' and cuota = '" + s.getCuota() + "' and  estado= '" + s.getEstado() + "' and fecha = '" + fecha1 + "' and fecha_venc = '" + fechavenc1 + "'");
+                ResultSet id = sql.executeQuery();
+                id.next();
+                int idSuscripcion = id.getInt(1);
                 sql.close();
+
+                PreparedStatement sql2 = conexion.prepareStatement("UPDATE suscripcion SET estado='" + estado + "',fecha='" + cambio1 + "' WHERE idSuscripcion='" + idSuscripcion + "'");
+                sql2.executeUpdate();
+                sql2.close();
                 return true;
             } catch (SQLException ex) {
                 Logger.getLogger(BDSuscripcion.class.getName()).log(Level.SEVERE, null, ex);
@@ -91,12 +108,22 @@ public class BDSuscripcion {
 
     }
 
-    public boolean expirarSuscripcion(String nickname, String estado) {
+    public boolean expirarSuscripcion(String nickname, DtSuscripcion s) {
+
+        Date fecha = java.sql.Date.valueOf(s.getFecha().getAnio() + "-" + s.getFecha().getMes() + "-" + s.getFecha().getDia());
+
+        Date fecha_venc = java.sql.Date.valueOf(s.getFechaVenc().getAnio() + "-" + s.getFechaVenc().getMes() + "-" + s.getFechaVenc().getDia());
 
         try {
-            PreparedStatement sql = conexion.prepareStatement("UPDATE suscripcion SET estado='" + estado + "' WHERE nickname='" + nickname + "' and estado='Vigente'");
-            sql.executeUpdate();
+            PreparedStatement sql = conexion.prepareStatement("SELECT idSuscripcion FROM suscripcion WHERE nickname = '" + nickname + "' and cuota = '" + s.getCuota() + "' and  estado= '" + s.getEstado() + "' and fecha = '" + fecha + "' and fecha_venc = '" + fecha_venc + "'");
+            ResultSet id = sql.executeQuery();
+            id.next();
+            int idSuscripcion = id.getInt(1);
             sql.close();
+
+            PreparedStatement sql2 = conexion.prepareStatement("UPDATE suscripcion SET estado='Vencida' WHERE idSuscripcion='" + idSuscripcion + "'");
+            sql2.executeUpdate();
+            sql2.close();
             return true;
         } catch (SQLException ex) {
             Logger.getLogger(BDSuscripcion.class.getName()).log(Level.SEVERE, null, ex);
@@ -107,9 +134,9 @@ public class BDSuscripcion {
     public boolean renovarSuscripcion(DtSuscripcion s, String nickname, DtFecha cambio, DtFecha fecha_venc) {
 
         Date fecha1 = java.sql.Date.valueOf(s.getFecha().getAnio() + "-" + s.getFecha().getMes() + "-" + s.getFecha().getDia());
-        
+
         Date fechav = java.sql.Date.valueOf(s.getFechaVenc().getAnio() + "-" + s.getFechaVenc().getMes() + "-" + s.getFechaVenc().getDia());
-            
+
         Date cambio1 = java.sql.Date.valueOf(cambio.getAnio() + "-" + cambio.getMes() + "-" + cambio.getDia());
 
         Date fecha_venc1 = java.sql.Date.valueOf(fecha_venc.getAnio() + "-" + fecha_venc.getMes() + "-" + fecha_venc.getDia());
@@ -129,6 +156,51 @@ public class BDSuscripcion {
             Logger.getLogger(BDSuscripcion.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
+    }
+
+    public boolean cancelarSuscripcion(DtSuscripcion s, String nickname, DtFecha cambio) {
+
+        Date fecha = java.sql.Date.valueOf(s.getFecha().getAnio() + "-" + s.getFecha().getMes() + "-" + s.getFecha().getDia());
+        Date fecha_cambio = java.sql.Date.valueOf(cambio.getAnio() + "-" + cambio.getMes() + "-" + cambio.getDia());
+
+        if (s.getFechaVenc() != null) {
+
+            Date fecha_venc = java.sql.Date.valueOf(s.getFechaVenc().getAnio() + "-" + s.getFechaVenc().getMes() + "-" + s.getFechaVenc().getDia());
+
+            try {
+                PreparedStatement sql = conexion.prepareStatement("SELECT idSuscripcion FROM suscripcion WHERE nickname = '" + nickname + "' and cuota = '" + s.getCuota() + "' and  estado= '" + s.getEstado() + "' and fecha = '" + fecha + "' and fecha_venc = '" + fecha_venc + "'");
+                ResultSet id = sql.executeQuery();
+                id.next();
+                int idSuscripcion = id.getInt(1);
+                sql.close();
+
+                PreparedStatement sql2 = conexion.prepareStatement("UPDATE suscripcion SET estado='Cancelada', fecha='" + fecha_cambio + "' WHERE idSuscripcion='" + idSuscripcion + "'");
+                sql2.executeUpdate();
+                sql2.close();
+                return true;
+            } catch (SQLException ex) {
+                Logger.getLogger(BDSuscripcion.class.getName()).log(Level.SEVERE, null, ex);
+                return false;
+            }
+        } else {
+            try {
+                PreparedStatement sql = conexion.prepareStatement("SELECT idSuscripcion FROM suscripcion WHERE nickname = '" + nickname + "' and cuota = '" + s.getCuota() + "' and  estado= '" + s.getEstado() + "' and fecha = '" + fecha + "'");
+                ResultSet id = sql.executeQuery();
+                id.next();
+                int idSuscripcion = id.getInt(1);
+                sql.close();
+
+                PreparedStatement sql2 = conexion.prepareStatement("UPDATE suscripcion SET estado='Cancelada', fecha='" + fecha_cambio + "' WHERE idSuscripcion='" + idSuscripcion + "'");
+                sql2.executeUpdate();
+                sql2.close();
+                return true;
+            } catch (SQLException ex) {
+                Logger.getLogger(BDSuscripcion.class.getName()).log(Level.SEVERE, null, ex);
+                return false;
+            }
+
+        }
+
     }
 
 }
