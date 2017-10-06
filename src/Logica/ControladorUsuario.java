@@ -508,15 +508,31 @@ public class ControladorUsuario implements IUsuario {
         return true;
     }
 
+    @Override
     public String chequearLogin(String nickname, String pass) {
-        Usuario u = usuarios.get(nickname);
-
-        if (u == null) {
-            return "Nickname invalido";
-        } else if (u.getContrasenia().equals(pass)) {
-            return "";
+        if (nickname.contains("@")) {
+            Iterator i = usuarios.entrySet().iterator();
+            while (i.hasNext()) {
+                Usuario u = (Usuario) ((Map.Entry) i.next()).getValue();
+                if (u.getEmail().equals(nickname)) {
+                    if (u.getContrasenia().equals(pass)) {
+                        return u.getNickname();
+                    } else {
+                        return "Error: Contraseña invalida";
+                    }
+                }
+            }
+            return "Error: Correo no existe";
         } else {
-            return "Contraseña invalida";
+            Usuario u = usuarios.get(nickname);
+
+            if (u == null) {
+                return "Error: Nickname invalido";
+            } else if (u.getContrasenia().equals(pass)) {
+                return u.getNickname();
+            } else {
+                return "Error: Contraseña invalida";
+            }
         }
     }
 
@@ -619,7 +635,6 @@ public class ControladorUsuario implements IUsuario {
             if (sus.getEstado().equals("Vigente")) {
 
                 Calendar hoy = new GregorianCalendar();
-               
 
                 if (hoy.get(Calendar.YEAR) == sus.getFechaVenc().getAnio() && (hoy.get(Calendar.MONTH) + 1) == sus.getFechaVenc().getMes() && hoy.get(Calendar.DAY_OF_MONTH) == sus.getFechaVenc().getDia()) {
 
@@ -691,7 +706,7 @@ public class ControladorUsuario implements IUsuario {
                 c.add(Calendar.DATE, 7);
                 fecha_venc = new DtFecha(c.get(Calendar.DAY_OF_MONTH), c.get(Calendar.MONTH), c.get(Calendar.YEAR));
 
-                if (!bds.renovarSuscripcion(suscripcion.getData(), nickname ,cambio, fecha_venc)) {
+                if (!bds.renovarSuscripcion(suscripcion.getData(), nickname, cambio, fecha_venc)) {
                     return false;
                 }
                 ((Cliente) usr).renovarSuscripcion(suscripcion);
@@ -705,7 +720,7 @@ public class ControladorUsuario implements IUsuario {
                 c.add(Calendar.MONTH, 1);
                 fecha_venc = new DtFecha(c.get(Calendar.DAY_OF_MONTH), c.get(Calendar.MONTH), c.get(Calendar.YEAR));
 
-                if (!bds.renovarSuscripcion(suscripcion.getData(), nickname ,cambio, fecha_venc)) {
+                if (!bds.renovarSuscripcion(suscripcion.getData(), nickname, cambio, fecha_venc)) {
                     return false;
                 }
                 ((Cliente) usr).renovarSuscripcion(suscripcion);
@@ -718,7 +733,7 @@ public class ControladorUsuario implements IUsuario {
                 c.add(Calendar.YEAR, 1);
                 fecha_venc = new DtFecha(c.get(Calendar.DAY_OF_MONTH), c.get(Calendar.MONTH), c.get(Calendar.YEAR));
 
-                if (!bds.renovarSuscripcion(suscripcion.getData(), nickname ,cambio, fecha_venc)) {
+                if (!bds.renovarSuscripcion(suscripcion.getData(), nickname, cambio, fecha_venc)) {
                     return false;
                 }
                 ((Cliente) usr).renovarSuscripcion(suscripcion);
