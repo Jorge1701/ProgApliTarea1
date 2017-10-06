@@ -701,7 +701,7 @@ public class ControladorUsuario implements IUsuario {
                 ((Cliente) usr).renovarSuscripcion(suscripcion);
                 suscripcion.setFecha(cambio);
                 suscripcion.setFecha_venc(fechaf);
-                suscripcion.setEstado(estado);
+                suscripcion.setEstado("Vigente");
                 return true;
 
             } else if (suscripcion.getCuota().equals("Mensual")) {
@@ -715,7 +715,7 @@ public class ControladorUsuario implements IUsuario {
                 ((Cliente) usr).renovarSuscripcion(suscripcion);
                  suscripcion.setFecha(cambio);
                 suscripcion.setFecha_venc(fechaf);
-                suscripcion.setEstado(estado);
+                suscripcion.setEstado("Vigente");
                 return true;
             } else {
 
