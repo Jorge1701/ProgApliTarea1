@@ -284,7 +284,7 @@ public class ControladorContenido implements IContenido {
                 return false;
             }
             if (bdLista.altaLista(dtl, nickCliente)) {
-                Lista lp = new ListaParticular(dtl.getNombre(), dtl.getImagen(), dtl.getFecha(),nickCliente);
+                Lista lp = new ListaParticular(dtl.getNombre(), dtl.getImagen(), dtl.getFecha(), nickCliente);
                 ((Cliente) iUsuario.obtenerUsuario(nickCliente)).agregarLista(lp);
                 return true;
             } else {
@@ -742,5 +742,18 @@ public class ControladorContenido implements IContenido {
             Genero sub = (Genero) ((Map.Entry) i.next()).getValue();
             obtenerNombres(nombres, sub);
         }
+    }
+
+    public boolean ExisteAlbum(String nickArtista, String nomAlbum) {
+        Usuario usuario = iUsuario.obtenerUsuario(nickArtista);
+        if (usuario == null) {
+            throw new UnsupportedOperationException("Artista no existe ok");
+        }
+        if (!(usuario instanceof Artista)) {
+            throw new UnsupportedOperationException("Usuario no es un artista");
+        }
+
+        return ((Artista) usuario).ExisteAlbum(nomAlbum);
+
     }
 }

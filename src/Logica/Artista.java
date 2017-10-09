@@ -130,4 +130,16 @@ public class Artista extends Usuario {
 
         return res;
     }
+
+    public boolean ExisteAlbum(String nombre) {
+        Iterator it = this.albumes.entrySet().iterator();
+
+        while (it.hasNext()) {
+            Album album = (Album) ((Map.Entry) it.next()).getValue();
+            if (nombre.toLowerCase().equals(album.getNombre().toLowerCase())) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
