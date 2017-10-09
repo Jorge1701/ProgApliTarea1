@@ -693,6 +693,11 @@ public class IContenidoTest {
         public ArrayList<String> obtenerGeneros() {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
+
+        @Override
+        public boolean ExisteAlbum(String nickArtista, String nomAlbum) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
     }
 
     /**

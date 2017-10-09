@@ -43,6 +43,6 @@ public interface IContenido {
     public boolean agregarDeListasParticularesTema(String nombreT, String nombreLista, String nombreUser, String duenio, String listaDelduenio);
     public boolean agregarDeAlbumTema(String nombreT, String nombreLista, String nombreUser, String artista, String album);
     public ArrayList<String> obtenerGeneros();
-    
+    public boolean  ExisteAlbum(String nickArtista, String nomAlbum); 
     public ArrayList<Object> buscar(String texto, String orden);
 }

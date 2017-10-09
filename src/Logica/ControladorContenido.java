@@ -743,4 +743,18 @@ public class ControladorContenido implements IContenido {
             obtenerNombres(nombres, sub);
         }
     }
+
+    @Override
+    public boolean ExisteAlbum(String nickArtista, String nomAlbum) {
+        Usuario usuario = iUsuario.obtenerUsuario(nickArtista);
+        if (usuario == null) {
+            throw new UnsupportedOperationException("Artista no existe ok");
+        }
+        if (!(usuario instanceof Artista)) {
+            throw new UnsupportedOperationException("Usuario no es un artista");
+        }
+
+        return ((Artista) usuario).ExisteAlbum(nomAlbum);
+
+    }
 }
