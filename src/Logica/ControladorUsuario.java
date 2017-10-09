@@ -544,60 +544,65 @@ public class ControladorUsuario implements IUsuario {
 
         Suscripcion sus = ((Cliente) usr).getSuscripcion();
 
-        if (estado.equals("Cancelada")) {
-            if (!bds.actulizarSuscripcion(nickname, estado, fecha, null)) {
-                return false;
-            }
-            sus.setEstado(estado);
-            ((Cliente) usr).cancelarSuscripcion(sus);
-            return true;
+        if (sus != null) {
 
-        } else {
-
-            Calendar c = new GregorianCalendar(fecha.getAnio(), fecha.getMes(), fecha.getDia());
-
-            if (sus.getCuota().equals("Semanal")) {
-
-                c.add(Calendar.DATE, 7);
-                DtFecha fecha_venc = new DtFecha(c.get(Calendar.DAY_OF_MONTH), c.get(Calendar.MONTH), c.get(Calendar.YEAR));
-
-                if (!bds.actulizarSuscripcion(nickname, estado, fecha, fecha_venc)) {
+            if (estado.equals("Cancelada")) {
+                if (!bds.actulizarSuscripcion(nickname, estado, fecha, null)) {
                     return false;
                 }
-
-                sus.setFecha(fecha);
-                sus.setFecha_venc(fecha_venc);
                 sus.setEstado(estado);
+                ((Cliente) usr).cancelarSuscripcion(sus);
                 return true;
 
-            } else if (sus.getCuota().equals("Mensual")) {
-
-                c.add(Calendar.MONTH, 1);
-                DtFecha fecha_venc = new DtFecha(c.get(Calendar.DAY_OF_MONTH), c.get(Calendar.MONTH), c.get(Calendar.YEAR));
-
-                if (!bds.actulizarSuscripcion(nickname, estado, fecha, fecha_venc)) {
-                    return false;
-                }
-
-                sus.setFecha(fecha);
-                sus.setFecha_venc(fecha_venc);
-                sus.setEstado(estado);
-                return true;
             } else {
 
-                c.add(Calendar.YEAR, 1);
-                DtFecha fecha_venc = new DtFecha(c.get(Calendar.DAY_OF_MONTH), c.get(Calendar.MONTH), c.get(Calendar.YEAR));
+                Calendar c = new GregorianCalendar(fecha.getAnio(), fecha.getMes(), fecha.getDia());
 
-                if (!bds.actulizarSuscripcion(nickname, estado, fecha, fecha_venc)) {
-                    return false;
+                if (sus.getCuota().equals("Semanal")) {
+
+                    c.add(Calendar.DATE, 7);
+                    DtFecha fecha_venc = new DtFecha(c.get(Calendar.DAY_OF_MONTH), c.get(Calendar.MONTH), c.get(Calendar.YEAR));
+
+                    if (!bds.actulizarSuscripcion(nickname, estado, fecha, fecha_venc)) {
+                        return false;
+                    }
+
+                    sus.setFecha(fecha);
+                    sus.setFecha_venc(fecha_venc);
+                    sus.setEstado(estado);
+                    return true;
+
+                } else if (sus.getCuota().equals("Mensual")) {
+
+                    c.add(Calendar.MONTH, 1);
+                    DtFecha fecha_venc = new DtFecha(c.get(Calendar.DAY_OF_MONTH), c.get(Calendar.MONTH), c.get(Calendar.YEAR));
+
+                    if (!bds.actulizarSuscripcion(nickname, estado, fecha, fecha_venc)) {
+                        return false;
+                    }
+
+                    sus.setFecha(fecha);
+                    sus.setFecha_venc(fecha_venc);
+                    sus.setEstado(estado);
+                    return true;
+                } else {
+
+                    c.add(Calendar.YEAR, 1);
+                    DtFecha fecha_venc = new DtFecha(c.get(Calendar.DAY_OF_MONTH), c.get(Calendar.MONTH), c.get(Calendar.YEAR));
+
+                    if (!bds.actulizarSuscripcion(nickname, estado, fecha, fecha_venc)) {
+                        return false;
+                    }
+
+                    sus.setFecha(fecha);
+                    sus.setFecha_venc(fecha_venc);
+                    sus.setEstado(estado);
+                    return true;
                 }
 
-                sus.setFecha(fecha);
-                sus.setFecha_venc(fecha_venc);
-                sus.setEstado(estado);
-                return true;
             }
-
+        } else {
+            return false;
         }
 
     }
@@ -709,10 +714,11 @@ public class ControladorUsuario implements IUsuario {
                 if (!bds.renovarSuscripcion(suscripcion.getData(), nickname, cambio, fecha_venc)) {
                     return false;
                 }
-                ((Cliente) usr).renovarSuscripcion(suscripcion);
                 suscripcion.setFecha(cambio);
                 suscripcion.setFecha_venc(fecha_venc);
                 suscripcion.setEstado(estado);
+                ((Cliente) usr).renovarSuscripcion(suscripcion);
+
                 return true;
 
             } else if (suscripcion.getCuota().equals("Mensual")) {
@@ -723,10 +729,10 @@ public class ControladorUsuario implements IUsuario {
                 if (!bds.renovarSuscripcion(suscripcion.getData(), nickname, cambio, fecha_venc)) {
                     return false;
                 }
-                ((Cliente) usr).renovarSuscripcion(suscripcion);
                 suscripcion.setFecha(cambio);
                 suscripcion.setFecha_venc(fecha_venc);
                 suscripcion.setEstado(estado);
+                ((Cliente) usr).renovarSuscripcion(suscripcion);
                 return true;
             } else {
 
@@ -736,10 +742,10 @@ public class ControladorUsuario implements IUsuario {
                 if (!bds.renovarSuscripcion(suscripcion.getData(), nickname, cambio, fecha_venc)) {
                     return false;
                 }
-                ((Cliente) usr).renovarSuscripcion(suscripcion);
                 suscripcion.setFecha(cambio);
                 suscripcion.setFecha_venc(fecha_venc);
                 suscripcion.setEstado(estado);
+                ((Cliente) usr).renovarSuscripcion(suscripcion);
                 return true;
             }
         } else {

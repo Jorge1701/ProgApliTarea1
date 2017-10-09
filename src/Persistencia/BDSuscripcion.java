@@ -107,9 +107,9 @@ public class BDSuscripcion {
     public boolean renovarSuscripcion(DtSuscripcion s, String nickname, DtFecha cambio, DtFecha fecha_venc) {
 
         Date fecha1 = java.sql.Date.valueOf(s.getFecha().getAnio() + "-" + s.getFecha().getMes() + "-" + s.getFecha().getDia());
-        
+
         Date fechav = java.sql.Date.valueOf(s.getFechaVenc().getAnio() + "-" + s.getFechaVenc().getMes() + "-" + s.getFechaVenc().getDia());
-            
+
         Date cambio1 = java.sql.Date.valueOf(cambio.getAnio() + "-" + cambio.getMes() + "-" + cambio.getDia());
 
         Date fecha_venc1 = java.sql.Date.valueOf(fecha_venc.getAnio() + "-" + fecha_venc.getMes() + "-" + fecha_venc.getDia());
@@ -120,6 +120,8 @@ public class BDSuscripcion {
             id.next();
             int idSuscripcion = id.getInt(1);
             sql.close();
+            
+            System.out.println("ID de la suscripcion a modificar" + String.valueOf(idSuscripcion));
             //
             PreparedStatement sql2 = conexion.prepareStatement("UPDATE suscripcion SET estado='Vigente', fecha='" + cambio1 + "' , fecha_venc='" + fecha_venc1 + "'  WHERE idSuscripcion='" + idSuscripcion + "'");
             sql2.executeUpdate();
