@@ -508,15 +508,31 @@ public class ControladorUsuario implements IUsuario {
         return true;
     }
 
+    @Override
     public String chequearLogin(String nickname, String pass) {
-        Usuario u = usuarios.get(nickname);
-
-        if (u == null) {
-            return "Nickname invalido";
-        } else if (u.getContrasenia().equals(pass)) {
-            return "";
+        if (nickname.contains("@")) {
+            Iterator i = usuarios.entrySet().iterator();
+            while (i.hasNext()) {
+                Usuario u = (Usuario) ((Map.Entry) i.next()).getValue();
+                if (u.getEmail().equals(nickname)) {
+                    if (u.getContrasenia().equals(pass)) {
+                        return u.getNickname();
+                    } else {
+                        return "Error: Contraseña invalida";
+                    }
+                }
+            }
+            return "Error: Correo no existe";
         } else {
-            return "Contraseña invalida";
+            Usuario u = usuarios.get(nickname);
+
+            if (u == null) {
+                return "Error: Nickname invalido";
+            } else if (u.getContrasenia().equals(pass)) {
+                return u.getNickname();
+            } else {
+                return "Error: Contraseña invalida";
+            }
         }
     }
 

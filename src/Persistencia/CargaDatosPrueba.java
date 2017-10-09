@@ -13,6 +13,8 @@ import Logica.DtTemaLocal;
 import Logica.DtTemaRemoto;
 import Logica.DtTime;
 import Logica.DtUsuario;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -836,6 +838,25 @@ public class CargaDatosPrueba {
         return true;
     }
 
+    private final char[] CONSTS_HEX = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+
+    private String encriptaEnMD5(String stringAEncriptar) {
+        try {
+            MessageDigest msgd = MessageDigest.getInstance("MD5");
+            byte[] bytes = msgd.digest(stringAEncriptar.getBytes());
+            StringBuilder strbCadenaMD5 = new StringBuilder(2 * bytes.length);
+            for (int i = 0; i < bytes.length; i++) {
+                int bajo = (int) (bytes[i] & 0x0f);
+                int alto = (int) ((bytes[i] & 0xf0) >> 4);
+                strbCadenaMD5.append(CONSTS_HEX[alto]);
+                strbCadenaMD5.append(CONSTS_HEX[bajo]);
+            }
+            return strbCadenaMD5.toString();
+        } catch (NoSuchAlgorithmException e) {
+            return null;
+        }
+    }
+
     private boolean insertarUsuarios() {
         BDUsuario bdu = new BDUsuario();
         boolean res = false;
@@ -861,7 +882,7 @@ public class CargaDatosPrueba {
                         web = info[3];
                     }
                 }
-                dtu = new DtArtista(nickName, nombre, apellido, correo, fecha, imagen, bio, web, usuario[9]);
+                dtu = new DtArtista(nickName, nombre, apellido, correo, fecha, imagen, bio, web, encriptaEnMD5(usuario[9]));
 
             } else {
                 for (String[] info : infoClientes) {
@@ -870,7 +891,7 @@ public class CargaDatosPrueba {
                     }
                 }
 
-                dtu = new DtCliente(nickName, nombre, apellido, correo, fecha, imagen, usuario[9], null);
+                dtu = new DtCliente(nickName, nombre, apellido, correo, fecha, imagen, encriptaEnMD5(usuario[9]), null);
             }
             res = bdu.ingresarUsuario(dtu);
             if (res == false) {
@@ -1059,7 +1080,7 @@ public class CargaDatosPrueba {
             }
 
             DtFecha f = new DtFecha(Integer.valueOf(listaParticular[5]), Integer.valueOf(listaParticular[6]), Integer.valueOf(listaParticular[7]));
-            DtLista lista = new DtListaParticular("S".equals(publica) ? false : true, nombreLista, null, imagen, f);
+            DtLista lista = new DtListaParticular("S".equals(publica) ? false : true, nombreLista, null, imagen, f, nickCliente);
             if (!bdl.altaLista(lista, nickCliente)) {
                 return false;
             }
