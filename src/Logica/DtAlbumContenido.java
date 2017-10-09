@@ -26,7 +26,9 @@ public class DtAlbumContenido {
         return temas;
     }
 
+
     public String getGeneros2() {
+        //Brian altaAlbum
         ArrayList<String> g = this.getGeneros();
 
         String Generos = "";

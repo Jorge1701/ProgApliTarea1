@@ -7,11 +7,6 @@ public class DtListaParticular extends DtLista {
     private final boolean privada;
     private final String nickDuenio;
 
-    public DtListaParticular(boolean privada, String nombre, ArrayList<DtTema> temas, String imagen, DtFecha fecha) {
-        super(nombre, temas, imagen, fecha);
-        this.privada = privada;
-        this.nickDuenio = "";
-    }
 
     public DtListaParticular(boolean privada, String nombre, ArrayList<DtTema> temas, String imagen, DtFecha fecha, String nickDuenio) {
         super(nombre, temas, imagen, fecha);

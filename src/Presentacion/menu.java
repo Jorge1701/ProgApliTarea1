@@ -345,10 +345,10 @@ public class menu extends javax.swing.JFrame {
     }//GEN-LAST:event_cargarDatosActionPerformed
 
     private void altaAlbumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_altaAlbumActionPerformed
-        AltaAlbum cpc = new AltaAlbum();
-        PanelMenu.add(cpc);
-        centrar(cpc);
-        cpc.show();
+        //AltaAlbum cpc = new AltaAlbum();
+        //PanelMenu.add(cpc);
+        //centrar(cpc);
+        //cpc.show();
     }//GEN-LAST:event_altaAlbumActionPerformed
 
     private void altaGeneroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_altaGeneroActionPerformed

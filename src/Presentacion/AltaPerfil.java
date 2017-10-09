@@ -15,6 +15,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -363,16 +365,16 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
         if (Validacion.ValidarEmail(correo.getText()) == false) {
             camposVacios += "Formato Incorrecto del Correo  \n";
         }
-        
-        if(txtContra.getText().isEmpty()){
+
+        if (txtContra.getText().isEmpty()) {
             camposVacios += "Contraseña \n";
         }
-        
-        if(txtConf.getText().isEmpty()){
+
+        if (txtConf.getText().isEmpty()) {
             camposVacios += "Confirmación \n";
         }
-        
-        if(!txtContra.getText().equals(txtConf.getText())){
+
+        if (!txtContra.getText().equals(txtConf.getText())) {
             JOptionPane.showMessageDialog(this, "Las contraseñas no coinciden");
             return;
         }
@@ -382,10 +384,12 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
             return;
         }
 
+        String pass = encriptaEnMD5(txtContra.getText());
+
         if (cliente.isSelected() == true) {
-            dtu = new DtCliente(nick.getText(), nombre.getText(), apellido.getText(), correo.getText(), new DtFecha(Integer.parseInt((String) dia.getSelectedItem()), Integer.parseInt((String) mes.getSelectedItem()), Integer.parseInt((String) anio.getSelectedItem())), nameImage, txtContra.getText(),null);
+            dtu = new DtCliente(nick.getText(), nombre.getText(), apellido.getText(), correo.getText(), new DtFecha(Integer.parseInt((String) dia.getSelectedItem()), Integer.parseInt((String) mes.getSelectedItem()), Integer.parseInt((String) anio.getSelectedItem())), nameImage, pass, null);
         } else {
-            dtu = new DtArtista(nick.getText(), nombre.getText(), apellido.getText(), correo.getText(), new DtFecha(Integer.parseInt((String) dia.getSelectedItem()), Integer.parseInt((String) mes.getSelectedItem()), Integer.parseInt((String) anio.getSelectedItem())), nameImage, txtContra.getText(), biografia.getText(), web.getText());
+            dtu = new DtArtista(nick.getText(), nombre.getText(), apellido.getText(), correo.getText(), new DtFecha(Integer.parseInt((String) dia.getSelectedItem()), Integer.parseInt((String) mes.getSelectedItem()), Integer.parseInt((String) anio.getSelectedItem())), nameImage, pass, biografia.getText(), web.getText());
         }
 
         if (IU.ingresarUsuario(dtu)) {
@@ -410,6 +414,25 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
         cargarImagen(pm.getProperty("pathImagenesUsuario") + "userDefaullt.png");
 
     }//GEN-LAST:event_aceptarActionPerformed
+
+    private final char[] CONSTS_HEX = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+
+    private String encriptaEnMD5(String stringAEncriptar) {
+        try {
+            MessageDigest msgd = MessageDigest.getInstance("MD5");
+            byte[] bytes = msgd.digest(stringAEncriptar.getBytes());
+            StringBuilder strbCadenaMD5 = new StringBuilder(2 * bytes.length);
+            for (int i = 0; i < bytes.length; i++) {
+                int bajo = (int) (bytes[i] & 0x0f);
+                int alto = (int) ((bytes[i] & 0xf0) >> 4);
+                strbCadenaMD5.append(CONSTS_HEX[alto]);
+                strbCadenaMD5.append(CONSTS_HEX[bajo]);
+            }
+            return strbCadenaMD5.toString();
+        } catch (NoSuchAlgorithmException e) {
+            return null;
+        }
+    }
 
     private void btnCargarImgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarImgActionPerformed
         try {

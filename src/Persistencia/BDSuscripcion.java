@@ -2,6 +2,7 @@ package Persistencia;
 
 import Logica.DtArtista;
 import Logica.DtFecha;
+import Logica.DtSuscripcion;
 import Logica.DtUsuario;
 import java.sql.Connection;
 import java.sql.Date;
@@ -88,6 +89,46 @@ public class BDSuscripcion {
             }
         }
 
+    }
+
+    public boolean expirarSuscripcion(String nickname, String estado) {
+
+        try {
+            PreparedStatement sql = conexion.prepareStatement("UPDATE suscripcion SET estado='" + estado + "' WHERE nickname='" + nickname + "' and estado='Vigente'");
+            sql.executeUpdate();
+            sql.close();
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(BDSuscripcion.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
+    public boolean renovarSuscripcion(DtSuscripcion s, String nickname, DtFecha cambio, DtFecha fecha_venc) {
+
+        Date fecha1 = java.sql.Date.valueOf(s.getFecha().getAnio() + "-" + s.getFecha().getMes() + "-" + s.getFecha().getDia());
+        
+        Date fechav = java.sql.Date.valueOf(s.getFechaVenc().getAnio() + "-" + s.getFechaVenc().getMes() + "-" + s.getFechaVenc().getDia());
+            
+        Date cambio1 = java.sql.Date.valueOf(cambio.getAnio() + "-" + cambio.getMes() + "-" + cambio.getDia());
+
+        Date fecha_venc1 = java.sql.Date.valueOf(fecha_venc.getAnio() + "-" + fecha_venc.getMes() + "-" + fecha_venc.getDia());
+
+        try {
+            PreparedStatement sql = conexion.prepareStatement("SELECT idSuscripcion FROM suscripcion WHERE nickname = '" + nickname + "' and cuota = '" + s.getCuota() + "' and  estado= '" + s.getEstado() + "' and fecha = '" + fecha1 + "' and fecha_venc = '" + fechav + "'");
+            ResultSet id = sql.executeQuery();
+            id.next();
+            int idSuscripcion = id.getInt(1);
+            sql.close();
+            //
+            PreparedStatement sql2 = conexion.prepareStatement("UPDATE suscripcion SET estado='Vigente', fecha='" + cambio1 + "' , fecha_venc='" + fecha_venc1 + "'  WHERE idSuscripcion='" + idSuscripcion + "'");
+            sql2.executeUpdate();
+            sql2.close();
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(BDSuscripcion.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
     }
 
 }

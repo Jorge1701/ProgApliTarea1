@@ -53,4 +53,6 @@ public interface IUsuario {
     public String chequearLogin(String nickname, String pass);
     public int getMonto(String cuota);
     public boolean ingresarSuscripcion(String nickname, String cuota);
+    public boolean chequearSuscripcion(String nickname);
+    public boolean renovarSuscripcion(String nickname,String estado,String cuota,String fecha,DtFecha cambio);
 }

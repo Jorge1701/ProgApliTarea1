@@ -284,7 +284,7 @@ public class ControladorContenido implements IContenido {
                 return false;
             }
             if (bdLista.altaLista(dtl, nickCliente)) {
-                Lista lp = new ListaParticular(dtl.getNombre(), dtl.getImagen(), dtl.getFecha());
+                Lista lp = new ListaParticular(dtl.getNombre(), dtl.getImagen(), dtl.getFecha(),nickCliente);
                 ((Cliente) iUsuario.obtenerUsuario(nickCliente)).agregarLista(lp);
                 return true;
             } else {
@@ -523,7 +523,7 @@ public class ControladorContenido implements IContenido {
         ListaParticular l = (ListaParticular) us.getLista(nomL);
 
         if (l == null) {
-            throw new UnsupportedOperationException("No existe la lista" + nomL + " en el sistema.");
+            throw new UnsupportedOperationException("No existe la lista " + nomL + " en el sistema");
         }
 
         l.setPrivada(false);
@@ -654,7 +654,7 @@ public class ControladorContenido implements IContenido {
 
             while (i.hasNext()) {
                 ListaParticular lista = (ListaParticular) ((Map.Entry) i.next()).getValue();
-                if (lista.getNombre().toLowerCase().contains(texto)) {
+                if (lista.getNombre().toLowerCase().contains(texto) && !lista.isPrivada()) {
                     resultados.add(lista.getData());
                 }
             }
