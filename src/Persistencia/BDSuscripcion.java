@@ -19,19 +19,14 @@ public class BDSuscripcion {
     protected Connection conexion = new ConexionBD().getConexion();
 
     public boolean ingresarSuscripcion(String nickname, String cuota, DtFecha fecha_venc, DtFecha fecha, String estado) {
-        Date fecha_venc1 = null;
-        Date fecha1 = java.sql.Date.valueOf(fecha.getAnio() + "-" + fecha.getMes() + "-" + fecha.getDia());
-        if (fecha_venc != null) {
-            fecha_venc1 = java.sql.Date.valueOf(fecha_venc.getAnio() + "-" + fecha_venc.getMes() + "-" + fecha_venc.getDia());
-        }
         try {
 
             PreparedStatement insertar = conexion.prepareStatement("INSERT INTO suscripcion "
                     + "(nickname, cuota, fecha_venc,fecha,estado) values(?,?,?,?,?)");
             insertar.setString(1, nickname);
             insertar.setString(2, cuota);
-            insertar.setDate(3, fecha_venc1);
-            insertar.setDate(4, fecha1);
+            insertar.setString(3, String.valueOf(fecha_venc.getAnio()) + "-" + String.valueOf(fecha_venc.getMes() + 1) + "-" + String.valueOf(fecha_venc.getDia()));
+            insertar.setString(4, String.valueOf(fecha.getAnio()) + "-" + String.valueOf(fecha.getMes()) + "-" + String.valueOf(fecha.getDia()));
             insertar.setString(5, estado);
             insertar.executeUpdate();
             insertar.close();
