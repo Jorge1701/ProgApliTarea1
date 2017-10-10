@@ -1,6 +1,8 @@
 package Logica;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class DtAlbumContenido {
 
@@ -23,7 +25,7 @@ public class DtAlbumContenido {
     }
 
     public ArrayList<DtTema> getTemas() {
-        return temas;
+        return ordenarPorPosicion(temas);
     }
 
 
@@ -36,6 +38,18 @@ public class DtAlbumContenido {
             Generos = Generos + g.get(i) + " ";
         }
         return Generos;
+    }
+            private ArrayList<DtTema> ordenarPorPosicion(ArrayList<DtTema> tema) {
+        Collections.sort(tema, new Comparator<Object>() {
+            
+            public int compare(Object o1, Object o2) {
+                if ( ((DtTema)o1).getUbicacion() == ((DtTema)o2).getUbicacion()) {
+                    return 0;
+                }
+                return ((DtTema)o1).getUbicacion() < ((DtTema)o2).getUbicacion() ? -1 : 1;
+            }
+        });
+        return tema;
     }
 
 }

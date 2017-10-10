@@ -45,4 +45,5 @@ public interface IContenido {
     public ArrayList<String> obtenerGeneros();
     public boolean  ExisteAlbum(String nickArtista, String nomAlbum); 
     public ArrayList<Object> buscar(String texto, String orden);
+    
 }

@@ -284,7 +284,7 @@ public class ControladorContenido implements IContenido {
                 return false;
             }
             if (bdLista.altaLista(dtl, nickCliente)) {
-                Lista lp = new ListaParticular(dtl.getNombre(), dtl.getImagen(), dtl.getFecha(),nickCliente);
+                Lista lp = new ListaParticular(dtl.getNombre(), dtl.getImagen(), dtl.getFecha(), nickCliente);
                 ((Cliente) iUsuario.obtenerUsuario(nickCliente)).agregarLista(lp);
                 return true;
             } else {
@@ -723,6 +723,8 @@ public class ControladorContenido implements IContenido {
         });
         return lista;
     }
+
+
 
     public ArrayList<String> obtenerGeneros() {
         ArrayList<String> generos = new ArrayList<>();
