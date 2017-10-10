@@ -3,18 +3,12 @@ package Logica;
 import Persistencia.BDCliente;
 import Persistencia.BDSuscripcion;
 import Persistencia.BDUsuario;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
-
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class ControladorUsuario implements IUsuario {
 
@@ -686,6 +680,11 @@ public class ControladorUsuario implements IUsuario {
     public boolean renovarSuscripcion(String nickname, String estado, String cuota, String fecha, String fecha_venc, DtFecha cambio) {
         BDSuscripcion bds = new BDSuscripcion();
         Usuario usr = usuarios.get(nickname);
+
+        if (((Cliente) usr).getSuscripcion() != null) {
+            return false;
+        }
+
         ArrayList<Suscripcion> sus = ((Cliente) usr).getSuscripciones();
         Suscripcion suscripcion = null;
         String[] arreglo = fecha.split("/");
@@ -791,4 +790,3 @@ public class ControladorUsuario implements IUsuario {
         }
     }
 }
-

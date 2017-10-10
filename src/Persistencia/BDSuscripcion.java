@@ -62,7 +62,10 @@ public class BDSuscripcion {
     public boolean actulizarSuscripcion(String nickname, DtSuscripcion s, String estado, DtFecha cambio, DtFecha fecha_venc) {
 
         Date fecha1 = java.sql.Date.valueOf(s.getFecha().getAnio() + "-" + s.getFecha().getMes() + "-" + s.getFecha().getDia());
-        Date fechavenc1 = java.sql.Date.valueOf(s.getFechaVenc().getAnio() + "-" + s.getFechaVenc().getMes() + "-" + s.getFechaVenc().getDia());
+        Date fechavenc1 = null;
+        if (s.getFechaVenc() != null) {
+            fechavenc1 = java.sql.Date.valueOf(s.getFechaVenc().getAnio() + "-" + s.getFechaVenc().getMes() + "-" + s.getFechaVenc().getDia());
+        }
         //las de arriba son para ubicar la suscripcion en la bd
         Date cambio1 = java.sql.Date.valueOf(cambio.getAnio() + "-" + cambio.getMes() + "-" + cambio.getDia());
 
@@ -70,8 +73,14 @@ public class BDSuscripcion {
             Date fecha_venc1 = java.sql.Date.valueOf(fecha_venc.getAnio() + "-" + fecha_venc.getMes() + "-" + fecha_venc.getDia());
 
             try {
-                PreparedStatement sql = conexion.prepareStatement("SELECT idSuscripcion FROM suscripcion WHERE nickname = '" + nickname + "' and cuota = '" + s.getCuota() + "' and  estado= '" + s.getEstado() + "' and fecha = '" + fecha1 + "' and fecha_venc = '" + fechavenc1 + "'");
+                PreparedStatement sql;
+                if (fechavenc1 != null) {
+                    sql = conexion.prepareStatement("SELECT idSuscripcion FROM suscripcion WHERE nickname = '" + nickname + "' and cuota = '" + s.getCuota() + "' and  estado = '" + s.getEstado() + "' and fecha = '" + fecha1 + "' and fecha_venc = '" + fechavenc1 + "'");
+                } else {
+                    sql = conexion.prepareStatement("SELECT idSuscripcion FROM suscripcion WHERE nickname = '" + nickname + "' and cuota = '" + s.getCuota() + "' and  estado = '" + s.getEstado() + "' and fecha = '" + fecha1 + "' and fecha_venc IS NULL");
+                }
                 ResultSet id = sql.executeQuery();
+
                 id.next();
                 int idSuscripcion = id.getInt(1);
                 sql.close();
