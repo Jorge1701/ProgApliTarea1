@@ -7,13 +7,10 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author Luis
- */
 public class BDSuscripcion {
 
     protected Connection conexion = new ConexionBD().getConexion();
@@ -25,7 +22,11 @@ public class BDSuscripcion {
                     + "(nickname, cuota, fecha_venc,fecha,estado) values(?,?,?,?,?)");
             insertar.setString(1, nickname);
             insertar.setString(2, cuota);
-            insertar.setString(3, String.valueOf(fecha_venc.getAnio()) + "-" + String.valueOf(fecha_venc.getMes() + 1) + "-" + String.valueOf(fecha_venc.getDia()));
+            if (fecha_venc == null) {
+                insertar.setNull(3, Types.DATE);
+            } else {
+                insertar.setString(3, String.valueOf(fecha_venc.getAnio()) + "-" + String.valueOf(fecha_venc.getMes() + 1) + "-" + String.valueOf(fecha_venc.getDia()));
+            }
             insertar.setString(4, String.valueOf(fecha.getAnio()) + "-" + String.valueOf(fecha.getMes()) + "-" + String.valueOf(fecha.getDia()));
             insertar.setString(5, estado);
             insertar.executeUpdate();
