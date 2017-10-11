@@ -34,6 +34,9 @@ public class Artista extends Usuario {
     public DtAlbumContenido obtenerAlbumContenido(String nomAlbum) {
         DtAlbumContenido dtac;
         Album album = albumes.get(nomAlbum);
+        if (album == null) {
+            return null;
+        }
         dtac = album.obtenerAlbumContenido();
 
         return dtac;
