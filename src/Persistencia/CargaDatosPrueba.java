@@ -100,7 +100,7 @@ public class CargaDatosPrueba {
 
     private String[][] infosus = {
         {"S1", "Vencida", "Semanal", "2/9/2016"},
-        {"S2", "Vigente", "Anual", "3/9/2016"},
+        {"S2", "Vigente", "Anual", "3/12/2017"},
         {"S3", "Pendiente", "Mensual", "1/10/2016"},
         {"S4", "Vencida", "Anual", "1/3/2016"},
         {"S5", "Cancelada", "Mensual", "3/5/2016"},
@@ -1340,7 +1340,8 @@ public class CargaDatosPrueba {
                     estado = info[1];
                     String[] arreglo = info[3].split("/");
                     fecha = new DtFecha(Integer.parseInt(arreglo[0]), Integer.parseInt(arreglo[1]), Integer.parseInt(arreglo[2]));
-                    Calendar c = new GregorianCalendar(fecha.getAnio(), fecha.getMes(), fecha.getDia());
+                    System.out.println("Fecha: " + fecha.toString());
+                    Calendar c = new GregorianCalendar(fecha.getAnio(), fecha.getMes() - 1, fecha.getDia());
 
                     if (info[2].equals("Semanal")) {
 
