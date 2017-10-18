@@ -1,5 +1,9 @@
 package Logica;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DtUsuario {
 
     private String nickname;
@@ -10,7 +14,7 @@ public class DtUsuario {
     private String imagen;
     private String contrasenia;
 
-    public DtUsuario(String nickname, String nombre, String apellido, String email, DtFecha fechaNac, String imagen,String contrasenia) {
+    public DtUsuario(String nickname, String nombre, String apellido, String email, DtFecha fechaNac, String imagen, String contrasenia) {
         this.nickname = nickname;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -47,5 +51,5 @@ public class DtUsuario {
     public String getContrasenia() {
         return contrasenia;
     }
-    
+
 }
