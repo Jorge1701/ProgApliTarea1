@@ -505,6 +505,16 @@ public class ControladorUsuario implements IUsuario {
     }
 
     @Override
+    public boolean nicknameExiste(String nickname) {
+        Usuario u = usuarios.get(nickname);
+        if (u == null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    @Override
     public String chequearLogin(String nickname, String pass) {
         if (nickname.contains("@")) {
             Iterator i = usuarios.entrySet().iterator();

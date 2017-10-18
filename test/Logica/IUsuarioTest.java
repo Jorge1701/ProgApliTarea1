@@ -703,6 +703,11 @@ public class IUsuarioTest {
         public boolean cancelarSuscripcion(String nickname, String previo, String cuota, String fecha, String fecha_venc, DtFecha hoy) {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
+
+        @Override
+        public boolean nicknameExiste(String nickname) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
     }
 
     /**
