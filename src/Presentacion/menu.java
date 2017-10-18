@@ -7,13 +7,18 @@ import java.awt.Toolkit;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.jws.WebService;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
+import servidor.PContenido;
 
 public class menu extends javax.swing.JFrame {
 
     public menu() {
         initComponents();
+       
+        PContenido p = new PContenido();
+        p.publicar();
         this.setExtendedState(MAXIMIZED_BOTH);
         Fabrica.inicializarControladores();
         try {
