@@ -2,15 +2,19 @@ package Presentacion;
 
 import Logica.Fabrica;
 import Persistencia.CargaDatosPrueba;
+import Servicios.PContenido;
 import Servicios.PInicio;
 import Servicios.PRegistro;
+import Servicios.PSuscripcion;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.jws.WebService;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
+
 
 public class menu extends javax.swing.JFrame {
 
@@ -398,6 +402,10 @@ public class menu extends javax.swing.JFrame {
         registro.publicar();
         PInicio inicio = new PInicio();
         inicio.publicar();
+        PContenido contenido = new PContenido();
+        contenido.publicar();
+        PSuscripcion suscripcion = new PSuscripcion();
+        suscripcion.publicar();
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
