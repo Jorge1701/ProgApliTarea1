@@ -5,6 +5,7 @@ import Persistencia.CargaDatosPrueba;
 import Servicios.PContenido;
 import Servicios.PInicio;
 import Servicios.PRegistro;
+import Servicios.PSuscripcion;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.sql.SQLException;
@@ -403,6 +404,8 @@ public class menu extends javax.swing.JFrame {
         inicio.publicar();
         PContenido contenido = new PContenido();
         contenido.publicar();
+        PSuscripcion suscripcion = new PSuscripcion();
+        suscripcion.publicar();
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
