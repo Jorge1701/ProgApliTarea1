@@ -2,11 +2,11 @@ package Logica;
 
 import java.util.ArrayList;
 
-public class DtListaObjectos {
+public class DtListaObjetos {
 
     private ArrayList<Object> lista;
 
-    public DtListaObjectos(ArrayList<Object> lista) {
+    public DtListaObjetos(ArrayList<Object> lista) {
         this.lista = lista;
     }
 
