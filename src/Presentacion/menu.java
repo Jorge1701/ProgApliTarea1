@@ -3,6 +3,7 @@ package Presentacion;
 import Logica.Fabrica;
 import Persistencia.CargaDatosPrueba;
 import Servicios.PContenido;
+import Servicios.PImagen;
 import Servicios.PInicio;
 import Servicios.PRegistro;
 import Servicios.PSesion;
@@ -409,6 +410,9 @@ public class menu extends javax.swing.JFrame {
         suscripcion.publicar();
         PSesion sesion = new PSesion();
         sesion.publicar();
+        
+        PImagen imagen = new PImagen();
+        imagen.publicar();
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
