@@ -2,10 +2,13 @@ package Presentacion;
 
 import Configuracion.Configuracion;
 import Logica.Fabrica;
+import Servicios.PBuscador;
 import Servicios.PContenido;
+import Servicios.PFavorito;
 import Servicios.PImagen;
 import Servicios.PInicio;
 import Servicios.PRegistro;
+import Servicios.PSeguir;
 import Servicios.PSesion;
 import Servicios.PSuscripcion;
 import java.awt.Dimension;
@@ -407,6 +410,12 @@ public class menu extends javax.swing.JFrame {
         suscripcion.publicar();
         PSesion sesion = new PSesion();
         sesion.publicar();
+        PSeguir seguir = new PSeguir();
+        seguir.publicar();
+        PFavorito favorito = new PFavorito();
+        favorito.publicar();
+        PBuscador buscador = new PBuscador();
+        buscador.publicar();
 
         PImagen imagen = new PImagen();
         imagen.publicar();
