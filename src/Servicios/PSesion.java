@@ -1,6 +1,5 @@
 package Servicios;
 
-import Logica.DtListaUsuarios;
 import Logica.DtUsuario;
 import Logica.Fabrica;
 import Logica.IUsuario;
@@ -27,16 +26,21 @@ public class PSesion {
         iUsuario = Fabrica.getIControladorUsuario();
         this.ip = properties.getProperty("ip");
         this.puerto = properties.getProperty("puerto");
-        this.servicio = "registro";//properties.getProperty("servicio");
+        this.servicio = "sesion";
     }
 
     public void publicar() {
         endpoint = Endpoint.publish("http://" + ip + ":" + puerto + "/" + servicio, this);
     }
 
-    
-     @WebMethod
-     public DtUsuario getDataUsuario(String seguido){
-         return iUsuario.getDataUsuario(seguido);
-     }
+    @WebMethod
+    public DtUsuario getDataUsuario(String seguido) {
+        return iUsuario.getDataUsuario(seguido);
+    }
+
+    @WebMethod
+    public String chequearLogin(String nickname, String contrasenia) {
+        return iUsuario.chequearLogin(nickname, contrasenia);
+    }
+
 }
