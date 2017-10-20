@@ -1,12 +1,12 @@
 package Servicios;
 
+import Configuracion.Configuracion;
 import Logica.DtArtista;
 import Logica.DtCliente;
 import Logica.DtFecha;
 import Logica.DtUsuario;
 import Logica.Fabrica;
 import Logica.IUsuario;
-import Presentacion.PropertyManager;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
@@ -18,23 +18,14 @@ import javax.xml.ws.Endpoint;
 public class PSuscripcion {
 
     private Endpoint endpoint = null;
-    PropertyManager properties;
     IUsuario iUsuario;
 
-    String ip;
-    String puerto;
-    String servicio;
-
     public PSuscripcion() {
-        properties = PropertyManager.getInstance();
         iUsuario = Fabrica.getIControladorUsuario();
-        this.ip = properties.getProperty("ip");
-        this.puerto = properties.getProperty("puerto");
-        this.servicio = "suscripcion";//properties.getProperty("servicio");
     }
 
     public void publicar() {
-        endpoint = Endpoint.publish("http://" + ip + ":" + puerto + "/" + servicio, this);
+        endpoint = Endpoint.publish("http://" + Configuracion.get("ip") + ":" + Configuracion.get("puerto") + "/" + Configuracion.get("PSuscripcion"), this);
     }
 
     @WebMethod
@@ -61,12 +52,13 @@ public class PSuscripcion {
     public boolean renovarSuscripcion(String nickname, String estado, String cuota, String fecha, String fecha_venc, DtFecha cambio) {
         return iUsuario.renovarSuscripcion(nickname, estado, cuota, fecha, fecha_venc, cambio);
     }
-    
+
     @WebMethod
-    public void DtArtista(DtArtista dta){
+    public void DtArtista(DtArtista dta) {
     }
+
     @WebMethod
-    public void DtCliente(DtCliente dta){
+    public void DtCliente(DtCliente dta) {
     }
 
 }

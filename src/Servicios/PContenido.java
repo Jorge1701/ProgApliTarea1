@@ -1,8 +1,7 @@
 package Servicios;
 
-import Logica.DtAlbum;
+import Configuracion.Configuracion;
 import Logica.DtAlbumContenido;
-import Logica.DtLista;
 import Logica.DtListaAlbum;
 import Logica.DtListaDeListas;
 import Logica.DtListaString;
@@ -11,7 +10,6 @@ import Logica.DtUsuario;
 import Logica.Fabrica;
 import Logica.IContenido;
 import Logica.IUsuario;
-import Presentacion.PropertyManager;
 import java.util.ArrayList;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
@@ -25,27 +23,18 @@ import javax.xml.ws.Endpoint;
 public class PContenido {
 
     private Endpoint endpoint = null;
-    PropertyManager properties;
 
     private IUsuario iUsuario;
     private IContenido iContenido;
-    String ip;
-    String puerto;
-    String servicio;
 
     public PContenido() {
-        properties = PropertyManager.getInstance();
         iUsuario = Fabrica.getIControladorUsuario();
         iContenido = Fabrica.getIControladorContenido();
-        this.ip = properties.getProperty("ip");
-        this.puerto = properties.getProperty("puerto");
-        this.servicio = "contenido";
     }
 
     @WebMethod(exclude = true)
     public void publicar() {
-        endpoint = Endpoint.publish("http://" + ip + ":" + puerto + "/" + servicio, this);
-
+        endpoint = Endpoint.publish("http://" + Configuracion.get("ip") + ":" + Configuracion.get("puerto") + "/" + Configuracion.get("PContenido"), this);
     }
 
     @WebMethod(exclude = true)

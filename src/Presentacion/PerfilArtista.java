@@ -1,5 +1,6 @@
 package Presentacion;
 
+import Configuracion.Configuracion;
 import Logica.DtAlbum;
 import Logica.DtCliente;
 import Logica.DtPerfilArtista;
@@ -13,11 +14,8 @@ import javax.swing.table.DefaultTableModel;
 
 public class PerfilArtista extends javax.swing.JInternalFrame {
 
-    PropertyManager pm;
-
     public PerfilArtista(DtPerfilArtista dtPerfilArtista) {
         initComponents();
-        pm = PropertyManager.getInstance();
         setTitle(getTitle() + " " + dtPerfilArtista.getInfo().getNickname());
 
         txtNickname.setText(dtPerfilArtista.getInfo().getNickname());
@@ -58,7 +56,7 @@ public class PerfilArtista extends javax.swing.JInternalFrame {
         try {
             String imagen = dtPerfilArtista.getInfo().getImagen();
             BufferedImage img;
-            String path = pm.getProperty("pathImagenesUsuario");
+            String path = Configuracion.get("pathImagenesUsuario");
 
             if (imagen == null || imagen.isEmpty()) {
                 img = ImageIO.read(new File(path + "userDefaullt.png"));

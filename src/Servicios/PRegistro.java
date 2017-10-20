@@ -1,11 +1,11 @@
 package Servicios;
 
+import Configuracion.Configuracion;
 import Logica.DtArtista;
 import Logica.DtCliente;
 import Logica.DtUsuario;
 import Logica.Fabrica;
 import Logica.IUsuario;
-import Presentacion.PropertyManager;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
@@ -17,23 +17,14 @@ import javax.xml.ws.Endpoint;
 public class PRegistro {
 
     private Endpoint endpoint = null;
-    PropertyManager properties;
     IUsuario iUsuario;
 
-    String ip;
-    String puerto;
-    String servicio;
-
     public PRegistro() {
-        properties = PropertyManager.getInstance();
         iUsuario = Fabrica.getIControladorUsuario();
-        this.ip = properties.getProperty("ip");
-        this.puerto = properties.getProperty("puerto");
-        this.servicio = "registro";//properties.getProperty("servicio");
     }
 
     public void publicar() {
-        endpoint = Endpoint.publish("http://" + ip + ":" + puerto + "/" + servicio, this);
+        endpoint = Endpoint.publish("http://" + Configuracion.get("ip") + ":" + Configuracion.get("puerto") + "/" + Configuracion.get("PRegistro"), this);
     }
 
     @WebMethod
@@ -45,7 +36,7 @@ public class PRegistro {
     public boolean correoExiste(String correo) {
         return iUsuario.correoExiste(correo);
     }
-    
+
     @WebMethod
     public boolean nicknameExiste(String nickname) {
         return iUsuario.nicknameExiste(nickname);
@@ -55,11 +46,12 @@ public class PRegistro {
     public boolean ingresarUsuario(DtUsuario usuario) {
         return iUsuario.ingresarUsuario(usuario);
     }
+
     @WebMethod
-    public void DtArtista(DtArtista dta){
-    }
-    @WebMethod
-    public void DtCliente(DtCliente dta){
+    public void DtArtista(DtArtista dta) {
     }
 
+    @WebMethod
+    public void DtCliente(DtCliente dta) {
+    }
 }

@@ -1,5 +1,6 @@
 package Presentacion;
 
+import Configuracion.Configuracion;
 import Logica.DtArtista;
 import Logica.DtCliente;
 import Logica.DtFecha;
@@ -17,8 +18,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -29,7 +28,6 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
     String pathImage;
     String nameImage;
     PanelImagen pImg;
-    PropertyManager pm;
 
     public AltaPerfil() {
         initComponents();
@@ -44,8 +42,7 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
         this.IU = Fabrica.getIControladorUsuario();
         pathImage = null;
         nameImage = null;
-        pm = PropertyManager.getInstance();
-        cargarImagen(pm.getProperty("pathImagenesUsuario") + "userDefaullt.png");
+        cargarImagen(Configuracion.get("pathImagenesUsuario") + "userDefaullt.png");
     }
 
     @SuppressWarnings("unchecked")
@@ -411,7 +408,7 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
         this.anio.setSelectedIndex(0);
         pathImage = null;
         nameImage = null;
-        cargarImagen(pm.getProperty("pathImagenesUsuario") + "userDefaullt.png");
+        cargarImagen(Configuracion.get("pathImagenesUsuario") + "userDefaullt.png");
 
     }//GEN-LAST:event_aceptarActionPerformed
 
@@ -439,7 +436,7 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
             if (archivoImg.showOpenDialog(this) == 0) {
                 File arch = archivoImg.getSelectedFile();
                 nameImage = arch.getName();
-                pathImage = pm.getProperty("pathImagenesUsuario") + arch.getName();
+                pathImage = Configuracion.get("pathImagenesUsuario") + arch.getName();
 
                 //if (arch != null) {
                 InputStream is = new FileInputStream(arch);
