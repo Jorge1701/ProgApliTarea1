@@ -11,6 +11,8 @@ import Servicios.PRegistro;
 import Servicios.PSeguir;
 import Servicios.PSesion;
 import Servicios.PSuscripcion;
+import Servicios.PTema;
+import Servicios.PUploadfile;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import javax.swing.JInternalFrame;
@@ -419,6 +421,12 @@ public class menu extends javax.swing.JFrame {
 
         PImagen imagen = new PImagen();
         imagen.publicar();
+        
+        PTema tema = new PTema();
+        tema.publicar();
+        
+        PUploadfile upload = new PUploadfile();
+        upload.publicar();
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
