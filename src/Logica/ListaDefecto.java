@@ -2,7 +2,9 @@ package Logica;
 
 import Persistencia.BDLista;
 import java.util.ArrayList;
-
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+@XmlAccessorType(XmlAccessType.FIELD)
 public class ListaDefecto extends Lista {
 
     private Genero genero;

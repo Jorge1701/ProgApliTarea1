@@ -4,6 +4,7 @@ import Logica.Fabrica;
 import Persistencia.CargaDatosPrueba;
 import Servicios.PContenido;
 import Servicios.PInicio;
+import Servicios.PLista;
 import Servicios.PRegistro;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -13,7 +14,6 @@ import java.util.logging.Logger;
 import javax.jws.WebService;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
-
 
 public class menu extends javax.swing.JFrame {
 
@@ -403,12 +403,14 @@ public class menu extends javax.swing.JFrame {
         inicio.publicar();
         PContenido contenido = new PContenido();
         contenido.publicar();
+        PLista lista = new PLista();
+        lista.publicar();
 
-        java.awt.EventQueue.invokeLater(new Runnable() {
+        /*java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new menu().setVisible(true);
             }
-        });
+        });*/
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -20,8 +20,8 @@ import javax.jws.soap.SOAPBinding.ParameterStyle;
 import javax.jws.soap.SOAPBinding.Style;
 import javax.xml.ws.Endpoint;
 
-@WebService
-@SOAPBinding(style = Style.RPC, parameterStyle = ParameterStyle.WRAPPED)
+@WebService()
+@SOAPBinding(style = Style.RPC, parameterStyle = ParameterStyle.WRAPPED )
 public class PContenido {
 
     private Endpoint endpoint = null;

@@ -29,7 +29,7 @@ public class PRegistro {
         iUsuario = Fabrica.getIControladorUsuario();
         this.ip = properties.getProperty("ip");
         this.puerto = properties.getProperty("puerto");
-        this.servicio = "registro";//properties.getProperty("servicio");
+        this.servicio = "registro";
     }
 
     public void publicar() {
