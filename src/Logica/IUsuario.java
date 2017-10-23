@@ -17,6 +17,7 @@ public interface IUsuario {
     public DtPerfilUsuario obtenerPerfilArtista(String nickArtista);
     public DtPerfilUsuario obtenerPerfilCliente(String nickCliente);
     public DtUsuario getDataUsuario(String nickUsuario);
+    public DtCliente getDataCliente(String nickname);
     public void seguirUsuario(String nickC, String nickU);
     public void dejarSeguirUsuario(String nickSeguidor, String nickUsuario);
     public void cargarUsuarios();
@@ -50,6 +51,7 @@ public interface IUsuario {
     public void cargarLista(ListaParticular lp, String nickcliente);
     public boolean correoExiste(String correo);
     public boolean nicknameExiste(String nickname);
+    public boolean esCliente(String nickname);
     public boolean actualizarSuscripcion(String nickname,String estado,DtFecha fecha);
     public String chequearLogin(String nickname, String pass);
     public int getMonto(String cuota);

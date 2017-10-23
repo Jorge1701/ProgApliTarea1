@@ -201,6 +201,16 @@ public class ControladorUsuario implements IUsuario {
     }
 
     @Override
+    public DtCliente getDataCliente(String nickname) {
+        Usuario usuario = usuarios.get(nickname);
+        if (usuario instanceof Cliente) {
+            return ((Cliente) usuario).getData();
+        } else {
+            return null;
+        }
+    }
+
+    @Override
     public void seguirUsuario(String nickCliente, String nickSeguido) {
         Usuario cliente = usuarios.get(nickCliente);
         Usuario seguido = usuarios.get(nickSeguido);
@@ -511,6 +521,16 @@ public class ControladorUsuario implements IUsuario {
             return false;
         } else {
             return true;
+        }
+    }
+
+    @Override
+    public boolean esCliente(String nickname) {
+        Usuario usuario = usuarios.get(nickname);
+        if (usuario instanceof Cliente) {
+            return true;
+        } else {
+            return false;
         }
     }
 
