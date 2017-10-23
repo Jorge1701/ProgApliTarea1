@@ -1,6 +1,7 @@
 package Servicios;
 
 import Configuracion.Configuracion;
+import Logica.DtCliente;
 import Logica.DtUsuario;
 import Logica.Fabrica;
 import Logica.IUsuario;
@@ -25,13 +26,23 @@ public class PSesion {
     }
 
     @WebMethod
-    public DtUsuario getDataUsuario(String seguido) {
-        return iUsuario.getDataUsuario(seguido);
+    public DtUsuario getDataUsuario(String nickname) {
+        return iUsuario.getDataUsuario(nickname);
+    }
+
+    @WebMethod
+    public DtCliente getDataCliente(String nickname) {
+        return iUsuario.getDataCliente(nickname);
     }
 
     @WebMethod
     public String chequearLogin(String nickname, String contrasenia) {
         return iUsuario.chequearLogin(nickname, contrasenia);
+    }
+
+    @WebMethod
+    public boolean esCliente(String nickname) {
+        return iUsuario.esCliente(nickname);
     }
 
 }
