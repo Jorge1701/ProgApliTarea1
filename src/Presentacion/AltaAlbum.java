@@ -1,5 +1,6 @@
 package Presentacion;
 
+import Configuracion.Configuracion;
 import Logica.DtGenero;
 import Logica.DtTema;
 import Logica.DtTemaLocal;
@@ -9,7 +10,6 @@ import Logica.DtUsuario;
 import Logica.Fabrica;
 import Logica.IContenido;
 import Logica.IUsuario;
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,8 +18,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.URI;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -53,7 +51,6 @@ public class AltaAlbum extends javax.swing.JInternalFrame {
     DefaultTableModel dtm;
     private ArrayList<DtUsuario> datos;
     PanelImagen pImg;
-    PropertyManager pm;
 
     public AltaAlbum() {
         initComponents();
@@ -77,8 +74,7 @@ public class AltaAlbum extends javax.swing.JInternalFrame {
         nameImage = null;
         datos = iUsuario.listarArtistas();
         cargarDatos(datos, "");
-        pm = PropertyManager.getInstance();
-        cargarImagen(pm.getProperty("pathImagenesAlbum") + "albumDefault.png");
+        cargarImagen(Configuracion.get("pathImagenesAlbum") + "albumDefault.png");
 
     }
 
@@ -598,7 +594,7 @@ public class AltaAlbum extends javax.swing.JInternalFrame {
         temas.removeAll(temas);
         generos.removeAll(generos);
 
-        cargarImagen(pm.getProperty("pathImagenesAlbum") + "albumDefault.png");
+        cargarImagen(Configuracion.get("pathImagenesAlbum") + "albumDefault.png");
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
@@ -649,7 +645,7 @@ public class AltaAlbum extends javax.swing.JInternalFrame {
             if (archivoTema.showOpenDialog(this) == 0) {
                 File arch = archivoTema.getSelectedFile();
                 //pathMp3 = "src/Recursos/Musica/" + arch.getName();
-                pathMp3 = pm.getProperty("pathMusica") + arch.getName();
+                pathMp3 = Configuracion.get("pathMusica") + arch.getName();
                 nameMp3 = arch.getName();
                 //System.out.println("Path: "+ pathMp3);
                 //if (arch != null) {
@@ -767,7 +763,7 @@ public class AltaAlbum extends javax.swing.JInternalFrame {
             if (archivoImg.showOpenDialog(this) == 0) {
                 File arch = archivoImg.getSelectedFile();
                 nameImage = arch.getName();
-                pathImage = pm.getProperty("pathImagenesAlbum") + arch.getName();
+                pathImage = Configuracion.get("pathImagenesAlbum") + arch.getName();
                 //if (arch != null) {
                 InputStream is = new FileInputStream(arch);
                 OutputStream outstream = new FileOutputStream(new File(pathImage));

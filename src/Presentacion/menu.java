@@ -1,17 +1,19 @@
 package Presentacion;
 
+import Configuracion.Configuracion;
 import Logica.Fabrica;
-import Persistencia.CargaDatosPrueba;
+import Servicios.PBuscador;
 import Servicios.PContenido;
+import Servicios.PFavorito;
+import Servicios.PImagen;
 import Servicios.PInicio;
 import Servicios.PLista;
 import Servicios.PRegistro;
+import Servicios.PSeguir;
+import Servicios.PSesion;
+import Servicios.PSuscripcion;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.jws.WebService;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 
@@ -397,14 +399,27 @@ public class menu extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     public static void main(String args[]) {
+        Configuracion.cargar();
+
         PRegistro registro = new PRegistro();
         registro.publicar();
         PInicio inicio = new PInicio();
         inicio.publicar();
         PContenido contenido = new PContenido();
         contenido.publicar();
-        PLista lista = new PLista();
-        lista.publicar();
+        PSuscripcion suscripcion = new PSuscripcion();
+        suscripcion.publicar();
+        PSesion sesion = new PSesion();
+        sesion.publicar();
+        PSeguir seguir = new PSeguir();
+        seguir.publicar();
+        PFavorito favorito = new PFavorito();
+        favorito.publicar();
+        PBuscador buscador = new PBuscador();
+        buscador.publicar();
+
+        PImagen imagen = new PImagen();
+        imagen.publicar();
 
         /*java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

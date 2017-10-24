@@ -1,5 +1,6 @@
 package Presentacion;
 
+import Configuracion.Configuracion;
 import Logica.DtLista;
 import Logica.DtListaParticular;
 import Logica.DtTema;
@@ -29,20 +30,17 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 public class ListaReproduccionContenido extends javax.swing.JInternalFrame implements ListSelectionListener {
-    
-    PropertyManager pm;
-    
+
     public ListaReproduccionContenido(DtLista lista, String gna) {
         initComponents();
-        pm = PropertyManager.getInstance();
         //Ocultar comlumna de la tablaTemas
         tablaTemas.getColumnModel().getColumn(0).setMinWidth(0);
         tablaTemas.getColumnModel().getColumn(0).setMaxWidth(0);
-        
+
         txtNombre.setText(lista.getNombre());
         txtGenOnick.setText(gna);
         txtFechaCreacion.setText(lista.getFecha().toString());
-        
+
         if (lista instanceof DtListaParticular) {
             setTitle("Información de la lista particular");
             lblGenOnick.setText("Propietario: ");
@@ -62,7 +60,7 @@ public class ListaReproduccionContenido extends javax.swing.JInternalFrame imple
 
         //Carga la tabla temas
         for (DtTema dtt : lista.getTemas()) {
-            
+
             Object[] data = {
                 dtt instanceof DtTemaLocal ? "A" : "S",
                 ((DtTema) dtt).getNombre(),
@@ -75,7 +73,7 @@ public class ListaReproduccionContenido extends javax.swing.JInternalFrame imple
         // Cargar imagen
         try {
             String imagen = lista.getImagen();
-            String path = pm.getProperty("pathImagenesLista");
+            String path = Configuracion.get("pathImagenesLista");
             BufferedImage img;
             if (imagen == null || imagen.isEmpty()) {
                 img = ImageIO.read(new File("Recursos/Imagenes/Listas/listaDefault.png"));
@@ -85,16 +83,16 @@ public class ListaReproduccionContenido extends javax.swing.JInternalFrame imple
             PanelImagen pImg = new PanelImagen(img);
             imagenPanel.add(pImg);
             pImg.setBounds(0, 0, 150, 150);
-            
+
         } catch (IOException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "No se pudo cargar la imagen de la lista");
         }
-        
+
         tablaTemas.getSelectionModel().addListSelectionListener(this);
-        
+
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -270,27 +268,27 @@ public class ListaReproduccionContenido extends javax.swing.JInternalFrame imple
             JOptionPane.showMessageDialog(this, "Debe de seleccionar un tema");
             return;
         }
-        
+
         String nombreTema = tablaTemas.getValueAt(tablaTemas.getSelectedRow(), 3).toString();
 
         //Descarga el tema seleccionado
         if (btnDescargar.getText().equals("Descargar")) {
-            
+
             JFileChooser seleccionarRuta = new JFileChooser();
             seleccionarRuta.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
             int o = seleccionarRuta.showOpenDialog(this);
-            
+
             if (o == JFileChooser.APPROVE_OPTION) {
                 try {
                     File carpetaSeleccionada = seleccionarRuta.getSelectedFile();
                     String rutaDescarga = carpetaSeleccionada.getAbsolutePath();
                     String rutaDCompleta = rutaDescarga + "\\" + nombreTema;
-                    String path = pm.getProperty("pathMusica");
+                    String path = Configuracion.get("pathMusica");
                     InputStream is = new FileInputStream(path + nombreTema);
                     OutputStream outstream = new FileOutputStream(rutaDCompleta);
                     byte[] buffer = new byte[4096];
                     int len;
-                    
+
                     if (is != null) {
                         while ((len = is.read(buffer)) > 0) {
                             outstream.write(buffer, 0, len);
@@ -305,7 +303,7 @@ public class ListaReproduccionContenido extends javax.swing.JInternalFrame imple
                     Logger.getLogger(AltaAlbum.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            
+
         } else {
             //Copia el link del tema el portapapeles
             Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
@@ -320,7 +318,7 @@ public class ListaReproduccionContenido extends javax.swing.JInternalFrame imple
             JOptionPane.showMessageDialog(this, "Debe de seleccionar un tema");
             return;
         }
-        
+
         String link = tablaTemas.getValueAt(tablaTemas.getSelectedRow(), 3).toString();
 
         //Abre el link del tema en el navegador
@@ -333,10 +331,10 @@ public class ListaReproduccionContenido extends javax.swing.JInternalFrame imple
                 JOptionPane.showMessageDialog(this, "No se pudo abrir el navegador", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
-        
+
 
     }//GEN-LAST:event_btnAbrirNavegadorActionPerformed
-    
+
     @Override
     public void valueChanged(ListSelectionEvent e) {
         if (tablaTemas.getValueAt(tablaTemas.getSelectedRow(), 0).toString().equals("A")) {

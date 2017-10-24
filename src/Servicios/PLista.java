@@ -11,7 +11,7 @@ import Logica.DtListaString;
 import Logica.Fabrica;
 import Logica.IContenido;
 import Logica.IUsuario;
-import Presentacion.PropertyManager;
+import Configuracion.Configuracion;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
@@ -26,7 +26,7 @@ import javax.xml.ws.Endpoint;
 public class PLista {
 
     private Endpoint endpoint = null;
-    PropertyManager properties;
+
 
     private IUsuario iUsuario;
     private IContenido iContenido;
@@ -35,17 +35,14 @@ public class PLista {
     String servicio;
 
     public PLista() {
-        properties = PropertyManager.getInstance();
         iUsuario = Fabrica.getIControladorUsuario();
         iContenido = Fabrica.getIControladorContenido();
-        this.ip = properties.getProperty("ip");
-        this.puerto = properties.getProperty("puerto");
-        this.servicio = "lista";
+
     }
 
     @WebMethod(exclude = true)
     public void publicar() {
-        endpoint = Endpoint.publish("http://" + ip + ":" + puerto + "/" + servicio, this);
+        endpoint = Endpoint.publish("http://" + Configuracion.get(ip)  + ":" + Configuracion.get(puerto) + "/" + Configuracion.get("PLista"), this);
 
     }
 

@@ -1,5 +1,6 @@
 package Presentacion;
 
+import Configuracion.Configuracion;
 import Logica.DtAlbum;
 import Logica.DtCliente;
 import Logica.DtLista;
@@ -11,17 +12,13 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-import javax.swing.JOptionPane;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 public class PerfilCliente extends javax.swing.JInternalFrame {
 
-    PropertyManager pm;
-
     public PerfilCliente(DtPerfilCliente dtPerfilCliente) {
         initComponents();
-        pm = PropertyManager.getInstance();
 
         txtNickname.setEnabled(true);
         txtNombre.setEnabled(true);
@@ -49,7 +46,7 @@ public class PerfilCliente extends javax.swing.JInternalFrame {
         // Cargar imagen
         try {
             String imagen = dtPerfilCliente.getInfo().getImagen();
-            String path = pm.getProperty("pathImagenesUsuario");
+            String path = Configuracion.get("pathImagenesUsuario");
             BufferedImage img;
 
             if (imagen == null || imagen.isEmpty()) {

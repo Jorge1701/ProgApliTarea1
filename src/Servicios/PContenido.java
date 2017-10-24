@@ -1,17 +1,16 @@
 package Servicios;
 
-import Logica.DtAlbum;
+import Configuracion.Configuracion;
 import Logica.DtAlbumContenido;
-import Logica.DtLista;
 import Logica.DtListaAlbum;
 import Logica.DtListaDeListas;
 import Logica.DtListaString;
+import Logica.DtListaTema;
 import Logica.DtTema;
 import Logica.DtUsuario;
 import Logica.Fabrica;
 import Logica.IContenido;
 import Logica.IUsuario;
-import Presentacion.PropertyManager;
 import java.util.ArrayList;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
@@ -21,31 +20,22 @@ import javax.jws.soap.SOAPBinding.Style;
 import javax.xml.ws.Endpoint;
 
 @WebService()
-@SOAPBinding(style = Style.RPC, parameterStyle = ParameterStyle.WRAPPED )
+@SOAPBinding(style = Style.RPC, parameterStyle = ParameterStyle.WRAPPED)
 public class PContenido {
 
     private Endpoint endpoint = null;
-    PropertyManager properties;
 
     private IUsuario iUsuario;
     private IContenido iContenido;
-    String ip;
-    String puerto;
-    String servicio;
 
     public PContenido() {
-        properties = PropertyManager.getInstance();
         iUsuario = Fabrica.getIControladorUsuario();
         iContenido = Fabrica.getIControladorContenido();
-        this.ip = properties.getProperty("ip");
-        this.puerto = properties.getProperty("puerto");
-        this.servicio = "contenido";
     }
 
     @WebMethod(exclude = true)
     public void publicar() {
-        endpoint = Endpoint.publish("http://" + ip + ":" + puerto + "/" + servicio, this);
-
+        endpoint = Endpoint.publish("http://" + Configuracion.get("ip") + ":" + Configuracion.get("puerto") + "/" + Configuracion.get("PContenido"), this);
     }
 
     @WebMethod(exclude = true)
@@ -116,13 +106,18 @@ public class PContenido {
     }
 
     @WebMethod
-    public void ingresarAlbum(String nombreA, int anio, ArrayList<String> ArrayDeGeneros, String imagen, ArrayList<DtTema> ArrayDeTemas) {
-        iContenido.ingresarAlbum(nombreA, anio, ArrayDeGeneros, "", ArrayDeTemas);
+    public void ingresarAlbum(String nombreA, int anio, DtListaString ArrayDeGeneros, String imagen, DtListaTema ArrayDeTemas) {
+        iContenido.ingresarAlbum(nombreA, anio, ArrayDeGeneros.getString(), "", ArrayDeTemas.getDtTemas());
     }
 
     @WebMethod
     public boolean publicarLista(String nickname, String nomLista) {
         return iContenido.publicarLista(nickname, nomLista);
+    }
+
+    @WebMethod
+    public DtListaTema importar(DtListaTema tema) {
+        return tema;
     }
 
 }

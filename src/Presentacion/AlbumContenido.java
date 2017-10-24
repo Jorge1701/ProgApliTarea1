@@ -1,5 +1,6 @@
 package Presentacion;
 
+import Configuracion.Configuracion;
 import Logica.DtAlbum;
 import Logica.DtAlbumContenido;
 import Logica.DtTema;
@@ -40,12 +41,10 @@ import javax.swing.table.TableRowSorter;
 public class AlbumContenido extends javax.swing.JInternalFrame implements ListSelectionListener {
 
     IUsuario iUsuario;
-    PropertyManager pm;
 
     public AlbumContenido(DtAlbumContenido dtac) {
         initComponents();
         iUsuario = Fabrica.getIControladorUsuario();
-        pm = PropertyManager.getInstance();
         btnAbrirNavegador.setVisible(false);
 
         tablaTemas.getColumnModel().getColumn(0).setMinWidth(0);
@@ -61,7 +60,7 @@ public class AlbumContenido extends javax.swing.JInternalFrame implements ListSe
         // Cargar imagen
         try {
             String imagen = dtac.getInfo().getImagen();
-            String path = pm.getProperty("pathImagenesAlbum");
+            String path = Configuracion.get("pathImagenesAlbum");
             BufferedImage img;
             if (imagen == null || imagen.isEmpty()) {
                 img = ImageIO.read(new File(path + "albumDefault.png"));
@@ -350,7 +349,7 @@ public class AlbumContenido extends javax.swing.JInternalFrame implements ListSe
                     File carpetaSeleccionada = seleccionarRuta.getSelectedFile();
                     String rutaDescarga = carpetaSeleccionada.getAbsolutePath();
                     String rutaDCompleta = rutaDescarga + "\\" + nombreTema;
-                    String path = pm.getProperty("pathMusica");
+                    String path = Configuracion.get("pathMusica");
                     InputStream is = new FileInputStream(path + nombreTema);
                     OutputStream outstream = new FileOutputStream(rutaDCompleta);
                     byte[] buffer = new byte[4096];

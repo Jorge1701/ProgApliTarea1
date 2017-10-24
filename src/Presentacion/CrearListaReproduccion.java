@@ -1,5 +1,6 @@
 package Presentacion;
 
+import Configuracion.Configuracion;
 import Logica.DtFecha;
 import Logica.DtGenero;
 import Logica.DtLista;
@@ -39,7 +40,6 @@ public class CrearListaReproduccion extends javax.swing.JInternalFrame {
     String pathImage;
     String nameImage;
     PanelImagen pImg;
-    PropertyManager pm;
 
     public CrearListaReproduccion() {
         initComponents();
@@ -52,8 +52,7 @@ public class CrearListaReproduccion extends javax.swing.JInternalFrame {
         archivoImg.setFileFilter(new FileNameExtensionFilter("Images files", "jpg", "png", "gif", "jpeg"));
         pathImage = null;
         nameImage = null;
-        pm = PropertyManager.getInstance();
-        cargarImagen(pm.getProperty("pathImagenesLista") + "listaDefault.png");
+        cargarImagen(Configuracion.get("pathImagenesLista") + "listaDefault.png");
     }
 
     private void mostrar() {
@@ -426,7 +425,7 @@ public class CrearListaReproduccion extends javax.swing.JInternalFrame {
                 return;
             }
             nickCliente = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 0).toString();
-            lista = new DtListaParticular(true, nombre.getText(), new ArrayList<>(), nameImage, actual,nickCliente);
+            lista = new DtListaParticular(true, nombre.getText(), new ArrayList<>(), nameImage, actual, nickCliente);
             System.out.println(lista.getNombre());// Agregar que se ingrese la imagen en el diseño.
             if (!iContenido.crearListaReproduccion(lista, nickCliente)) {
                 JOptionPane.showMessageDialog(this, "La lista que intenta ingresar ya existe", "Mensaje", JOptionPane.ERROR_MESSAGE);
@@ -440,7 +439,7 @@ public class CrearListaReproduccion extends javax.swing.JInternalFrame {
         this.btnListaDefecto.setSelected(true);
         pathImage = null;
         nameImage = null;
-        cargarImagen(pm.getProperty("pathImagenesLista") + "listaDefault.png");
+        cargarImagen(Configuracion.get("pathImagenesLista") + "listaDefault.png");
 
     }//GEN-LAST:event_btnAceptarActionPerformed
 
@@ -453,7 +452,7 @@ public class CrearListaReproduccion extends javax.swing.JInternalFrame {
             if (archivoImg.showOpenDialog(this) == 0) {
                 File arch = archivoImg.getSelectedFile();
                 nameImage = arch.getName();
-                pathImage = pm.getProperty("pathImagenesLista") + arch.getName();
+                pathImage = Configuracion.get("pathImagenesLista") + arch.getName();
                 //if (arch != null) {
                 InputStream is = new FileInputStream(arch);
                 OutputStream outstream = new FileOutputStream(new File(pathImage));

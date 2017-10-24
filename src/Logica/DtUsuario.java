@@ -2,17 +2,27 @@ package Logica;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "DtUsuario")
 public class DtUsuario {
 
-    private String nickname;
-    private String nombre;
-    private String apellido;
-    private String email;
-    private DtFecha fechaNac;
-    private String imagen;
-    private String contrasenia;
+    //@XmlElement(name = "nickname")
+    protected String nickname;
+    //@XmlElement(name = "nombre")
+    protected String nombre;
+    //@XmlElement(name = "apellido")
+    protected String apellido;
+    //@XmlElement(name = "email")
+    protected String email;
+    //@XmlElement(name = "fechaNac")
+    protected DtFecha fechaNac;
+    //@XmlElement(name = "imagen")
+    protected String imagen;
+    //@XmlElement(name = "contrasenia")
+    protected String contrasenia;
 
     public DtUsuario(String nickname, String nombre, String apellido, String email, DtFecha fechaNac, String imagen, String contrasenia) {
         this.nickname = nickname;

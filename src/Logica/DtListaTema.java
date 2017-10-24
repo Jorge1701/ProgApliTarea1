@@ -6,11 +6,14 @@
 package Logica;
 
 import java.util.ArrayList;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 
 /**
  *
  * @author brian
  */
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DtListaTema {
     
     private ArrayList<DtTema> DtTemas ;
