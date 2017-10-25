@@ -623,10 +623,10 @@ public class ControladorContenido implements IContenido {
     }
 
     @Override
-    public ArrayList<Object> buscar(String texto, String orden) {
+    public ArrayList<DtBuscado> buscar(String texto, String orden) {
         texto = texto.toLowerCase();
 
-        ArrayList<Object> resultados = new ArrayList<>();
+        ArrayList<DtBuscado> resultados = new ArrayList<>();
 
         ArrayList<DtUsuario> artistas = iUsuario.listarArtistas();
         for (DtUsuario dtu : artistas) {
@@ -705,7 +705,7 @@ public class ControladorContenido implements IContenido {
         }
     }
 
-    private ArrayList<Object> ordenarAlfabeticamente(ArrayList<Object> lista) {
+    private ArrayList<DtBuscado> ordenarAlfabeticamente(ArrayList<DtBuscado> lista) {
         Collections.sort(lista, new Comparator<Object>() {
             public int compare(Object o1, Object o2) {
                 return obtenerNombre(o1).compareTo(obtenerNombre(o2));
@@ -714,7 +714,7 @@ public class ControladorContenido implements IContenido {
         return lista;
     }
 
-    private ArrayList<Object> ordenarPorAnio(ArrayList<Object> lista) {
+    private ArrayList<DtBuscado> ordenarPorAnio(ArrayList<DtBuscado> lista) {
         Collections.sort(lista, new Comparator<Object>() {
             public int compare(Object o1, Object o2) {
                 if (obtenerAnio(o1) == obtenerAnio(o2)) {

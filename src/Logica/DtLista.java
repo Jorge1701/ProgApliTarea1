@@ -3,8 +3,13 @@ package Logica;
 import java.util.ArrayList;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.xml.bind.annotation.XmlType;
+
 @XmlAccessorType(XmlAccessType.FIELD)
-public class DtLista {
+@XmlType(name = "DtLista")
+@XmlSeeAlso({DtListaDefecto.class, DtListaParticular.class})
+public class DtLista extends DtBuscado {
 
     private final String nombre;
     private final ArrayList<DtTema> temas;
@@ -25,6 +30,8 @@ public class DtLista {
     public DtListaTema getArrayTemas() {
         return ArrayTemas;
     }
+
+
 
     public DtFecha getFecha() {
         return fecha;

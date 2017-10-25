@@ -5,9 +5,10 @@ import javax.xml.bind.annotation.XmlAccessOrder;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-
+@XmlType(name = "DtCliente")
 public class DtCliente extends DtUsuario {
 
     //@XmlElement(name = "suscripciones")

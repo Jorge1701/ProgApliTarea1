@@ -46,6 +46,6 @@ public interface IContenido {
     public boolean agregarDeAlbumTema(String nombreT, String nombreLista, String nombreUser, String artista, String album);
     public ArrayList<String> obtenerGeneros();
     
-    public ArrayList<Object> buscar(String texto, String orden);
+    public ArrayList<DtBuscado> buscar(String texto, String orden);
     public boolean ExisteAlbum(String nickArtista, String nomAlbum);
 }

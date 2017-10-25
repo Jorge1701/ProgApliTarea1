@@ -3,6 +3,7 @@ package Presentacion;
 import Configuracion.Configuracion;
 import Logica.Fabrica;
 import Servicios.PBuscador;
+import Servicios.PConsultaPerfil;
 import Servicios.PContenido;
 import Servicios.PDowloadFile;
 import Servicios.PFavorito;
@@ -13,6 +14,7 @@ import Servicios.PRegistro;
 import Servicios.PSeguir;
 import Servicios.PSesion;
 import Servicios.PSuscripcion;
+import Servicios.PUploadfile;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import javax.swing.JInternalFrame;
@@ -418,9 +420,13 @@ public class menu extends javax.swing.JFrame {
         favorito.publicar();
         PBuscador buscador = new PBuscador();
         buscador.publicar();
-
         PImagen imagen = new PImagen();
         imagen.publicar();
+        PUploadfile upload = new PUploadfile();
+        upload.publicar();
+        PConsultaPerfil consultaP = new PConsultaPerfil();
+        consultaP.publicar();
+        
         PDowloadFile dowloadfile = new PDowloadFile();
         dowloadfile.publicar();
 

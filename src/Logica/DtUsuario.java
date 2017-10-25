@@ -2,11 +2,12 @@ package Logica;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "DtUsuario")
+@XmlSeeAlso({DtCliente.class, DtArtista.class})
 public class DtUsuario {
 
     //@XmlElement(name = "nickname")

@@ -8,12 +8,15 @@ package Logica;
 import java.util.ArrayList;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  *
  * @author brian
  */
+
 @XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "DtListaDeListas")
 public class DtListaDeListas {
 
     public ArrayList<DtLista> getListas() {

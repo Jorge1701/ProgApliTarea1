@@ -1,6 +1,7 @@
 package Servicios;
 
 import Configuracion.Configuracion;
+import Logica.DtCliente;
 import Logica.DtListaString;
 import Logica.DtListaTema;
 import Logica.DtListaUsuarios;
@@ -63,6 +64,11 @@ public class PInicio {
     @WebMethod
     public DtUsuario getDataUsuario(String nickname) {                          //Funcion repetida en PRegistro
         return iUsuario.getDataUsuario(nickname);
+    }
+
+    @WebMethod
+    public DtCliente getDataCliente(String nickname) {
+        return iUsuario.getDataCliente(nickname);
     }
 
     @WebMethod

@@ -6,8 +6,6 @@ import Persistencia.BDUsuario;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.Map;
@@ -198,6 +196,16 @@ public class ControladorUsuario implements IUsuario {
         Usuario user = usuarios.get(nickUsuario);
         if (user != null) {
             return user.getData();
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public DtCliente getDataCliente(String nickname) {
+        Usuario usuario = usuarios.get(nickname);
+        if (usuario instanceof Cliente) {
+            return ((Cliente) usuario).getData();
         } else {
             return null;
         }
@@ -514,6 +522,16 @@ public class ControladorUsuario implements IUsuario {
             return false;
         } else {
             return true;
+        }
+    }
+
+    @Override
+    public boolean esCliente(String nickname) {
+        Usuario usuario = usuarios.get(nickname);
+        if (usuario instanceof Cliente) {
+            return true;
+        } else {
+            return false;
         }
     }
 
