@@ -5,7 +5,7 @@ import Logica.Fabrica;
 import Servicios.PBuscador;
 import Servicios.PConsultaPerfil;
 import Servicios.PContenido;
-import Servicios.PDowloadFile;
+import Servicios.PDownloadFile;
 import Servicios.PFavorito;
 import Servicios.PImagen;
 import Servicios.PInicio;
@@ -441,9 +441,11 @@ public class menu extends javax.swing.JFrame {
         PConsultaPerfil consultaP = new PConsultaPerfil();
         consultaP.publicar();
         
-        PDowloadFile dowloadfile = new PDowloadFile();
+        PDownloadFile dowloadfile = new PDownloadFile();
         dowloadfile.publicar();
-
+        
+        PLista lista  = new PLista();
+        lista.publicar();
         /*java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new menu().setVisible(true);
