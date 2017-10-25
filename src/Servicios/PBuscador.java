@@ -25,10 +25,7 @@ public class PBuscador {
 
     public PBuscador() {
         iContenido = Fabrica.getIControladorContenido();
-        objetos = new ArrayList<>();
     }
-
-    private ArrayList<DtBuscado> objetos;
 
     public void publicar() {
         endpoint = Endpoint.publish("http://" + Configuracion.get("ip") + ":" + Configuracion.get("puerto") + "/" + Configuracion.get("PBuscador"), this);

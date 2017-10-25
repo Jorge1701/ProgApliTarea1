@@ -374,7 +374,7 @@ public class CargaDatosPrueba {
                 String web = artistas.getString(7);
                 String imagen = artistas.getString(8);
                 String contrasenia = artistas.getString(9);
-                usuarios.add(new DtArtista(nickName, nombre, apellido, correo, dtFecha, imagen, biografia, web, contrasenia));
+                usuarios.add(new DtArtista(nickName, nombre, apellido, correo, dtFecha, imagen, biografia, web, contrasenia, true));
             }
 
             usuario.close();
@@ -882,7 +882,7 @@ public class CargaDatosPrueba {
                         web = info[3];
                     }
                 }
-                dtu = new DtArtista(nickName, nombre, apellido, correo, fecha, imagen, bio, web, encriptaEnMD5(usuario[9]));
+                dtu = new DtArtista(nickName, nombre, apellido, correo, fecha, imagen, bio, web, encriptaEnMD5(usuario[9]), true);
 
             } else {
                 for (String[] info : infoClientes) {

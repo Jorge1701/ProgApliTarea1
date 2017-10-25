@@ -65,7 +65,6 @@ public class BDUsuario {
     }
 
     public boolean ingresarUsuario(DtUsuario dtu) {
-
         String nickName = dtu.getNickname();
         String nombre = dtu.getNombre();
         String apellido = dtu.getApellido();
@@ -81,8 +80,7 @@ public class BDUsuario {
                 String biografia = ((DtArtista) dtu).getBiografia();
                 String web = ((DtArtista) dtu).getWeb();
 
-                PreparedStatement insertar = conexion.prepareStatement("INSERT INTO artista "
-                        + "(nickname, nombre, apellido,correo,fecha_nac,biografia,sitio_web,imagen,contrasenia) values(?,?,?,?,?,?,?,?,?)");
+                PreparedStatement insertar = conexion.prepareStatement("INSERT INTO artista (nickname, nombre, apellido,correo,fecha_nac,biografia,sitio_web,imagen,contrasenia, activo) values(?,?,?,?,?,?,?,?,?,?)");
                 insertar.setString(1, nickName);
                 insertar.setString(2, nombre);
                 insertar.setString(3, apellido);
@@ -96,6 +94,7 @@ public class BDUsuario {
                 insertar.setString(8, imagen);
                 // }
                 insertar.setString(9, contrasenia);
+                insertar.setString(10, ((DtArtista) dtu).estaActivo() ? "S" : "N");
                 insertar.executeUpdate();
                 insertar.close();
             } catch (SQLException ex) {

@@ -12,8 +12,9 @@ public class Artista extends Usuario {
     private String web;
     private HashMap<String, Album> albumes;
     private BDAlbum bdAlbum = null;
+    private boolean activo;
 
-    public Artista(String nickname, String nombre, String apellido, String email, DtFecha fechaNac, String imagen, String contrasenia, String biografia, String web) {
+    public Artista(String nickname, String nombre, String apellido, String email, DtFecha fechaNac, String imagen, String contrasenia, String biografia, String web, boolean activo) {
         super(nickname, nombre, apellido, email, fechaNac, imagen, contrasenia); //LLama al constructor de Usuario
         this.biografia = biografia;
         this.web = web;
@@ -89,13 +90,12 @@ public class Artista extends Usuario {
 
     @Override
     public String getTipo() {
-
         return "Artista";
     }
 
     @Override
     public DtArtista getData() {
-        return new DtArtista(getNickname(), getNombre(), getApellido(), getEmail(), getFechaNac(), getImagen(), getBiografia(), getWeb(), getContrasenia());
+        return new DtArtista(getNickname(), getNombre(), getApellido(), getEmail(), getFechaNac(), getImagen(), getBiografia(), getWeb(), getContrasenia(), estaActivo());
     }
 
     public String getBiografia() {
@@ -120,6 +120,18 @@ public class Artista extends Usuario {
 
     public void cargarAlbum(Album a) {
         albumes.put(a.getNombre(), a);
+    }
+
+    public boolean estaActivo() {
+        return activo;
+    }
+
+    public void activar() {
+        activo = true;
+    }
+
+    public void desactivar() {
+        activo = false;
     }
 
     public ArrayList<Album> getAlbumes() {
