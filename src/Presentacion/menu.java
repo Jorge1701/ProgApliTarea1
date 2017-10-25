@@ -14,6 +14,7 @@ import Servicios.PRegistro;
 import Servicios.PSeguir;
 import Servicios.PSesion;
 import Servicios.PSuscripcion;
+import Servicios.PTema;
 import Servicios.PUploadfile;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -406,24 +407,37 @@ public class menu extends javax.swing.JFrame {
 
         PRegistro registro = new PRegistro();
         registro.publicar();
+        
         PInicio inicio = new PInicio();
         inicio.publicar();
+        
         PContenido contenido = new PContenido();
         contenido.publicar();
+        
         PSuscripcion suscripcion = new PSuscripcion();
         suscripcion.publicar();
+        
         PSesion sesion = new PSesion();
         sesion.publicar();
+        
         PSeguir seguir = new PSeguir();
         seguir.publicar();
+        
         PFavorito favorito = new PFavorito();
         favorito.publicar();
+        
         PBuscador buscador = new PBuscador();
         buscador.publicar();
+        
         PImagen imagen = new PImagen();
         imagen.publicar();
+        
         PUploadfile upload = new PUploadfile();
         upload.publicar();
+        
+        PTema tema = new PTema();
+        tema.publicar();
+        
         PConsultaPerfil consultaP = new PConsultaPerfil();
         consultaP.publicar();
         
