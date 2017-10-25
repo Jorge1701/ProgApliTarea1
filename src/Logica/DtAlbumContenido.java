@@ -3,7 +3,12 @@ package Logica;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
 
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "DtAlbumContenido")
 public class DtAlbumContenido {
 
     private DtAlbum info;

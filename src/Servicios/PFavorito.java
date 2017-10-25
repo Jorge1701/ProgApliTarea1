@@ -4,6 +4,7 @@ import Configuracion.Configuracion;
 import Logica.DtAlbumContenido;
 import Logica.DtListaAlbum;
 import Logica.DtListaDeListas;
+import Logica.DtTema;
 import Logica.DtUsuario;
 import Logica.Fabrica;
 import Logica.IContenido;
@@ -95,5 +96,9 @@ public class PFavorito {
     @WebMethod
     public DtListaDeListas listarLisReproduccionGen(String nomGen) {
         return new DtListaDeListas(iContenido.listarLisReproduccionGen(nomGen));
+    }
+
+    @WebMethod
+    public void asd(DtTema dt) {
     }
 }

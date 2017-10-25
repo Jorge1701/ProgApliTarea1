@@ -3,6 +3,7 @@ package Presentacion;
 import Configuracion.Configuracion;
 import Logica.Fabrica;
 import Servicios.PBuscador;
+import Servicios.PConsultaPerfil;
 import Servicios.PContenido;
 import Servicios.PFavorito;
 import Servicios.PImagen;
@@ -418,7 +419,6 @@ public class menu extends javax.swing.JFrame {
         favorito.publicar();
         PBuscador buscador = new PBuscador();
         buscador.publicar();
-
         PImagen imagen = new PImagen();
         imagen.publicar();
         
