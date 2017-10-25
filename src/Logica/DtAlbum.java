@@ -2,9 +2,11 @@ package Logica;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class DtAlbum {
+@XmlType(name = "DtAlbum")
+public class DtAlbum extends DtBuscado {
 
     private String nickArtista;
     private String nombre;

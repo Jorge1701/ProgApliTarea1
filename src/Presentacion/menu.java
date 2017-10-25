@@ -3,6 +3,7 @@ package Presentacion;
 import Configuracion.Configuracion;
 import Logica.Fabrica;
 import Servicios.PBuscador;
+import Servicios.PConsultaPerfil;
 import Servicios.PContenido;
 import Servicios.PFavorito;
 import Servicios.PImagen;
@@ -421,6 +422,9 @@ public class menu extends javax.swing.JFrame {
         imagen.publicar();
         PUploadfile upload = new PUploadfile();
         upload.publicar();
+        PConsultaPerfil consultaP = new PConsultaPerfil();
+        consultaP.publicar();
+        
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

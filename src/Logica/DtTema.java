@@ -2,9 +2,13 @@ package Logica;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class DtTema {
+@XmlType(name = "DtTema")
+@XmlSeeAlso({DtTemaLocal.class, DtTemaRemoto.class})
+public class DtTema extends DtBuscado {
 
     private String nombre;
     private DtTime duracion;
