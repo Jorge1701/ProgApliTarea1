@@ -6,29 +6,35 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import javax.jws.WebMethod;
+import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
+import javax.jws.soap.SOAPBinding.Style;
 import javax.xml.ws.Endpoint;
 
+/**
+ *
+ * @author Luis
+ */
 @WebService
 @SOAPBinding(style = SOAPBinding.Style.RPC, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public class PUploadfile {
 
     private Endpoint endpoint = null;
 
+    public PUploadfile() {
+    }
+
     public void publicar() {
         endpoint = Endpoint.publish("http://" + Configuracion.get("ip") + ":" + Configuracion.get("puerto") + "/" + Configuracion.get("PUploadfile"), this);
     }
 
-    public PUploadfile() {
-
-    }
-
     @WebMethod
-    public boolean upload(String ubicacion, String filename, byte[] file) {
-        String path = "";
-        if (ubicacion != null) {
-            switch (ubicacion) {
+    public Boolean Uploadfile(byte[] archivo, String nombre, String recurso) throws Exception {
+
+        if (!nombre.equals("")) {
+            String path = null;
+            switch (recurso) {
                 case "registro":
                     path = Configuracion.get("pathImagenesUsuario");
                     break;
@@ -41,17 +47,23 @@ public class PUploadfile {
                 case "tema":
                     path = Configuracion.get("pathMusica");
                     break;
+                default:
+                    break;
             }
-        }
+            //
+            try {
 
-        try {
-            OutputStream outstream = new FileOutputStream(new File(path + filename));
-            byte[] buffer = file;
-            outstream.write(buffer, 0, file.length);
-            outstream.close();
-            return true;
-        } catch (IOException e) {
-            return false;
+                OutputStream stream = new FileOutputStream(new File(path + nombre));
+                byte[] buffer = archivo;
+                stream.write(buffer, 0, archivo.length);
+                stream.close();
+                return true;
+            } catch (IOException ex) {
+                return false;
+            }
+
         }
+        return false;
     }
+
 }

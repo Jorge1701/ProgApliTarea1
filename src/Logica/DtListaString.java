@@ -20,11 +20,11 @@ public class DtListaString {
         this.string = string;
     }
 
-    public ArrayList<String> getGeneros() {
+    public ArrayList<String> getString() {
         return string;
     }
 
-    public void setGeneros(ArrayList<String> string) {
+    public void setString(ArrayList<String> string) {
         this.string = string;
     }
 
