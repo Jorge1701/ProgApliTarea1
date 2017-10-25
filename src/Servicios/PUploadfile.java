@@ -1,7 +1,10 @@
 package Servicios;
 
 import Configuracion.Configuracion;
+import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
@@ -27,27 +30,38 @@ public class PUploadfile {
     }
 
     @WebMethod
-    public Boolean Uploadfile(@WebParam(name = "archivo") byte[] archivo, @WebParam(name = "filename") String nombre, @WebParam(name = "recurso") String recurso) throws Exception {
+    public Boolean Uploadfile(byte[] archivo, String nombre, String recurso) throws Exception {
 
         if (!nombre.equals("")) {
             String path = null;
-            if (recurso.equals("Usuario")) {
-                path = Configuracion.get("pathImagenesUsuario");
-
-            } else if (recurso.equals("Album")) {
-                path = Configuracion.get("pathImagenesAlbum");
-            } else if (recurso.equals("Lista")) {
-                path = Configuracion.get("pathImagenesLista");
-
+            switch (recurso) {
+                case "registro":
+                    path = Configuracion.get("pathImagenesUsuario");
+                    break;
+                case "album":
+                    path = Configuracion.get("pathImagenesAlbum");
+                    break;
+                case "lista":
+                    path = Configuracion.get("pathImagenesLista");
+                    break;
+                case "tema":
+                    path = Configuracion.get("pathMusica");
+                    break;
+                default:
+                    break;
             }
             //
-            FileOutputStream stream = new FileOutputStream(path + nombre);
             try {
-                stream.write(archivo);
-            } finally {
+
+                OutputStream stream = new FileOutputStream(new File(path + nombre));
+                byte[] buffer = archivo;
+                stream.write(buffer, 0, archivo.length);
                 stream.close();
                 return true;
+            } catch (IOException ex) {
+                return false;
             }
+
         }
         return false;
     }

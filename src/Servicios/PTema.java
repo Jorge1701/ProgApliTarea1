@@ -9,8 +9,6 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.xml.ws.Endpoint;
 
-
-
 @WebService
 @SOAPBinding(style = SOAPBinding.Style.RPC, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public class PTema {
@@ -18,7 +16,6 @@ public class PTema {
     private Endpoint endpoint = null;
 
     public PTema() {
-
     }
 
     public void publicar() {
@@ -26,10 +23,10 @@ public class PTema {
     }
 
     @WebMethod
-    public byte[] getFile(@WebParam(name = "audio")String name) throws Exception {
+    public byte[] getAudio(@WebParam(name = "audio")String audio) throws Exception {
         byte[] byteArray = null;
         try {
-            File f = new File(Configuracion.get("PathMusica") + name);
+            File f = new File(Configuracion.get("PathMusica") + audio);
             FileInputStream streamer = new FileInputStream(f);
             byteArray = new byte[streamer.available()];
             streamer.read(byteArray);
