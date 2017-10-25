@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
  *
  * @author brian
  */
-@XmlAccessorType(XmlAccessType.PUBLIC_MEMBER)
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DtListaDeListas {
 
     public ArrayList<DtLista> getListas() {

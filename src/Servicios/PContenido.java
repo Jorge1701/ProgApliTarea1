@@ -7,6 +7,8 @@ import Logica.DtListaDeListas;
 import Logica.DtListaString;
 import Logica.DtListaTema;
 import Logica.DtTema;
+import Logica.DtTemaLocal;
+import Logica.DtTemaRemoto;
 import Logica.DtUsuario;
 import Logica.Fabrica;
 import Logica.IContenido;
@@ -19,28 +21,22 @@ import javax.jws.soap.SOAPBinding.ParameterStyle;
 import javax.jws.soap.SOAPBinding.Style;
 import javax.xml.ws.Endpoint;
 
-@WebService()
-@SOAPBinding(style = Style.RPC, parameterStyle = ParameterStyle.WRAPPED)
+@WebService
+@SOAPBinding(style = Style.RPC)
 public class PContenido {
 
     private Endpoint endpoint = null;
 
-    private IUsuario iUsuario;
-    private IContenido iContenido;
+    IUsuario iUsuario;
+    IContenido iContenido;
 
     public PContenido() {
         iUsuario = Fabrica.getIControladorUsuario();
         iContenido = Fabrica.getIControladorContenido();
     }
 
-    @WebMethod(exclude = true)
     public void publicar() {
         endpoint = Endpoint.publish("http://" + Configuracion.get("ip") + ":" + Configuracion.get("puerto") + "/" + Configuracion.get("PContenido"), this);
-    }
-
-    @WebMethod(exclude = true)
-    public Endpoint getEndpoint() {
-        return endpoint;
     }
 
     @WebMethod
@@ -116,8 +112,17 @@ public class PContenido {
     }
 
     @WebMethod
-    public DtListaTema importar(DtListaTema tema) {
-        return tema;
+    public void DtListaTema(DtListaTema tema) {
+
     }
 
+    @WebMethod
+    public void DtTemaLocal(DtTemaLocal tema) {
+
+    }
+
+    @WebMethod
+    public void DtTemaRemoto(DtTemaRemoto tema) {
+
+    }
 }

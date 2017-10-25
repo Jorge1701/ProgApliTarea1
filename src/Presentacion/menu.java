@@ -4,6 +4,7 @@ import Configuracion.Configuracion;
 import Logica.Fabrica;
 import Servicios.PBuscador;
 import Servicios.PContenido;
+import Servicios.PDowloadFile;
 import Servicios.PFavorito;
 import Servicios.PImagen;
 import Servicios.PInicio;
@@ -420,6 +421,8 @@ public class menu extends javax.swing.JFrame {
 
         PImagen imagen = new PImagen();
         imagen.publicar();
+        PDowloadFile dowloadfile = new PDowloadFile();
+        dowloadfile.publicar();
 
         /*java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
