@@ -30,10 +30,7 @@ public class PLista {
 
     private IUsuario iUsuario;
     private IContenido iContenido;
-    String ip;
-    String puerto;
-    String servicio;
-
+ 
     public PLista() {
         iUsuario = Fabrica.getIControladorUsuario();
         iContenido = Fabrica.getIControladorContenido();
@@ -42,7 +39,7 @@ public class PLista {
 
     @WebMethod(exclude = true)
     public void publicar() {
-        endpoint = Endpoint.publish("http://" + Configuracion.get(ip)  + ":" + Configuracion.get(puerto) + "/" + Configuracion.get("PLista"), this);
+        endpoint = Endpoint.publish("http://" + Configuracion.get("ip")  + ":" + Configuracion.get("puerto") + "/" + Configuracion.get("PLista"), this);
 
     }
 

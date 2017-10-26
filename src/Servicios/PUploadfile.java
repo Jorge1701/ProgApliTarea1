@@ -1,3 +1,4 @@
+
 package Servicios;
 
 import Configuracion.Configuracion;
@@ -6,18 +7,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import javax.jws.WebMethod;
-import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
-import javax.jws.soap.SOAPBinding.Style;
 import javax.xml.ws.Endpoint;
 
-/**
- *
- * @author Luis
- */
+
 @WebService
-@SOAPBinding(style = SOAPBinding.Style.RPC, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
+@SOAPBinding(style = SOAPBinding.Style.RPC)
 public class PUploadfile {
 
     private Endpoint endpoint = null;

@@ -25,20 +25,20 @@ import javax.xml.ws.Endpoint;
  */
 @WebService
 @SOAPBinding(style = SOAPBinding.Style.RPC)
-public class PDowloadFile {
+public class PDownloadFile {
 
     private Endpoint endpoint = null;
 
     IUsuario iUsuario;
     IContenido iContenido;
 
-    public PDowloadFile() {
+    public PDownloadFile() {
         this.iUsuario = Fabrica.getIControladorUsuario();
         this.iContenido = Fabrica.getIControladorContenido();
     }
 
     public void publicar() {
-        endpoint = Endpoint.publish("http://" + Configuracion.get("ip") + ":" + Configuracion.get("puerto") + "/" + Configuracion.get("PDowloadFile"), this);
+        endpoint = Endpoint.publish("http://" + Configuracion.get("ip") + ":" + Configuracion.get("puerto") + "/" + Configuracion.get("PDownloadFile"), this);
     }
 
     @WebMethod
