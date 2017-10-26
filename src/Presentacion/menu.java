@@ -407,50 +407,50 @@ public class menu extends javax.swing.JFrame {
 
         PRegistro registro = new PRegistro();
         registro.publicar();
-        
+
         PInicio inicio = new PInicio();
         inicio.publicar();
-        
+
         PContenido contenido = new PContenido();
         contenido.publicar();
-        
+
         PSuscripcion suscripcion = new PSuscripcion();
         suscripcion.publicar();
-        
+
         PSesion sesion = new PSesion();
         sesion.publicar();
-        
+
         PSeguir seguir = new PSeguir();
         seguir.publicar();
-        
+
         PFavorito favorito = new PFavorito();
         favorito.publicar();
-        
+
         PBuscador buscador = new PBuscador();
         buscador.publicar();
-        
+
         PImagen imagen = new PImagen();
         imagen.publicar();
-        
+
         PUploadfile upload = new PUploadfile();
         upload.publicar();
-        
+
         PTema tema = new PTema();
         tema.publicar();
-        
+
         PConsultaPerfil consultaP = new PConsultaPerfil();
         consultaP.publicar();
-        
+
         PDownloadFile dowloadfile = new PDownloadFile();
         dowloadfile.publicar();
-        
-        PLista lista  = new PLista();
+
+        PLista lista = new PLista();
         lista.publicar();
-        /*java.awt.EventQueue.invokeLater(new Runnable() {
+        java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new menu().setVisible(true);
             }
-        });*/
+        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

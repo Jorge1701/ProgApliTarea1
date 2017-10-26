@@ -6,6 +6,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 @XmlAccessorType(XmlAccessType.FIELD)
 public interface IUsuario {
     
+    public Usuario soloDesdeFabricaObtenerUsuario(String nick);
+    
     public void reiniciar();
     
     public void desactivar(String nickname);
@@ -24,7 +26,6 @@ public interface IUsuario {
     public DtCliente getDataCliente(String nickname);
     public void seguirUsuario(String nickC, String nickU);
     public void dejarSeguirUsuario(String nickSeguidor, String nickUsuario);
-    public void cargarUsuarios();
     public ArrayList<DtAlbum> listarAlbumesArtista(String nickArtista);
     public DtAlbumContenido obtenerAlbumContenido(String nickArt, String nomAlbum);
     public ArrayList<DtCliente> listarSeguidoresDe(String nickUsuario);

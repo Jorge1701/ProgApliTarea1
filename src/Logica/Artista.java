@@ -18,6 +18,7 @@ public class Artista extends Usuario {
         super(nickname, nombre, apellido, email, fechaNac, imagen, contrasenia); //LLama al constructor de Usuario
         this.biografia = biografia;
         this.web = web;
+        this.activo = activo;
         this.albumes = new HashMap();
     }
 
@@ -70,7 +71,7 @@ public class Artista extends Usuario {
         } else {
 
             //Album album = new Album(super.getNickname(), nom, anio, null, temas, generos);
-            Album album = new Album(super.getNickname(), nom, anio, img, temas, generos);
+            Album album = new Album(this, super.getNickname(), nom, anio, img, temas, generos);
             bdAlbum = new BDAlbum();
 
             boolean res = this.bdAlbum.altaAlbum(album);

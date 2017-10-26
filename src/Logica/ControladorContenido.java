@@ -1,6 +1,5 @@
 package Logica;
 
-//import Persistencia.BDUsuario;
 import Persistencia.BDCliente;
 import Persistencia.BDGenero;
 import Persistencia.BDLista;
@@ -13,6 +12,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ControladorContenido implements IContenido {
 

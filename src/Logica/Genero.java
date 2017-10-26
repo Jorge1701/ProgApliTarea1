@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.Map;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Genero {
 
@@ -54,10 +55,6 @@ public class Genero {
 
             return existe;
         }
-    }
-
-    public void setAlbumes(ArrayList<Album> albumes) {
-        this.albumes = albumes;
     }
 
     public void setListasDefecto(HashMap<String, ListaDefecto> listasDefecto) {
@@ -125,7 +122,9 @@ public class Genero {
     public ArrayList<DtAlbum> obtenerAlbumes() {
         ArrayList<DtAlbum> res = new ArrayList<>();
         for (Album a : albumes) {
-            res.add(new DtAlbum(a.getNickArtista(), a.getNombre(), a.getAnio(), a.getImagen()));
+            if (a.getArtista().estaActivo()) {
+                res.add(new DtAlbum(a.getNickArtista(), a.getNombre(), a.getAnio(), a.getImagen()));
+            }
         }
         return res;
     }
@@ -148,7 +147,7 @@ public class Genero {
 
     public DtAlbumContenido obtenerAlbumContenido(String nomAlbum, String nickArtista) {
         for (Album album : albumes) {
-            if (album.getNickArtista().equals(nickArtista) && album.getNombre().equals(nomAlbum)) {
+            if (album.getNickArtista().equals(nickArtista) && album.getNombre().equals(nomAlbum) && album.getArtista().estaActivo()) {
                 return album.obtenerAlbumContenido();
             }
         }

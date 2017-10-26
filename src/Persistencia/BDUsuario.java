@@ -79,6 +79,7 @@ public class BDUsuario {
             try {
                 String biografia = ((DtArtista) dtu).getBiografia();
                 String web = ((DtArtista) dtu).getWeb();
+                String activo = ((DtArtista) dtu).estaActivo() ? "S" : "N";
 
                 PreparedStatement insertar = conexion.prepareStatement("INSERT INTO artista (nickname, nombre, apellido,correo,fecha_nac,biografia,sitio_web,imagen,contrasenia, activo) values(?,?,?,?,?,?,?,?,?,?)");
                 insertar.setString(1, nickName);
@@ -94,7 +95,7 @@ public class BDUsuario {
                 insertar.setString(8, imagen);
                 // }
                 insertar.setString(9, contrasenia);
-                insertar.setString(10, ((DtArtista) dtu).estaActivo() ? "S" : "N");
+                insertar.setString(10, activo);
                 insertar.executeUpdate();
                 insertar.close();
             } catch (SQLException ex) {

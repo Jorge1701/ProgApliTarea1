@@ -73,8 +73,21 @@ public class ControladorUsuario implements IUsuario {
     }
 
     @Override
-    public Usuario obtenerUsuario(String nick) {
+    public Usuario soloDesdeFabricaObtenerUsuario(String nick) {
         return usuarios.get(nick);
+    }
+
+    @Override
+    public Usuario obtenerUsuario(String nick) {
+        Usuario u = usuarios.get(nick);
+
+        if (u instanceof Artista) {
+            if (!((Artista) u).estaActivo()) {
+                return null;
+            }
+        }
+
+        return u;
     }
 
     @Override
@@ -87,6 +100,12 @@ public class ControladorUsuario implements IUsuario {
 
         if (!(us instanceof Artista)) {
             throw new UnsupportedOperationException("Este usuario no es un Artista");
+        }
+
+        if (us instanceof Artista) {
+            if (!((Artista) us).estaActivo()) {
+                return null;
+            }
         }
 
         return (Artista) us;
@@ -138,7 +157,18 @@ public class ControladorUsuario implements IUsuario {
         Iterator i = usuarios.entrySet().iterator();
         while (i.hasNext()) {
             Usuario u = (Usuario) ((Map.Entry) i.next()).getValue();
-            dtUsuarios.add(u.getData());
+
+            boolean artDes = false;
+
+            if (u instanceof Artista) {
+                if (!((Artista) u).estaActivo()) {
+                    artDes = true;
+                }
+            }
+
+            if (!artDes) {
+                dtUsuarios.add(u.getData());
+            }
         }
 
         return dtUsuarios;
@@ -169,7 +199,9 @@ public class ControladorUsuario implements IUsuario {
             Usuario u = (Usuario) ((Map.Entry) i.next()).getValue();
 
             if (u instanceof Artista) {
-                artistas.add(u.getData());
+                if (((Artista) u).estaActivo()) {
+                    artistas.add(u.getData());
+                }
             }
         }
 
@@ -179,12 +211,19 @@ public class ControladorUsuario implements IUsuario {
     @Override
     public DtPerfilUsuario obtenerPerfilArtista(String nickArtista) {
         Usuario u = usuarios.get(nickArtista);
+
         if (u == null) {
             throw new UnsupportedOperationException("El Artista " + nickArtista + " no existe");
         }
 
         if (!(u instanceof Artista)) {
             throw new UnsupportedOperationException("Este usuario no es un artista");
+        }
+
+        if (u instanceof Artista) {
+            if (!((Artista) u).estaActivo()) {
+                throw new UnsupportedOperationException("El Artista " + nickArtista + " no existe");
+            }
         }
 
         return ((Artista) u).obtenerPerfil();
@@ -209,6 +248,13 @@ public class ControladorUsuario implements IUsuario {
     @Override
     public DtUsuario getDataUsuario(String nickUsuario) {
         Usuario user = usuarios.get(nickUsuario);
+
+        if (user instanceof Artista) {
+            if (!((Artista) user).estaActivo()) {
+                return null;
+            }
+        }
+
         if (user != null) {
             return user.getData();
         } else {
@@ -268,6 +314,12 @@ public class ControladorUsuario implements IUsuario {
             throw new UnsupportedOperationException("Usuario no es un artista");
         }
 
+        if (usuario instanceof Artista) {
+            if (!((Artista) usuario).estaActivo()) {
+                throw new UnsupportedOperationException("Artista no existe");
+            }
+        }
+
         return ((Artista) usuario).obtenerAlbumes();
     }
 
@@ -281,17 +333,18 @@ public class ControladorUsuario implements IUsuario {
             throw new UnsupportedOperationException("Usuario no es un artista");
         }
 
+        if (usuario instanceof Artista) {
+            if (!((Artista) usuario).estaActivo()) {
+                throw new UnsupportedOperationException("Artista no existe");
+            }
+        }
+
         DtAlbumContenido dt = ((Artista) usuario).obtenerAlbumContenido(nomAlbum);
         if (dt == null) {
             throw new UnsupportedOperationException("Album no existe");
         }
 
         return dt;
-    }
-
-    @Override
-    public void cargarUsuarios() {
-
     }
 
     public Usuario getUsuario(String nick) {
@@ -310,7 +363,6 @@ public class ControladorUsuario implements IUsuario {
     public ArrayList<DtUsuario> listarSeguidosDe(String nickCliente) {
         Cliente c = (Cliente) usuarios.get(nickCliente);
         return c.obtenerSeguidos();
-
     }
 
     @Override

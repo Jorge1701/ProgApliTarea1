@@ -358,7 +358,7 @@ public class CargaDatosPrueba {
         try {
             ArrayList<DtUsuario> usuarios = new ArrayList<>();
 
-            PreparedStatement usuario = conexion.prepareStatement("SELECT nickname, nombre, apellido, correo, fecha_nac, biografia, sitio_web, imagen, contrasenia FROM artista");
+            PreparedStatement usuario = conexion.prepareStatement("SELECT nickname, nombre, apellido, correo, fecha_nac, biografia, sitio_web, imagen, contrasenia, activo FROM artista");
             ResultSet artistas = usuario.executeQuery();
 
             while (artistas.next()) {
@@ -374,7 +374,8 @@ public class CargaDatosPrueba {
                 String web = artistas.getString(7);
                 String imagen = artistas.getString(8);
                 String contrasenia = artistas.getString(9);
-                usuarios.add(new DtArtista(nickName, nombre, apellido, correo, dtFecha, imagen, biografia, web, contrasenia, true));
+                boolean activo = artistas.getString(10).equals("S");
+                usuarios.add(new DtArtista(nickName, nombre, apellido, correo, dtFecha, imagen, biografia, web, contrasenia, activo));
             }
 
             usuario.close();
@@ -1340,7 +1341,6 @@ public class CargaDatosPrueba {
                     estado = info[1];
                     String[] arreglo = info[3].split("/");
                     fecha = new DtFecha(Integer.parseInt(arreglo[0]), Integer.parseInt(arreglo[1]), Integer.parseInt(arreglo[2]));
-                    System.out.println("Fecha: " + fecha.toString());
                     Calendar c = new GregorianCalendar(fecha.getAnio(), fecha.getMes() - 1, fecha.getDia());
 
                     if (info[2].equals("Semanal")) {
@@ -1394,7 +1394,6 @@ public class CargaDatosPrueba {
     // Borrar todos los datos de la BD
     public boolean borrarTodosLosDatos() {
         try {
-            System.out.println("Persistencia.CargaDatosPrueba.borrarTodosLosDatos()");
             PreparedStatement query = conexion.prepareStatement("SHOW TABLES");
 
             ResultSet tablas = query.executeQuery();
