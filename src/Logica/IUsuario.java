@@ -64,4 +64,6 @@ public interface IUsuario {
     public boolean chequearSuscripcion(String nickname);
     public boolean renovarSuscripcion(String nickname,String estado,String cuota,String fecha,String fecha_venc,DtFecha cambio);
     public boolean cancelarSuscripcion(String nickname, String previo,String cuota ,String fecha,String fecha_venc,DtFecha hoy);
+    
+    public DtListaRanking obtenerRanking();
 }

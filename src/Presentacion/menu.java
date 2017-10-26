@@ -5,11 +5,13 @@ import Logica.Fabrica;
 import Servicios.PBuscador;
 import Servicios.PConsultaPerfil;
 import Servicios.PContenido;
+import Servicios.PDesactivarArtista;
 import Servicios.PDownloadFile;
 import Servicios.PFavorito;
 import Servicios.PImagen;
 import Servicios.PInicio;
 import Servicios.PLista;
+import Servicios.PRanking;
 import Servicios.PRegistro;
 import Servicios.PSeguir;
 import Servicios.PSesion;
@@ -38,6 +40,8 @@ public class menu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
         PanelMenu = new javax.swing.JDesktopPane();
         barra = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -62,6 +66,10 @@ public class menu extends javax.swing.JFrame {
         eliminarTLA = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         cargarDatos = new javax.swing.JMenuItem();
+
+        jMenuItem2.setText("jMenuItem2");
+
+        jMenuItem3.setText("jMenuItem3");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Espotify");
@@ -446,6 +454,12 @@ public class menu extends javax.swing.JFrame {
 
         PLista lista = new PLista();
         lista.publicar();
+
+        PRanking ranking = new PRanking();
+        ranking.publicar();
+
+        new PDesactivarArtista().publicar();
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new menu().setVisible(true);
@@ -475,6 +489,8 @@ public class menu extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem publicarLista;
     private javax.swing.JMenuItem quitarTemaLista;
     private javax.swing.JMenuItem seguirUsuario;
