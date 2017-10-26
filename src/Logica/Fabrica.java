@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Fabrica {
 
@@ -54,8 +55,8 @@ public class Fabrica {
         }
 
         for (String[] r : relaciones) {
-            Usuario cliente = iu.obtenerUsuario(r[0]);
-            Usuario usuario = iu.obtenerUsuario(r[1]);
+            Usuario cliente = iu.soloDesdeFabricaObtenerUsuario(r[0]);
+            Usuario usuario = iu.soloDesdeFabricaObtenerUsuario(r[1]);
             ((Cliente) cliente).agregar(usuario);
         }
 
@@ -74,7 +75,7 @@ public class Fabrica {
         // Cargar Albumes
         ArrayList<DtAlbum> dtas = cdp.cargarAlbumes();
         for (DtAlbum dta : dtas) {
-            Album a = new Album(dta.getNickArtista(), dta.getNombre(), dta.getAnio(), dta.getImagen());
+            Album a = new Album((Artista) iu.soloDesdeFabricaObtenerUsuario(dta.getNickArtista()), dta.getNickArtista(), dta.getNombre(), dta.getAnio(), dta.getImagen());
 
             // Cargar Generos del album
             ArrayList<Genero> albumGeneros = new ArrayList<>();
@@ -109,11 +110,10 @@ public class Fabrica {
             ArrayList<Tema> temas = new ArrayList<>();
 
             for (String[] dtt : cdp.cargarTemasLista(Integer.parseInt(lista[0]))) {
-                temas.add(((Artista) iu.obtenerUsuario(dtt[0])).getAlbum(dtt[1]).getTema(dtt[2]));
+                temas.add(((Artista) iu.soloDesdeFabricaObtenerUsuario(dtt[0])).getAlbum(dtt[1]).getTema(dtt[2]));
             }
 
             DtFecha fecha = new DtFecha(Integer.valueOf(lista[6]), Integer.valueOf(lista[7]), Integer.valueOf(lista[8]));
-
             iu.cargarLista(new ListaParticular(lista[5], lista[3].equals("N") ? true : false, lista[1], temas, lista[4], fecha), lista[2]);
         }
 
@@ -124,7 +124,7 @@ public class Fabrica {
             ArrayList<Tema> temas = new ArrayList();
 
             for (String[] dtt : cdp.cargarTemasLista(Integer.parseInt(lista[0]))) {
-                temas.add(((Artista) iu.obtenerUsuario(dtt[0])).getAlbum(dtt[1]).getTema(dtt[2]));
+                temas.add(((Artista) iu.soloDesdeFabricaObtenerUsuario(dtt[0])).getAlbum(dtt[1]).getTema(dtt[2]));
             }
 
             DtFecha fecha = new DtFecha(Integer.valueOf(lista[4]), Integer.valueOf(lista[5]), Integer.valueOf(lista[6]));
@@ -138,12 +138,13 @@ public class Fabrica {
             String nombreAlbum = albumesF[0];
             String nickCliente = albumesF[1];
             String nickArtista = albumesF[2];
-            Usuario cliente = iu.obtenerUsuario(nickCliente);
-            Usuario artista = iu.obtenerUsuario(nickArtista);
+            Usuario cliente = iu.soloDesdeFabricaObtenerUsuario(nickCliente);
+            Usuario artista = iu.soloDesdeFabricaObtenerUsuario(nickArtista);
             Album a = ((Artista) artista).getAlbum(nombreAlbum);
             ((Cliente) cliente).agregarAlbumFav(a);
 
         }
+
         //Cargar Temas Favoritos 
         ArrayList<String[]> temasFavoritos = cdp.cargaTemasFavoritos();
         for (String[] temasF : temasFavoritos) {
@@ -151,8 +152,8 @@ public class Fabrica {
             String nombreTema = temasF[1];
             String nombreAlbum = temasF[2];
             String nicknameArtista = temasF[3];
-            Usuario cliente = iu.obtenerUsuario(nicknameCliente);
-            Usuario artista = iu.obtenerUsuario(nicknameArtista);
+            Usuario cliente = iu.soloDesdeFabricaObtenerUsuario(nicknameCliente);
+            Usuario artista = iu.soloDesdeFabricaObtenerUsuario(nicknameArtista);
             Tema t = ((Artista) artista).getAlbum(nombreAlbum).getTema(nombreTema);
             ((Cliente) cliente).agregarTemaFav(t);
         }
@@ -164,8 +165,8 @@ public class Fabrica {
             String nicknameCreador = listasF[1];
             String nombreLista = listasF[2];
 
-            Usuario creador = iu.obtenerUsuario(nicknameCreador);
-            Usuario cliente = iu.obtenerUsuario(nicknameCliente);
+            Usuario creador = iu.soloDesdeFabricaObtenerUsuario(nicknameCreador);
+            Usuario cliente = iu.soloDesdeFabricaObtenerUsuario(nicknameCliente);
             Lista l = ((Cliente) creador).getLista(nombreLista);
             ((Cliente) cliente).agregarListaFav(l);
         }
@@ -175,7 +176,7 @@ public class Fabrica {
             String nombreGenero = listasF[1];
             String nombreLista = listasF[2];
 
-            Usuario cliente = iu.obtenerUsuario(nicknameCliente);
+            Usuario cliente = iu.soloDesdeFabricaObtenerUsuario(nicknameCliente);
             Genero g = ic.obtenerGenero(nombreGenero);
             Lista l = ((Genero) g).getListaDefecto(nombreLista);
             ((Cliente) cliente).agregarListaFav(l);
@@ -201,7 +202,7 @@ public class Fabrica {
             }
             String[] arreglo = fecha.split("-");
 
-            Cliente cli = (Cliente) iu.obtenerUsuario(nick);
+            Cliente cli = (Cliente) iu.soloDesdeFabricaObtenerUsuario(nick);
             cli.cargarSuscripcion(new Suscripcion(estado, cuota, arreglo2 == null ? null : new DtFecha(Integer.parseInt(arreglo2[2]), Integer.parseInt(arreglo2[1]), Integer.parseInt(arreglo2[0])), new DtFecha(Integer.parseInt(arreglo[2]), Integer.parseInt(arreglo[1]), Integer.parseInt(arreglo[0])), monto));
         }
     }

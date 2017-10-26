@@ -218,7 +218,7 @@ public class Cliente extends Usuario {
     public DtPerfilUsuario obtenerPerfil() {
         DtUsuario info = getData();
         ArrayList<DtCliente> dtSeguidores = getSeguidores();
-        ArrayList<DtUsuario> dtSeguidos = new ArrayList<>();
+        ArrayList<DtUsuario> dtSeguidos = obtenerSeguidos();
         ArrayList<DtListaParticular> dtListasCreadas = new ArrayList<>();
         ArrayList<DtAlbum> dtAlbumes = new ArrayList<>();
         ArrayList<DtLista> dtListas = new ArrayList<>();
@@ -240,12 +240,6 @@ public class Cliente extends Usuario {
 
         for (Tema t : this.temasfav) {
             dtTemas.add(t.getData());
-        }
-
-        Iterator i2 = this.seguidos.entrySet().iterator();
-        while (i2.hasNext()) {
-            Usuario u = (Usuario) ((Map.Entry) i2.next()).getValue();
-            dtSeguidos.add(u.getData());
         }
 
         return new DtPerfilCliente(dtSeguidos, dtListasCreadas, dtAlbumes, dtListas, dtTemas, info, dtSeguidores);
@@ -325,15 +319,15 @@ public class Cliente extends Usuario {
         Iterator it = listasParticulares.entrySet().iterator();
         while (it.hasNext()) {
             ListaParticular lp = (ListaParticular) ((Map.Entry) it.next()).getValue();
-            res.add(new DtListaParticular(lp.isPrivada(), lp.getNombre(), lp.getTemas(), lp.getImagen(), lp.getFecha(),lp.getDuenio()));
-            
+            res.add(new DtListaParticular(lp.isPrivada(), lp.getNombre(), lp.getTemas(), lp.getImagen(), lp.getFecha(), lp.getDuenio()));
+
         }
         return res;
     }
 
     public DtLista seleccionarLista(String nombreL) {
         ListaParticular lp = listasParticulares.get(nombreL);
-        return new DtListaParticular(lp.isPrivada(), lp.getNombre(), lp.getTemas(), lp.getImagen(), lp.getFecha(),lp.getDuenio());
+        return new DtListaParticular(lp.isPrivada(), lp.getNombre(), lp.getTemas(), lp.getImagen(), lp.getFecha(), lp.getDuenio());
     }
 
     public ArrayList<DtUsuario> obtenerSeguidos() {
@@ -342,7 +336,18 @@ public class Cliente extends Usuario {
         Iterator it = seguidos.entrySet().iterator();
         while (it.hasNext()) {
             Usuario u = (Usuario) ((Map.Entry) it.next()).getValue();
-            dtu.add(u.getData());
+
+            boolean artDes = false;
+
+            if (u instanceof Artista) {
+                if (!((Artista) u).estaActivo()) {
+                    artDes = true;
+                }
+            }
+
+            if (!artDes) {
+                dtu.add(u.getData());
+            }
         }
         return dtu;
     }

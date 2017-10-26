@@ -1,11 +1,15 @@
 package Logica;
 
 import Persistencia.BDCliente;
+import Persistencia.BDRanking;
 import Persistencia.BDSuscripcion;
 import Persistencia.BDUsuario;
+import java.time.Clock;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.Map;
@@ -73,8 +77,21 @@ public class ControladorUsuario implements IUsuario {
     }
 
     @Override
-    public Usuario obtenerUsuario(String nick) {
+    public Usuario soloDesdeFabricaObtenerUsuario(String nick) {
         return usuarios.get(nick);
+    }
+
+    @Override
+    public Usuario obtenerUsuario(String nick) {
+        Usuario u = usuarios.get(nick);
+
+        if (u instanceof Artista) {
+            if (!((Artista) u).estaActivo()) {
+                return null;
+            }
+        }
+
+        return u;
     }
 
     @Override
@@ -87,6 +104,12 @@ public class ControladorUsuario implements IUsuario {
 
         if (!(us instanceof Artista)) {
             throw new UnsupportedOperationException("Este usuario no es un Artista");
+        }
+
+        if (us instanceof Artista) {
+            if (!((Artista) us).estaActivo()) {
+                return null;
+            }
         }
 
         return (Artista) us;
@@ -138,7 +161,18 @@ public class ControladorUsuario implements IUsuario {
         Iterator i = usuarios.entrySet().iterator();
         while (i.hasNext()) {
             Usuario u = (Usuario) ((Map.Entry) i.next()).getValue();
-            dtUsuarios.add(u.getData());
+
+            boolean artDes = false;
+
+            if (u instanceof Artista) {
+                if (!((Artista) u).estaActivo()) {
+                    artDes = true;
+                }
+            }
+
+            if (!artDes) {
+                dtUsuarios.add(u.getData());
+            }
         }
 
         return dtUsuarios;
@@ -169,7 +203,9 @@ public class ControladorUsuario implements IUsuario {
             Usuario u = (Usuario) ((Map.Entry) i.next()).getValue();
 
             if (u instanceof Artista) {
-                artistas.add(u.getData());
+                if (((Artista) u).estaActivo()) {
+                    artistas.add(u.getData());
+                }
             }
         }
 
@@ -179,12 +215,19 @@ public class ControladorUsuario implements IUsuario {
     @Override
     public DtPerfilUsuario obtenerPerfilArtista(String nickArtista) {
         Usuario u = usuarios.get(nickArtista);
+
         if (u == null) {
             throw new UnsupportedOperationException("El Artista " + nickArtista + " no existe");
         }
 
         if (!(u instanceof Artista)) {
             throw new UnsupportedOperationException("Este usuario no es un artista");
+        }
+
+        if (u instanceof Artista) {
+            if (!((Artista) u).estaActivo()) {
+                throw new UnsupportedOperationException("El Artista " + nickArtista + " no existe");
+            }
         }
 
         return ((Artista) u).obtenerPerfil();
@@ -209,6 +252,13 @@ public class ControladorUsuario implements IUsuario {
     @Override
     public DtUsuario getDataUsuario(String nickUsuario) {
         Usuario user = usuarios.get(nickUsuario);
+
+        if (user instanceof Artista) {
+            if (!((Artista) user).estaActivo()) {
+                return null;
+            }
+        }
+
         if (user != null) {
             return user.getData();
         } else {
@@ -268,6 +318,12 @@ public class ControladorUsuario implements IUsuario {
             throw new UnsupportedOperationException("Usuario no es un artista");
         }
 
+        if (usuario instanceof Artista) {
+            if (!((Artista) usuario).estaActivo()) {
+                throw new UnsupportedOperationException("Artista no existe");
+            }
+        }
+
         return ((Artista) usuario).obtenerAlbumes();
     }
 
@@ -281,17 +337,18 @@ public class ControladorUsuario implements IUsuario {
             throw new UnsupportedOperationException("Usuario no es un artista");
         }
 
+        if (usuario instanceof Artista) {
+            if (!((Artista) usuario).estaActivo()) {
+                throw new UnsupportedOperationException("Artista no existe");
+            }
+        }
+
         DtAlbumContenido dt = ((Artista) usuario).obtenerAlbumContenido(nomAlbum);
         if (dt == null) {
             throw new UnsupportedOperationException("Album no existe");
         }
 
         return dt;
-    }
-
-    @Override
-    public void cargarUsuarios() {
-
     }
 
     public Usuario getUsuario(String nick) {
@@ -310,7 +367,6 @@ public class ControladorUsuario implements IUsuario {
     public ArrayList<DtUsuario> listarSeguidosDe(String nickCliente) {
         Cliente c = (Cliente) usuarios.get(nickCliente);
         return c.obtenerSeguidos();
-
     }
 
     @Override
@@ -835,6 +891,42 @@ public class ControladorUsuario implements IUsuario {
             v.setEstado("Cancelada");
             v.setFecha(hoy);
             return true;
+        }
+    }
+
+    public DtListaRanking obtenerRanking() {
+        BDRanking bdr = new BDRanking();
+
+        ArrayList<String[]> usuarios = bdr.cargarUsuarios();
+
+        ArrayList<DtRanking> resultado = new ArrayList<>();
+
+        for (String[] usr : usuarios) {
+            resultado.add(new DtRanking(usr[0], Integer.parseInt(usr[1])));
+        }
+        ordenarRanking(resultado);
+        return new DtListaRanking(resultado);
+    }
+
+    private ArrayList<DtRanking> ordenarRanking(ArrayList<DtRanking> usuarios) {
+        Collections.sort(usuarios, new Comparator<Object>() {
+            public int compare(Object o1, Object o2) {
+                if (obtenerEdad(o1) == obtenerEdad(o2)) {
+                    return 0;
+                }
+                return obtenerEdad(o1) > obtenerEdad(o2) ? -1 : 1;
+            }
+        });
+        return usuarios;
+    }
+
+    private int obtenerEdad(Object o) {
+        if (o instanceof DtRanking) {
+
+            return ((DtRanking) o).getCantSeguidores();
+
+        } else {
+            return 0;
         }
     }
 

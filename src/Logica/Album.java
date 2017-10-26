@@ -15,13 +15,14 @@ public class Album {
     public ArrayList<Genero> generos;
     public Artista artista;
 
-    public Album(String nickArtista, String nombre, int anio, String imagen, HashMap<String, Tema> temas, ArrayList<Genero> generos) {
+    public Album(Artista artista, String nickArtista, String nombre, int anio, String imagen, HashMap<String, Tema> temas, ArrayList<Genero> generos) {
         this.nickArtista = nickArtista;
         this.nombre = nombre;
         this.anio = anio;
         this.imagen = imagen;
         this.temas = temas;
         this.generos = generos;
+        this.artista = artista;
 
         Iterator i = temas.entrySet().iterator();
         while (i.hasNext()) {
@@ -29,13 +30,14 @@ public class Album {
         }
     }
 
-    public Album(String nickArtista, String nombre, int anio, String imagen) {
+    public Album(Artista artista, String nickArtista, String nombre, int anio, String imagen) {
         this.nickArtista = nickArtista;
         this.nombre = nombre;
         this.anio = anio;
         this.imagen = imagen;
         this.temas = new HashMap<>();
         this.generos = new ArrayList<>();
+        this.artista = artista;
     }
 
     public Tema getTema(String nombre) {
@@ -94,10 +96,6 @@ public class Album {
 
     public void setGeneros(ArrayList<Genero> generos) {
         this.generos = generos;
-    }
-
-    public void setArtista(Artista artista) {
-        this.artista = artista;
     }
 
     public DtAlbum getData() {

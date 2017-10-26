@@ -27,16 +27,13 @@ public class PLista {
 
     private Endpoint endpoint = null;
 
-
     private IUsuario iUsuario;
     private IContenido iContenido;
  
     public PLista() {
         iUsuario = Fabrica.getIControladorUsuario();
         iContenido = Fabrica.getIControladorContenido();
-
     }
-
 
     public void publicar() {
         endpoint = Endpoint.publish("http://" + Configuracion.get("ip")  + ":" + Configuracion.get("puerto") + "/" + Configuracion.get("PLista"), this);
