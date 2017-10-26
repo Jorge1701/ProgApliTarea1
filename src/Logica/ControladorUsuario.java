@@ -1,11 +1,15 @@
 package Logica;
 
 import Persistencia.BDCliente;
+import Persistencia.BDRanking;
 import Persistencia.BDSuscripcion;
 import Persistencia.BDUsuario;
+import java.time.Clock;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.Map;
@@ -817,6 +821,42 @@ public class ControladorUsuario implements IUsuario {
             v.setEstado("Cancelada");
             v.setFecha(hoy);
             return true;
+        }
+    }
+
+    public DtListaRanking obtenerRanking() {
+        BDRanking bdr = new BDRanking();
+
+        ArrayList<String[]> usuarios = bdr.cargarUsuarios();
+
+        ArrayList<DtRanking> resultado = new ArrayList<>();
+
+        for (String[] usr : usuarios) {
+            resultado.add(new DtRanking(usr[0], Integer.parseInt(usr[1])));
+        }
+        ordenarRanking(resultado);
+        return new DtListaRanking(resultado);
+    }
+
+    private ArrayList<DtRanking> ordenarRanking(ArrayList<DtRanking> usuarios) {
+        Collections.sort(usuarios, new Comparator<Object>() {
+            public int compare(Object o1, Object o2) {
+                if (obtenerEdad(o1) == obtenerEdad(o2)) {
+                    return 0;
+                }
+                return obtenerEdad(o1) > obtenerEdad(o2) ? -1 : 1;
+            }
+        });
+        return usuarios;
+    }
+
+    private int obtenerEdad(Object o) {
+        if (o instanceof DtRanking) {
+
+            return ((DtRanking) o).getCantSeguidores();
+
+        } else {
+            return 0;
         }
     }
 
