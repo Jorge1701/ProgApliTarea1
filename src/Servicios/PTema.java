@@ -26,7 +26,7 @@ public class PTema {
     public byte[] getAudio(@WebParam(name = "audio")String audio) throws Exception {
         byte[] byteArray = null;
         try {
-            File f = new File(Configuracion.get("PathMusica") + audio);
+            File f = new File(Configuracion.get("pathMusica") + audio);
             FileInputStream streamer = new FileInputStream(f);
             byteArray = new byte[streamer.available()];
             streamer.read(byteArray);
