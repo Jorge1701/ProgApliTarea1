@@ -3,7 +3,9 @@ package Logica;
 import Persistencia.CargaDatosPrueba;
 import java.util.ArrayList;
 import java.util.HashMap;
-
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Fabrica {
 
     public static void inicializarControladores() {

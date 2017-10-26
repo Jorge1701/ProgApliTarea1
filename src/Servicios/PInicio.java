@@ -3,6 +3,7 @@ package Servicios;
 import Configuracion.Configuracion;
 import Logica.DtCliente;
 import Logica.DtListaString;
+import Logica.DtListaTema;
 import Logica.DtListaUsuarios;
 import Logica.DtSuscripcion;
 import Logica.DtUsuario;
@@ -28,6 +29,7 @@ public class PInicio {
     }
 
     public void publicar() {
+        
         endpoint = Endpoint.publish("http://" + Configuracion.get("ip") + ":" + Configuracion.get("puerto") + "/" + Configuracion.get("PInicio"), this);
     }
 
@@ -78,4 +80,6 @@ public class PInicio {
     public void DtSuscripcion(DtSuscripcion dts) {                              //Funcion para generear la clase en servicios.DtSuscripcion correctamente 
 
     }
+
+
 }

@@ -1,10 +1,14 @@
 package Logica;
 
 import java.util.ArrayList;
-
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+@XmlAccessorType(XmlAccessType.FIELD)
 public interface IUsuario {
     
     public void reiniciar();
+    
+    public void desactivar(String nickname);
     
     public void setIContenido(IContenido iContenido);
     public Usuario obtenerUsuario(String nick);

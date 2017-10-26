@@ -15,25 +15,28 @@ public class DtLista extends DtBuscado {
     private final ArrayList<DtTema> temas;
     private final String imagen;
     private final DtFecha fecha;
+    private final DtListaTema ArrayTemas;
 
     public DtLista(String nombre, ArrayList<DtTema> temas, String imagen, DtFecha fecha) {
         this.nombre = nombre;
         this.temas = temas;
         this.imagen = imagen;
         this.fecha = fecha;
+        this.ArrayTemas = new DtListaTema(temas);
+    }
+    
+
+
+    public DtListaTema getArrayTemas() {
+        return ArrayTemas;
     }
 
-    public DtLista() {
-        this.nombre = null;
-        this.temas = null;
-        this.imagen = null;
-        this.fecha = null;
-    }
+
 
     public DtFecha getFecha() {
         return fecha;
     }
-
+    
     public String getNombre() {
         return nombre;
     }

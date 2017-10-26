@@ -5,9 +5,11 @@ import Logica.Fabrica;
 import Servicios.PBuscador;
 import Servicios.PConsultaPerfil;
 import Servicios.PContenido;
+import Servicios.PDownloadFile;
 import Servicios.PFavorito;
 import Servicios.PImagen;
 import Servicios.PInicio;
+import Servicios.PLista;
 import Servicios.PRanking;
 import Servicios.PRegistro;
 import Servicios.PSeguir;
@@ -445,6 +447,13 @@ public class menu extends javax.swing.JFrame {
 
         PConsultaPerfil consultaP = new PConsultaPerfil();
         consultaP.publicar();
+        
+        PDownloadFile dowloadfile = new PDownloadFile();
+        dowloadfile.publicar();
+        
+        PLista lista  = new PLista();
+        lista.publicar();
+        /*java.awt.EventQueue.invokeLater(new Runnable() {
 
         PRanking ranking = new PRanking();
         ranking.publicar();
@@ -453,7 +462,7 @@ public class menu extends javax.swing.JFrame {
             public void run() {
                 new menu().setVisible(true);
             }
-        });
+        });*/
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
