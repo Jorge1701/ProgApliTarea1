@@ -434,6 +434,7 @@ public class menu extends javax.swing.JFrame {
         new PLista().publicar();
 
         java.awt.EventQueue.invokeLater(new Runnable() {
+
             public void run() {
                 new menu().setVisible(true);
             }

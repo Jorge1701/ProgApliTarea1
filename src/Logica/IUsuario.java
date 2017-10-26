@@ -8,6 +8,8 @@ public interface IUsuario {
     
     public void reiniciar();
     
+    public void desactivar(String nickname);
+    
     public void setIContenido(IContenido iContenido);
     public Usuario obtenerUsuario(String nick);
     public Artista selectArtista(String nick);

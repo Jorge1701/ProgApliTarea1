@@ -21,8 +21,8 @@ import javax.xml.ws.Endpoint;
  *
  * @author brian
  */
-@WebService()
-@SOAPBinding(style = SOAPBinding.Style.RPC, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
+@WebService
+@SOAPBinding(style = SOAPBinding.Style.RPC)
 public class PLista {
 
     private Endpoint endpoint = null;
@@ -37,15 +37,10 @@ public class PLista {
 
     }
 
-    @WebMethod(exclude = true)
+
     public void publicar() {
         endpoint = Endpoint.publish("http://" + Configuracion.get("ip")  + ":" + Configuracion.get("puerto") + "/" + Configuracion.get("PLista"), this);
 
-    }
-
-    @WebMethod(exclude = true)
-    public Endpoint getEndpoint() {
-        return endpoint;
     }
 
     @WebMethod

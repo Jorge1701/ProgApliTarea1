@@ -58,6 +58,21 @@ public class ControladorUsuario implements IUsuario {
     }
 
     @Override
+    public void desactivar(String nickname) {
+        Usuario us = usuarios.get(nickname);
+
+        if (us == null) {
+            throw new UnsupportedOperationException("El artista " + nickname + " no existe");
+        }
+
+        if (!(us instanceof Artista)) {
+            throw new UnsupportedOperationException("Este usuario no es un Artista");
+        }
+
+        ((Artista) us).desactivar();
+    }
+
+    @Override
     public Usuario obtenerUsuario(String nick) {
         return usuarios.get(nick);
     }
@@ -96,7 +111,7 @@ public class ControladorUsuario implements IUsuario {
             if (dtu instanceof DtCliente) {
                 usr = new Cliente(dtu.getNickname(), dtu.getNombre(), dtu.getApellido(), dtu.getEmail(), new DtFecha(dtu.getFechaNac().getDia(), dtu.getFechaNac().getMes(), dtu.getFechaNac().getAnio()), dtu.getImagen(), dtu.getContrasenia());
             } else {
-                usr = new Artista(dtu.getNickname(), dtu.getNombre(), dtu.getApellido(), dtu.getEmail(), new DtFecha(dtu.getFechaNac().getDia(), dtu.getFechaNac().getMes(), dtu.getFechaNac().getAnio()), dtu.getImagen(), dtu.getContrasenia(), ((DtArtista) dtu).getBiografia(), ((DtArtista) dtu).getWeb());
+                usr = new Artista(dtu.getNickname(), dtu.getNombre(), dtu.getApellido(), dtu.getEmail(), new DtFecha(dtu.getFechaNac().getDia(), dtu.getFechaNac().getMes(), dtu.getFechaNac().getAnio()), dtu.getImagen(), dtu.getContrasenia(), ((DtArtista) dtu).getBiografia(), ((DtArtista) dtu).getWeb(), ((DtArtista) dtu).estaActivo());
             }
             this.usuarios.put(usr.getNickname(), usr);
             return true;
@@ -111,7 +126,7 @@ public class ControladorUsuario implements IUsuario {
         if (dtu instanceof DtCliente) {
             u = new Cliente(dtu.getNickname(), dtu.getNombre(), dtu.getApellido(), dtu.getEmail(), new DtFecha(dtu.getFechaNac().getDia(), dtu.getFechaNac().getMes(), dtu.getFechaNac().getAnio()), dtu.getImagen(), dtu.getContrasenia());
         } else {
-            u = new Artista(dtu.getNickname(), dtu.getNombre(), dtu.getApellido(), dtu.getEmail(), new DtFecha(dtu.getFechaNac().getDia(), dtu.getFechaNac().getMes(), dtu.getFechaNac().getAnio()), dtu.getImagen(), dtu.getContrasenia(), ((DtArtista) dtu).getBiografia(), ((DtArtista) dtu).getWeb());
+            u = new Artista(dtu.getNickname(), dtu.getNombre(), dtu.getApellido(), dtu.getEmail(), new DtFecha(dtu.getFechaNac().getDia(), dtu.getFechaNac().getMes(), dtu.getFechaNac().getAnio()), dtu.getImagen(), dtu.getContrasenia(), ((DtArtista) dtu).getBiografia(), ((DtArtista) dtu).getWeb(), ((DtArtista) dtu).estaActivo());
         }
         usuarios.put(u.getNickname(), u);
     }
