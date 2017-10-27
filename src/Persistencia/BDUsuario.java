@@ -72,12 +72,17 @@ public class BDUsuario {
         String imagen = dtu.getImagen();
         String contrasenia = dtu.getContrasenia();
 
+        System.err.println("BDUsuario");
+
+        System.err.println("Contrasenia: " + contrasenia);
+
         Date fecha = java.sql.Date.valueOf(dtu.getFechaNac().getAnio() + "-" + dtu.getFechaNac().getMes() + "-" + dtu.getFechaNac().getDia());
         //new Date(dtu.getFechaNac().getAnio(), dtu.getFechaNac().getMes(), dtu.getFechaNac().getDia());
 
         if (dtu instanceof DtArtista) {
             try {
                 String biografia = ((DtArtista) dtu).getBiografia();
+                System.err.println("Biografia: " + biografia);
                 String web = ((DtArtista) dtu).getWeb();
                 String activo = ((DtArtista) dtu).estaActivo() ? "S" : "N";
 

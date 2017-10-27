@@ -126,6 +126,12 @@ public class ControladorUsuario implements IUsuario {
                 return false;
             }
         }
+        System.err.println("ControladorUsuario");
+
+        System.err.println("Contrasenia: " + dtu.getContrasenia());
+        if (dtu instanceof DtArtista) {
+            System.err.println("Bioografia: " + ((DtArtista) dtu).getBiografia());
+        }
 
         Usuario usr;
 
