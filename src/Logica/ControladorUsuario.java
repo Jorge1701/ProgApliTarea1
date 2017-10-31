@@ -73,7 +73,9 @@ public class ControladorUsuario implements IUsuario {
             throw new UnsupportedOperationException("Este usuario no es un Artista");
         }
 
-        ((Artista) us).desactivar();
+        if (new BDUsuario().desactivarArtista(nickname)) {
+            ((Artista) us).desactivar();
+        }
     }
 
     @Override
@@ -595,6 +597,7 @@ public class ControladorUsuario implements IUsuario {
     @Override
     public boolean nicknameExiste(String nickname) {
         Usuario u = usuarios.get(nickname);
+
         if (u == null) {
             return false;
         } else {
@@ -628,7 +631,7 @@ public class ControladorUsuario implements IUsuario {
             }
             return "Error: Correo no existe";
         } else {
-            Usuario u = usuarios.get(nickname);
+            Usuario u = obtenerUsuario(nickname);
 
             if (u == null) {
                 return "Error: Nickname invalido";
