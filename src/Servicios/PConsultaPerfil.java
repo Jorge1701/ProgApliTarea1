@@ -15,7 +15,7 @@ import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.xml.ws.Endpoint;
-import javax.xml.ws.soap.SOAPFaultException;
+
 
 /**
  *
@@ -37,8 +37,12 @@ public class PConsultaPerfil {
     }
     
     @WebMethod
-    public DtUsuario getDataUsuario(String nickname) throws SOAPFaultException{
+    public DtUsuario getDataUsuario(String nickname) throws SoapSeviciosFaultException{
         DtUsuario dtUs =  iUsuario.getDataUsuario(nickname);
+        if (dtUs == null) {
+            throw new SoapSeviciosFaultException(new SimpleExceptionBean(), "NickName no valido");
+        }
+            
         return dtUs;
     }
     
