@@ -142,7 +142,9 @@ public class Cliente extends Usuario {
     public ArrayList<DtAlbum> obtenerDtAlbumesFav() {
         ArrayList<DtAlbum> favs = new ArrayList<>();
         for (Album album : albumesfav) {
-            favs.add(album.getData());
+            if (album.getArtista().estaActivo()) {
+                favs.add(album.getData());
+            }
         }
         return favs;
     }
@@ -158,7 +160,9 @@ public class Cliente extends Usuario {
     public ArrayList<DtTema> obtenerDtTemasFav() {
         ArrayList<DtTema> favs = new ArrayList<>();
         for (Tema tema : temasfav) {
-            favs.add(tema.getData());
+            if (tema.getAlbum().getArtista().estaActivo()) {
+                favs.add(tema.getData());
+            }
         }
         return favs;
     }
@@ -231,7 +235,9 @@ public class Cliente extends Usuario {
         }
 
         for (Album a : this.albumesfav) {
-            dtAlbumes.add(a.getData());
+            if (a.getArtista().estaActivo()) {
+                dtAlbumes.add(a.getData());
+            }
         }
 
         for (Lista l : this.listasfav) {
@@ -239,7 +245,9 @@ public class Cliente extends Usuario {
         }
 
         for (Tema t : this.temasfav) {
-            dtTemas.add(t.getData());
+            if (t.getAlbum().getArtista().estaActivo()) {
+                dtTemas.add(t.getData());
+            }
         }
 
         return new DtPerfilCliente(dtSeguidos, dtListasCreadas, dtAlbumes, dtListas, dtTemas, info, dtSeguidores);

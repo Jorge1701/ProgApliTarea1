@@ -34,6 +34,19 @@ public class BDUsuario {
         return "";
     }
 
+    public boolean desactivarArtista(String artista) {
+        try {
+            PreparedStatement update = conexion.prepareStatement("UPDATE artista SET activo = 'N' WHERE nickname = '" + artista + "'");
+            update.executeUpdate();
+            update.close();
+
+            return true;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
+
     public boolean seguirUsuario(String nickname_c, String nickname_u) {
         try {
             PreparedStatement insert = conexion.prepareStatement("INSERT INTO seguir_usuario VALUES (?,?) ");
