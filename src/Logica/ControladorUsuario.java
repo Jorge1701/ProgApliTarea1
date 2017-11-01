@@ -119,7 +119,6 @@ public class ControladorUsuario implements IUsuario {
 
     @Override
     public boolean ingresarUsuario(DtUsuario dtu) {
-
         Iterator i = usuarios.entrySet().iterator();
         while (i.hasNext()) {
             Usuario u = (Usuario) ((Map.Entry) i.next()).getValue();
@@ -128,13 +127,7 @@ public class ControladorUsuario implements IUsuario {
                 return false;
             }
         }
-        System.err.println("ControladorUsuario");
-
-        System.err.println("Contrasenia: " + dtu.getContrasenia());
-        if (dtu instanceof DtArtista) {
-            System.err.println("Bioografia: " + ((DtArtista) dtu).getBiografia());
-        }
-
+        
         Usuario usr;
 
         if (this.bdUsuario.ingresarUsuario(dtu)) {
