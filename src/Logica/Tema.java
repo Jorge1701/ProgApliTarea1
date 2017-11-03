@@ -6,21 +6,31 @@ import javax.xml.bind.annotation.XmlAccessorType;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Tema {
 
+    private int reproducciones;
     private Album a;
     private String nombre;
     private DtTime duracion;
     private int ubicacion;
     private int id;
 
-    public Tema(Album a, String nombre, DtTime duracion, int ubicacion) {
+    public Tema(int reproducciones, Album a, String nombre, DtTime duracion, int ubicacion) {
+        this.reproducciones = reproducciones;
         this.a = a;
         this.nombre = nombre;
         this.duracion = duracion;
         this.ubicacion = ubicacion;
     }
 
-    public Tema(String nombre, DtTime duracion, int ubicacion) {
-        this(null, nombre, duracion, ubicacion);
+    public Tema(int reproducciones, String nombre, DtTime duracion, int ubicacion) {
+        this(reproducciones, null, nombre, duracion, ubicacion);
+    }
+
+    public int getReproducciones() {
+        return reproducciones;
+    }
+
+    public void reproducir() {
+        reproducciones++;
     }
 
     public Album getAlbum() {
@@ -40,7 +50,7 @@ public class Tema {
     }
 
     public DtTema getData() {
-        return new DtTema(nombre, duracion, ubicacion);
+        return new DtTema(reproducciones, nombre, duracion, ubicacion);
     }
 
     public String getNombre() {

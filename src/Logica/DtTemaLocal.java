@@ -10,8 +10,8 @@ public class DtTemaLocal extends DtTema {
 
     public String directorio;
 
-    public DtTemaLocal(String directorio, String nombre, DtTime duracion, int ubicacion) {
-        super(nombre, duracion, ubicacion);
+    public DtTemaLocal(int reproducciones, String directorio, String nombre, DtTime duracion, int ubicacion) {
+        super(reproducciones, nombre, duracion, ubicacion);
         this.directorio = directorio;
     }
 

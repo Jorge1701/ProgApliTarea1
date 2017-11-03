@@ -8,13 +8,13 @@ public class TemaLocal extends Tema {
 
     public String directorio;
 
-    public TemaLocal(Album a, String directorio, String nombre, DtTime duracion, int ubicacion) {
-        super(a, nombre, duracion, ubicacion);
+    public TemaLocal(int reproducciones, Album a, String directorio, String nombre, DtTime duracion, int ubicacion) {
+        super(reproducciones, a, nombre, duracion, ubicacion);
         this.directorio = directorio;
     }
 
-    public TemaLocal(String directorio, String nombre, DtTime duracion, int ubicacion) {
-        super(nombre, duracion, ubicacion);
+    public TemaLocal(int reproducciones, String directorio, String nombre, DtTime duracion, int ubicacion) {
+        super(reproducciones, nombre, duracion, ubicacion);
         this.directorio = directorio;
     }
 
@@ -27,7 +27,7 @@ public class TemaLocal extends Tema {
     }
 
     public DtTemaLocal getData() {
-        DtTemaLocal dtTemaL = new DtTemaLocal(this.getDirectorio(), this.getNombre(), this.getDuracion(), this.getUbicacion());
+        DtTemaLocal dtTemaL = new DtTemaLocal(getReproducciones(), this.getDirectorio(), this.getNombre(), this.getDuracion(), this.getUbicacion());
         dtTemaL.setAlbum(this.getAlbum().getNombre());
         dtTemaL.setArtista(this.getAlbum().getNickArtista());
         dtTemaL.setImagenAlbum(this.getAlbum().getImagen());

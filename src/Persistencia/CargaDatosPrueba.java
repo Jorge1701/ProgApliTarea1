@@ -97,7 +97,7 @@ public class CargaDatosPrueba {
         {"CB", "S11"},
         {"CB", "S12"},
         {"EL", "S13"},};
-
+    
     private String[][] infosus = {
         {"S1", "Vencida", "Semanal", "2/9/2016"},
         {"S2", "Vigente", "Anual", "3/12/2017"},
@@ -357,10 +357,10 @@ public class CargaDatosPrueba {
     public ArrayList<DtUsuario> cargarUsuarios() {
         try {
             ArrayList<DtUsuario> usuarios = new ArrayList<>();
-
+            
             PreparedStatement usuario = conexion.prepareStatement("SELECT nickname, nombre, apellido, correo, fecha_nac, biografia, sitio_web, imagen, contrasenia, activo FROM artista");
             ResultSet artistas = usuario.executeQuery();
-
+            
             while (artistas.next()) {
                 String nickName = artistas.getString(1);
                 String nombre = artistas.getString(2);
@@ -377,13 +377,13 @@ public class CargaDatosPrueba {
                 boolean activo = artistas.getString(10).equals("S");
                 usuarios.add(new DtArtista(nickName, nombre, apellido, correo, dtFecha, imagen, biografia, web, contrasenia, activo));
             }
-
+            
             usuario.close();
             artistas.close();
-
+            
             PreparedStatement usuario1 = conexion.prepareStatement("SELECT nickname, nombre, apellido, correo, fecha_nac, imagen, contrasenia FROM cliente");
             ResultSet clientes = usuario1.executeQuery();
-
+            
             while (clientes.next()) {
                 String nickName = clientes.getString(1);
                 String nombre = clientes.getString(2);
@@ -396,19 +396,19 @@ public class CargaDatosPrueba {
                 DtFecha dtFecha = new DtFecha(cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR));
                 String contrasenia = clientes.getString(7);
                 usuarios.add(new DtCliente(nickName, nombre, apellido, correo, dtFecha, imagen, contrasenia, null));
-
+                
             }
-
+            
             usuario1.close();
             clientes.close();
-
+            
             return usuarios;
         } catch (SQLException ex) {
             Logger.getLogger(CargaDatosPrueba.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
-
+    
     public ArrayList<String[]> loadFollowers() {
         try {
             ArrayList<String[]> res = new ArrayList<>();
@@ -420,187 +420,187 @@ public class CargaDatosPrueba {
             r.close();
             s.close();
             return res;
-
+            
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
     }
-
+    
     public ArrayList<String[]> cargarGeneros() {
         try {
             ArrayList<String[]> res = new ArrayList<>();
             PreparedStatement query = conexion.prepareStatement("SELECT * FROM genero");
             ResultSet rs = query.executeQuery();
-
+            
             while (rs.next()) {
                 if (rs.getString(2) != null) {
                     res.add(new String[]{rs.getString(1), rs.getString(2)});
                 }
             }
-
+            
             rs.close();
             query.close();
-
+            
             return res;
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
     }
-
+    
     public ArrayList<DtAlbum> cargarAlbumes() {
         try {
             ArrayList<DtAlbum> dtas = new ArrayList<>();
-
+            
             PreparedStatement query = conexion.prepareStatement("SELECT nicknameArtista, nombre, anio, imagen FROM album");
             ResultSet rs = query.executeQuery();
             while (rs.next()) {
                 dtas.add(new DtAlbum(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getString(4)));
             }
-
+            
             rs.close();
             query.close();
-
+            
             return dtas;
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
     }
-
+    
     public ArrayList<String> cargarGenerosAlbum(String nicknameArtista, String nombre) {
         try {
             ArrayList<String> generos = new ArrayList<>();
             int idAlbum = obtenerIdAlbum(nicknameArtista, nombre);
-
+            
             PreparedStatement query = conexion.prepareStatement("SELECT nombreGenero FROM clasificacionalbum WHERE idAlbum = ? AND nicknameArtista = ?");
             query.setInt(1, idAlbum);
             query.setString(2, nicknameArtista);
-
+            
             ResultSet rs = query.executeQuery();
             while (rs.next()) {
                 generos.add(rs.getString(1));
             }
-
+            
             rs.close();
             query.close();
-
+            
             return generos;
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
     }
-
+    
     public ArrayList<DtTema> cargarTemasAlbum(String nicknameArtista, String nombreAlbum) {
         try {
             ArrayList<DtTema> temas = new ArrayList<>();
-            PreparedStatement query = conexion.prepareStatement("SELECT nombre, duracion, ubicacion, tipo, link FROM tema WHERE nicknameArtista = ? AND idAlbum = ?");
+            PreparedStatement query = conexion.prepareStatement("SELECT nombre, duracion, ubicacion, tipo, link, reproducciones FROM tema WHERE nicknameArtista = ? AND idAlbum = ?");
             query.setString(1, nicknameArtista);
             query.setInt(2, obtenerIdAlbum(nicknameArtista, nombreAlbum));
-
+            
             ResultSet rs = query.executeQuery();
             while (rs.next()) {
                 String nombre = rs.getString("nombre");
                 Time duracion = rs.getTime("duracion");
                 int ubicacion = rs.getInt("ubicacion");
-
+                
                 if (rs.getString("tipo").equals("A")) {
-                    temas.add(new DtTemaLocal(rs.getString("link"), nombre, new DtTime(duracion.getHours(), duracion.getMinutes(), duracion.getSeconds()), ubicacion));
+                    temas.add(new DtTemaLocal(Integer.valueOf(rs.getString("reproducciones")), rs.getString("link"), nombre, new DtTime(duracion.getHours(), duracion.getMinutes(), duracion.getSeconds()), ubicacion));
                 } else {
-                    temas.add(new DtTemaRemoto(rs.getString("link"), nombre, new DtTime(duracion.getHours(), duracion.getMinutes(), duracion.getSeconds()), ubicacion));
+                    temas.add(new DtTemaRemoto(Integer.valueOf(rs.getString("reproducciones")), rs.getString("link"), nombre, new DtTime(duracion.getHours(), duracion.getMinutes(), duracion.getSeconds()), ubicacion));
                 }
             }
-
+            
             rs.close();
             query.close();
-
+            
             return temas;
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
     }
-
+    
     public ArrayList<String[]> cargarListasParticulares() {
         try {
             ArrayList<String[]> res = new ArrayList<>();
             PreparedStatement l = conexion.prepareStatement("SELECT l.idLista, l.nombre, lp.nickname, lp.Publica, l.imagen, lp.nickname, l.fecha_creacion FROM lista AS l, listaparticular AS lp WHERE l.idLista = lp.idLista");
             ResultSet listas = l.executeQuery();
-
+            
             while (listas.next()) {
                 Date fecha = listas.getDate(7);
                 res.add(new String[]{String.valueOf(listas.getInt(1)), listas.getString(2), listas.getString(3), listas.getString(4), listas.getString(5), listas.getString(6), String.valueOf(fecha.getDay()), String.valueOf(fecha.getMonth()), String.valueOf(fecha.getYear())});
             }
-
+            
             return res;
         } catch (SQLException ex) {
             Logger.getLogger(CargaDatosPrueba.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
-
+        
     }
-
+    
     public ArrayList<String[]> cargarTemasLista(int idLista) {
         try {
             ArrayList<String[]> temasInfo = new ArrayList<>();
-
+            
             PreparedStatement query = conexion.prepareStatement("SELECT t.nombre, a.nicknameArtista, a.nombre AS 'album' FROM listatienetemas AS ltt, tema AS t, album AS a WHERE ltt.idTema = t.idTema AND t.idAlbum = a.idAlbum AND ltt.idLista = ?");
             query.setInt(1, idLista);
-
+            
             ResultSet rs = query.executeQuery();
-
+            
             while (rs.next()) {
                 temasInfo.add(new String[]{rs.getString("nicknameArtista"), rs.getString("album"), rs.getString("nombre")});
             }
-
+            
             rs.close();
             query.close();
-
+            
             return temasInfo;
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
     }
-
+    
     public ArrayList<String[]> cargarListasDefecto() {
         try {
             ArrayList<String[]> res = new ArrayList<>();
-
+            
             PreparedStatement l = conexion.prepareStatement("SELECT l.idLista, ld.nombreGenero, l.nombre, l.imagen, l.fecha_creacion FROM listapordefecto AS ld, lista AS l WHERE ld.idLista = l.idLista");
-
+            
             ResultSet listas = l.executeQuery();
             while (listas.next()) {
                 Date fecha = listas.getDate(5);
                 res.add(new String[]{String.valueOf(listas.getString(1)), listas.getString(2), listas.getString(3), listas.getString(4), String.valueOf(fecha.getDay()), String.valueOf(fecha.getMonth()), String.valueOf(fecha.getYear())});
             }
-
+            
             l.close();
             listas.close();
-
+            
             return res;
         } catch (SQLException ex) {
             Logger.getLogger(CargaDatosPrueba.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
-
+    
     public ArrayList<String[]> cargarAlbumesFavoritos() {
         try {
             ArrayList<String[]> res = new ArrayList<>();
             String sql = "SELECT a.nombre, f.nicknameCliente,f.nicknameArtista FROM album as a , fava as f WHERE a.idAlbum = f.idAlbum";
             PreparedStatement statament = conexion.prepareStatement(sql);
             ResultSet favoritos = statament.executeQuery();
-
+            
             while (favoritos.next()) {
-
+                
                 String nombreAlbum = favoritos.getString(1);
                 String nicknameCliente = favoritos.getString(2);
                 String nicknameArtista = favoritos.getString(3);
                 res.add(new String[]{nombreAlbum, nicknameCliente, nicknameArtista});
-
+                
             }
             statament.close();
             favoritos.close();
@@ -609,11 +609,11 @@ public class CargaDatosPrueba {
             Logger.getLogger(CargaDatosPrueba.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
-
+        
     }
-
+    
     public ArrayList<String[]> cargaTemasFavoritos() {
-
+        
         try {
             ArrayList<String[]> res = new ArrayList<>();
             String sql = "SELECT f.nickname, t.nombre, a.nombre,t.nicknameArtista FROM favt as f , tema as t , album as a WHERE f.idTema=t.idTema and t.idAlbum=a.idAlbum";
@@ -633,11 +633,11 @@ public class CargaDatosPrueba {
             Logger.getLogger(CargaDatosPrueba.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
-
+        
     }
-
+    
     public ArrayList<String[]> cargaListasFavoritosP() {
-
+        
         try {
             ArrayList<String[]> res = new ArrayList<>();
             String sqlP = "SELECT f.nickname ,lp.nickname,l.nombre  FROM favl as f, listaparticular as lp , lista as l WHERE f.idLista=l.idLista and l.idLista = lp.idLista";
@@ -656,11 +656,11 @@ public class CargaDatosPrueba {
             Logger.getLogger(CargaDatosPrueba.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
-
+        
     }
-
+    
     public ArrayList<String[]> cargaListasFavoritosD() {
-
+        
         try {
             ArrayList<String[]> res = new ArrayList<>();
             String sqlD = "SELECT f.nickname ,ld.nombreGenero,l.nombre  FROM favl as f, listapordefecto as ld , lista as l WHERE f.idLista=l.idLista and l.idLista = ld.idLista";
@@ -679,7 +679,7 @@ public class CargaDatosPrueba {
             Logger.getLogger(CargaDatosPrueba.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
-
+        
     }
 
     // Obtener Id de cosas
@@ -688,111 +688,111 @@ public class CargaDatosPrueba {
             PreparedStatement query = conexion.prepareStatement("SELECT idAlbum FROM album WHERE nombre = ? AND nicknameArtista = ?");
             query.setString(1, nombreAlbum);
             query.setString(2, nickArtista);
-
+            
             ResultSet rs = query.executeQuery();
             int idAlbum = 0;
-
+            
             while (rs.next()) {
                 idAlbum = rs.getInt(1);
             }
-
+            
             rs.close();
             query.close();
-
+            
             return idAlbum;
         } catch (SQLException ex) {
             ex.printStackTrace();
             return 0;
         }
     }
-
+    
     public int obtenerIdListaParticular(String nickCliente, String nombreLista) {
         try {
             PreparedStatement query = conexion.prepareStatement("SELECT l.idLista FROM lista AS l, listaparticular AS lp WHERE l.idLista = lp.idLista AND lp.nickname = ? AND l.nombre = ?");
             query.setString(1, nickCliente);
             query.setString(2, nombreLista);
-
+            
             int idLista = 0;
             ResultSet rs = query.executeQuery();
-
+            
             while (rs.next()) {
                 idLista = rs.getInt(1);
             }
-
+            
             rs.close();
             query.close();
-
+            
             return idLista;
         } catch (SQLException e) {
             e.printStackTrace();
             return 0;
         }
     }
-
+    
     public int obtenerIdListaDefecto(String nombreGenero, String nombreLista) {
         try {
             PreparedStatement query = conexion.prepareStatement("SELECT l.idLista FROM lista AS l, listapordefecto AS ld WHERE l.idLista = ld.idLista AND nombreGenero = ? AND nombre = ?;");
             query.setString(1, nombreGenero);
             query.setString(2, nombreLista);
-
+            
             int idLista = 0;
             ResultSet rs = query.executeQuery();
-
+            
             while (rs.next()) {
                 idLista = rs.getInt(1);
             }
-
+            
             rs.close();
             query.close();
-
+            
             return idLista;
         } catch (SQLException e) {
             e.printStackTrace();
             return 0;
         }
     }
-
+    
     public int obtenerIdTema(String nickArtista, int idAlbum, String nombreTema) {
         try {
             PreparedStatement query = conexion.prepareStatement("SELECT idTema FROM tema WHERE nicknameArtista = ? AND idAlbum = ? AND nombre = ?");
             query.setString(1, nickArtista);
             query.setInt(2, idAlbum);
             query.setString(3, nombreTema);
-
+            
             int idTema = 0;
             ResultSet rs = query.executeQuery();
-
+            
             while (rs.next()) {
                 idTema = rs.getInt(1);
             }
-
+            
             rs.close();
             query.close();
-
+            
             return idTema;
-
+            
         } catch (SQLException e) {
             e.printStackTrace();
             return 0;
         }
     }
-
+    
     public ArrayList<String[]> cargarSuscripciones() {
         try {
             ArrayList<String[]> res = new ArrayList<>();
             PreparedStatement sql = conexion.prepareStatement("SELECT s.nickname, s.cuota, s.fecha_venc, s.fecha, s.estado, m.monto FROM suscripcion AS s, monto AS m WHERE s.cuota = m.cuota");
             ResultSet sus = sql.executeQuery();
-
+            
             while (sus.next()) {
                 res.add(new String[]{sus.getString(1), sus.getString(2), sus.getString(3), sus.getString(4), sus.getString(5), sus.getString(6)});
             }
-
+            
             return res;
         } catch (SQLException ex) {
             Logger.getLogger(CargaDatosPrueba.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
-
+        
     }
 
     // Insertar Datos de prueba en la BD
@@ -838,9 +838,9 @@ public class CargaDatosPrueba {
         }
         return true;
     }
-
+    
     private final char[] CONSTS_HEX = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
-
+    
     private String encriptaEnMD5(String stringAEncriptar) {
         try {
             MessageDigest msgd = MessageDigest.getInstance("MD5");
@@ -857,25 +857,25 @@ public class CargaDatosPrueba {
             return null;
         }
     }
-
+    
     private boolean insertarUsuarios() {
         BDUsuario bdu = new BDUsuario();
         boolean res = false;
         DtUsuario dtu;
         for (String[] usuario : perfiles) {
-
+            
             String nickName = usuario[1];
             String nombre = usuario[3];
             String apellido = usuario[4];
             String correo = usuario[2];
             String imagen = "";
-
+            
             DtFecha fecha = new DtFecha(Integer.parseInt(usuario[5]), Integer.parseInt(usuario[6]), Integer.parseInt(usuario[7]));
             if (usuario[8] == "A") {
-
+                
                 String bio = "";
                 String web = "";
-
+                
                 for (String[] info : infoArtistas) {
                     if (info[0] == usuario[0]) {
                         imagen = info[1];
@@ -884,14 +884,14 @@ public class CargaDatosPrueba {
                     }
                 }
                 dtu = new DtArtista(nickName, nombre, apellido, correo, fecha, imagen, bio, web, encriptaEnMD5(usuario[9]), true);
-
+                
             } else {
                 for (String[] info : infoClientes) {
                     if (info[0] == usuario[0]) {
                         imagen = info[1];
                     }
                 }
-
+                
                 dtu = new DtCliente(nickName, nombre, apellido, correo, fecha, imagen, encriptaEnMD5(usuario[9]), null);
             }
             res = bdu.ingresarUsuario(dtu);
@@ -901,47 +901,47 @@ public class CargaDatosPrueba {
         }
         return res;
     }
-
+    
     private boolean insertarSeguidores() {
         BDCliente bdc = new BDCliente();
-
+        
         for (String[] seguidor : seguidores) {
             String codC = seguidor[0];
             String codU = seguidor[1];
-
+            
             String nickC = "";
             String nickU = "";
-
+            
             for (String[] usuario : perfiles) {
                 if (usuario[0] == codC) {
                     nickC = usuario[1];
                 }
-
+                
                 if (usuario[0] == codU) {
                     nickU = usuario[1];
                 }
             }
-
+            
             if (!bdc.seguirUsuario(nickC, nickU)) {
                 return false;
             }
         }
-
+        
         return true;
     }
-
+    
     private boolean insertarGeneros() {
         String nombre = "";
         String padre = "";
         String pRef = "";
         BDGenero bdg = new BDGenero();
-
+        
         bdg.ingresarGeneros("Géneros", null);
-
+        
         for (String[] genero : generos) {
             nombre = genero[1];
             pRef = genero[2];
-
+            
             if ("".equals(pRef)) {
                 padre = "Géneros";
             } else {
@@ -958,50 +958,50 @@ public class CargaDatosPrueba {
         }
         return true;
     }
-
+    
     private boolean insertarAlbumes() {
         BDAlbum bda = new BDAlbum();
-
+        
         for (String[] album : albumes) {    // comentario
             String nickArtista = "";
-
+            
             for (String[] perfil : perfiles) {
                 if (perfil[0] == album[0]) {
                     nickArtista = perfil[1];
                     break;
                 }
             }
-
+            
             int idAlbum = bda.insertarAlbum(new DtAlbum(nickArtista, album[2], Integer.parseInt(album[4]), album[5]));
-
+            
             for (String refGenero : album[3].split(",")) {
                 String nombreGenero = "";
-
+                
                 for (String[] genero : generos) {
                     if (refGenero.equals(genero[0])) {
                         nombreGenero = genero[1];
                         break;
                     }
                 }
-
+                
                 bda.insertarGeneroDeAlbum(idAlbum, nickArtista, nombreGenero);
             }
         }
-
+        
         return true;
     }
-
+    
     private boolean insertarTemas() {
         BDAlbum bda = new BDAlbum();
-
+        
         for (String[] tema : temas) {
             String nickArtista = "";
             String nombreAlbum = "";
-
+            
             for (String[] album : albumes) {
                 if (album[1] == tema[0]) {
                     nombreAlbum = album[2];
-
+                    
                     for (String[] usuario : perfiles) {
                         if (usuario[0] == album[0]) {
                             nickArtista = usuario[1];
@@ -1009,15 +1009,15 @@ public class CargaDatosPrueba {
                     }
                 }
             }
-
+            
             int idAlbum = obtenerIdAlbum(nickArtista, nombreAlbum);
             String nombre = tema[2];
             Time duracion = new Time(0, Integer.parseInt(tema[4]), Integer.parseInt(tema[5]));
             int ubicacion = Integer.parseInt(tema[5]);
-
+            
             String tipo = "";
             String link = "";
-
+            
             for (String[] as : archivosYStreams) {
                 if (as[0] == tema[0] && as[1] == tema[1]) {
                     if (as[3] != "") {
@@ -1029,82 +1029,82 @@ public class CargaDatosPrueba {
                     }
                 }
             }
-
+            
             bda.insertarTemaDeAlbum(nickArtista, idAlbum, nombre, duracion, ubicacion, tipo, link);
         }
-
+        
         return true;
     }
-
+    
     private boolean insertarListaPorDefecto() {
         BDLista bdl = new BDLista();
         for (String[] listaPordefecto : listasPorDefecto) {
-
+            
             String nombre = listaPordefecto[1];
             String refGenero = listaPordefecto[2];
             String imagen = listaPordefecto[3];
-
+            
             String nombreGenero = "";
-
+            
             for (String[] genero : generos) {
                 if (genero[0] == refGenero) {
                     nombreGenero = genero[1];
                 }
             }
-
+            
             DtFecha f = new DtFecha(Integer.valueOf(listaPordefecto[4]), Integer.valueOf(listaPordefecto[5]), Integer.valueOf(listaPordefecto[6]));
             DtLista lista = new DtListaDefecto(new DtGenero(nombreGenero, null), nombre, null, imagen, f);
-
+            
             if (!bdl.altaLista(lista, "")) {
                 return false;
             }
         }
         return true;
     }
-
+    
     private boolean insertarListaParticular() {
         BDLista bdl = new BDLista();
         BDCliente bdc = new BDCliente();
-
+        
         for (String[] listaParticular : listasParticulares) {
             String refCliente = listaParticular[0];
             String nombreLista = listaParticular[2];
             String publica = listaParticular[3];
             String imagen = listaParticular[4];
-
+            
             String nickCliente = "";
-
+            
             for (String[] cliente : perfiles) {
                 if (cliente[0] == refCliente) {
                     nickCliente = cliente[1];
                 }
             }
-
+            
             DtFecha f = new DtFecha(Integer.valueOf(listaParticular[5]), Integer.valueOf(listaParticular[6]), Integer.valueOf(listaParticular[7]));
             DtLista lista = new DtListaParticular("S".equals(publica) ? false : true, nombreLista, null, imagen, f, nickCliente);
             if (!bdl.altaLista(lista, nickCliente)) {
                 return false;
             }
-
+            
             if (!bdc.asociarListaACliente(obtenerIdListaParticular(nickCliente, nombreLista), nickCliente)) {
                 return false;
             }
         }
-
+        
         return true;
     }
-
+    
     private boolean insertarTemasLista() {
         BDLista bdl = new BDLista();
-
+        
         for (String[] ltt : temasDeListas) {
             String nombreAlbum = "";
             String nickArtista = "";
-
+            
             for (String[] album : albumes) {
                 if (album[1] == ltt[1]) {
                     nombreAlbum = album[2];
-
+                    
                     for (String[] perfil : perfiles) {
                         if (perfil[0] == album[0]) {
                             nickArtista = perfil[1];
@@ -1112,28 +1112,28 @@ public class CargaDatosPrueba {
                     }
                 }
             }
-
+            
             String nombreTema = "";
-
+            
             for (String[] t : temas) {
                 if (t[1] == ltt[2]) {
                     nombreTema = t[2];
                 }
             }
-
+            
             int idAlbum = obtenerIdAlbum(nickArtista, nombreAlbum);
             int idTema = obtenerIdTema(nickArtista, idAlbum, nombreTema);
-
+            
             int idLista = 0;
-
+            
             String nombreLista = "";
             if (ltt[0].substring(0, 2).equals("LD")) {
                 String nombreGenero = "";
-
+                
                 for (String[] lista : listasPorDefecto) {
                     if (lista[0] == ltt[0]) {
                         nombreLista = lista[1];
-
+                        
                         for (String[] genero : generos) {
                             if (genero[0] == lista[2]) {
                                 nombreGenero = genero[1];
@@ -1141,14 +1141,14 @@ public class CargaDatosPrueba {
                         }
                     }
                 }
-
+                
                 idLista = obtenerIdListaDefecto(nombreGenero, nombreLista);
             } else {
                 String nickCliente = "";
                 for (String[] lista : listasParticulares) {
                     if (lista[1] == ltt[0]) {
                         nombreLista = lista[2];
-
+                        
                         for (String[] perfil : perfiles) {
                             if (lista[0] == perfil[0]) {
                                 nickCliente = perfil[1];
@@ -1156,15 +1156,15 @@ public class CargaDatosPrueba {
                         }
                     }
                 }
-
+                
                 idLista = obtenerIdListaParticular(nickCliente, nombreLista);
             }
-
+            
             if (!bdl.insertarTemaALista(nickArtista, idAlbum, idTema, idLista)) {
                 return false;
             }
         }
-
+        
         return true;
     }
 
@@ -1175,13 +1175,13 @@ public class CargaDatosPrueba {
             String refCliente = temafav[0];
             String refAlbum = temafav[1];
             String refTema = temafav[2];
-
+            
             String nicknameCliente = "";
             String refArtista = "";
             String nombreAlbum = "";
             String nicknameArtista = "";
             String nombreTema = "";
-
+            
             for (String[] cliente : perfiles) {
                 if (refCliente == cliente[0]) {
                     nicknameCliente = cliente[1];
@@ -1205,13 +1205,13 @@ public class CargaDatosPrueba {
             }
             int idAlbum = obtenerIdAlbum(nicknameArtista, nombreAlbum);
             int idTema = obtenerIdTema(nicknameArtista, idAlbum, nombreTema);
-
+            
             if (!bdf.altaTemaFavortio(nicknameCliente, idTema)) {
                 return false;
             }
         }
         return true;
-
+        
     }
 
     // Albumes Favoritos (Ref Cliente, Ref Album)
@@ -1220,7 +1220,7 @@ public class CargaDatosPrueba {
         for (String[] albumFav : refAlbumFav) {
             String refCliente = albumFav[0];
             String refAlbum = albumFav[1];
-
+            
             String nickCliente = "";
             String nickArtista = "";
             String nombreAlbum = "";
@@ -1255,14 +1255,14 @@ public class CargaDatosPrueba {
         for (String[] listafav : refListaFav) {
             String refCliente = listafav[0];
             String refLista = listafav[1];
-
+            
             String nickCliente = "";
             String nickArtista = "";
             String nombreLista = "";
             String nombreGenero = "";
             String refGenero = "";
             String refArtista = "";
-
+            
             for (String[] cliente : perfiles) {
                 if (refCliente == cliente[0]) {
                     nickCliente = cliente[1];
@@ -1285,29 +1285,29 @@ public class CargaDatosPrueba {
                     nickArtista = artista[1];
                 }
             }
-
+            
             for (String[] genero : generos) {
                 if (refGenero == genero[0]) {
                     nombreGenero = genero[1];
                 }
             }
-
+            
             int idLista;
             if (nombreGenero == "") {
-
+                
                 idLista = obtenerIdListaParticular(nickArtista, nombreLista);
             } else {
-
+                
                 idLista = obtenerIdListaDefecto(nombreGenero, nombreLista);
             }
-
+            
             if (!bdf.altaListaFavorita(nickCliente, idLista)) {
                 return false;
             }
         }
         return true;
     }
-
+    
     public boolean insertarSuscripciones() {
         /*suscripcion[0] = ref nickname
           suscripcion[1] = ref suscripcion
@@ -1318,7 +1318,7 @@ public class CargaDatosPrueba {
             info[3] = fecha
             usuario[0] = ref nickname
             usuario[1] = nickname*/
-
+        
         BDSuscripcion bds = new BDSuscripcion();
         String nickname = "";
         String ref = "";
@@ -1327,52 +1327,52 @@ public class CargaDatosPrueba {
         DtFecha fecha_venc = null;
         DtFecha fecha = null;
         for (String[] suscripcion : sus) {
-
+            
             for (String[] usuario : perfiles) {
                 if (suscripcion[0] == usuario[0]) {
                     nickname = usuario[1];
                 }
             }
-
+            
             for (String[] info : infosus) {
-
+                
                 if (suscripcion[1].equals(info[0])) {
                     cuota = info[2];
                     estado = info[1];
                     String[] arreglo = info[3].split("/");
                     fecha = new DtFecha(Integer.parseInt(arreglo[0]), Integer.parseInt(arreglo[1]), Integer.parseInt(arreglo[2]));
                     Calendar c = new GregorianCalendar(fecha.getAnio(), fecha.getMes() - 1, fecha.getDia());
-
+                    
                     if (info[2].equals("Semanal")) {
-
+                        
                         c.add(Calendar.DATE, 7);
                         fecha_venc = new DtFecha(c.get(Calendar.DAY_OF_MONTH), c.get(Calendar.MONTH), c.get(Calendar.YEAR));
-
+                        
                     } else if (info[2].equals("Mensual")) {
-
+                        
                         c.add(Calendar.MONTH, 1);
                         fecha_venc = new DtFecha(c.get(Calendar.DAY_OF_MONTH), c.get(Calendar.MONTH), c.get(Calendar.YEAR));
-
+                        
                     } else {
-
+                        
                         c.add(Calendar.YEAR, 1);
                         fecha_venc = new DtFecha(c.get(Calendar.DAY_OF_MONTH), c.get(Calendar.MONTH), c.get(Calendar.YEAR));
-
+                        
                     }
-
+                    
                 }
             }
-
+            
             if (!bds.ingresarSuscripcion(nickname, cuota, fecha_venc, fecha, estado)) {
                 return false;
             }
-
+            
         }
-
+        
         return true;
-
+        
     }
-
+    
     public boolean insertarMontos() {
         try {
             PreparedStatement sql = conexion.prepareStatement("INSERT INTO monto(monto,cuota) VALUES (2,\"Semanal\")");
@@ -1395,29 +1395,29 @@ public class CargaDatosPrueba {
     public boolean borrarTodosLosDatos() {
         try {
             PreparedStatement query = conexion.prepareStatement("SHOW TABLES");
-
+            
             ResultSet tablas = query.executeQuery();
-
+            
             while (tablas.next()) {
                 borrarDatosTabla(tablas.getString(1));
             }
-
+            
             tablas.close();
             query.close();
-
+            
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
     }
-
+    
     private boolean borrarDatosTabla(String nombre) {
         try {
             PreparedStatement truncate = conexion.prepareStatement("DELETE FROM " + nombre);
             truncate.executeUpdate();
             truncate.close();
-
+            
             return true;
         } catch (SQLException e) {
             e.printStackTrace();

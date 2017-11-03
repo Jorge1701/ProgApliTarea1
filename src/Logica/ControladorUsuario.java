@@ -1,5 +1,6 @@
 package Logica;
 
+import Persistencia.BDAlbum;
 import Persistencia.BDCliente;
 import Persistencia.BDRanking;
 import Persistencia.BDSuscripcion;
@@ -127,7 +128,7 @@ public class ControladorUsuario implements IUsuario {
                 return false;
             }
         }
-        
+
         Usuario usr;
 
         if (this.bdUsuario.ingresarUsuario(dtu)) {
@@ -248,6 +249,27 @@ public class ControladorUsuario implements IUsuario {
 
         return ((Cliente) u).obtenerPerfil();
 
+    }
+
+    @Override
+    public void reproducirTema(String nickArtista, String nomAlbum, String nomTema) {
+        Usuario u = usuarios.get(nickArtista);
+
+        if (u == null) {
+            throw new UnsupportedOperationException("El artista " + nickArtista + " no existe");
+        }
+
+        if (!(u instanceof Artista)) {
+            throw new UnsupportedOperationException("Este usuario no es un artista");
+        }
+
+        if (!((Artista) u).estaActivo()) {
+            throw new UnsupportedOperationException("Este artista no esta activo");
+        }
+
+        if (new BDAlbum().reproducirTema(nickArtista, nomAlbum, nomTema)) {
+            ((Artista) u).getAlbum(nomAlbum).getTema(nomTema).reproducir();
+        }
     }
 
     @Override

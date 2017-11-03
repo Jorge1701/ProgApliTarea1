@@ -7,6 +7,8 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -36,7 +38,9 @@ public class BDUsuario {
 
     public boolean desactivarArtista(String artista) {
         try {
-            PreparedStatement update = conexion.prepareStatement("UPDATE artista SET activo = 'N' WHERE nickname = '" + artista + "'");
+            Calendar hoy = new GregorianCalendar();
+
+            PreparedStatement update = conexion.prepareStatement("UPDATE artista SET activo = 'N', fecha_desactivacion = '" + String.valueOf(hoy.get(Calendar.YEAR)) + "-" + String.valueOf(hoy.get(Calendar.MONTH) + 1) + "-" + String.valueOf(hoy.get(Calendar.DAY_OF_MONTH)) + "' WHERE nickname = '" + artista + "'");
             update.executeUpdate();
             update.close();
 

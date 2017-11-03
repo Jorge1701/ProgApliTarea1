@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlSeeAlso({DtTemaLocal.class, DtTemaRemoto.class})
 public class DtTema extends DtBuscado {
 
+    private int reproducciones;
     private String nombre;
     private DtTime duracion;
     private int ubicacion;
@@ -18,10 +19,15 @@ public class DtTema extends DtBuscado {
 
     private String imagenAlbum;
 
-    public DtTema(String nombre, DtTime duracion, int ubicacion) {
+    public DtTema(int reproducciones, String nombre, DtTime duracion, int ubicacion) {
+        this.reproducciones = reproducciones;
         this.nombre = nombre;
         this.duracion = duracion;
         this.ubicacion = ubicacion;
+    }
+
+    public int getReproducciones() {
+        return reproducciones;
     }
 
     public String getNombre() {

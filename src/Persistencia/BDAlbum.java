@@ -138,9 +138,44 @@ public class BDAlbum {
         }
     }
 
+    public boolean reproducirTema(String nickArtista, String nomAlbum, String nombre) {
+        try {
+            int idAlbum = obtenerIdAlbum(nickArtista, nomAlbum);
+            PreparedStatement update = conexion.prepareStatement("UPDATE tema SET reproducciones = reproducciones + 1 WHERE nickname = '" + nickArtista + "' AND idAlbum = " + idAlbum + " AND nombre = '" + nombre + "'");
+            update.executeUpdate();
+            update.close();
+
+            return true;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
+
+    private int obtenerIdAlbum(String nickArt, String nomAlbum) {
+        try {
+            PreparedStatement buscar = conexion.prepareStatement("SELECT idAlbum FROM album WHERE nicknameArtista = ? AND nombre = ?");
+            buscar.setString(1, nickArt);
+            buscar.setString(2, nomAlbum);
+            ResultSet rs = buscar.executeQuery();
+            int id = 0;
+            while (rs.next()) {
+                id = rs.getInt("idAlbum");
+            }
+            rs.close();
+            buscar.close();
+
+            return id;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return 0;
+    }
+
     public boolean insertarTemaDeAlbum(String nickArtista, int idAlbum, String nombre, Time duracion, int ubicacion, String tipo, String link) {
         try {
-            PreparedStatement insert = conexion.prepareStatement("INSERT INTO tema (nicknameArtista, idAlbum, nombre, duracion, ubicacion, tipo, link) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            PreparedStatement insert = conexion.prepareStatement("INSERT INTO tema (nicknameArtista, idAlbum, nombre, duracion, ubicacion, tipo, link, reproducciones) VALUES (?, ?, ?, ?, ?, ?, ?, 0)");
             insert.setString(1, nickArtista);
             insert.setInt(2, idAlbum);
             insert.setString(3, nombre);

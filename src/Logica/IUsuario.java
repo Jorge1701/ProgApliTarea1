@@ -12,6 +12,8 @@ public interface IUsuario {
     
     public void desactivar(String nickname);
     
+    public void reproducirTema(String nickArtista, String nomAlbum, String nomTema);
+    
     public void setIContenido(IContenido iContenido);
     public Usuario obtenerUsuario(String nick);
     public Artista selectArtista(String nick);

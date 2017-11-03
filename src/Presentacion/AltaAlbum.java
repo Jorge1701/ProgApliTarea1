@@ -712,7 +712,7 @@ public class AltaAlbum extends javax.swing.JInternalFrame {
                 return;
             }
             int ubicacion = tableTemas.getRowCount() + 1;
-            dtTema = new DtTemaRemoto(stream, nomTema, dtTime, ubicacion);
+            dtTema = new DtTemaRemoto(0, stream, nomTema, dtTime, ubicacion);
             Object[] data = {
                 nomTema,
                 ubicacion,
@@ -733,7 +733,7 @@ public class AltaAlbum extends javax.swing.JInternalFrame {
                 return;
             }
             int ubicacion = tableTemas.getRowCount() + 1;
-            dtTema = new DtTemaLocal(nameMp3, nomTema, dtTime, ubicacion);
+            dtTema = new DtTemaLocal(0, nameMp3, nomTema, dtTime, ubicacion);
             Object[] data = {
                 nomTema,
                 ubicacion,
