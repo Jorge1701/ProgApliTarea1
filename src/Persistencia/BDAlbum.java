@@ -141,7 +141,7 @@ public class BDAlbum {
     public boolean reproducirTema(String nickArtista, String nomAlbum, String nombre) {
         try {
             int idAlbum = obtenerIdAlbum(nickArtista, nomAlbum);
-            PreparedStatement update = conexion.prepareStatement("UPDATE tema SET reproducciones = reproducciones + 1 WHERE nickname = '" + nickArtista + "' AND idAlbum = " + idAlbum + " AND nombre = '" + nombre + "'");
+            PreparedStatement update = conexion.prepareStatement("UPDATE tema SET reproducciones = reproducciones + 1 WHERE nicknameArtista = '" + nickArtista + "' AND idAlbum = " + idAlbum + " AND nombre = '" + nombre.replace("'", "\\'") + "'");
             update.executeUpdate();
             update.close();
 

@@ -4,6 +4,7 @@ import Configuracion.Configuracion;
 import Logica.Fabrica;
 import Servicios.PBuscador;
 import Servicios.PConsultaPerfil;
+import Servicios.PContadores;
 import Servicios.PContenido;
 import Servicios.PDesactivarArtista;
 import Servicios.PDownloadFile;
@@ -440,10 +441,12 @@ public class menu extends javax.swing.JFrame {
         new PDownloadFile().publicar();
 
         new PLista().publicar();
-        
+
         new PRanking().publicar();
-        
+
         new PDesactivarArtista().publicar();
+
+        new PContadores().publicar();
 
         java.awt.EventQueue.invokeLater(new Runnable() {
 
