@@ -43,8 +43,7 @@ public class PImagen {
                 streamer.read(byteArray);
             }
         } catch (Exception e) {
-            System.out.println("recurso: " + recurso);
-            System.out.println("nombre: " + nombre);
+            e.printStackTrace();
             throw e;
         }
         return byteArray;

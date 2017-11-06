@@ -29,4 +29,9 @@ public class PContadores {
     public void reproducirTema(String nickArtista, String nomAlbum, String nomTema) {
         iUsuario.reproducirTema(nickArtista, nomAlbum, nomTema);
     }
+
+    @WebMethod
+    public void descargaTema(String nickArtista, String nomAlbum, String nomTema) {
+        iUsuario.descargaTema(nickArtista, nomAlbum, nomTema);
+    }
 }

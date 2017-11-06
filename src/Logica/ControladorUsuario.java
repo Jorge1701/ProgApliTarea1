@@ -273,6 +273,27 @@ public class ControladorUsuario implements IUsuario {
     }
 
     @Override
+    public void descargaTema(String nickArtista, String nomAlbum, String nomTema) {
+        Usuario u = usuarios.get(nickArtista);
+
+        if (u == null) {
+            throw new UnsupportedOperationException("El artista " + nickArtista + " no existe");
+        }
+
+        if (!(u instanceof Artista)) {
+            throw new UnsupportedOperationException("Este usuario no es un artista");
+        }
+
+        if (!((Artista) u).estaActivo()) {
+            throw new UnsupportedOperationException("Este artista no esta activo");
+        }
+
+        if (new BDAlbum().descargaTema(nickArtista, nomAlbum, nomTema)) {
+            ((TemaLocal) (((Artista) u).getAlbum(nomAlbum).getTema(nomTema))).descarga();
+        }
+    }
+
+    @Override
     public DtUsuario getDataUsuario(String nickUsuario) {
         Usuario user = usuarios.get(nickUsuario);
 

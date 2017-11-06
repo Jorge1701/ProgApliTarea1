@@ -91,7 +91,7 @@ public class Fabrica {
             for (DtTema dtt : cdp.cargarTemasAlbum(dta.getNickArtista(), dta.getNombre())) {
                 if (dtt instanceof DtTemaLocal) {
                     DtTemaLocal dttl = (DtTemaLocal) dtt;
-                    temas.put(dttl.getNombre(), new TemaLocal(dttl.getReproducciones(), a, dttl.getDirectorio(), dttl.getNombre(), dttl.getDuracion(), dttl.getUbicacion()));
+                    temas.put(dttl.getNombre(), new TemaLocal(dttl.getDescargas(), dttl.getReproducciones(), a, dttl.getDirectorio(), dttl.getNombre(), dttl.getDuracion(), dttl.getUbicacion()));
                 } else {
                     DtTemaRemoto dttr = (DtTemaRemoto) dtt;
                     temas.put(dttr.getNombre(), new TemaRemoto(dttr.getReproducciones(), a, dttr.getNombre(), dttr.getDuracion(), dttr.getUbicacion(), dttr.getUrl()));
