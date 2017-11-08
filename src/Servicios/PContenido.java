@@ -6,18 +6,15 @@ import Logica.DtListaAlbum;
 import Logica.DtListaDeListas;
 import Logica.DtListaString;
 import Logica.DtListaTema;
-import Logica.DtTema;
 import Logica.DtTemaLocal;
 import Logica.DtTemaRemoto;
 import Logica.DtUsuario;
 import Logica.Fabrica;
 import Logica.IContenido;
 import Logica.IUsuario;
-import java.util.ArrayList;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
-import javax.jws.soap.SOAPBinding.ParameterStyle;
 import javax.jws.soap.SOAPBinding.Style;
 import javax.xml.ws.Endpoint;
 

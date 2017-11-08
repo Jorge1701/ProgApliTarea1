@@ -3,6 +3,7 @@ package Servicios;
 import Configuracion.Configuracion;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.jws.WebMethod;
@@ -32,7 +33,7 @@ public class PTema {
             FileInputStream streamer = new FileInputStream(f);
             byteArray = new byte[streamer.available()];
             streamer.read(byteArray);
-        } catch (Exception e) {
+        } catch (IOException e) {
             Logger.getLogger(PInicio.class.getName()).log(Level.SEVERE, null, e);
         }
         return byteArray;

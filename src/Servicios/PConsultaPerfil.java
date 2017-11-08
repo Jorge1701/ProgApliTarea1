@@ -40,7 +40,12 @@ public class PConsultaPerfil {
     public DtUsuario getDataUsuario(String nickname) throws SoapSeviciosFaultException{
         DtUsuario dtUs =  iUsuario.getDataUsuario(nickname);
         if (dtUs == null) {
-            throw new SoapSeviciosFaultException(new SimpleExceptionBean(), "NickName no valido");
+            SimpleExceptionBean faultBean = new SimpleExceptionBean();
+            faultBean.setMessage("Nickname no valido");
+            SoapSeviciosFaultException faultException = new SoapSeviciosFaultException();
+            faultException.setFaultBean(faultBean);
+            throw faultException;
+            
         }
             
         return dtUs;
