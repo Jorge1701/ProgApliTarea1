@@ -1,22 +1,20 @@
 package Persistencia;
 
+import Configuracion.Configuracion;
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 
 public class ConexionBD {
 
-    private final String host = "127.0.0.1";
-    private final String port = "3306";
-    private final String db = "espotify";
-    private final String user = "root";
-    private final String pass = "rooteo";
+    private final String host = Configuracion.get("ipBD");
+    private final String port = Configuracion.get("puertoBD");
+    private final String db = Configuracion.get("nomBD");
+    private final String user = Configuracion.get("userBD");
+    private final String pass = Configuracion.get("passBD");
     private String url;
     public Connection Link = null;
     public boolean conectado;
