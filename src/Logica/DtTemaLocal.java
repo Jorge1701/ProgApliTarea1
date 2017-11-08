@@ -8,10 +8,12 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "DtTemaLocal")
 public class DtTemaLocal extends DtTema {
 
-    public String directorio;
+    private String directorio;
+    private int descargas;
 
-    public DtTemaLocal(String directorio, String nombre, DtTime duracion, int ubicacion) {
-        super(nombre, duracion, ubicacion);
+    public DtTemaLocal(int descargas, int reproducciones, String directorio, String nombre, DtTime duracion, int ubicacion) {
+        super(reproducciones, nombre, duracion, ubicacion);
+        this.descargas = descargas;
         this.directorio = directorio;
     }
 
@@ -19,4 +21,7 @@ public class DtTemaLocal extends DtTema {
         return directorio;
     }
 
+    public int getDescargas() {
+        return descargas;
+    }
 }

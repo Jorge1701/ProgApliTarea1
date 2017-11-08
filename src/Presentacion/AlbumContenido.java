@@ -85,7 +85,8 @@ public class AlbumContenido extends javax.swing.JInternalFrame implements ListSe
                 ((DtTema) dtt).getNombre(),
                 ((DtTema) dtt).getDuracion().getHoras() + ":" + ((DtTema) dtt).getDuracion().getMinutos() + ":" + ((DtTema) dtt).getDuracion().getSegundos(),
                 ((DtTema) dtt).getUbicacion(),
-                dtt instanceof DtTemaLocal ? ((DtTemaLocal) dtt).getDirectorio() : ((DtTemaRemoto) dtt).getUrl()
+                dtt instanceof DtTemaLocal ? ((DtTemaLocal) dtt).getDirectorio() : ((DtTemaRemoto) dtt).getUrl(),
+                dtt.getReproducciones() + " / " + (dtt instanceof DtTemaRemoto ? "-" : "0")
             };
             dtm.addRow(data);
         }
@@ -209,11 +210,11 @@ public class AlbumContenido extends javax.swing.JInternalFrame implements ListSe
 
             },
             new String [] {
-                "Tipo", "Nombre", "Duración", "Posición", "Archivo"
+                "Tipo", "Nombre", "Duración", "Posición", "Archivo", "Rep./Des."
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {

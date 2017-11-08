@@ -496,7 +496,7 @@ public class CargaDatosPrueba {
     public ArrayList<DtTema> cargarTemasAlbum(String nicknameArtista, String nombreAlbum) {
         try {
             ArrayList<DtTema> temas = new ArrayList<>();
-            PreparedStatement query = conexion.prepareStatement("SELECT nombre, duracion, ubicacion, tipo, link FROM tema WHERE nicknameArtista = ? AND idAlbum = ?");
+            PreparedStatement query = conexion.prepareStatement("SELECT nombre, duracion, ubicacion, tipo, link, reproducciones, descargas FROM tema WHERE nicknameArtista = ? AND idAlbum = ?");
             query.setString(1, nicknameArtista);
             query.setInt(2, obtenerIdAlbum(nicknameArtista, nombreAlbum));
 
@@ -507,9 +507,9 @@ public class CargaDatosPrueba {
                 int ubicacion = rs.getInt("ubicacion");
 
                 if (rs.getString("tipo").equals("A")) {
-                    temas.add(new DtTemaLocal(rs.getString("link"), nombre, new DtTime(duracion.getHours(), duracion.getMinutes(), duracion.getSeconds()), ubicacion));
+                    temas.add(new DtTemaLocal(Integer.valueOf(rs.getString("descargas")), Integer.valueOf(rs.getString("reproducciones")), rs.getString("link"), nombre, new DtTime(duracion.getHours(), duracion.getMinutes(), duracion.getSeconds()), ubicacion));
                 } else {
-                    temas.add(new DtTemaRemoto(rs.getString("link"), nombre, new DtTime(duracion.getHours(), duracion.getMinutes(), duracion.getSeconds()), ubicacion));
+                    temas.add(new DtTemaRemoto(Integer.valueOf(rs.getString("reproducciones")), rs.getString("link"), nombre, new DtTime(duracion.getHours(), duracion.getMinutes(), duracion.getSeconds()), ubicacion));
                 }
             }
 

@@ -78,7 +78,7 @@ public class ConexionBD {
             JOptionPane.showMessageDialog(null, "ERROR DE CONEXION A: " + this.url + "  Configure correctamente los datos del servidor, si el problema persiste se recomienda reiniciar el servidor y el programa", "Problema de conexion", JOptionPane.INFORMATION_MESSAGE);
 
         } catch (ClassNotFoundException ex) {
-            System.out.println(ex);
+            ex.printStackTrace();
         }
         return false;
     }
@@ -100,7 +100,6 @@ public class ConexionBD {
             Query.execute();
             return true;
         } catch (SQLException ex) {
-            //System.out.println("ERROR: "+ex);
             return false;
         }
 
@@ -113,7 +112,7 @@ public class ConexionBD {
             ResultSet Resultado = Query.executeQuery();
             return Resultado;
         } catch (SQLException ex) {
-            System.out.println("ERROR: " + ex);
+            ex.printStackTrace();
             return null;
         }
     }

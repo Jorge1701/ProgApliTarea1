@@ -539,7 +539,6 @@ public class AltaAlbum extends javax.swing.JInternalFrame {
             return;
         }
         String nickA = tablaArtistas.getValueAt(tablaArtistas.getSelectedRow(), 0).toString();
-        //System.out.println("nick:"  + nickA);
         String album = txtNombreAlbum.getText();
 
         String camposVacios = "";
@@ -647,7 +646,6 @@ public class AltaAlbum extends javax.swing.JInternalFrame {
                 //pathMp3 = "src/Recursos/Musica/" + arch.getName();
                 pathMp3 = Configuracion.get("pathMusica") + arch.getName();
                 nameMp3 = arch.getName();
-                //System.out.println("Path: "+ pathMp3);
                 //if (arch != null) {
                 InputStream is = new FileInputStream(arch);
                 OutputStream outstream = new FileOutputStream(new File(pathMp3));
@@ -712,14 +710,13 @@ public class AltaAlbum extends javax.swing.JInternalFrame {
                 return;
             }
             int ubicacion = tableTemas.getRowCount() + 1;
-            dtTema = new DtTemaRemoto(stream, nomTema, dtTime, ubicacion);
+            dtTema = new DtTemaRemoto(0, stream, nomTema, dtTime, ubicacion);
             Object[] data = {
                 nomTema,
                 ubicacion,
                 dtTime.getHoras() + ":" + dtTime.getMinutos() + ":" + dtTime.getSegundos(),
                 stream,};
             dtm.addRow(data);
-            //System.out.println("Agrego tema" + nomTema);
             temas.add(dtTema);
 
         } else if (btnSelecMp3.isEnabled()) {
@@ -733,14 +730,13 @@ public class AltaAlbum extends javax.swing.JInternalFrame {
                 return;
             }
             int ubicacion = tableTemas.getRowCount() + 1;
-            dtTema = new DtTemaLocal(nameMp3, nomTema, dtTime, ubicacion);
+            dtTema = new DtTemaLocal(0, 0, nameMp3, nomTema, dtTime, ubicacion);
             Object[] data = {
                 nomTema,
                 ubicacion,
                 dtTime.getHoras() + ":" + dtTime.getMinutos() + ":" + dtTime.getSegundos(),
                 nameMp3,};
             dtm.addRow(data);
-            System.out.println("Agrego Tema" + nomTema);
             temas.add(dtTema);
             pathMp3 = "";
             nameMp3 = "";
@@ -803,7 +799,6 @@ public class AltaAlbum extends javax.swing.JInternalFrame {
 
         int fila = tableTemas.getSelectedRow();
         DefaultTableModel model = (DefaultTableModel) tableTemas.getModel();
-        System.out.println("fila" + fila);
         if (fila >= 0) {
             String nombre = tableTemas.getValueAt(fila, 0).toString();
             if (!temas.isEmpty()) {

@@ -1,5 +1,6 @@
 package Logica;
 
+import Persistencia.BDAlbum;
 import Persistencia.BDCliente;
 import Persistencia.BDRanking;
 import Persistencia.BDSuscripcion;
@@ -73,7 +74,29 @@ public class ControladorUsuario implements IUsuario {
             throw new UnsupportedOperationException("Este usuario no es un Artista");
         }
 
-        ((Artista) us).desactivar();
+        if (new BDUsuario().desactivarArtista(nickname)) {
+            ((Artista) us).desactivar();
+        }
+    }
+
+    public ArrayList<DtListaParticular> obtenerPublicas() {
+
+        ArrayList<DtListaParticular> p = new ArrayList<>();
+        ArrayList<DtListaParticular> resultado = new ArrayList<>();
+        Iterator i = usuarios.entrySet().iterator();
+
+        while (i.hasNext()) {
+            Usuario u = (Usuario) ((Map.Entry) i.next()).getValue();
+            if (u instanceof Cliente) {
+                DtPerfilCliente cliente = (DtPerfilCliente) u.obtenerPerfil();
+                p = cliente.getListasCreadas();
+                for (int j = 0; j < p.size(); j++) {
+                    resultado.add(p.get(j));
+                }
+            }
+        }
+        return resultado;
+
     }
 
     @Override
@@ -116,9 +139,7 @@ public class ControladorUsuario implements IUsuario {
     }
 
     @Override
-    
     public boolean ingresarUsuario(DtUsuario dtu) {
-
         Iterator i = usuarios.entrySet().iterator();
         while (i.hasNext()) {
             Usuario u = (Usuario) ((Map.Entry) i.next()).getValue();
@@ -126,12 +147,6 @@ public class ControladorUsuario implements IUsuario {
             if (u.getNickname().equals(dtu.getNickname()) || u.getEmail().equals(dtu.getEmail())) {
                 return false;
             }
-        }
-        System.err.println("ControladorUsuario");
-
-        System.err.println("Contrasenia: " + dtu.getContrasenia());
-        if (dtu instanceof DtArtista) {
-            System.err.println("Bioografia: " + ((DtArtista) dtu).getBiografia());
         }
 
         Usuario usr;
@@ -254,6 +269,48 @@ public class ControladorUsuario implements IUsuario {
 
         return ((Cliente) u).obtenerPerfil();
 
+    }
+
+    @Override
+    public void reproducirTema(String nickArtista, String nomAlbum, String nomTema) {
+        Usuario u = usuarios.get(nickArtista);
+
+        if (u == null) {
+            throw new UnsupportedOperationException("El artista " + nickArtista + " no existe");
+        }
+
+        if (!(u instanceof Artista)) {
+            throw new UnsupportedOperationException("Este usuario no es un artista");
+        }
+
+        if (!((Artista) u).estaActivo()) {
+            throw new UnsupportedOperationException("Este artista no esta activo");
+        }
+
+        if (new BDAlbum().reproducirTema(nickArtista, nomAlbum, nomTema)) {
+            ((Artista) u).getAlbum(nomAlbum).getTema(nomTema).reproducir();
+        }
+    }
+
+    @Override
+    public void descargaTema(String nickArtista, String nomAlbum, String nomTema) {
+        Usuario u = usuarios.get(nickArtista);
+
+        if (u == null) {
+            throw new UnsupportedOperationException("El artista " + nickArtista + " no existe");
+        }
+
+        if (!(u instanceof Artista)) {
+            throw new UnsupportedOperationException("Este usuario no es un artista");
+        }
+
+        if (!((Artista) u).estaActivo()) {
+            throw new UnsupportedOperationException("Este artista no esta activo");
+        }
+
+        if (new BDAlbum().descargaTema(nickArtista, nomAlbum, nomTema)) {
+            ((TemaLocal) (((Artista) u).getAlbum(nomAlbum).getTema(nomTema))).descarga();
+        }
     }
 
     @Override
@@ -596,6 +653,7 @@ public class ControladorUsuario implements IUsuario {
     @Override
     public boolean nicknameExiste(String nickname) {
         Usuario u = usuarios.get(nickname);
+
         if (u == null) {
             return false;
         } else {
@@ -615,7 +673,6 @@ public class ControladorUsuario implements IUsuario {
 
     @Override
     public String chequearLogin(String nickname, String pass) {
-        
         if (nickname.contains("@")) {
             Iterator i = usuarios.entrySet().iterator();
             while (i.hasNext()) {
@@ -630,17 +687,13 @@ public class ControladorUsuario implements IUsuario {
             }
             return "Error: Correo no existe";
         } else {
-            Usuario u = usuarios.get(nickname);
-            
-            
+            Usuario u = obtenerUsuario(nickname);
+            System.out.println(u.getNickname());
             if (u == null) {
-          
                 return "Error: Nickname invalido";
             } else if (u.getContrasenia().equals(pass)) {
-  
                 return u.getNickname();
             } else {
-              
                 return "Error: Contraseña invalida";
             }
         }
@@ -918,25 +971,6 @@ public class ControladorUsuario implements IUsuario {
         }
         ordenarRanking(resultado);
         return new DtListaRanking(resultado);
-    }
-    public ArrayList<DtListaParticular>  obtenerPublicas(){
-        
-        ArrayList<DtListaParticular> p = new ArrayList<>();
-        ArrayList<DtListaParticular> resultado = new ArrayList<>();
-        Iterator i  = usuarios.entrySet().iterator();
-       
-        while(i.hasNext()){
-          Usuario u =  (Usuario) ((Map.Entry) i.next()).getValue();
-            if(u instanceof Cliente){
-            DtPerfilCliente cliente = (DtPerfilCliente)u.obtenerPerfil();
-            p = cliente.getListasCreadas();
-            for (int j = 0 ; j<p.size() ; j++){
-            resultado.add(p.get(j));
-            }
-            }
-            }
-         return   resultado;  
-    
     }
 
     private ArrayList<DtRanking> ordenarRanking(ArrayList<DtRanking> usuarios) {

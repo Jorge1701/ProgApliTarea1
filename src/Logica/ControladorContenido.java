@@ -319,10 +319,10 @@ public class ControladorContenido implements IContenido {
             DtTema dtT = (DtTema) temas.get(i);
             Tema t;
             if (dtT instanceof DtTemaLocal) {
-                t = new TemaLocal(((DtTemaLocal) dtT).getDirectorio(), dtT.getNombre(), dtT.getDuracion(), dtT.getUbicacion());
+                t = new TemaLocal(((DtTemaLocal) dtT).getDescargas(), 0, ((DtTemaLocal) dtT).getDirectorio(), dtT.getNombre(), dtT.getDuracion(), dtT.getUbicacion());
                 mapTemas.put(dtT.getNombre(), t);
             } else if (dtT instanceof DtTemaRemoto) {
-                t = new TemaRemoto(dtT.getNombre(), dtT.getDuracion(), dtT.getUbicacion(), ((DtTemaRemoto) dtT).getUrl());
+                t = new TemaRemoto(0, dtT.getNombre(), dtT.getDuracion(), dtT.getUbicacion(), ((DtTemaRemoto) dtT).getUrl());
                 mapTemas.put(dtT.getNombre(), t);
             }
 
