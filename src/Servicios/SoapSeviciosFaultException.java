@@ -11,15 +11,15 @@ public class SoapSeviciosFaultException extends Exception {
     public SoapSeviciosFaultException(){
         
     }
-    /*public SoapSeviciosFaultException(SimpleExceptionBean faultBean, String message) {
+    public SoapSeviciosFaultException(SimpleExceptionBean faultBean, String message) {
         super(message);
         this.faultBean = faultBean;
-    }*/
+    }
 
-   /* public SoapSeviciosFaultException(SimpleExceptionBean faultBean, String message, Throwable cause) {
+    public SoapSeviciosFaultException(SimpleExceptionBean faultBean, String message, Throwable cause) {
         super(message, cause);
         this.faultBean = faultBean;
-    }*/
+    }
 
     public SimpleExceptionBean getFaultBean() {
         return faultBean;
