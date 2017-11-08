@@ -196,6 +196,26 @@ public class ControladorUsuario implements IUsuario {
         return clientes;
     }
 
+    public ArrayList<DtListaParticular> obtenerPublicas() {
+
+        ArrayList<DtListaParticular> p = new ArrayList<>();
+        ArrayList<DtListaParticular> resultado = new ArrayList<>();
+        Iterator i = usuarios.entrySet().iterator();
+
+        while (i.hasNext()) {
+            Usuario u = (Usuario) ((Map.Entry) i.next()).getValue();
+            if (u instanceof Cliente) {
+                DtPerfilCliente cliente = (DtPerfilCliente) u.obtenerPerfil();
+                p = cliente.getListasCreadas();
+                for (int j = 0; j < p.size(); j++) {
+                    resultado.add(p.get(j));
+                }
+            }
+        }
+        return resultado;
+
+    }
+
     @Override
     public ArrayList<DtUsuario> listarArtistas() {
         ArrayList<DtUsuario> artistas = new ArrayList<>();
