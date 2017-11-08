@@ -10,6 +10,8 @@ import Logica.DtUsuario;
 import Logica.Fabrica;
 import Logica.IContenido;
 import Logica.IUsuario;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
@@ -34,8 +36,13 @@ public class PInicio {
     }
 
     @WebMethod
-    public void cargarDatosPrueba() throws Exception {
-        Fabrica.cargaDatosPrueba();
+    public void cargarDatosPrueba() {
+        
+        try {
+            Fabrica.cargaDatosPrueba();
+        } catch (Exception ex) {
+            Logger.getLogger(PInicio.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @WebMethod

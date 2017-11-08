@@ -23,7 +23,7 @@ public class PImagen {
     }
 
     @WebMethod
-    public byte[] getFile(@WebParam(name = "recurso") String recurso, @WebParam(name = "fileName") String nombre) throws Exception {
+    public byte[] getFile(@WebParam(name = "recurso") String recurso, @WebParam(name = "fileName") String nombre) {
         byte[] byteArray = null;
         try {
             if (!nombre.equals("")) {
@@ -43,8 +43,7 @@ public class PImagen {
                 streamer.read(byteArray);
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            throw e;
+            e.printStackTrace();            
         }
         return byteArray;
     }
