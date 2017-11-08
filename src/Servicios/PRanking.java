@@ -2,7 +2,6 @@ package Servicios;
 
 import Configuracion.Configuracion;
 import Logica.DtListaRanking;
-import Logica.DtRanking;
 import Logica.Fabrica;
 import Logica.IUsuario;
 import javax.jws.WebMethod;

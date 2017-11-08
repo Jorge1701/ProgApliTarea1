@@ -3,6 +3,7 @@ package Servicios;
 import Configuracion.Configuracion;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
@@ -42,7 +43,7 @@ public class PImagen {
                 byteArray = new byte[streamer.available()];
                 streamer.read(byteArray);
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();            
         }
         return byteArray;
