@@ -27,6 +27,7 @@ import javax.swing.JOptionPane;
 public class menu extends javax.swing.JFrame {
 
     public menu() {
+        System.out.println("Cargando componentes...");
         initComponents();
         this.setExtendedState(MAXIMIZED_BOTH);
         Fabrica.inicializarControladores();
@@ -43,7 +44,7 @@ public class menu extends javax.swing.JFrame {
 
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
-        PanelMenu = new javax.swing.JDesktopPane();
+        PanelMenu = new DesktopFondo();
         barra = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         altaPerfil = new javax.swing.JMenuItem();
@@ -75,7 +76,7 @@ public class menu extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Espotify");
         setBackground(new java.awt.Color(51, 153, 0));
-        setIconImage(Toolkit.getDefaultToolkit().getImage(menu.class.getResource("/Imagenes/icono2.png")));
+        setIconImage(Toolkit.getDefaultToolkit().getImage(Configuracion.get("pathImagenes")+"icono.png"));
         setName("Espotify"); // NOI18N
 
         PanelMenu.setBackground(new java.awt.Color(204, 204, 255));
@@ -415,37 +416,21 @@ public class menu extends javax.swing.JFrame {
         Configuracion.cargar();
 
         new PRegistro().publicar();
-
         new PInicio().publicar();
-
         new PContenido().publicar();
-
         new PSuscripcion().publicar();
-
         new PSesion().publicar();
-
         new PSeguir().publicar();
-
         new PFavorito().publicar();
-
         new PBuscador().publicar();
-
         new PImagen().publicar();
-
         new PUploadfile().publicar();
-
         new PTema().publicar();
-
         new PConsultaPerfil().publicar();
-
         new PDownloadFile().publicar();
-
         new PLista().publicar();
-
         new PRanking().publicar();
-
         new PDesactivarArtista().publicar();
-
         new PContadores().publicar();
 
         java.awt.EventQueue.invokeLater(new Runnable() {
