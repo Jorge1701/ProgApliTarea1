@@ -12,6 +12,7 @@ import Servicios.PFavorito;
 import Servicios.PImagen;
 import Servicios.PInicio;
 import Servicios.PLista;
+import Servicios.PMovil;
 import Servicios.PRanking;
 import Servicios.PRegistro;
 import Servicios.PSeguir;
@@ -432,6 +433,7 @@ public class menu extends javax.swing.JFrame {
         new PRanking().publicar();
         new PDesactivarArtista().publicar();
         new PContadores().publicar();
+        new PMovil().publicar();
 
         java.awt.EventQueue.invokeLater(new Runnable() {
 
