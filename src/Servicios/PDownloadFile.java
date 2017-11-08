@@ -6,7 +6,6 @@
 package Servicios;
 
 import Configuracion.Configuracion;
-import Logica.DtListaString;
 import Logica.Fabrica;
 import Logica.IContenido;
 import Logica.IUsuario;

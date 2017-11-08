@@ -2,7 +2,6 @@ package Presentacion;
 
 import Logica.DtGenero;
 import Logica.DtLista;
-import Logica.DtListaParticular;
 import Logica.DtUsuario;
 import Logica.Fabrica;
 import Logica.IContenido;

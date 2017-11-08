@@ -26,7 +26,7 @@ public class PUploadfile {
     }
 
     @WebMethod
-    public Boolean Uploadfile(byte[] archivo, String nombre, String recurso) throws Exception {
+    public Boolean Uploadfile(byte[] archivo, String nombre, String recurso) {
 
         if (!nombre.equals("")) {
             String path = null;

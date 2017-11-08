@@ -65,7 +65,8 @@ public class ListaReproduccionContenido extends javax.swing.JInternalFrame imple
                 dtt instanceof DtTemaLocal ? "A" : "S",
                 ((DtTema) dtt).getNombre(),
                 ((DtTema) dtt).getDuracion().getHoras() + ":" + ((DtTema) dtt).getDuracion().getMinutos() + ":" + ((DtTema) dtt).getDuracion().getSegundos(),
-                dtt instanceof DtTemaLocal ? ((DtTemaLocal) dtt).getDirectorio() : ((DtTemaRemoto) dtt).getUrl()
+                dtt instanceof DtTemaLocal ? ((DtTemaLocal) dtt).getDirectorio() : ((DtTemaRemoto) dtt).getUrl(),
+                dtt.getReproducciones() + " / " + (dtt instanceof DtTemaRemoto ? "-" : "0")
             };
             dtm.addRow(data);
         }
@@ -119,11 +120,11 @@ public class ListaReproduccionContenido extends javax.swing.JInternalFrame imple
 
             },
             new String [] {
-                "Tipo", "Nombre", "Duración", "Archivo"
+                "Tipo", "Nombre", "Duración", "Archivo", "Reps. / Des."
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {

@@ -73,8 +73,6 @@ public class BDAlbum {
 
                 t.setId(idtema);
                 statament2.close();
-                //System.out.println("Idtema: " + idtema );
-
             }
 
             ArrayList<Genero> gros = album.getGeneros();
@@ -141,7 +139,21 @@ public class BDAlbum {
     public boolean reproducirTema(String nickArtista, String nomAlbum, String nombre) {
         try {
             int idAlbum = obtenerIdAlbum(nickArtista, nomAlbum);
-            PreparedStatement update = conexion.prepareStatement("UPDATE tema SET reproducciones = reproducciones + 1 WHERE nickname = '" + nickArtista + "' AND idAlbum = " + idAlbum + " AND nombre = '" + nombre + "'");
+            PreparedStatement update = conexion.prepareStatement("UPDATE tema SET reproducciones = reproducciones + 1 WHERE nicknameArtista = '" + nickArtista + "' AND idAlbum = " + idAlbum + " AND nombre = '" + nombre.replace("'", "\\'") + "'");
+            update.executeUpdate();
+            update.close();
+
+            return true;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean descargaTema(String nickArtista, String nomAlbum, String nombre) {
+        try {
+            int idAlbum = obtenerIdAlbum(nickArtista, nomAlbum);
+            PreparedStatement update = conexion.prepareStatement("UPDATE tema SET descargas = descargas + 1 WHERE nicknameArtista = '" + nickArtista + "' AND idAlbum = " + idAlbum + " AND nombre = '" + nombre.replace("'", "\\'") + "'");
             update.executeUpdate();
             update.close();
 
@@ -175,7 +187,7 @@ public class BDAlbum {
 
     public boolean insertarTemaDeAlbum(String nickArtista, int idAlbum, String nombre, Time duracion, int ubicacion, String tipo, String link) {
         try {
-            PreparedStatement insert = conexion.prepareStatement("INSERT INTO tema (nicknameArtista, idAlbum, nombre, duracion, ubicacion, tipo, link, reproducciones) VALUES (?, ?, ?, ?, ?, ?, ?, 0)");
+            PreparedStatement insert = conexion.prepareStatement("INSERT INTO tema (nicknameArtista, idAlbum, nombre, duracion, ubicacion, tipo, link, reproducciones, descargas) VALUES (?, ?, ?, ?, ?, ?, ?, 0, 0)");
             insert.setString(1, nickArtista);
             insert.setInt(2, idAlbum);
             insert.setString(3, nombre);
