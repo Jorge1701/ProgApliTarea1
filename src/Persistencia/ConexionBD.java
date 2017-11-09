@@ -15,21 +15,13 @@ public class ConexionBD {
     private final String db = Configuracion.get("nomBD");
     private final String user = Configuracion.get("userBD");
     private final String pass = Configuracion.get("passBD");
-    private String url;
-    public Connection Link = null;
-    public boolean conectado;
-    //Para hacer ConexionDB singleton descomentar
-    //private static Connection conexion=null;
     private Connection conexion = null;
 
-    //Para hacer ConexionDB singleton descomentar
-    //private ConexionDB(){};
     public ConexionBD() {
     }
 
     ;
-    //Para hacer ConexionDB singleton descomentar
-    //public static Connection getConexion() {
+    
     public Connection getConexion() {
         if (conexion == null) {
             try {
