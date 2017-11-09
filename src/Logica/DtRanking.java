@@ -3,6 +3,7 @@ package Logica;
 public class DtRanking {
 
     private String nickname;
+    private String nombre;
     private int cant_seguidores;
 
     public DtRanking() {
@@ -10,9 +11,14 @@ public class DtRanking {
         this.cant_seguidores = 0;
     }
 
-    public DtRanking(String nickname, int cant_seguidores) {
+    public DtRanking(String nombre, String nickname, int cant_seguidores) {
+        this.nombre = nombre;
         this.nickname = nickname;
         this.cant_seguidores = cant_seguidores;
+    }
+
+    public String getNombre() {
+        return nombre;
     }
 
     public String getNickname() {

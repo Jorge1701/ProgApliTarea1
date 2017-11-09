@@ -2,10 +2,8 @@ package Logica;
 
 import Persistencia.BDAlbum;
 import Persistencia.BDCliente;
-import Persistencia.BDRanking;
 import Persistencia.BDSuscripcion;
 import Persistencia.BDUsuario;
-import java.time.Clock;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -768,12 +766,14 @@ public class ControladorUsuario implements IUsuario {
 
     }
 
+    @Override
     public int getMonto(String cuota) {
         BDSuscripcion bds = new BDSuscripcion();
         int monto = bds.getMonto(cuota);
         return monto;
     }
 
+    @Override
     public boolean ingresarSuscripcion(String nickname, String cuota) {
         BDSuscripcion bds = new BDSuscripcion();
         Calendar c = new GregorianCalendar();
@@ -920,6 +920,7 @@ public class ControladorUsuario implements IUsuario {
         }
     }
 
+    @Override
     public boolean cancelarSuscripcion(String nickname, String previo, String cuota, String fecha, String fecha_venc, DtFecha hoy) {
 
         BDSuscripcion bds = new BDSuscripcion();
@@ -959,16 +960,22 @@ public class ControladorUsuario implements IUsuario {
         }
     }
 
+    @Override
     public DtListaRanking obtenerRanking() {
-        BDRanking bdr = new BDRanking();
-
-        ArrayList<String[]> usuarios = bdr.cargarUsuarios();
+        ArrayList<DtUsuario> usuarios = listarUsuarios();
 
         ArrayList<DtRanking> resultado = new ArrayList<>();
 
-        for (String[] usr : usuarios) {
-            resultado.add(new DtRanking(usr[0], Integer.parseInt(usr[1])));
+        for (DtUsuario usr : usuarios) {
+            if (usr instanceof DtArtista) {
+                if (!((DtArtista) usr).estaActivo()) {
+                    continue;
+                }
+            }
+
+            resultado.add(new DtRanking(usr.getNombre() + " " + usr.getApellido(), usr.getNickname(), obtenerUsuario(usr.getNickname()).getSeguidores().size()));
         }
+
         ordenarRanking(resultado);
         return new DtListaRanking(resultado);
     }
@@ -976,16 +983,16 @@ public class ControladorUsuario implements IUsuario {
     private ArrayList<DtRanking> ordenarRanking(ArrayList<DtRanking> usuarios) {
         Collections.sort(usuarios, new Comparator<Object>() {
             public int compare(Object o1, Object o2) {
-                if (obtenerEdad(o1) == obtenerEdad(o2)) {
+                if (cantSeguidores(o1) == cantSeguidores(o2)) {
                     return 0;
                 }
-                return obtenerEdad(o1) > obtenerEdad(o2) ? -1 : 1;
+                return cantSeguidores(o1) > cantSeguidores(o2) ? -1 : 1;
             }
         });
         return usuarios;
     }
 
-    private int obtenerEdad(Object o) {
+    private int cantSeguidores(Object o) {
         if (o instanceof DtRanking) {
 
             return ((DtRanking) o).getCantSeguidores();

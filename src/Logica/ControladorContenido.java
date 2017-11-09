@@ -632,6 +632,11 @@ public class ControladorContenido implements IContenido {
         for (DtUsuario dtu : artistas) {
             Artista a = (Artista) iUsuario.obtenerUsuario(dtu.getNickname());
 
+            // Evita mostrar cosas de artistas desactivados
+            if (!a.estaActivo()) {
+                continue;
+            }
+
             for (Album album : a.getAlbumes()) {
                 if (album.getNombre().toLowerCase().contains(texto)) {
                     resultados.add(album.getData());
