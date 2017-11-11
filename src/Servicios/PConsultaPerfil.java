@@ -11,12 +11,11 @@ import Logica.DtPerfilCliente;
 import Logica.DtUsuario;
 import Logica.Fabrica;
 import Logica.IUsuario;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.xml.ws.Endpoint;
+
 
 /**
  *
@@ -38,15 +37,11 @@ public class PConsultaPerfil {
     }
 
     @WebMethod
-    public DtUsuario getDataUsuario(String nickname) {
-        DtUsuario dtUs = iUsuario.getDataUsuario(nickname);
-        /*if (dtUs == null) {
-            try {
+    public DtUsuario getDataUsuario(String nickname) throws SoapSeviciosFaultException{
+        DtUsuario dtUs =  iUsuario.getDataUsuario(nickname);
+        if (dtUs == null) {
                 throw new SoapSeviciosFaultException(new SimpleExceptionBean(), "NickName no valido");
-            } catch (SoapSeviciosFaultException ex) {
-                Logger.getLogger(PConsultaPerfil.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }*/
 
         return dtUs;
     }
@@ -64,4 +59,5 @@ public class PConsultaPerfil {
 
     }
 
+    
 }
