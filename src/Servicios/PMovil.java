@@ -9,7 +9,6 @@ import Configuracion.Configuracion;
 import Logica.DtAlbumContenido;
 import Logica.DtListaAlbum;
 import Logica.DtListaDeListas;
-import Logica.DtListaDeListasPublicas;
 import Logica.DtListaString;
 import Logica.DtListaUsuarios;
 import Logica.DtPerfilArtista;
@@ -41,6 +40,7 @@ public class PMovil {
         iContenido = Fabrica.getIControladorContenido();
     }
 
+
     public void publicar() {
         endpoint = Endpoint.publish("http://" + Configuracion.get("ip") + ":" + Configuracion.get("puerto") + "/" + Configuracion.get("PMovil"), this);
 
@@ -65,11 +65,6 @@ public class PMovil {
     @WebMethod
     public DtListaUsuarios listarArtistas() {
         return new DtListaUsuarios(iUsuario.listarArtistas());
-    }
-
-    @WebMethod
-    public DtListaDeListasPublicas listarListas() {
-        return new DtListaDeListasPublicas(iUsuario.obtenerPublicas());
     }
 
     @WebMethod
@@ -102,17 +97,17 @@ public class PMovil {
 
     @WebMethod
     public DtPerfilUsuario obtenerPerfilArtista(String nickUs) {
-        return  iUsuario.obtenerPerfilArtista(nickUs);
-   }
+        return iUsuario.obtenerPerfilArtista(nickUs);
+    }
 
     @WebMethod
     public DtListaDeListas listarLisReproduccion(String genero) {
         return new DtListaDeListas(iContenido.listarLisReproduccionGen(genero));
     }
-     @WebMethod
-    public void a(DtPerfilArtista a){
-    
+
+    @WebMethod
+    public void a(DtPerfilArtista a) {
+
     }
-   
-   
+
 }
