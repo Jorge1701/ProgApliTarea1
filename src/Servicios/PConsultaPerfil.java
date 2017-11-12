@@ -24,40 +24,40 @@ import javax.xml.ws.Endpoint;
 @WebService
 @SOAPBinding(style = SOAPBinding.Style.RPC)
 public class PConsultaPerfil {
-    
+
     private Endpoint endpoint = null;
     IUsuario iUsuario;
 
     public PConsultaPerfil() {
         iUsuario = Fabrica.getIControladorUsuario();
     }
-    
+
     public void publicar() {
         endpoint = Endpoint.publish("http://" + Configuracion.get("ip") + ":" + Configuracion.get("puerto") + "/" + Configuracion.get("PConsultaPerfil"), this);
     }
-    
+
     @WebMethod
     public DtUsuario getDataUsuario(String nickname) throws SoapSeviciosFaultException{
         DtUsuario dtUs =  iUsuario.getDataUsuario(nickname);
         if (dtUs == null) {
-            throw new SoapSeviciosFaultException(new SimpleExceptionBean(), "NickName no valido");
-        }
-            
+                throw new SoapSeviciosFaultException(new SimpleExceptionBean(), "NickName no valido");
+            }
+
         return dtUs;
     }
-    
+
     @WebMethod
     public DtPerfilCliente obtenerPerfilCliente(String nickUs) {
         DtPerfilCliente DtPerfilC = (DtPerfilCliente) iUsuario.obtenerPerfilCliente(nickUs);
         return DtPerfilC;
     }
-    
+
     @WebMethod
     public DtPerfilArtista obtenerPerfilArtista(String nickUs) {
-            DtPerfilArtista dtPerfilArtista = (DtPerfilArtista) iUsuario.obtenerPerfilArtista(nickUs);
-            return dtPerfilArtista;
-            
+        DtPerfilArtista dtPerfilArtista = (DtPerfilArtista) iUsuario.obtenerPerfilArtista(nickUs);
+        return dtPerfilArtista;
+
     }
-    
+
     
 }

@@ -3,6 +3,9 @@ package Servicios;
 import Configuracion.Configuracion;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
@@ -23,15 +26,15 @@ public class PTema {
     }
 
     @WebMethod
-    public byte[] getAudio(@WebParam(name = "audio")String audio) throws Exception {
+    public byte[] getAudio(@WebParam(name = "audio")String audio) {
         byte[] byteArray = null;
         try {
             File f = new File(Configuracion.get("pathMusica") + audio);
             FileInputStream streamer = new FileInputStream(f);
             byteArray = new byte[streamer.available()];
             streamer.read(byteArray);
-        } catch (Exception e) {
-            throw e;
+        } catch (IOException e) {
+            Logger.getLogger(PInicio.class.getName()).log(Level.SEVERE, null, e);
         }
         return byteArray;
     }

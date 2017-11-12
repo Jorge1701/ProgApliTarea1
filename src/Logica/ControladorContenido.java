@@ -297,7 +297,6 @@ public class ControladorContenido implements IContenido {
 
     @Override
     public void ingresarAlbum(String nom, int anio, ArrayList<String> generos, String img, ArrayList<DtTema> temas) {
-       System.out.println("Tarea 1" + temas.get(0).getNombre());  
         ArrayList<Genero> lstGeneros = new ArrayList<>();
         HashMap<String, Tema> mapTemas = new HashMap<>();
 
@@ -632,6 +631,11 @@ public class ControladorContenido implements IContenido {
         ArrayList<DtUsuario> artistas = iUsuario.listarArtistas();
         for (DtUsuario dtu : artistas) {
             Artista a = (Artista) iUsuario.obtenerUsuario(dtu.getNickname());
+
+            // Evita mostrar cosas de artistas desactivados
+            if (!a.estaActivo()) {
+                continue;
+            }
 
             for (Album album : a.getAlbumes()) {
                 if (album.getNombre().toLowerCase().contains(texto)) {

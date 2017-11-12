@@ -3,6 +3,7 @@ package Servicios;
 import Configuracion.Configuracion;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
@@ -23,7 +24,7 @@ public class PImagen {
     }
 
     @WebMethod
-    public byte[] getFile(@WebParam(name = "recurso") String recurso, @WebParam(name = "fileName") String nombre) throws Exception {
+    public byte[] getFile(@WebParam(name = "recurso") String recurso, @WebParam(name = "fileName") String nombre) {
         byte[] byteArray = null;
         try {
             if (!nombre.equals("")) {
@@ -42,9 +43,8 @@ public class PImagen {
                 byteArray = new byte[streamer.available()];
                 streamer.read(byteArray);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw e;
+        } catch (IOException e) {
+            e.printStackTrace();            
         }
         return byteArray;
     }

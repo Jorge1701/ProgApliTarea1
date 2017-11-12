@@ -14,6 +14,10 @@ public class Configuracion {
     public static void cargar() {
         propiedades = new HashMap<>();
 
+        // Desde Script
+        //String quitar = "Tarea1.jar!/Configuracion/Configuracion.class";
+        //String path = Configuracion.class.getResource("/Configuracion/Configuracion.class").getPath().replaceAll(quitar, "conf/configuracion.properties").replaceAll("file:", "").replaceAll("C:", "");
+        // Desde NetBeans
         String quitar = "build/classes/Configuracion/Configuracion.class";
         String path = Configuracion.class.getResource("/Configuracion/Configuracion.class").getPath().replaceAll(quitar, "configuracion.properties");
 

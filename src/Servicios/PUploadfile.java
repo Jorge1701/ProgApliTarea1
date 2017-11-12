@@ -1,8 +1,8 @@
-
 package Servicios;
 
 import Configuracion.Configuracion;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -10,7 +10,6 @@ import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.xml.ws.Endpoint;
-
 
 @WebService
 @SOAPBinding(style = SOAPBinding.Style.RPC)
@@ -26,7 +25,7 @@ public class PUploadfile {
     }
 
     @WebMethod
-    public Boolean Uploadfile(byte[] archivo, String nombre, String recurso) throws Exception {
+    public Boolean Uploadfile(byte[] archivo, String nombre, String recurso) {
 
         if (!nombre.equals("")) {
             String path = null;
@@ -54,6 +53,8 @@ public class PUploadfile {
                 stream.write(buffer, 0, archivo.length);
                 stream.close();
                 return true;
+            } catch (FileNotFoundException ex) {
+                return false;
             } catch (IOException ex) {
                 return false;
             }
