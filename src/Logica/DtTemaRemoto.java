@@ -15,6 +15,9 @@ public class DtTemaRemoto extends DtTema {
         this.url = url;
     }
 
+    public DtTemaRemoto() {
+    }
+
     public String getUrl() {
         return url;
     }

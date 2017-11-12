@@ -731,6 +731,8 @@ public class ControladorContenido implements IContenido {
         return lista;
     }
 
+
+
     public ArrayList<String> obtenerGeneros() {
         ArrayList<String> generos = new ArrayList<>();
         obtenerNombres(generos, genero);

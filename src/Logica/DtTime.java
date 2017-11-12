@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "DtTime")
 public class DtTime {
-    
+
     private int horas;
     private int minutos;
     private int segundos;
@@ -16,6 +16,10 @@ public class DtTime {
         this.horas = horas;
         this.minutos = minutos;
         this.segundos = segundos;
+    }
+
+    public DtTime() {
+
     }
 
     public int getHoras() {
@@ -29,7 +33,7 @@ public class DtTime {
     public int getSegundos() {
         return segundos;
     }
-    
+
     @Override
     public String toString() {
         return this.horas + ":" + this.minutos + ":" + this.segundos;
