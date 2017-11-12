@@ -675,6 +675,13 @@ public class ControladorUsuario implements IUsuario {
             Iterator i = usuarios.entrySet().iterator();
             while (i.hasNext()) {
                 Usuario u = (Usuario) ((Map.Entry) i.next()).getValue();
+
+                if (u instanceof Artista) {
+                    if (!((Artista) u).estaActivo()) {
+                        continue;
+                    }
+                }
+
                 if (u.getEmail().equals(nickname)) {
                     if (u.getContrasenia().equals(pass)) {
                         return u.getNickname();
