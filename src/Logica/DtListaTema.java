@@ -15,11 +15,15 @@ import javax.xml.bind.annotation.XmlAccessorType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 public class DtListaTema {
-    
-    private ArrayList<DtTema> DtTemas ;
+
+    private ArrayList<DtTema> DtTemas;
 
     public DtListaTema(ArrayList<DtTema> DtTemas) {
         this.DtTemas = DtTemas;
+    }
+
+    public DtListaTema() {
+
     }
 
     public ArrayList<DtTema> getDtTemas() {
@@ -29,7 +33,5 @@ public class DtListaTema {
     public void setDtTemas(ArrayList<DtTema> DtTemas) {
         this.DtTemas = DtTemas;
     }
-    
-    
-    
+
 }

@@ -17,6 +17,10 @@ public class DtTemaLocal extends DtTema {
         this.directorio = directorio;
     }
 
+    public DtTemaLocal() {
+
+    }
+
     public String getDirectorio() {
         return directorio;
     }

@@ -681,20 +681,20 @@ public class ControladorUsuario implements IUsuario {
                     if (u.getContrasenia().equals(pass)) {
                         return u.getNickname();
                     } else {
-                        return "Error: Contraseña invalida";
+                        return "Error:Contraseña-invalida";
                     }
                 }
             }
-            return "Error: Correo no existe";
+            return "Error:Correo-no-existe";
         } else {
             Usuario u = obtenerUsuario(nickname);
             System.out.println(u.getNickname());
             if (u == null) {
-                return "Error: Nickname invalido";
+                return "Error:-Nickname-invalido";
             } else if (u.getContrasenia().equals(pass)) {
                 return u.getNickname();
             } else {
-                return "Error: Contraseña invalida";
+                return "Error:-Contraseña-invalida";
             }
         }
     }

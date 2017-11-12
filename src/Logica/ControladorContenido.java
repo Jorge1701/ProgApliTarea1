@@ -297,6 +297,7 @@ public class ControladorContenido implements IContenido {
 
     @Override
     public void ingresarAlbum(String nom, int anio, ArrayList<String> generos, String img, ArrayList<DtTema> temas) {
+       System.out.println("Tarea 1" + temas.get(0).getNombre());  
         ArrayList<Genero> lstGeneros = new ArrayList<>();
         HashMap<String, Tema> mapTemas = new HashMap<>();
 

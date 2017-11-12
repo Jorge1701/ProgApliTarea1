@@ -103,7 +103,8 @@ public class PContenido {
 
     @WebMethod
     public void ingresarAlbum(String nombreA, int anio, DtListaString ArrayDeGeneros, String imagen, DtListaTema ArrayDeTemas) {
-        iContenido.ingresarAlbum(nombreA, anio, ArrayDeGeneros.getString(), "", ArrayDeTemas.getDtTemas());
+        System.out.println("Tarea 1" + ArrayDeTemas.getDtTemas().get(0).getNombre());  
+        iContenido.ingresarAlbum(nombreA, anio, ArrayDeGeneros.getString(),imagen, ArrayDeTemas.getDtTemas());
     }
 
     @WebMethod
