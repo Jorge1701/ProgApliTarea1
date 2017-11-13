@@ -30,7 +30,7 @@ public class PFavorito {
     }
 
     public void publicar() {
-        endpoint = Endpoint.publish("http://" + Configuracion.get("ip") + ":" + Configuracion.get("puerto") + "/" + Configuracion.get("PFavortio"), this);
+        endpoint = Endpoint.publish("http://" + Configuracion.get("ip") + ":" + Configuracion.get("puerto") + "/" + Configuracion.get("PFavorito"), this);
     }
 
     @WebMethod

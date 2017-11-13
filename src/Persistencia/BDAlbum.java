@@ -50,7 +50,7 @@ public class BDAlbum {
             Iterator i = temas.entrySet().iterator();
             while (i.hasNext()) {
                 Tema t = (Tema) ((Map.Entry) i.next()).getValue();
-                String sqlT = "INSERT INTO tema(nicknameArtista, idAlbum, nombre, duracion, ubicacion, tipo, link) VALUES (?,?,?,?,?,?,?)";
+                String sqlT = "INSERT INTO tema(nicknameArtista, idAlbum, nombre, duracion, ubicacion, tipo, link, reproducciones, descargas) VALUES (?,?,?,?,?,?,?,0,0)";
                 PreparedStatement statament2 = conexion.prepareStatement(sqlT, PreparedStatement.RETURN_GENERATED_KEYS);
                 statament2.setString(1, album.getNickArtista());
                 statament2.setInt(2, idAlbum);
@@ -59,11 +59,11 @@ public class BDAlbum {
                 statament2.setString(4, duracion);
                 statament2.setInt(5, t.getUbicacion());
                 if (t instanceof TemaLocal) {
-                    statament2.setString(6, "L");
+                    statament2.setString(6, "A");
                     statament2.setString(7, ((TemaLocal) t).getDirectorio());
 
                 } else if (t instanceof TemaRemoto) {
-                    statament2.setString(6, "R");
+                    statament2.setString(6, "S");
                     statament2.setString(7, ((TemaRemoto) t).getUrl());
                 }
                 statament2.executeUpdate();
