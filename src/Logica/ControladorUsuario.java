@@ -897,8 +897,15 @@ public class ControladorUsuario implements IUsuario {
 
             } else if (suscripcion.getCuota().equals("Mensual")) {
 
-                c.add(Calendar.MONTH, 1);
-                fechaf = new DtFecha(c.get(Calendar.DAY_OF_MONTH), c.get(Calendar.MONTH), c.get(Calendar.YEAR));
+                
+                if (c.get(Calendar.MONTH) == 0) {
+                    fechaf = new DtFecha(c.get(Calendar.DAY_OF_MONTH), 1, c.get(Calendar.YEAR));
+                } else if (c.get(Calendar.MONTH) == 11) {
+                    fechaf = new DtFecha(c.get(Calendar.DAY_OF_MONTH), 12, c.get(Calendar.YEAR));
+                } else {
+                    c.add(Calendar.MONTH, 1);
+                    fechaf = new DtFecha(c.get(Calendar.DAY_OF_MONTH), c.get(Calendar.MONTH), c.get(Calendar.YEAR));
+                }
 
                 if (!bds.renovarSuscripcion(suscripcion.getData(), nickname, cambio, fechaf)) {
                     return false;

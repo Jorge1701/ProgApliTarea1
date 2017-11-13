@@ -141,9 +141,13 @@ public class BDSuscripcion {
         Date fechav = java.sql.Date.valueOf(s.getFechaVenc().getAnio() + "-" + s.getFechaVenc().getMes() + "-" + s.getFechaVenc().getDia());
 
         Date cambio1 = java.sql.Date.valueOf(cambio.getAnio() + "-" + cambio.getMes() + "-" + cambio.getDia());
-
-        Date fecha_venc1 = java.sql.Date.valueOf(fecha_venc.getAnio() + "-" + fecha_venc.getMes() + "-" + fecha_venc.getDia());
-
+        System.out.println("fecha_venc: " + fecha_venc.getAnio() + "-" + fecha_venc.getMes() + "-" + fecha_venc.getDia());
+        Date fecha_venc1;
+        if (fecha_venc.getMes() == 0) {
+            fecha_venc1 = java.sql.Date.valueOf(fecha_venc.getAnio() + "-" + (fecha_venc.getMes()+1) + "-" + fecha_venc.getDia());
+        } else {
+            fecha_venc1 = java.sql.Date.valueOf(fecha_venc.getAnio() + "-" + fecha_venc.getMes() + "-" + fecha_venc.getDia());
+        }
         try {
             PreparedStatement sql = conexion.prepareStatement("SELECT idSuscripcion FROM suscripcion WHERE nickname = '" + nickname + "' and cuota = '" + s.getCuota() + "' and  estado= '" + s.getEstado() + "' and fecha = '" + fecha1 + "' and fecha_venc = '" + fechav + "'");
             ResultSet id = sql.executeQuery();
