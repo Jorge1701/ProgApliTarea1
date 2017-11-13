@@ -113,7 +113,7 @@ public class Fabrica {
                 temas.add(((Artista) iu.soloDesdeFabricaObtenerUsuario(dtt[0])).getAlbum(dtt[1]).getTema(dtt[2]));
             }
 
-            DtFecha fecha = new DtFecha(Integer.valueOf(lista[6]), Integer.valueOf(lista[7]), Integer.valueOf(lista[8]));
+            DtFecha fecha = new DtFecha(Integer.valueOf(lista[8]), Integer.valueOf(lista[7]), Integer.valueOf(lista[6]));
             iu.cargarLista(new ListaParticular(lista[5], lista[3].equals("N") ? true : false, lista[1], temas, lista[4], fecha), lista[2]);
         }
 
@@ -127,7 +127,7 @@ public class Fabrica {
                 temas.add(((Artista) iu.soloDesdeFabricaObtenerUsuario(dtt[0])).getAlbum(dtt[1]).getTema(dtt[2]));
             }
 
-            DtFecha fecha = new DtFecha(Integer.valueOf(lista[4]), Integer.valueOf(lista[5]), Integer.valueOf(lista[6]));
+            DtFecha fecha = new DtFecha(Integer.valueOf(lista[6]), Integer.valueOf(lista[5]), Integer.valueOf(lista[4]));
 
             ic.cargarLista(new ListaDefecto(ic.obtenerGenero(lista[1]), lista[2], temas, lista[3], fecha), lista[1]);
         }
