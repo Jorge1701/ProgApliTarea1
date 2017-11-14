@@ -16,7 +16,7 @@ public class Configuracion {
 
         // Desde Script
         //String quitar = "Tarea1.jar!/Configuracion/Configuracion.class";
-        //String path = Configuracion.class.getResource("/Configuracion/Configuracion.class").getPath().replaceAll(quitar, "conf/configuracion.properties").replaceAll("file:", "").replaceAll("C:", "");
+        //String path = Configuracion.class.getResource("/Configuracion/Configuracion.class").getPath().replaceAll(quitar, "conf/configuracion.properties").replaceAll("file:", "").replaceAll("/C:", "C:");
         // Desde NetBeans
         String quitar = "build/classes/Configuracion/Configuracion.class";
         String path = Configuracion.class.getResource("/Configuracion/Configuracion.class").getPath().replaceAll(quitar, "configuracion.properties");
