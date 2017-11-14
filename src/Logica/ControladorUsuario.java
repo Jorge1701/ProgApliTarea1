@@ -774,6 +774,21 @@ public class ControladorUsuario implements IUsuario {
     }
 
     @Override
+    public boolean listaExiste(String lista, String nickCliente) {
+        Usuario u = usuarios.get(nickCliente);
+
+        if (u == null) {
+            throw new UnsupportedOperationException("Cliente no existe");
+        }
+
+        if (!(u instanceof Cliente)) {
+            throw new UnsupportedOperationException("Cliente no es cliente");
+        }
+
+        return ((Cliente) u).getListasParticulares().get(lista) != null;
+    }
+
+    @Override
     public int getMonto(String cuota) {
         BDSuscripcion bds = new BDSuscripcion();
         int monto = bds.getMonto(cuota);
@@ -897,7 +912,6 @@ public class ControladorUsuario implements IUsuario {
 
             } else if (suscripcion.getCuota().equals("Mensual")) {
 
-                
                 if (c.get(Calendar.MONTH) == 0) {
                     fechaf = new DtFecha(c.get(Calendar.DAY_OF_MONTH), 1, c.get(Calendar.YEAR));
                 } else if (c.get(Calendar.MONTH) == 11) {

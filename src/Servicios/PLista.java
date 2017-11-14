@@ -29,21 +29,20 @@ public class PLista {
 
     private IUsuario iUsuario;
     private IContenido iContenido;
- 
+
     public PLista() {
         iUsuario = Fabrica.getIControladorUsuario();
         iContenido = Fabrica.getIControladorContenido();
     }
 
     public void publicar() {
-        endpoint = Endpoint.publish("http://" + Configuracion.get("ip")  + ":" + Configuracion.get("puerto") + "/" + Configuracion.get("PLista"), this);
+        endpoint = Endpoint.publish("http://" + Configuracion.get("ip") + ":" + Configuracion.get("puerto") + "/" + Configuracion.get("PLista"), this);
 
     }
 
     @WebMethod
-    public DtListaDeListas listarListaReproduccionCli(String nickname) {
-        DtListaDeListas listas = new DtListaDeListas(iUsuario.listarListaReproduccionCli(nickname));
-        return listas;
+    public boolean existeLista(String lista, String nickname) {
+        return iUsuario.listaExiste(lista, nickname);
     }
 
     @WebMethod
