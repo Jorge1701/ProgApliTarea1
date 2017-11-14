@@ -25,7 +25,8 @@ public class DtTema extends DtBuscado {
         this.duracion = duracion;
         this.ubicacion = ubicacion;
     }
-        public DtTema() {
+
+    public DtTema() {
 
     }
 
