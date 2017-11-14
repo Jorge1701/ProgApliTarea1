@@ -185,9 +185,9 @@ public class BDAlbum {
         return 0;
     }
 
-    public boolean insertarTemaDeAlbum(String nickArtista, int idAlbum, String nombre, Time duracion, int ubicacion, String tipo, String link) {
+    public boolean insertarTemaDeAlbum(String nickArtista, int idAlbum, String nombre, Time duracion, int ubicacion, String tipo, String link, int reproducciones, int descargas) {
         try {
-            PreparedStatement insert = conexion.prepareStatement("INSERT INTO tema (nicknameArtista, idAlbum, nombre, duracion, ubicacion, tipo, link, reproducciones, descargas) VALUES (?, ?, ?, ?, ?, ?, ?, 0, 0)");
+            PreparedStatement insert = conexion.prepareStatement("INSERT INTO tema (nicknameArtista, idAlbum, nombre, duracion, ubicacion, tipo, link, reproducciones, descargas) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
             insert.setString(1, nickArtista);
             insert.setInt(2, idAlbum);
             insert.setString(3, nombre);
@@ -195,6 +195,8 @@ public class BDAlbum {
             insert.setInt(5, ubicacion);
             insert.setString(6, tipo);
             insert.setString(7, link);
+            insert.setInt(8, reproducciones);
+            insert.setInt(9, descargas);
             insert.executeUpdate();
             insert.close();
 

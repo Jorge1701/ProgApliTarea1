@@ -214,26 +214,26 @@ public class CargaDatosPrueba {
 
     // Temas de los Albumes (Ref album, Ref tema, Nombre, Minutos, Segundos, Ubicacion)
     private String[][] temas = {
-        {"VPL", "T11", "YMCA", "4", "28", "1"},
-        {"VPL", "T12", "Macho Man", "3", "28", "2"},
-        {"VPL", "T13", "In the Navy", "3", "13", "3"},
-        {"DMV", "T21", "Personal Jesus", "4", "56", "1"},
-        {"DMV", "T22", "Enjoy The Silence", "4", "21", "2"},
-        {"CLU", "T31", "Girls Just Want To Have Fun", "3", "15", "1"},
-        {"CLU", "T32", "Time After Time", "5", "12", "2"},
-        {"USA", "T41", "Born In The U.S.A.", "4", "58", "1"},
-        {"USA", "T42", "Glory Days", "5", "23", "2"},
-        {"USA", "T43", "Dancing In The Dark", "3", "58", "3"},
-        {"INU", "T51", "It's Not Unusual", "2", "0", "1"},
-        {"AYS", "T61", "Adegio De Mi Pais", "4", "50", "1"},
-        {"LLU", "T71", "El Duelo", "5", "23", "1"},
-        {"LLU", "T72", "Mentira", "4", "48", "2"},
-        {"LDC", "T81", "Acto 2, Numero 10, Escena (Moderato)", "2", "40", "1"},
-        {"CPP", "T91", "Primer Movimiento (Allegro non troppo e molto maestroso - Allegro con spirito)", "21", "58", "1"},
-        {"PAM", "T101", "No Quiero Estudiar", "2", "12", "1"},
-        {"AMA", "T111", "Por Ese Hombre", "4", "45", "1"},
-        {"LOC", "T121", "Por Ese Hombre", "5", "13", "1"},
-        {"VIO", "T131", "Violeta", "1", "56", "1"}
+        {"VPL", "T11", "YMCA", "4", "28", "1", "0", "10"},
+        {"VPL", "T12", "Macho Man", "3", "28", "2", "1", "0"},
+        {"VPL", "T13", "In the Navy", "3", "13", "3", "0", "1"},
+        {"DMV", "T21", "Personal Jesus", "4", "56", "1", "1", "3"},
+        {"DMV", "T22", "Enjoy The Silence", "4", "21", "2", "1", "1"},
+        {"CLU", "T31", "Girls Just Want To Have Fun", "3", "15", "1", "0", "1"},
+        {"CLU", "T32", "Time After Time", "5", "12", "2", "1", "2"},
+        {"USA", "T41", "Born In The U.S.A.", "4", "58", "1", "0", "5"},
+        {"USA", "T42", "Glory Days", "5", "23", "2", "0", "7"},
+        {"USA", "T43", "Dancing In The Dark", "3", "58", "3", "1", "1"},
+        {"INU", "T51", "It's Not Unusual", "2", "0", "1", "1", "2"},
+        {"AYS", "T61", "Adegio De Mi Pais", "4", "50", "1", "0", "5"},
+        {"LLU", "T71", "El Duelo", "5", "23", "1", "3", "1"},
+        {"LLU", "T72", "Mentira", "4", "48", "2", "1", "1"},
+        {"LDC", "T81", "Acto 2, Numero 10, Escena (Moderato)", "2", "40", "1", "0", "3"},
+        {"CPP", "T91", "Primer Movimiento (Allegro non troppo e molto maestroso - Allegro con spirito)", "21", "58", "1", "0", "6"},
+        {"PAM", "T101", "No Quiero Estudiar", "2", "12", "1", "0", "1"},
+        {"AMA", "T111", "Por Ese Hombre", "4", "45", "1", "1", "1"},
+        {"LOC", "T121", "Por Ese Hombre", "5", "13", "1", "0", "3"},
+        {"VIO", "T131", "Violeta", "1", "56", "1", "0", "1"}
     };
 
     // Archivos y Streams de Musica (Album ref, Ref, Archivo, Stream)
@@ -1030,7 +1030,7 @@ public class CargaDatosPrueba {
                 }
             }
             
-            bda.insertarTemaDeAlbum(nickArtista, idAlbum, nombre, duracion, ubicacion, tipo, link);
+            bda.insertarTemaDeAlbum(nickArtista, idAlbum, nombre, duracion, ubicacion, tipo, link, Integer.parseInt(tema[7]), Integer.parseInt(tema[6]));
         }
         
         return true;

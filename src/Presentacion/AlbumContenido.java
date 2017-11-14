@@ -349,7 +349,7 @@ public class AlbumContenido extends javax.swing.JInternalFrame implements ListSe
                 try {
                     File carpetaSeleccionada = seleccionarRuta.getSelectedFile();
                     String rutaDescarga = carpetaSeleccionada.getAbsolutePath();
-                    String rutaDCompleta = rutaDescarga + "\\" + nombreTema;
+                    String rutaDCompleta = rutaDescarga + File.separator + nombreTema;
                     String path = Configuracion.get("pathMusica");
                     InputStream is = new FileInputStream(path + nombreTema);
                     OutputStream outstream = new FileOutputStream(rutaDCompleta);

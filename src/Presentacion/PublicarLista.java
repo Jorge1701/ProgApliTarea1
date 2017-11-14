@@ -136,7 +136,6 @@ public class PublicarLista extends javax.swing.JInternalFrame implements ListSel
 
         jLabel3.setText("Nombre:");
 
-        txtLista.setPreferredSize(new java.awt.Dimension(6, 20));
         txtLista.addCaretListener(new javax.swing.event.CaretListener() {
             public void caretUpdate(javax.swing.event.CaretEvent evt) {
                 txtListaCaretUpdate(evt);
@@ -158,7 +157,7 @@ public class PublicarLista extends javax.swing.JInternalFrame implements ListSel
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(0, 2, Short.MAX_VALUE)
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtLista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
