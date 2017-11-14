@@ -24,19 +24,15 @@ public class DtLista extends DtBuscado {
         this.fecha = fecha;
         this.ArrayTemas = new DtListaTema(temas);
     }
-    
-
 
     public DtListaTema getArrayTemas() {
         return ArrayTemas;
     }
 
-
-
     public DtFecha getFecha() {
         return fecha;
     }
-    
+
     public String getNombre() {
         return nombre;
     }
