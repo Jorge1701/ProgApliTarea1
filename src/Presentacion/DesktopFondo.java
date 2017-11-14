@@ -15,7 +15,7 @@ public class DesktopFondo extends JDesktopPane {
     public void paintComponent(Graphics g) {
         // Desde script
         //String quitar = "Tarea1.jar!/Presentacion/DesktopFondo.class";
-        //String path = DesktopFondo.class.getResource("/Presentacion/DesktopFondo.class").getPath().replaceAll(quitar, Configuracion.get("pathImagenes") + "wallpaper.jpg").replace("C:", "").replace("file:", "");
+        //String path = DesktopFondo.class.getResource("/Presentacion/DesktopFondo.class").getPath().replaceAll(quitar, Configuracion.get("pathImagenes") + "wallpaper.jpg").replace("/C:", "C:").replace("file:", "");
         
         // Desde netbeans
         String quitar ="build/classes/Presentacion/DesktopFondo.class";
