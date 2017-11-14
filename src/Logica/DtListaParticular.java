@@ -12,18 +12,23 @@ public class DtListaParticular extends DtLista {
     private final boolean privada;
     private final String nickDuenio;
 
-
     public DtListaParticular(boolean privada, String nombre, ArrayList<DtTema> temas, String imagen, DtFecha fecha, String nickDuenio) {
         super(nombre, temas, imagen, fecha);
         this.privada = privada;
         this.nickDuenio = nickDuenio;
     }
 
+    public DtListaParticular() {
+        super("", null, "", null);
+        privada = false;
+        nickDuenio = "";
+    }
+
     public boolean isPrivada() {
         return privada;
     }
-    
-    public String getNickDuenio(){
+
+    public String getNickDuenio() {
         return nickDuenio;
     }
 }
