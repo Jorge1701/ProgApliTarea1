@@ -7,6 +7,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 @XmlAccessorType(XmlAccessType.FIELD)
 public interface IUsuario {
 
+    public boolean listaExiste(String lista, String nickCliente);
+    
     public Usuario soloDesdeFabricaObtenerUsuario(String nick);
 
     public void reiniciar();
