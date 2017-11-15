@@ -93,7 +93,13 @@ public class BDSuscripcion {
         } else {
 
             try {
-                PreparedStatement sql = conexion.prepareStatement("SELECT idSuscripcion FROM suscripcion WHERE nickname = '" + nickname + "' and cuota = '" + s.getCuota() + "' and  estado= '" + s.getEstado() + "' and fecha = '" + fecha1 + "' and fecha_venc = '" + fechavenc1 + "'");
+                 PreparedStatement sql;
+                if (fechavenc1 != null) {
+                    sql = conexion.prepareStatement("SELECT idSuscripcion FROM suscripcion WHERE nickname = '" + nickname + "' and cuota = '" + s.getCuota() + "' and  estado = '" + s.getEstado() + "' and fecha = '" + fecha1 + "' and fecha_venc = '" + fechavenc1 + "'");
+                } else {
+                    sql = conexion.prepareStatement("SELECT idSuscripcion FROM suscripcion WHERE nickname = '" + nickname + "' and cuota = '" + s.getCuota() + "' and  estado = '" + s.getEstado() + "' and fecha = '" + fecha1 + "' and fecha_venc IS NULL");
+                }
+                
                 ResultSet id = sql.executeQuery();
                 id.next();
                 int idSuscripcion = id.getInt(1);
