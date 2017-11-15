@@ -742,9 +742,17 @@ public class ControladorUsuario implements IUsuario {
                 return true;
 
             } else if (sus.getCuota().equals("Mensual")) {
-
-                c.add(Calendar.MONTH, 1);
-                DtFecha fecha_venc = new DtFecha(c.get(Calendar.DAY_OF_MONTH), c.get(Calendar.MONTH), c.get(Calendar.YEAR));
+                //agregue
+                DtFecha fecha_venc;
+                if (c.get(Calendar.MONTH) == 0) {
+                    fecha_venc = new DtFecha(c.get(Calendar.DAY_OF_MONTH), 1, c.get(Calendar.YEAR));
+                } else if (c.get(Calendar.MONTH) == 11) {
+                    fecha_venc = new DtFecha(c.get(Calendar.DAY_OF_MONTH), 12, c.get(Calendar.YEAR));
+                } else {
+                    c.add(Calendar.MONTH, 1);
+                    fecha_venc = new DtFecha(c.get(Calendar.DAY_OF_MONTH), c.get(Calendar.MONTH), c.get(Calendar.YEAR));
+                }
+                //esto
 
                 if (!bds.actulizarSuscripcion(nickname, sus.getData(), "Vigente", fecha, fecha_venc)) {
                     return false;
