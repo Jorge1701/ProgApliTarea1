@@ -3,7 +3,10 @@ package Servicios;
 import Configuracion.Configuracion;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
@@ -26,25 +29,28 @@ public class PImagen {
     @WebMethod
     public byte[] getFile(@WebParam(name = "recurso") String recurso, @WebParam(name = "fileName") String nombre) {
         byte[] byteArray = null;
+        String path = null;
         try {
             if (!nombre.equals("")) {
-                String path = null;
+
                 if (recurso.equals("Usuario")) {
                     path = Configuracion.get("pathImagenesUsuario");
-
                 } else if (recurso.equals("Album")) {
                     path = Configuracion.get("pathImagenesAlbum");
                 } else if (recurso.equals("Lista")) {
                     path = Configuracion.get("pathImagenesLista");
-
                 }
+
                 File f = new File(path + nombre);
                 FileInputStream streamer = new FileInputStream(f);
                 byteArray = new byte[streamer.available()];
                 streamer.read(byteArray);
             }
+        } catch (FileNotFoundException e) {
+            System.out.println("No se encontró la imagen en la ruta: " + path + nombre);
+
         } catch (IOException e) {
-            e.printStackTrace();            
+            System.out.println("Carga de la imagen interrumpida: " + nombre);
         }
         return byteArray;
     }

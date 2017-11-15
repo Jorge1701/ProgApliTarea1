@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.time.Clock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -66,6 +67,7 @@ public class BDSuscripcion {
         Date cambio1 = java.sql.Date.valueOf(cambio.getAnio() + "-" + cambio.getMes() + "-" + cambio.getDia());
 
         if (fecha_venc != null) {
+
             Date fecha_venc1 = java.sql.Date.valueOf(fecha_venc.getAnio() + "-" + fecha_venc.getMes() + "-" + fecha_venc.getDia());
 
             try {
@@ -93,13 +95,13 @@ public class BDSuscripcion {
         } else {
 
             try {
-                 PreparedStatement sql;
+                PreparedStatement sql;
                 if (fechavenc1 != null) {
                     sql = conexion.prepareStatement("SELECT idSuscripcion FROM suscripcion WHERE nickname = '" + nickname + "' and cuota = '" + s.getCuota() + "' and  estado = '" + s.getEstado() + "' and fecha = '" + fecha1 + "' and fecha_venc = '" + fechavenc1 + "'");
                 } else {
                     sql = conexion.prepareStatement("SELECT idSuscripcion FROM suscripcion WHERE nickname = '" + nickname + "' and cuota = '" + s.getCuota() + "' and  estado = '" + s.getEstado() + "' and fecha = '" + fecha1 + "' and fecha_venc IS NULL");
                 }
-                
+
                 ResultSet id = sql.executeQuery();
                 id.next();
                 int idSuscripcion = id.getInt(1);
@@ -150,7 +152,7 @@ public class BDSuscripcion {
         System.out.println("fecha_venc: " + fecha_venc.getAnio() + "-" + fecha_venc.getMes() + "-" + fecha_venc.getDia());
         Date fecha_venc1;
         if (fecha_venc.getMes() == 0) {
-            fecha_venc1 = java.sql.Date.valueOf(fecha_venc.getAnio() + "-" + (fecha_venc.getMes()+1) + "-" + fecha_venc.getDia());
+            fecha_venc1 = java.sql.Date.valueOf(fecha_venc.getAnio() + "-" + (fecha_venc.getMes() + 1) + "-" + fecha_venc.getDia());
         } else {
             fecha_venc1 = java.sql.Date.valueOf(fecha_venc.getAnio() + "-" + fecha_venc.getMes() + "-" + fecha_venc.getDia());
         }
