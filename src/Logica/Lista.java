@@ -3,6 +3,7 @@ package Logica;
 import java.util.ArrayList;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+
 @XmlAccessorType(XmlAccessType.FIELD)
 public abstract class Lista {
 
@@ -21,7 +22,7 @@ public abstract class Lista {
     public String getImagen() {
         return imagen;
     }
-    
+
     public DtFecha getFecha() {
         return fecha;
     }
@@ -34,7 +35,7 @@ public abstract class Lista {
 
     public Tema getTema(String nombreT) {
         for (int i = 0; i < temas.size(); i++) {
-        if (temas.get(i).getNombre().equals(nombreT)) {
+            if (temas.get(i).getNombre().equals(nombreT)) {
                 Tema tema = (Tema) temas.get(i);
                 return tema;
             }
@@ -46,6 +47,9 @@ public abstract class Lista {
         ArrayList<DtTema> temas = new ArrayList<>();
 
         for (Tema t : this.temas) {
+            if (!t.getAlbum().getArtista().estaActivo()) {
+                continue;
+            }
             if (t instanceof TemaLocal) {
                 temas.add(((TemaLocal) t).getData());
             } else {
@@ -55,7 +59,6 @@ public abstract class Lista {
 
         return temas;
     }
-
 
     public ArrayList<Tema> obtenerTemas() {
         ArrayList<Tema> temas = new ArrayList<>();
