@@ -86,7 +86,8 @@ public class AlbumContenido extends javax.swing.JInternalFrame implements ListSe
                 ((DtTema) dtt).getDuracion().getHoras() + ":" + ((DtTema) dtt).getDuracion().getMinutos() + ":" + ((DtTema) dtt).getDuracion().getSegundos(),
                 ((DtTema) dtt).getUbicacion(),
                 dtt instanceof DtTemaLocal ? ((DtTemaLocal) dtt).getDirectorio() : ((DtTemaRemoto) dtt).getUrl(),
-                dtt.getReproducciones() + " / " + (dtt instanceof DtTemaRemoto ? "-" : "0")
+                dtt.getReproducciones() + " / " + (dtt instanceof DtTemaRemoto ? "-" : ((DtTemaLocal)dtt).getDescargas()),
+               
             };
             dtm.addRow(data);
         }
